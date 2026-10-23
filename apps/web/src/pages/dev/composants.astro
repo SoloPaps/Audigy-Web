@@ -1,0 +1,83 @@
+---
+import Button from '../../components/Button.svelte';
+import CategoryList from '../../components/CategoryList.svelte';
+import DataTable from '../../components/DataTable.svelte';
+import FindingList from '../../components/FindingList.svelte';
+import ReportFooter from '../../components/ReportFooter.svelte';
+import ScoreGauge from '../../components/ScoreGauge.svelte';
+import {
+  demoCategories,
+  demoFindings,
+  demoGlobalScore,
+  demoTable,
+} from '../../data/demo.js';
+import { t } from '../../i18n/index.js';
+import Base from '../../layouts/Base.astro';
+
+const categories = demoCategories();
+const global = demoGlobalScore();
+const table = demoTable();
+const auditedAt = new Date('2026-10-23T12:30:00Z');
+---
+
+<Base title={t('meta.demo.title')} description={t('meta.demo.description')} robots="noindex">
+  <article>
+  <div class="split">
+    <div class="split-main">
+      <h1>{t('demo.title')}</h1>
+      <p class="prose">{t('demo.lead')}</p>
+      <div class="gauge-row">
+        <ScoreGauge domain={t('domain.global')} score={global} />
+        <ScoreGauge domain={t('domain.seo')} score={88} />
+        <ScoreGauge domain={t('domain.securite')} score={41} />
+        <ScoreGauge domain={t('domain.dns_email')} score={null} />
+      </div>
+      <h2>{t('section.categories')}</h2>
+      <CategoryList items={categories} />
+      <h2 id="corrections">{t('section.findings')}</h2>
+      <FindingList findings={demoFindings()} client:load />
+    </div>
+    <aside class="split-aside" aria-labelledby="contexte">
+      <h2 id="contexte">{t('aside.label')}</h2>
+      <h2 id="typographie">{t('section.type')}</h2>
+      <p class="sample-serif">{t('type.h1')}</p>
+      <p class="prose">{t('type.body')}</p>
+      <p class="sample-small">{t('type.small')}</p>
+      <p class="sample-mono">{t('type.mono')}</p>
+      <h2>{t('section.colors')}</h2>
+      <p class="prose">{t('color.legend')}</p>
+      <ul class="swatches">
+        <li><span class="chip chip-paper" aria-hidden="true"></span>{t('color.paper')}</li>
+        <li><span class="chip chip-surface" aria-hidden="true"></span>{t('color.surface')}</li>
+        <li><span class="chip chip-ink" aria-hidden="true"></span>{t('color.ink')}</li>
+        <li><span class="chip chip-ink-2" aria-hidden="true"></span>{t('color.ink2')}</li>
+        <li><span class="chip chip-line" aria-hidden="true"></span>{t('color.line')}</li>
+        <li><span class="chip chip-accent" aria-hidden="true"></span>{t('color.accent')}</li>
+        <li><span class="chip chip-focus" aria-hidden="true"></span>{t('color.focus')}</li>
+        <li><span class="chip chip-good" aria-hidden="true"></span>{t('color.good')}</li>
+        <li><span class="chip chip-improve" aria-hidden="true"></span>{t('color.improve')}</li>
+        <li><span class="chip chip-problem" aria-hidden="true"></span>{t('color.problem')}</li>
+        <li><span class="chip chip-untested" aria-hidden="true"></span>{t('color.untested')}</li>
+      </ul>
+      <h2>{t('section.buttons')}</h2>
+      <p class="prose">{t('button.note')}</p>
+      <div class="button-row">
+        <Button href="#corrections" variant="primary">{t('action.primary')}</Button>
+        <Button href="#typographie" variant="secondary">{t('action.secondary')}</Button>
+        <Button href="#verification" variant="link">{t('action.link')}</Button>
+      </div>
+    </aside>
+  </div>
+  <h2>{t('section.table')}</h2>
+  <DataTable caption={t('table.caption')} summary={t('table.summary')} columns={table.columns} rows={table.rows} />
+  <h2 id="verification">{t('section.verify')}</h2>
+  <p class="prose">{t('verify.lead')}</p>
+  <ReportFooter
+    url="https://exemple.fr"
+    at={auditedAt}
+    methodVersion="2026.1"
+    fingerprint="0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
+    verifyHref="#verification"
+  />
+  </article>
+</Base>

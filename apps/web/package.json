@@ -2,5 +2,23 @@
   "name": "@audigy/web",
   "version": "0.0.0",
   "private": true,
-  "type": "module"
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check:types": "astro check",
+    "test:ui": "playwright install chromium && playwright test"
+  },
+  "dependencies": {
+    "@astrojs/svelte": "^9.1.1",
+    "astro": "^7.4.2",
+    "svelte": "^5.57.2"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.12",
+    "@axe-core/playwright": "^4.14.0",
+    "@playwright/test": "^1.64.1",
+    "typescript": "^6.0.3"
+  }
 }
