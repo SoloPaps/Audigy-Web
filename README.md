@@ -2,7 +2,18 @@
 
 Audit gratuit de sites web pour les particuliers, en français clair : performance, SEO, sécurité, écologie, accessibilité, qualité technique, vie privée, DNS/e-mail. Un score /100 par domaine, des corrections priorisées, un historique et des rapports horodatés vérifiables.
 
-Statut : **phase de plan**, pas encore de code applicatif.
+Statut : socle local (PART-00). Pas encore d'interface ni de moteur d'audit.
+
+## Démarrage local
+
+Prérequis : Node 22 (`nvm use`), pnpm 10 (`corepack enable`).
+
+```bash
+pnpm i
+pnpm check
+```
+
+`pnpm check` lance le garde-fou anti-déploiement, Biome, le typecheck, Vitest et le build statique (`apps/web/dist`). Ensuite, avec le CLI Netlify installé chez vous : `netlify dev` (port 8888). Aucune liaison Git, aucun déploiement.
 
 - Plan et découpage en PARTS : [`docs/PLAN.md`](docs/PLAN.md)
 - Questions ouvertes : [`docs/QUESTIONS.md`](docs/QUESTIONS.md)
