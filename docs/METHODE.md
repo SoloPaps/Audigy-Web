@@ -135,3 +135,28 @@ Le titre se compte en caractères : de 15 à 60. La description : de 50 à 160. 
 | seo.description | 1 | Une seule description, de 50 à 160 caractères, différente du titre. | Absente, trop courte, trop longue, identique au titre, ou répétée. | — |
 | seo.hreflang | 1 | Chaque langue a une adresse complète, sans conflit, et la page se cite. | Adresse relative, ou la page ne se cite pas. Aucune langue : Non applicable. | Code invalide, adresse inutilisable, ou la même langue vise deux adresses. |
 | seo.jsonld | 1 | Au moins un bloc lisible, et chaque type est dans la liste de base. | Bloc absent, ou type hors liste. | Bloc illisible, ou type manquant. |
+
+## 11. DNS et e-mail
+
+Huit tests passifs, version 2026.1. Les enregistrements sont lus par DNS sur HTTPS, sur le nom du site. Un préfixe `www` est retiré. Les autres sous-domaines ne remontent pas au domaine parent. La politique `sp` de DMARC et l’autorisation d’un rapport vers un autre nom ne sont pas notées.
+
+Sur un nom `github.io`, ou sur une adresse IP, chaque test est **Non applicable**. Le domaine n’a pas de note : rien n’est à régler depuis ce site.
+
+Un nom sans MX, ou avec un MX nul (RFC 7505), n’accepte pas le courrier. Il doit alors interdire l’usurpation : SPF `v=spf1 -all` et DMARC `p=reject`.
+
+SPF compte les consultations selon le RFC 7208 : chaque terme `include`, `a`, `mx`, `ptr`, `exists` ou `redirect` vaut une consultation, et chaque serveur annoncé par `mx` en vaut une de plus. Le compte est un maximum. Au-delà de 10 consultations, ou de 2 consultations vides, le test est en problème. La première lecture du nom lui-même ne compte pas. `all` arrête le décompte.
+
+DKIM interroge seulement les sélecteurs `default`, `google`, `selector1`, `selector2`, `k1`, `mail`, `s1`, `s2` et `dkim`. Aucun de ces noms ne prouve l’absence de signature.
+
+DNSSEC est le drapeau AD du résolveur sur la question SOA. MTA-STS lit l’enregistrement TXT puis le fichier de règle en HTTPS. TLS-RPT lit seulement l’enregistrement TXT.
+
+| Identifiant | Poids | Réussi | À améliorer | Problème |
+|---|---|---|---|---|
+| dns_email.caa | 1 | Au moins un `issue` cite un organisme, ou `issue ";"` n’en autorise aucun. | Aucun enregistrement, ou pas de `issue` (un `issuewild` seul ne suffit pas). | Enregistrement illisible, ou étiquette inconnue avec le bit critique. |
+| dns_email.dkim | 2 | Au moins un sélecteur courant publie une clé. Sans courrier : Non applicable. | Aucun sélecteur courant, ou seulement une clé vide ou illisible. | — |
+| dns_email.dmarc | 3 | `p=reject`, `pct` à 100, et un `rua` si le nom reçoit du courrier. Sans courrier, `p=reject` suffit. | `p=none`, `p=quarantine`, `pct` sous 100, ou pas de rapport alors que le nom reçoit du courrier. | Absent, illisible, en double, ou sans `p=reject` alors que le nom n’envoie pas de courrier. |
+| dns_email.dnssec | 2 | Le drapeau AD est vrai. | — | Le drapeau AD est faux. Une panne DNS est Non testé. |
+| dns_email.mta_sts | 2 | TXT `v=STSv1` et fichier `mode: enforce`. Sans courrier : Non applicable. | TXT absent, mode `testing` ou `none`. | TXT illisible ou en double, fichier absent ou illisible. Un fichier injoignable est Non testé. |
+| dns_email.mx | 2 | Au moins un serveur, ou un MX nul seul de priorité 0. | Aucun MX. | MX illisible, ou MX nul mélangé à d’autres serveurs. |
+| dns_email.spf | 3 | Une seule annonce lisible, au plus 10 consultations, terminée par `-all`. | `~all`, `?all`, pas de `all`, mécanisme `ptr`, ou macro non suivie. | Absente, en double, illisible, `+all`, boucle, trop de consultations, ou pas de `-all` alors que le nom n’envoie pas de courrier. |
+| dns_email.tls_rpt | 1 | TXT `v=TLSRPTv1` avec un `rua`. Sans courrier : Non applicable. | Enregistrement absent. | Enregistrement illisible ou en double. |

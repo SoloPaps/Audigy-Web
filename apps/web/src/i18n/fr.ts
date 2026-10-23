@@ -456,6 +456,115 @@ export const fr = {
     'Une donnée structurée est illisible. Les moteurs l’ignorent.',
   'seo.jsonld.fail_type':
     'Une donnée structurée n’a pas de type. Les moteurs l’ignorent.',
+  'dns_email.na_github':
+    'Ce nom est sur github.io. Le courrier et le DNS du domaine ne se règlent pas ici.',
+  'dns_email.na_address':
+    'Une adresse IP n’a pas de réglage de courrier. Ce test ne s’applique pas.',
+  'dns_email.untested': 'Nous n’avons pas pu tester : le DNS n’a pas répondu.',
+  'dns_email.mx.pass': 'Des serveurs de courrier sont annoncés pour ce nom.',
+  'dns_email.mx.pass_null':
+    'Ce nom refuse le courrier. C’est annoncé clairement.',
+  'dns_email.mx.warn_absent':
+    'Aucun serveur de courrier n’est annoncé. Un message peut viser l’adresse du site.',
+  'dns_email.mx.fail_mix':
+    'Le refus de courrier est mélangé à d’autres serveurs. Le réglage est incohérent.',
+  'dns_email.mx.fail_syntax':
+    'L’annonce des serveurs de courrier est illisible.',
+  'dns_email.spf.pass':
+    'Seuls les serveurs annoncés peuvent envoyer du courrier avec ce nom.',
+  'dns_email.spf.pass_refuse':
+    'Ce nom interdit tout envoi de courrier à son sujet.',
+  'dns_email.spf.fail_missing':
+    'Rien n’indique qui peut envoyer du courrier avec ce nom. N’importe qui peut l’imiter.',
+  'dns_email.spf.fail_open':
+    'Ce nom n’interdit pas les faux envois. N’importe qui peut l’imiter.',
+  'dns_email.spf.fail_multiple':
+    'Plusieurs annonces d’expéditeurs se contredisent. Les serveurs de courrier les ignorent.',
+  'dns_email.spf.fail_syntax':
+    'L’annonce des expéditeurs autorisés est illisible. Elle est ignorée.',
+  'dns_email.spf.fail_plus':
+    'Tout le monde peut envoyer du courrier avec ce nom. Retirez cette autorisation.',
+  'dns_email.spf.fail_lookups':
+    'L’annonce demande {lookups} consultations DNS. Au-delà de 10, elle est ignorée.',
+  'dns_email.spf.fail_void':
+    'Trop de noms cités n’existent pas. L’annonce des expéditeurs est ignorée.',
+  'dns_email.spf.fail_loop':
+    'L’annonce des expéditeurs se renvoie à elle-même. Elle est ignorée.',
+  'dns_email.spf.warn_soft':
+    'Les faux messages sont signalés, pas refusés. Une partie peut encore arriver.',
+  'dns_email.spf.warn_neutral':
+    'L’annonce ne tranche pas. Un faux message peut partir avec ce nom.',
+  'dns_email.spf.warn_ptr':
+    'L’annonce s’appuie sur un mécanisme déconseillé. Les contrôles deviennent fragiles.',
+  'dns_email.spf.warn_macro':
+    'L’annonce varie selon l’expéditeur. Le nombre de consultations n’est pas certain.',
+  'dns_email.dmarc.pass':
+    'Les faux messages sont refusés, et un rapport est prévu.',
+  'dns_email.dmarc.pass_reject': 'Les faux messages pour ce nom sont refusés.',
+  'dns_email.dmarc.fail_missing':
+    'Rien ne dit quoi faire des faux messages. Ils peuvent arriver en boîte.',
+  'dns_email.dmarc.fail_spoof':
+    'Ce nom peut être imité. Refusez les faux messages, puisqu’il n’envoie pas de courrier.',
+  'dns_email.dmarc.fail_not_reject':
+    'Ce nom n’envoie pas de courrier, mais les faux messages ne sont pas tous refusés.',
+  'dns_email.dmarc.fail_syntax':
+    'La règle sur les faux messages est illisible. Elle est ignorée.',
+  'dns_email.dmarc.fail_multiple':
+    'Plusieurs règles se contredisent. Les serveurs de courrier les ignorent.',
+  'dns_email.dmarc.warn_none':
+    'Les faux messages sont seulement observés. Ils peuvent encore arriver.',
+  'dns_email.dmarc.warn_quarantine':
+    'Les faux messages vont en indésirables. Ils ne sont pas tous refusés.',
+  'dns_email.dmarc.warn_pct':
+    'La règle ne couvre que {pct} pour cent des messages. Le reste passe.',
+  'dns_email.dmarc.warn_rua':
+    'Aucun rapport ne vous prévient des faux messages. Vous ne les verrez pas.',
+  'dns_email.dkim.pass':
+    'Une signature de courrier est annoncée ({selectors}).',
+  'dns_email.dkim.warn_missing':
+    'Aucune signature courante n’est annoncée. Le courrier peut quand même en avoir une.',
+  'dns_email.dkim.warn_invalid':
+    'Une signature annoncée est inutilisable. Les serveurs peuvent l’ignorer.',
+  'dns_email.dkim.na_nomail':
+    'Sans courrier, une signature n’est pas nécessaire.',
+  'dns_email.caa.pass':
+    'Seuls les organismes cités peuvent créer un certificat pour ce nom.',
+  'dns_email.caa.pass_none':
+    'Aucun organisme n’est autorisé à créer un certificat pour ce nom.',
+  'dns_email.caa.warn_missing':
+    'N’importe quel organisme peut créer un certificat pour ce nom.',
+  'dns_email.caa.fail_syntax':
+    'La liste des organismes autorisés est illisible.',
+  'dns_email.caa.fail_critical':
+    'Une contrainte inconnue bloque la lecture de cette liste.',
+  'dns_email.dnssec.pass':
+    'Le nom est signé. Un faux serveur DNS est plus difficile à glisser.',
+  'dns_email.dnssec.fail':
+    'Le nom n’est pas signé (DNSSEC). Un faux serveur DNS peut répondre à sa place.',
+  'dns_email.mta_sts.pass':
+    'Les serveurs de courrier exigent un chiffrement, et le fichier de règle est en place.',
+  'dns_email.mta_sts.warn_missing':
+    'Le chiffrement du courrier n’est pas exigé. Un intermédiaire peut le retirer.',
+  'dns_email.mta_sts.warn_testing':
+    'La règle de chiffrement est en essai. Elle n’est pas encore imposée.',
+  'dns_email.mta_sts.warn_none':
+    'La règle de chiffrement est désactivée. Elle ne protège pas le courrier.',
+  'dns_email.mta_sts.fail_policy':
+    'L’annonce de chiffrement existe, mais le fichier de règle est absent.',
+  'dns_email.mta_sts.fail_syntax':
+    'L’annonce de chiffrement du courrier est illisible.',
+  'dns_email.mta_sts.na_nomail':
+    'Sans courrier entrant, cette règle de chiffrement ne s’applique pas.',
+  'dns_email.mta_sts.untested':
+    'Nous n’avons pas pu tester : le fichier de règle n’a pas répondu.',
+  'dns_email.tls_rpt.pass':
+    'Les échecs de chiffrement du courrier vous sont signalés.',
+  'dns_email.tls_rpt.warn_missing':
+    'Les échecs de chiffrement du courrier ne vous sont pas signalés.',
+  'dns_email.tls_rpt.fail_syntax':
+    'L’annonce des rapports de chiffrement est illisible.',
+  'dns_email.tls_rpt.na_nomail':
+    'Sans courrier entrant, ces rapports ne s’appliquent pas.',
 } as const satisfies Record<string, string>;
 
 export type MessageKey = keyof typeof fr;
