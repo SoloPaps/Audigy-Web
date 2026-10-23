@@ -14,11 +14,13 @@
  *   `fileFixStore(dir?)` depuis `@audigy/engine/fixes-fs`.
  * - `createSharedArtifacts()` : artefacts chargés une seule fois par audit.
  * - `SECURITE_CHECKS` : checks passifs du domaine Sécurité (PART-06).
+ * - `DNS_EMAIL_CHECKS` : MX, SPF, DMARC, DKIM, CAA, DNSSEC, MTA-STS, TLS-RPT (PART-09).
  * - `PERFORMANCE_CHECKS` : laboratoire PSI (mobile + ordinateur) et terrain CrUX
  *   (adresse puis origine), stockés dans `ctx.shared` (`psi`, `crux`).
  * - `googleApiKey`, `withGoogleApi` : clé `GOOGLE_API_KEY` et client `@audigy/net`.
  */
 
+export { DKIM_SELECTORS, DNS_EMAIL_CHECKS } from '../checks/dns_email/index.js';
 export {
   CRUX_SHARED_KEY,
   type CruxBundle,

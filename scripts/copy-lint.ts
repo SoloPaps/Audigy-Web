@@ -28,6 +28,7 @@ const ACRONYMS = new Set([
   'CNIL',
   'DKIM',
   'DMARC',
+  'DNSSEC',
   'GDPR',
   'HSTS',
   'HTML',
