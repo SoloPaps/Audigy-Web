@@ -334,6 +334,128 @@ export const fr = {
     'Nous n’avons pas pu tester : la source de mesure n’est pas configurée.',
   'performance.error':
     'Nous n’avons pas pu tester : la mesure de vitesse a échoué.',
+  'seo.page.untested_status':
+    'Nous n’avons pas pu tester : la page a répondu {status}.',
+  'seo.page.na_not_html':
+    'La page n’est pas au format HTML. Ce contrôle ne s’applique pas.',
+  'seo.lighthouse.pass':
+    'Le référencement mesuré est bon : {mobile} sur 100 au téléphone, {desktop} sur 100 sur ordinateur.',
+  'seo.lighthouse.warn':
+    'Le référencement mesuré est moyen : {mobile} sur 100 au téléphone, {desktop} sur 100 sur ordinateur.',
+  'seo.lighthouse.fail':
+    'Le référencement mesuré est faible : {mobile} sur 100 au téléphone, {desktop} sur 100 sur ordinateur.',
+  'seo.lighthouse.partial':
+    'Une des deux mesures de référencement manque. Le score obtenu est {score} sur 100.',
+  'seo.lighthouse.missing_key':
+    'Nous n’avons pas pu tester : la source de mesure n’est pas configurée.',
+  'seo.lighthouse.quota':
+    'Nous n’avons pas pu tester : le quota de mesure est atteint.',
+  'seo.lighthouse.error':
+    'Nous n’avons pas pu tester : la mesure de référencement a échoué.',
+  'seo.lighthouse.absent':
+    'Nous n’avons pas pu tester : la note de référencement est absente.',
+  'seo.robots.pass':
+    'Le fichier robots laisse les moteurs explorer cette adresse.',
+  'seo.robots.pass_absent':
+    'Aucun fichier robots n’est publié. Les moteurs peuvent explorer le site.',
+  'seo.robots.fail_block':
+    'Le fichier robots interdit l’exploration de cette adresse. Elle peut sortir des résultats.',
+  'seo.robots.fail_html':
+    'Le fichier robots n’est pas un texte de règles. Les moteurs peuvent l’ignorer.',
+  'seo.robots.untested_status':
+    'Nous n’avons pas pu tester : le fichier robots a répondu {status}.',
+  'seo.robots.na_scope':
+    'Le fichier robots est à la racine du domaine, hors du chemin audité.',
+  'seo.sitemap.pass': 'Le plan du site est lisible et ses adresses répondent.',
+  'seo.sitemap.pass_sample':
+    'Le plan du site est lisible. Les {count} premières adresses sur {total} répondent.',
+  'seo.sitemap.warn_missing':
+    'Aucun plan du site n’est publié. Les moteurs découvrent les pages plus lentement.',
+  'seo.sitemap.warn_redirect':
+    'Certaines adresses du plan changent de page. Le plan devrait citer l’adresse finale.',
+  'seo.sitemap.warn_external':
+    'Le plan cite des adresses d’un autre site. Seules celles de ce site ont été vérifiées.',
+  'seo.sitemap.fail_status_one':
+    '1 adresse du plan ne répond pas. Les moteurs peuvent ignorer cette page.',
+  'seo.sitemap.fail_status_many':
+    '{count} adresses du plan ne répondent pas. Les moteurs peuvent ignorer ces pages.',
+  'seo.sitemap.fail_xml':
+    'Le plan du site n’est pas un fichier lisible. Les moteurs ne peuvent pas l’utiliser.',
+  'seo.sitemap.fail_empty':
+    'Le plan du site ne contient aucune adresse. Les moteurs n’y trouvent rien.',
+  'seo.sitemap.fail_file':
+    'Le plan annoncé ne répond pas. Les moteurs ne peuvent pas le lire.',
+  'seo.sitemap.untested_status':
+    'Nous n’avons pas pu tester : le plan du site a répondu {status}.',
+  'seo.sitemap.na_scope':
+    'Le plan du site est à la racine du domaine, hors du chemin audité.',
+  'seo.noindex.pass':
+    'La page peut apparaître dans les résultats de recherche.',
+  'seo.noindex.fail':
+    'La page demande à rester hors des résultats. Les moteurs ne l’afficheront pas.',
+  'seo.canonical.pass': 'L’adresse de référence est celle de cette page.',
+  'seo.canonical.warn_missing':
+    'La page n’indique pas son adresse de référence. Un doublon peut prendre sa place.',
+  'seo.canonical.warn_other':
+    'L’adresse de référence pointe vers une autre page. Les visites peuvent s’y concentrer.',
+  'seo.canonical.warn_repeat':
+    'L’adresse de référence est écrite plusieurs fois. Une seule suffit.',
+  'seo.canonical.fail_conflict':
+    'La page indique plusieurs adresses de référence. Les moteurs ne savent pas laquelle garder.',
+  'seo.canonical.fail_other_host':
+    'L’adresse de référence pointe vers un autre site. Cette page peut sortir des résultats.',
+  'seo.canonical.fail_invalid':
+    'L’adresse de référence est illisible. Les moteurs ne peuvent pas l’utiliser.',
+  'seo.title.pass':
+    'Le titre décrit la page et tient dans le résultat de recherche.',
+  'seo.title.warn_short':
+    'Le titre ne fait que {count} caractères. Il décrit trop peu la page.',
+  'seo.title.warn_long':
+    'Le titre fait {count} caractères. La fin sera coupée dans le résultat.',
+  'seo.title.fail_missing':
+    'La page n’a pas de titre. Le résultat de recherche reste vague.',
+  'seo.title.fail_duplicate':
+    'La page a plusieurs titres différents. Le résultat de recherche devient ambigu.',
+  'seo.title.warn_repeat':
+    'Le titre est répété plusieurs fois. Un seul titre suffit.',
+  'seo.description.pass':
+    'La description résume la page dans le résultat de recherche.',
+  'seo.description.warn_missing':
+    'La page n’a pas de description. Le résultat de recherche est choisi à votre place.',
+  'seo.description.warn_short':
+    'La description ne fait que {count} caractères. Elle explique trop peu la page.',
+  'seo.description.warn_long':
+    'La description fait {count} caractères. La fin sera coupée dans le résultat.',
+  'seo.description.warn_same':
+    'Le titre et la description répètent le même texte. Le résultat de recherche est pauvre.',
+  'seo.description.warn_duplicate':
+    'La page a plusieurs descriptions différentes. Le résultat de recherche devient ambigu.',
+  'seo.description.warn_repeat':
+    'La description est répétée plusieurs fois. Une seule suffit.',
+  'seo.hreflang.pass':
+    'Les langues déclarées ont une adresse et cette page s’y cite.',
+  'seo.hreflang.na':
+    'Aucune autre langue n’est déclarée. Rien à signaler si le site est en une langue.',
+  'seo.hreflang.warn_self':
+    'La page ne se cite pas parmi ses langues. Les moteurs peuvent ignorer le lien.',
+  'seo.hreflang.warn_relative':
+    'Une langue pointe vers une adresse relative. Les moteurs demandent une adresse complète.',
+  'seo.hreflang.fail_lang':
+    'Un code de langue est invalide. Les moteurs ignorent cette déclaration.',
+  'seo.hreflang.fail_conflict':
+    'Une langue vise deux adresses. Les moteurs ne savent pas laquelle choisir.',
+  'seo.hreflang.fail_href':
+    'Une langue n’a pas d’adresse utilisable. Les moteurs ignorent cette déclaration.',
+  'seo.jsonld.pass':
+    'La page décrit son contenu pour les moteurs, avec le type {type}.',
+  'seo.jsonld.warn_missing':
+    'La page ne décrit pas son contenu aux moteurs. Le résultat de recherche reste pauvre.',
+  'seo.jsonld.warn_type':
+    'Le type {type} n’est pas dans la liste de base. La lecture peut rester incomplète.',
+  'seo.jsonld.fail_parse':
+    'Une donnée structurée est illisible. Les moteurs l’ignorent.',
+  'seo.jsonld.fail_type':
+    'Une donnée structurée n’a pas de type. Les moteurs l’ignorent.',
   'dns_email.na_github':
     'Ce nom est sur github.io. Le courrier et le DNS du domaine ne se règlent pas ici.',
   'dns_email.na_address':
