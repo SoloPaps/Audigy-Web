@@ -89,3 +89,25 @@ Le test suit les redirections comme un visiteur. Il ne distingue pas une redirec
 | securite.certificate | 3 | Chaîne reconnue, nom couvert, au moins 30 jours restants. Le nom contrôlé est celui saisi, port 443. | Moins de 30 jours, y compris moins d'un jour. | Périmé, pas encore valable, mauvais nom, ou chaîne non reconnue. |
 | securite.mixed | 2 | Page chiffrée en HTML, aucun élément `http:`. | Seulement des images, du son, de la vidéo ou une icône. | Script, feuille de style, cadre, objet, formulaire, `base`, police ou `@import` en `http:`. |
 | securite.security_txt | 1 | `/.well-known/security.txt` en HTTPS, type `text/plain`, au moins un `Contact` (`mailto`, `https` ou `tel`), `Expires` dans plus de 14 jours. La signature n'est pas vérifiée. | Échéance sous 14 jours, fichier seulement à `/security.txt`, mauvais type, ou `Canonical` différent. | Introuvable (404 ou 410 aux deux adresses), sans contact, sans date, ou date dépassée. Une autre réponse devient Non testé. |
+
+## 9. Performance
+
+Sept tests passifs, version 2026.1. Le laboratoire vient de PageSpeed Insights : mobile et ordinateur, catégories performance, accessibilité, bonnes pratiques et référencement. Seule la catégorie performance est notée ici. Les trois autres sont conservées pour les domaines qui s’en servent. Le terrain (LCP, INP, CLS) vient de l’API CrUX, pas du bloc CrUX inclus dans PSI : d’abord l’adresse exacte, sinon l’origine, pour le téléphone, sur 28 jours.
+
+Le score de laboratoire retenu est le plus faible des deux, arrondi au point le plus proche. 80 ou plus : Réussi. De 50 à 79 : À améliorer. Moins de 50 : Problème. S’il manque une des deux mesures, le constat le dit. Si le score disponible vaut au moins 80, le statut devient À améliorer. La valeur notée reste celle mesurée.
+
+Le poids, le cache et la compression utilisent la note Lighthouse du pire des deux contextes, avec les mêmes seuils de 80 et de 50. Le poids affiché est celui de ce contexte.
+
+Les seuils de visite réelle sont ceux des Core Web Vitals. LCP : au plus 2,5 s, puis 4 s. INP : au plus 200 ms, puis 500 ms. CLS : au plus 0,1, puis 0,25. Sans donnée, ou si une seule mesure manque, le test est Non testé. Ce n’est pas un défaut du site.
+
+Une clé absente ou une réponse 429 donne Non testé, avec la raison. Une erreur réseau ou un code 5xx est réessayé une fois. L’appel de laboratoire attend au plus 120 secondes. Une réponse réussie, un quota ou une absence de terrain est réutilisée le même jour (UTC) pour la même adresse. La clé d’API n’est pas conservée.
+
+| Identifiant | Poids | Réussi | À améliorer | Problème |
+|---|---|---|---|---|
+| performance.lighthouse | 3 | Les deux scores sont là, et le plus faible vaut au moins 80. | Le plus faible est entre 50 et 79, ou une seule mesure est disponible alors que son score vaut au moins 80. | Le plus faible est sous 50. |
+| performance.lcp | 2 | p75 ≤ 2,5 s | p75 ≤ 4 s | p75 > 4 s |
+| performance.inp | 2 | p75 ≤ 200 ms | p75 ≤ 500 ms | p75 > 500 ms |
+| performance.cls | 2 | p75 ≤ 0,1 | p75 ≤ 0,25 | p75 > 0,25 |
+| performance.poids | 1 | Note Lighthouse du poids ≥ 80 | Note entre 50 et 79 | Note sous 50 |
+| performance.cache | 1 | Note Lighthouse du cache ≥ 80 | Note entre 50 et 79 | Note sous 50 |
+| performance.compression | 1 | Note Lighthouse de la compression ≥ 80 | Note entre 50 et 79 | Note sous 50 |

@@ -15,6 +15,9 @@
  * - `createDohResolver(options?)` : DNS sur HTTPS (JSON), `query(nom, type)` et `addresses(nom)`.
  * - `createTlsProbe(options?) → probeTls(hôte)` : connexion TLS au port 443 (IP publique
  *   épinglée) ; protocole, suite, validité de la chaîne, SAN, expiration (selon `now`).
+ * - `createExternalApi(options?) → api.request({ method, url, body?, timeoutMs?, signal? })` :
+ *   HTTPS vers une liste fermée d’API (PSI, CrUX). POST permis, délai 120 s, pas de
+ *   redirection, IP publique épinglée. Ne sert pas à joindre le site audité.
  * - `blockedReason(ip)`, `isPublicAddress(ip)`, `parseIpv4Loose(hôte)`, `validateTargetUrl(url)`.
  *
  * Toute erreur est une `NetError` avec un `code` stable (`BLOCKED_ADDRESS`, `BLOCKED_PORT`,
@@ -39,6 +42,16 @@ export {
   type DohResolver,
 } from './doh.js';
 export { isNetError, NetError, type NetErrorCode } from './errors.js';
+export {
+  createExternalApi,
+  DEFAULT_EXTERNAL_MAX_BYTES,
+  DEFAULT_EXTERNAL_TIMEOUT_MS,
+  EXTERNAL_API_HOSTS,
+  type ExternalApi,
+  type ExternalApiOptions,
+  type ExternalRequest,
+  type ExternalResponse,
+} from './external-api.js';
 export {
   blockedReason,
   isPublicAddress,
