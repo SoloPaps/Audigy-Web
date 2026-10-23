@@ -10,13 +10,14 @@
   "scripts": {
     "guard": "node scripts/guard-no-deploy.ts",
     "lint": "biome check .",
+    "copy-lint": "node scripts/copy-lint.ts",
     "format": "biome check --write .",
     "typecheck": "tsc -p tsconfig.json --noEmit && pnpm --filter @audigy/web run check:types",
     "test": "vitest run",
     "test:ui": "pnpm --filter @audigy/web run test:ui",
     "test:a11y": "node scripts/lighthouse-a11y.mjs",
     "build": "node scripts/build.mjs",
-    "check": "pnpm guard && pnpm lint && pnpm typecheck && pnpm test && pnpm build && pnpm test:ui && pnpm test:a11y"
+    "check": "pnpm guard && pnpm lint && pnpm copy-lint && pnpm typecheck && pnpm test && pnpm build && pnpm test:ui && pnpm test:a11y"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.6.2",

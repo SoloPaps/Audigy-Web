@@ -1,3 +1,7 @@
+/**
+ * Dictionnaire français. Une clé absente de cet objet
+ * ne peut pas être passée à `t()` (erreur de typage).
+ */
 export const fr = {
   'skip.content': 'Aller au contenu',
   'brand.name': 'Audigy',
@@ -11,6 +15,8 @@ export const fr = {
   'theme.light': 'Clair',
   'theme.dark': 'Sombre',
   'home.title': 'Audigy',
+  'home.headline': 'Vérifiez la santé de votre site, gratuitement.',
+  'home.submit': "Lancer l'audit",
   'home.lead':
     'Audigy audite un site et explique quoi corriger, en français simple.',
   'home.next': 'Le formulaire d’audit n’est pas encore en place.',
@@ -23,6 +29,11 @@ export const fr = {
   'level.improve.sentence': 'à améliorer',
   'level.problem.sentence': 'problème',
   'level.untested.sentence': 'non testé',
+  'status.pass': 'Réussi',
+  'status.warn': 'À améliorer',
+  'status.fail': 'Problème',
+  'status.untested': 'Non testé',
+  'status.na': 'Non applicable',
   'gauge.score': '{domain} : {score} sur 100, {level}',
   'gauge.untested': '{domain} : {level}',
   'gauge.denom': '/100',
@@ -84,8 +95,10 @@ export const fr = {
   'finding.effort': '{minutes} min',
   'finding.done': 'Rien à changer',
   'finding.unknown': 'Durée inconnue',
+  'finding.untested': "Nous n'avons pas pu tester ce point.",
   'finding.copy': 'Copier',
   'finding.copied': 'Copié',
+  'measure.lcp': "Votre site met {duree} à s'afficher (LCP).",
   'table.caption': 'Scores du 3 mars au 23 octobre 2026',
   'table.summary': '+12 points depuis le 3 mars',
   'table.date': 'Date',
@@ -132,6 +145,6 @@ export const fr = {
   'demo.cookie.why':
     'Nous n’avons pas pu tester : le navigateur d’audit n’a pas tourné.',
   'demo.cookie.s1': 'Relancez l’audit lorsque ce navigateur est disponible.',
-} as const;
+} as const satisfies Record<string, string>;
 
 export type MessageKey = keyof typeof fr;
