@@ -14,8 +14,19 @@
  *   `fileFixStore(dir?)` depuis `@audigy/engine/fixes-fs`.
  * - `createSharedArtifacts()` : artefacts chargés une seule fois par audit.
  * - `SECURITE_CHECKS` : checks passifs du domaine Sécurité (PART-06).
+ * - `PERFORMANCE_CHECKS` : laboratoire PSI (mobile + ordinateur) et terrain CrUX
+ *   (adresse puis origine), stockés dans `ctx.shared` (`psi`, `crux`).
+ * - `googleApiKey`, `withGoogleApi` : clé `GOOGLE_API_KEY` et client `@audigy/net`.
  */
 
+export {
+  CRUX_SHARED_KEY,
+  type CruxBundle,
+  createPerformanceChecks,
+  PERFORMANCE_CHECKS,
+  PSI_SHARED_KEY,
+  type PsiBundle,
+} from '../checks/performance/index.js';
 export { SECURITE_CHECKS } from '../checks/securite/index.js';
 export { type AuditReport, runAudit } from './audit.js';
 export {
@@ -29,6 +40,7 @@ export {
   parseFix,
   variantFor,
 } from './fixes.js';
+export { googleApiKey, withGoogleApi } from './google-api.js';
 export { createRegistry, type Registry, validateCheck } from './registry.js';
 export {
   DEFAULT_AVAILABLE,

@@ -1,5 +1,6 @@
 import type {
   DohResolver,
+  ExternalApi,
   RequestBudget,
   SafeFetch,
   TlsProbe,
@@ -67,7 +68,13 @@ export interface CheckContext {
   target: Target;
   /** Propriété vérifiée et revérifiée il y a moins de 10 min. */
   verified: boolean;
-  net: { fetch: SafeFetch; dns: DohResolver; tls: TlsProbe };
+  net: {
+    fetch: SafeFetch;
+    dns: DohResolver;
+    tls: TlsProbe;
+    /** API tierces (PSI, CrUX). Absent tant que la clé n’est pas posée. */
+    api?: ExternalApi;
+  };
   shared: SharedArtifacts;
   budget: RequestBudget;
   now(): Date;

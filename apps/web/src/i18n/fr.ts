@@ -273,6 +273,67 @@ export const fr = {
     'Le fichier de contact annonce une autre adresse que celle qui répond.',
   'securite.security_txt.untested_status':
     'Nous n’avons pas pu tester : le fichier de contact a répondu {status}.',
+  'performance.lighthouse.pass':
+    'La vitesse mesurée est bonne : {mobile} sur 100 au téléphone, {desktop} sur 100 sur ordinateur.',
+  'performance.lighthouse.warn':
+    'La vitesse mesurée est moyenne : {mobile} sur 100 au téléphone, {desktop} sur 100 sur ordinateur.',
+  'performance.lighthouse.fail':
+    'La vitesse mesurée est trop faible : {mobile} sur 100 au téléphone, {desktop} sur 100 sur ordinateur.',
+  'performance.lighthouse.partial':
+    'Une des deux mesures de vitesse manque. Le score obtenu est {score} sur 100.',
+  'performance.lcp.pass':
+    'Les visiteurs voient l’essentiel en {secondes} secondes, ce qui est rapide.',
+  'performance.lcp.warn':
+    'Les visiteurs voient l’essentiel en {secondes} secondes, ce qui est un peu lent.',
+  'performance.lcp.fail':
+    'Les visiteurs voient l’essentiel en {secondes} secondes, ce qui est trop lent.',
+  'performance.inp.pass':
+    'Le site répond en {millisecondes} millisecondes. Les actions restent fluides.',
+  'performance.inp.warn':
+    'Le site répond en {millisecondes} millisecondes. L’attente peut gêner.',
+  'performance.inp.fail':
+    'Le site répond en {millisecondes} millisecondes. L’attente est trop longue.',
+  'performance.cls.pass':
+    'La page reste stable pendant le chargement. Le décalage mesuré est {valeur}.',
+  'performance.cls.warn':
+    'La page bouge un peu pendant le chargement. Le décalage mesuré est {valeur}.',
+  'performance.cls.fail':
+    'La page bouge trop pendant le chargement. Le décalage mesuré est {valeur}.',
+  'performance.field.absent':
+    'Nous n’avons pas de données de visite réelle pour ce site.',
+  'performance.field.metric_absent':
+    'Cette mesure de visite réelle n’est pas fournie pour ce site.',
+  'performance.poids.pass':
+    'La page pèse {poids}. Ce poids reste raisonnable pour l’affichage.',
+  'performance.poids.warn':
+    'La page pèse {poids}. Ce poids ralentit l’affichage.',
+  'performance.poids.fail':
+    'La page pèse {poids}. Ce poids ralentit fortement l’affichage.',
+  'performance.poids.pass_sans_valeur':
+    'Le poids de la page reste raisonnable.',
+  'performance.poids.warn_sans_valeur':
+    'Le poids de la page alourdit l’affichage.',
+  'performance.poids.fail_sans_valeur':
+    'Le poids de la page ralentit fortement l’affichage.',
+  'performance.cache.pass':
+    'Le navigateur peut garder les fichiers déjà téléchargés.',
+  'performance.cache.warn':
+    'Certains fichiers sont rechargés trop souvent. La page met plus de temps.',
+  'performance.cache.fail':
+    'Les fichiers sont rechargés presque à chaque visite. La page met plus de temps.',
+  'performance.compression.pass':
+    'Les textes de la page sont compressés avant l’envoi.',
+  'performance.compression.warn':
+    'Une partie des textes n’est pas compressée. L’envoi est plus lent.',
+  'performance.compression.fail':
+    'Les textes de la page ne sont pas compressés. L’envoi est plus lent.',
+  'performance.audit.na': 'Cette mesure ne s’applique pas à cette page.',
+  'performance.quota':
+    'Nous n’avons pas pu tester : le quota de mesure est atteint.',
+  'performance.missing_key':
+    'Nous n’avons pas pu tester : la source de mesure n’est pas configurée.',
+  'performance.error':
+    'Nous n’avons pas pu tester : la mesure de vitesse a échoué.',
 } as const satisfies Record<string, string>;
 
 export type MessageKey = keyof typeof fr;

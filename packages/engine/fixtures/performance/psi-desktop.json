@@ -1,0 +1,28 @@
+{
+  "lighthouseResult": {
+    "lighthouseVersion": "12.6.1",
+    "categories": {
+      "performance": { "score": 0.91 },
+      "accessibility": { "score": 0.9 },
+      "best-practices": { "score": 0.96 },
+      "seo": { "score": 0.92 }
+    },
+    "audits": {
+      "total-byte-weight": {
+        "id": "total-byte-weight",
+        "score": 1,
+        "numericValue": 380000
+      },
+      "uses-long-cache-ttl": {
+        "id": "uses-long-cache-ttl",
+        "score": 1,
+        "numericValue": 31536000
+      },
+      "uses-text-compression": {
+        "id": "uses-text-compression",
+        "score": 1,
+        "numericValue": 0
+      }
+    }
+  }
+}
