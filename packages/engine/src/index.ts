@@ -13,7 +13,10 @@
  * - `parseFix`, `loadFixes(store)`, `variantFor` : fiches §5.3. Lecture disque :
  *   `fileFixStore(dir?)` depuis `@audigy/engine/fixes-fs`.
  * - `createSharedArtifacts()` : artefacts chargés une seule fois par audit.
+ * - `SECURITE_CHECKS` : checks passifs du domaine Sécurité (PART-06).
  */
+
+export { SECURITE_CHECKS } from '../checks/securite/index.js';
 export { type AuditReport, runAudit } from './audit.js';
 export {
   FIX_VARIANTS,
