@@ -2,5 +2,12 @@
   "name": "@audigy/engine",
   "version": "0.0.0",
   "private": true,
-  "type": "module"
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./fixes-fs": "./src/fixes-fs.ts"
+  },
+  "dependencies": {
+    "@audigy/net": "workspace:*"
+  }
 }
