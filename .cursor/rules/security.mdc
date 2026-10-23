@@ -1,0 +1,11 @@
+---
+description: Règles de sécurité pour réseau, checks, fonctions et données
+globs: packages/net/**,packages/engine/**,packages/browser-runner/**,packages/evidence/**,netlify/functions/**,supabase/**
+alwaysApply: false
+---
+- Sortant vers un site audité : `safeFetch` uniquement (http/https, ports 80/443, IP publiques, IP épinglée, revalidation à chaque redirection, max 5, taille et durée bornées).
+- Chaque check déclare `mode: 'passive' | 'active'`. Le runner refuse `active` si `ctx.verified !== true`.
+- Vérification de propriété revérifiée < 10 min avant tout test actif ; tracer dans `audit_log`.
+- Budget de requêtes par audit (`ctx.budget`) ; 1 req/s par hôte ; `User-Agent: AudigyBot`.
+- Clé `service_role` uniquement côté fonctions. Jetons OAuth chiffrés (AES-256-GCM).
+- Valider toute entrée (zod). Pas de secret ni de donnée perso dans les logs.

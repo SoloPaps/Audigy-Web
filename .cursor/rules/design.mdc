@@ -1,0 +1,12 @@
+---
+description: Charte de design obligatoire pour toute UI
+globs: apps/web/**/*.astro,apps/web/**/*.svelte,apps/web/**/*.css,apps/web/src/i18n/**
+alwaysApply: false
+---
+- `docs/DESIGN.md` fait foi. Lire seulement la section utile.
+- Uniquement les tokens de `apps/web/src/styles/tokens.css` (couleurs, espacements 4px, rayons 4/8/12).
+- Statut = forme + libellé + couleur. Jamais rouge/vert seuls.
+- Polices auto-hébergées : Atkinson Hyperlegible Next, Source Serif 4 (H1–H3), JetBrains Mono. Zéro requête tierce.
+- Interdits §2 : dégradés, glass, violet, emoji, hero centré, 3 cartes identiques, MAJUSCULES.
+- Ton : vouvoiement, ≤ 20 mots/phrase, constat → conséquence → action.
+- Avant merge : checklist §9 + axe 0 violation.
