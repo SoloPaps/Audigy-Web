@@ -1,0 +1,12 @@
+---
+description: Stack et conventions de code (monorepo pnpm, Astro, Netlify Functions, Supabase)
+globs: apps/**,packages/**,netlify/**,scripts/**,supabase/**
+alwaysApply: false
+---
+- Node 22, pnpm workspaces, TypeScript strict, ESM, Biome (lint+format), Vitest.
+- `apps/web` : Astro en sortie statique + îlots Svelte. Pas de SSR (même build pour Tauri).
+- `netlify/functions` : handlers fins (Functions v2). La logique vit dans `packages/*`.
+- Fonction sync ≤ 60 s, scheduled ≤ 30 s, background ≤ 15 min : tout travail long = background.
+- `packages/engine` pur : pas d'I/O directe, réseau injecté via `ctx.net`.
+- DB : migrations SQL dans `supabase/migrations`, RLS sur toutes les tables, tests RLS.
+- Pas de nouvelle dépendance lourde sans justification (poids, licence, maintenance).

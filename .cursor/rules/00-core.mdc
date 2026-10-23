@@ -1,0 +1,10 @@
+---
+description: Style terse et règles absolues Audigy
+alwaysApply: true
+---
+- Terse. Pas de récap. Montrer seulement le code modifié.
+- Suivre `AGENTS.md` et la seule PART demandée de `docs/PLAN.md`.
+- Chaînes UI en français via `t()`. Jamais d'emoji dans l'UI.
+- Jamais de déploiement Netlify ni de liaison Git/Netlify. `netlify dev` seulement.
+- Jamais de test actif sur un site non vérifié.
+- Tests requis. Commits conventionnels.
