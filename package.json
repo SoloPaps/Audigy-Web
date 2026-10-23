@@ -16,6 +16,7 @@
     "test": "vitest run",
     "test:ui": "pnpm --filter @audigy/web run test:ui",
     "test:a11y": "node scripts/lighthouse-a11y.mjs",
+    "fixtures": "node fixtures/server.ts",
     "build": "node scripts/build.mjs",
     "check": "pnpm guard && pnpm lint && pnpm copy-lint && pnpm typecheck && pnpm test && pnpm build && pnpm test:ui && pnpm test:a11y"
   },

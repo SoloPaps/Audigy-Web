@@ -145,6 +145,16 @@ export const fr = {
   'demo.cookie.why':
     'Nous n’avons pas pu tester : le navigateur d’audit n’a pas tourné.',
   'demo.cookie.s1': 'Relancez l’audit lorsque ce navigateur est disponible.',
+  'reason.active_unverified':
+    'Nous n’avons pas pu tester : ce test demande un site vérifié.',
+  'reason.missing_source':
+    'Nous n’avons pas pu tester : une source manque ({source}).',
+  'reason.timeout':
+    'Nous n’avons pas pu tester : le test a dépassé {seconds} s.',
+  'reason.error':
+    'Nous n’avons pas pu tester : une erreur est survenue pendant le test.',
+  'reason.invalid_result':
+    'Nous n’avons pas pu tester : le résultat obtenu est inutilisable.',
 } as const satisfies Record<string, string>;
 
 export type MessageKey = keyof typeof fr;
