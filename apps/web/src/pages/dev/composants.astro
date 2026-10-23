@@ -1,0 +1,176 @@
+---
+import CategoryList from '../../components/CategoryList.svelte';
+import DataTable from '../../components/DataTable.svelte';
+import FindingList from '../../components/FindingList.svelte';
+import ReportFooter from '../../components/ReportFooter.svelte';
+import ScoreGauge from '../../components/ScoreGauge.svelte';
+import {
+  demoCategories,
+  demoFindings,
+  demoGlobalScore,
+  demoTable,
+} from '../../data/demo.js';
+import { t } from '../../i18n/index.js';
+import Base from '../../layouts/Base.astro';
+import { topActions } from '../../lib/findings.js';
+import { verdictCopy } from '../../lib/verdict.js';
+
+const categories = demoCategories();
+const findings = demoFindings();
+const global = demoGlobalScore();
+const verdict = verdictCopy(global, findings);
+const actions = topActions(findings);
+const table = demoTable();
+const auditedAt = new Date('2026-10-23T12:30:00Z');
+const url = 'https://exemple.fr';
+---
+
+<Base title={t('meta.demo.title')} description={t('meta.demo.description')} robots="noindex">
+  <article>
+    <header class="verdict">
+      <ScoreGauge domain={t('domain.global')} score={global} size="hero" />
+      <div class="verdict-copy">
+        <p class="kicker">{url}</p>
+        <h1>{verdict.headline}</h1>
+        <p class="detail" aria-live="polite">{verdict.detail}</p>
+        <p id="actions-label" class="actions-label">{t('verdict.actions')}</p>
+        <ol class="actions" aria-labelledby="actions-label">
+          {
+            actions.map((item) => (
+              <li>
+                <a href={`#finding-${item.id}`}>{item.title}</a>
+              </li>
+            ))
+          }
+        </ol>
+      </div>
+    </header>
+
+    <h2>{t('section.categories')}</h2>
+    <CategoryList items={categories} />
+
+    <h2 id="corrections">{t('section.findings')}</h2>
+    <FindingList findings={findings} client:load />
+
+    <h2>{t('section.table')}</h2>
+    <DataTable
+      caption={t('table.caption')}
+      summary={t('table.summary')}
+      columns={table.columns}
+      rows={table.rows}
+    />
+
+    <h2 id="verification">{t('section.verify')}</h2>
+    <p class="prose">{t('verify.lead')}</p>
+    <ReportFooter
+      url={url}
+      at={auditedAt}
+      methodVersion="2026.1"
+      fingerprint="0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
+      verifyHref="#verification"
+    />
+
+    <h2>{t('section.gauges')}</h2>
+    <p class="lead">{t('section.gauges.lead')}</p>
+    <div class="gauge-proof">
+      <ScoreGauge domain={t('gauge.sample.zero')} score={0} />
+      <ScoreGauge domain={t('gauge.sample.full')} score={100} />
+      <ScoreGauge domain={t('gauge.sample.empty')} score={null} />
+    </div>
+    <p class="note">{t('demo.note')}</p>
+  </article>
+</Base>
+
+<style>
+  .verdict {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: var(--space-6) var(--space-7);
+    align-items: center;
+    padding-bottom: var(--space-6);
+    border-bottom: var(--border) solid var(--line);
+  }
+
+  .kicker,
+  .actions-label,
+  .lead,
+  .note {
+    color: var(--ink-2);
+  }
+
+  .kicker {
+    margin-bottom: var(--space-2);
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+  }
+
+  .verdict h1 {
+    max-width: var(--line-length);
+    margin-bottom: var(--space-2);
+  }
+
+  .detail {
+    max-width: var(--line-length);
+    margin-bottom: var(--space-4);
+    font-size: var(--text-lg);
+  }
+
+  .actions-label {
+    margin-bottom: var(--space-2);
+    font-size: var(--text-sm);
+    font-weight: 600;
+  }
+
+  .actions {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    counter-reset: action;
+  }
+
+  .actions li {
+    display: flex;
+    gap: var(--space-3);
+    align-items: baseline;
+    counter-increment: action;
+  }
+
+  .actions li + li {
+    margin-top: var(--space-2);
+  }
+
+  .actions li::before {
+    content: counter(action);
+    min-width: var(--space-4);
+    color: var(--ink-2);
+    font-variant-numeric: tabular-nums;
+    font-weight: 600;
+  }
+
+  .actions a {
+    font-weight: 600;
+  }
+
+  .lead {
+    max-width: var(--line-length);
+  }
+
+  .gauge-proof {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: var(--space-6);
+  }
+
+  .note {
+    margin-top: var(--space-7);
+    font-size: var(--text-sm);
+  }
+
+  @media (max-width: 768px) {
+    .verdict {
+      grid-template-columns: minmax(0, 1fr);
+      justify-items: start;
+    }
+  }
+</style>

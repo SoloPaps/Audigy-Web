@@ -8,19 +8,22 @@ type ParamNames<S extends string> =
     ? Name | ParamNames<Rest>
     : never;
 
-type ParamsFor<K extends MessageKey> =
-  ParamNames<(typeof fr)[K]> extends never
-    ? undefined
-    : { readonly [P in ParamNames<(typeof fr)[K]>]: string | number };
+type ParamsOf<K extends MessageKey> = {
+  readonly [P in ParamNames<(typeof fr)[K]> & string]: string | number;
+};
+
+type ArgsFor<K extends MessageKey> = K extends unknown
+  ? ParamNames<(typeof fr)[K]> extends never
+    ? []
+    : [params: ParamsOf<K>]
+  : never;
 
 /**
  * Traduit une clé du dictionnaire `fr`.
  * Une clé inconnue est refusée par le compilateur.
+ * Une clé littérale à paramètres exige ces paramètres.
  */
-export function t<K extends MessageKey>(
-  key: K,
-  ...args: ParamsFor<K> extends undefined ? [] : [params: ParamsFor<K>]
-): string {
+export function t<K extends MessageKey>(key: K, ...args: ArgsFor<K>): string {
   const template: string = fr[key];
   const params = args[0] as
     | Readonly<Record<string, string | number>>

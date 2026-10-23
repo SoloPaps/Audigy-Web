@@ -6,7 +6,7 @@ Règles de design pour l'agent de code. Public : des particuliers non technicien
 2. **Calme > spectaculaire.** Modèles : Plausible/Fathom (une page, peu de chiffres), Stripe/Linear (hiérarchie typographique nette, couleur rare), Mozilla Observatory (note + liste de tests réussis ou échoués, avec explications).
 3. **La couleur a un sens.** Couleur vive = un statut. Tout le reste est en encre et papier.
 4. **Chaque chiffre s'explique.** Tout score est accompagné d'une phrase en français simple et d'une action.
-5. **Assumer l'asymétrie.** Colonne de lecture à gauche, contexte à droite. Hiérarchie claire : on sait toujours quoi lire en premier.
+5. **Une colonne de lecture.** Le rapport se lit de haut en bas : le verdict, puis le détail. Une colonne de contexte n’existe que si elle aide. On sait toujours quoi lire en premier.
 6. **Vérifiable.** Date, URL auditée, version de la méthode et lien du rapport sont toujours visibles.
 
 ## 2. Motifs interdits (signes d'« AI slop »)
@@ -26,11 +26,11 @@ Règles de design pour l'agent de code. Public : des particuliers non technicien
 - **Ne pas utiliser le DSFR ni la police Marianne** : c'est interdit pour un acteur privé (risque de confusion avec un service public). S'inspirer seulement de sa rigueur et de son accessibilité.
 
 ## 3. Typographie
-- **Texte et interface : Atkinson Hyperlegible Next** (SIL OFL, Braille Institute, pensée pour la lisibilité ; sans-serif en dernier recours).
-- **Titres : Source Serif 4** (OFL, Adobe), graisse 600. Donne une voix « rapport / document », à utiliser seulement pour H1–H3.
+- **Texte, interface et titres : Atkinson Hyperlegible Next** (SIL OFL, Braille Institute). Une seule famille sans empattement : un second caractère d’affichage fait « modèle ». Graisse 600 pour H1–H4 et les scores.
 - **Chiffres et code : JetBrains Mono** (OFL) pour les URL, les en-têtes HTTP et les valeurs techniques. Les scores utilisent la police de texte avec `font-variant-numeric: tabular-nums`.
 - Auto-hébergées (woff2, `font-display: swap`), sous-ensemble latin. Aucun appel à Google Fonts (vie privée et écologie).
-- Échelle en rem (base 16px, ratio ~1,25) : 12 · 14 · **16 (corps)** · 20 · 25 · 31 · 39 (score). Interligne 1,5 pour le corps, 1,2 pour les titres. Longueur de ligne ≤ 70ch.
+- Échelle en rem (base 16px) : 12 · 14 · **16 (corps)** · 18 · 22 · 28. Interligne 1,5 pour le corps, 1,2 pour les titres. Longueur de ligne ≤ 70ch.
+- Le chiffre de la jauge n’est pas un palier de cette échelle : il vaut 20 % de la largeur de la jauge. « /100 » reste au moins à 12px, sur sa propre ligne. L’ensemble du chiffre tient dans le disque intérieur (rayon moins la moitié du trait), y compris pour 0, 100 et « — ».
 - Casse de phrase partout. Graisses autorisées : 400 / 600 / 700 uniquement.
 
 ## 4. Couleurs (tokens CSS)
@@ -48,32 +48,40 @@ Clair (papier chaud, encre bleu-noir) :
 Couleurs de score (palette bleu/orange, lisible par les daltoniens, **jamais rouge/vert seuls**) :
 | Niveau | Plage | Texte/trait | Fond doux | Forme + libellé |
 |---|---|---|---|---|
-| Bon | 80–100 | #1F5FAD | #E6EEF8 | ● cercle plein, « Bon » |
-| À améliorer | 50–79 | #9A5800 | #FBF0DE | ▲ triangle, « À améliorer » |
-| Problème | 0–49 | #B3261E | #FBE7E5 | ■ carré, « Problème » |
-| Non testé | — | #5F6672 | #F1F1EF | ○ cercle vide, « Non testé » |
+| Bon | 80–100 | #1F5FAD | #E6EEF8 | cercle et coche, « Bon » |
+| À améliorer | 50–79 | #9A5800 | #FBF0DE | triangle, « À améliorer » |
+| Problème | 0–49 | #B3261E | #FBE7E5 | carré, « Problème » |
+| Non testé | — | #5F6672 | #F1F1EF | cercle en pointillés, « Non testé » |
 Toutes les couleurs de texte font ≥ 4,5:1 sur leur fond. Le statut est **toujours** porté par la forme et le libellé en plus de la couleur.
 
 Sombre (pas de noir pur) : `--paper` #15181C, `--surface` #1D2126, `--ink` #ECE9E3, `--ink-2` #A9B0BA, `--line` #2E343B, `--accent` #5FC1BC ; scores #7FB0EE / #E8A64A / #F08A80. Le thème suit `prefers-color-scheme` et peut être changé à la main (mémorisé en localStorage).
 
 ## 5. Espacement, grille, formes
 - Échelle de 4px : 4 · 8 · 12 · 16 · 24 · 32 · 48 · 64. Rien en dehors de cette échelle.
-- Contenu max 1120px ; grille de 12 colonnes desktop (rapport 8 / contexte 4), une seule colonne sous 768px.
-- Rayons hiérarchisés : 4px (champs, badges), 8px (boutons), 12px (panneaux). Pas de pilules sauf pour les filtres.
-- La profondeur vient des bordures de 1px, pas des ombres. Une seule ombre est autorisée, pour les menus/modales : `0 4px 16px rgb(0 0 0 / .08)`.
-- Icônes : Phosphor ou Tabler en trait 1,5px, 16/20px, couleur du texte, sans fond.
+- Contenu max 1120px. Le rapport tient dans une colonne. Une grille de 12 colonnes (8 / 4) reste possible pour un contexte secondaire. Une seule colonne sous 768px.
+- Rayons hiérarchisés : 4px (champs, badges), 8px (boutons), 12px (panneaux). Pas de pilules sauf pour un filtre réel.
+- La profondeur vient des filets de 1px, pas des ombres ni de boîtes identiques. Une seule ombre est autorisée, pour les menus/modales : `0 4px 16px rgb(0 0 0 / .08)`.
+- Icônes : traits Lucide auto-hébergés (licence ISC, `apps/web/src/icons/LICENSE.txt`), 1,5px, 20px, `currentColor`, sans fond et sans requête tierce. La forme reste distincte, avec son libellé.
 
 ## 6. Composants
+**Verdict**
+- En haut du rapport : une seule grande jauge, une phrase (« Votre site est en bonne santé. »), puis le décompte en français simple (« 4 points à corriger, dont 1 urgent. »). La phrase suit le score réel : on n’écrit pas « bonne santé » si la moyenne est sous 80.
+- Sous la phrase, trois actions au plus, en liens vers le constat. Pas une rangée de boutons.
+
 **Jauge de score**
 - Arc de 270° (pas un donut fermé), trait 8px, piste `--line`, remplissage à la couleur du niveau.
-- Le chiffre est au centre (39px, tabular), suivi de « /100 » plus petit, puis du libellé texte en dessous (« À améliorer »).
+- Le chiffre est au centre du disque, au-dessus du trait (`z-index`), en tabular. « /100 » est plus petit, sur la ligne d’en dessous. Le libellé (« À améliorer ») est sous l’arc, pas sur le trait.
+- Le bloc du chiffre (0, 100 et « — ») reste entièrement dans le rayon intérieur, à la taille affichée et à 390px de large.
 - `role="img"` + `aria-label="Performance : 72 sur 100, à améliorer"`. Animation de 0 au score en ≤ 400 ms, supprimée si reduced-motion.
-- Vue globale : une jauge principale, puis les catégories en **liste** (nom, barre horizontale, score, forme du statut), pas en grille de cartes.
 
-**Liste des problèmes (style Observatory)**
-- Tri par sévérité puis par impact. Chaque ligne : forme du statut + libellé, titre en langage courant, une phrase « Pourquoi c'est important », temps estimé, bouton « Voir comment corriger ».
-- La correction se déplie (`<details>`/disclosure accessible) : étapes numérotées, un bloc de code copiable si besoin, et un lien vers une source officielle (CNIL, MDN, ANSSI, RGAA).
-- Filtres : Tous / Problèmes / À améliorer / Réussis (compteur dans chaque filtre). Les tests réussis restent visibles, repliés.
+**Domaines**
+- Liste compacte, pas une grille de cartes, pas une barre répétée sous chaque ligne.
+- Nom courant d’abord (« Visibilité sur Google »), terme technique ensuite (« Référencement »), puis une phrase (« Votre site s’affiche en 1,8 s sur mobile. »). Score et forme du statut à droite.
+
+**Liste des corrections**
+- Trois groupes, dans cet ordre : « À corriger en priorité » (échecs), « À améliorer ensuite » (avertissements et non testés), « Ce qui va bien » replié dans un `<details>`.
+- Tri par sévérité puis par impact dans chaque groupe. Chaque ligne tient en deux lignes : forme + libellé, titre, phrase d’explication sans l’étiquette répétée « Pourquoi c’est important », durée à part.
+- « Voir comment corriger » se déplie : étapes numérotées, un bloc de code copiable si besoin, et un lien vers une source officielle (CNIL, MDN, ANSSI, RGAA).
 
 **Graphiques d'historique**
 - Courbes simples : une catégorie sélectionnée à la fois, ou au maximum 3 avec des styles de trait différents (plein, tirets, pointillés).

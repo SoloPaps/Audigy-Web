@@ -102,6 +102,21 @@ describe('copy-lint', () => {
     ).toEqual([expect.objectContaining({ rule: 'forbidden', level: 'error' })]);
   });
 
+  it('ignore la logique Svelte', () => {
+    const source = [
+      '{#each columns as column (column.key)}',
+      '  <th scope="col">{column.label}</th>',
+      '{/each}',
+      '{#each rows as row, index (index)}',
+      '  {#each row as cell (cell.id)}',
+      '    <td>{cell.text}</td>',
+      '  {/each}',
+      '{/each}',
+      '',
+    ].join('\n');
+    expect(lintSource(source, 'Table.svelte')).toEqual([]);
+  });
+
   it('ignore la documentation et accepte une copie courte', async () => {
     await withFixture(async (dir) => {
       await mkdir(path.join(dir, 'docs'), { recursive: true });

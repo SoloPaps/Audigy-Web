@@ -12,14 +12,17 @@
     "lint": "biome check .",
     "copy-lint": "node scripts/copy-lint.ts",
     "format": "biome check --write .",
-    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "typecheck": "tsc -p tsconfig.json --noEmit && pnpm --filter @audigy/web run check:types",
     "test": "vitest run",
+    "test:ui": "pnpm --filter @audigy/web run test:ui",
+    "test:a11y": "node scripts/lighthouse-a11y.mjs",
     "build": "node scripts/build.mjs",
-    "check": "pnpm guard && pnpm lint && pnpm copy-lint && pnpm typecheck && pnpm test && pnpm build"
+    "check": "pnpm guard && pnpm lint && pnpm copy-lint && pnpm typecheck && pnpm test && pnpm build && pnpm test:ui && pnpm test:a11y"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.6.2",
     "@types/node": "^22.20.5",
+    "lighthouse": "^13.5.0",
     "typescript": "^7.0.2",
     "vitest": "^5.0.5"
   }

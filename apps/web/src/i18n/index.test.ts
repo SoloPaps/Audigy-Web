@@ -18,10 +18,12 @@ describe('t', () => {
   });
 
   it('retourne le texte français', () => {
-    expect(t('home.title')).toBe(
+    expect(t('home.title')).toBe('Audigy');
+    expect(t('home.headline')).toBe(
       'Vérifiez la santé de votre site, gratuitement.',
     );
     expect(t('home.submit')).toBe("Lancer l'audit");
+    expect(t('finding.effort', { minutes: 20 })).toBe('20 min');
     expect(t('finding.untested')).toBe("Nous n'avons pas pu tester ce point.");
   });
 

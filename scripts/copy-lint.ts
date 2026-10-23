@@ -293,12 +293,37 @@ function markupSpans(source: string, ext: string): Span[] {
   text = text.replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, blank);
   text = text.replace(/<style\b[^>]*>[\s\S]*?<\/style>/gi, blank);
   text = text.replace(/<[^>]*>/g, blank);
+  text = blankBraces(text);
   if (text.trim().length === 0) return [];
   return [{ value: text, line: 1 }];
 }
 
 function blank(block: string): string {
   return block.replace(/[^\n]/g, ' ');
+}
+
+/** Retire `{...}` (Svelte, Astro) : ce n’est pas du texte visible. */
+function blankBraces(source: string): string {
+  let out = '';
+  let i = 0;
+  while (i < source.length) {
+    if (source[i] !== '{') {
+      out += source[i] ?? '';
+      i += 1;
+      continue;
+    }
+    const start = i;
+    let depth = 0;
+    while (i < source.length) {
+      const ch = source[i] ?? '';
+      if (ch === '{') depth += 1;
+      else if (ch === '}') depth -= 1;
+      i += 1;
+      if (depth === 0) break;
+    }
+    out += blank(source.slice(start, i));
+  }
+  return out;
 }
 
 function spansOf(source: string): Span[] {
