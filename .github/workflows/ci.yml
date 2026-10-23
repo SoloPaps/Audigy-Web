@@ -28,5 +28,8 @@ jobs:
       - name: Install
         run: pnpm install --frozen-lockfile
 
+      - name: Chromium
+        run: pnpm --filter @audigy/web exec playwright install --with-deps chromium
+
       - name: Check
         run: pnpm check
