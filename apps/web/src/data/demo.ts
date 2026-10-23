@@ -6,16 +6,66 @@ import type { Level } from '../lib/score.js';
 const CATEGORIES: readonly {
   id: string;
   label: MessageKey;
+  technical: MessageKey;
+  detail: MessageKey;
   score: number | null;
 }[] = [
-  { id: 'performance', label: 'domain.performance', score: 64 },
-  { id: 'seo', label: 'domain.seo', score: 88 },
-  { id: 'securite', label: 'domain.securite', score: 41 },
-  { id: 'ecologie', label: 'domain.ecologie', score: 70 },
-  { id: 'accessibilite', label: 'domain.accessibilite', score: 76 },
-  { id: 'qualite', label: 'domain.qualite', score: 91 },
-  { id: 'vie_privee', label: 'domain.vie_privee', score: 74 },
-  { id: 'dns_email', label: 'domain.dns_email', score: null },
+  {
+    id: 'performance',
+    label: 'domain.performance.plain',
+    technical: 'domain.performance.tech',
+    detail: 'domain.performance.detail',
+    score: 86,
+  },
+  {
+    id: 'seo',
+    label: 'domain.seo.plain',
+    technical: 'domain.seo.tech',
+    detail: 'domain.seo.detail',
+    score: 100,
+  },
+  {
+    id: 'securite',
+    label: 'domain.securite.plain',
+    technical: 'domain.securite.tech',
+    detail: 'domain.securite.detail',
+    score: 41,
+  },
+  {
+    id: 'ecologie',
+    label: 'domain.ecologie.plain',
+    technical: 'domain.ecologie.tech',
+    detail: 'domain.ecologie.detail',
+    score: 84,
+  },
+  {
+    id: 'accessibilite',
+    label: 'domain.accessibilite.plain',
+    technical: 'domain.accessibilite.tech',
+    detail: 'domain.accessibilite.detail',
+    score: 90,
+  },
+  {
+    id: 'qualite',
+    label: 'domain.qualite.plain',
+    technical: 'domain.qualite.tech',
+    detail: 'domain.qualite.detail',
+    score: 94,
+  },
+  {
+    id: 'vie_privee',
+    label: 'domain.vie_privee.plain',
+    technical: 'domain.vie_privee.tech',
+    detail: 'domain.vie_privee.detail',
+    score: 88,
+  },
+  {
+    id: 'dns_email',
+    label: 'domain.dns_email.plain',
+    technical: 'domain.dns_email.tech',
+    detail: 'domain.dns_email.detail',
+    score: null,
+  },
 ];
 
 interface RawFinding {
@@ -49,7 +99,7 @@ const FINDINGS: readonly RawFinding[] = [
   },
   {
     id: 'frame',
-    status: 'fail',
+    status: 'warn',
     severity: 3,
     impact: 2,
     title: 'demo.frame.title',
@@ -116,6 +166,8 @@ export function demoCategories(): CategoryItem[] {
   return CATEGORIES.map((item) => ({
     id: item.id,
     label: t(item.label),
+    technical: t(item.technical),
+    detail: t(item.detail),
     score: item.score,
   }));
 }
@@ -162,13 +214,13 @@ export function demoTable(): {
     rows: [
       [
         { text: t('table.row1.date') },
-        { text: '60', numeric: true },
+        { text: '71', numeric: true },
         { text: '', level: 'improve' },
       ],
       [
         { text: t('table.row2.date') },
-        { text: '72', numeric: true },
-        { text: '', level: 'improve' },
+        { text: '83', numeric: true },
+        { text: '', level: 'good' },
       ],
     ],
   };

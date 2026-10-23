@@ -1,6 +1,8 @@
 export interface CategoryItem {
   id: string;
   label: string;
+  technical: string;
+  detail: string;
   score: number | null;
 }
 

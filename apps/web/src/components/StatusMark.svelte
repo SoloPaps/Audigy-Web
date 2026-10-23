@@ -9,15 +9,24 @@ let { level }: Props = $props();
 </script>
 
 <span class="status" data-level={level}>
-  <svg aria-hidden="true" width="16" height="16" viewBox="0 0 16 16">
+  <svg
+    aria-hidden="true"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="1.5"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  >
     {#if level === 'good'}
-      <circle cx="8" cy="8" r="5" fill="currentColor" />
+      <circle cx="12" cy="12" r="10" />
+      <path d="m9 12 2 2 4-4" />
     {:else if level === 'improve'}
-      <path d="M8 2.5 L14 13.5 H2 Z" fill="currentColor" />
+      <path d="M13.73 4a2 2 0 0 0-3.46 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z" />
     {:else if level === 'problem'}
-      <rect x="3" y="3" width="10" height="10" fill="currentColor" />
+      <rect x="3" y="3" width="18" height="18" rx="2" />
     {:else}
-      <circle cx="8" cy="8" r="5" fill="none" stroke="currentColor" stroke-width="1.5" />
+      <circle cx="12" cy="12" r="10" stroke-dasharray="3.2 3.2" />
     {/if}
   </svg>
   <span>{levelLabel(level)}</span>
@@ -28,8 +37,10 @@ let { level }: Props = $props();
     display: inline-flex;
     align-items: center;
     gap: var(--space-2);
+    max-width: 100%;
     color: var(--score-untested);
     font-weight: 600;
+    line-height: var(--leading-title);
   }
 
   .status[data-level='good'] {
@@ -47,5 +58,8 @@ let { level }: Props = $props();
   svg {
     display: block;
     flex: none;
+    width: var(--icon-size);
+    height: var(--icon-size);
+    overflow: visible;
   }
 </style>

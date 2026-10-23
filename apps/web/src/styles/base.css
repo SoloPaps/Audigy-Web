@@ -62,7 +62,7 @@ body {
 
 .brand {
   color: var(--ink);
-  font-family: var(--font-serif);
+  font-family: var(--font-text);
   font-size: var(--text-lg);
   font-weight: 600;
   line-height: var(--leading-title);
@@ -93,10 +93,11 @@ body {
 
 h1,
 h2,
-h3 {
+h3,
+h4 {
   margin: 0 0 var(--space-3);
   color: var(--ink);
-  font-family: var(--font-serif);
+  font-family: var(--font-text);
   font-weight: 600;
   line-height: var(--leading-title);
   text-wrap: wrap;
@@ -107,12 +108,16 @@ h1 {
 }
 
 h2 {
-  margin-top: var(--space-7);
+  margin-top: var(--space-8);
   font-size: var(--text-xl);
 }
 
 h3 {
   font-size: var(--text-lg);
+}
+
+h4 {
+  font-size: var(--text-md);
 }
 
 p {
@@ -135,37 +140,7 @@ a {
   font-size: var(--text-sm);
 }
 
-.split {
-  display: grid;
-  grid-template-columns: repeat(12, minmax(0, 1fr));
-  gap: var(--space-5);
-}
-
-.gauge-row {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-end;
-  gap: var(--space-5);
-}
-
-.split-main {
-  grid-column: span 8;
-}
-
-.split-aside > :first-child {
-  margin-top: 0;
-}
-
-.split-aside {
-  grid-column: span 4;
-}
-
 @media (max-width: 768px) {
-  .split-main,
-  .split-aside {
-    grid-column: span 12;
-  }
-
   .button {
     min-height: var(--touch-min);
   }
@@ -204,13 +179,6 @@ a {
   text-decoration: underline;
 }
 
-.button-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-3);
-  align-items: center;
-}
-
 .visually-hidden {
   position: absolute;
   width: var(--border);
@@ -221,100 +189,4 @@ a {
   clip-path: inset(50%);
   white-space: nowrap;
   border: 0;
-}
-
-.swatches,
-.plain-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-.swatches {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-2);
-}
-
-.swatches li {
-  display: flex;
-  align-items: center;
-  gap: var(--space-3);
-}
-
-.chip {
-  width: var(--space-6);
-  height: var(--space-6);
-  border: var(--border) solid var(--line);
-  border-radius: var(--radius-sm);
-  background: var(--paper);
-}
-
-.chip-paper {
-  background: var(--paper);
-}
-
-.chip-surface {
-  background: var(--surface);
-}
-
-.chip-ink {
-  background: var(--ink);
-}
-
-.chip-ink-2 {
-  background: var(--ink-2);
-}
-
-.chip-line {
-  background: var(--line);
-}
-
-.chip-accent {
-  background: var(--accent);
-}
-
-.chip-focus {
-  background: var(--focus);
-}
-
-.chip-good {
-  background: var(--score-good-bg);
-  border-color: var(--score-good);
-}
-
-.chip-improve {
-  background: var(--score-improve-bg);
-  border-color: var(--score-improve);
-}
-
-.chip-problem {
-  background: var(--score-problem-bg);
-  border-color: var(--score-problem);
-}
-
-.chip-untested {
-  background: var(--score-untested-bg);
-  border-color: var(--score-untested);
-}
-
-.sample-serif {
-  font-family: var(--font-serif);
-  font-size: var(--text-xl);
-  font-weight: 600;
-  line-height: var(--leading-title);
-}
-
-.sample-small {
-  color: var(--ink-2);
-  font-size: var(--text-sm);
-}
-
-.sample-mono {
-  font-family: var(--font-mono);
-  font-size: var(--text-sm);
-}
-
-.type-sample {
-  margin-bottom: var(--space-4);
 }

@@ -4,10 +4,12 @@ export const LEVELS = ['good', 'improve', 'problem', 'untested'] as const;
 export type Level = (typeof LEVELS)[number];
 
 export const GAUGE = {
-  cx: 80,
-  cy: 68,
-  r: 54,
-  viewBox: '0 0 160 120',
+  cx: 100,
+  cy: 84,
+  r: 74,
+  width: 200,
+  height: 148,
+  viewBox: '0 0 200 148',
 } as const;
 
 const SENTENCE: Record<Level, MessageKey> = {

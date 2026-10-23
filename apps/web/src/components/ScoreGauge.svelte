@@ -6,37 +6,66 @@ import StatusMark from './StatusMark.svelte';
 interface Props {
   domain: string;
   score: number | null;
+  size?: 'hero' | 'compact';
 }
 
-let { domain, score }: Props = $props();
+let { domain, score, size = 'compact' }: Props = $props();
 const level = $derived(levelForScore(score));
 const label = $derived(gaugeLabel(domain, score));
 const arc = gaugeArc(GAUGE.cx, GAUGE.cy, GAUGE.r);
+const scoreAttr = $derived(score === null ? 'none' : String(score));
 </script>
 
-<div class="gauge" data-level={level} role="img" aria-label={label}>
-  <svg aria-hidden="true" viewBox={GAUGE.viewBox}>
-    <path class="gauge-track" d={arc} />
-    <path class="gauge-fill" d={arc} pathLength="100" style={`--score: ${score ?? 0}`} />
-  </svg>
-  <p class="gauge-readout" aria-hidden="true">
-    <span class="score-line">
+<div
+  class="gauge"
+  data-size={size}
+  data-score={scoreAttr}
+  data-level={level}
+  role="img"
+  aria-label={label}
+  style={`--gx: ${GAUGE.cx}; --gy: ${GAUGE.cy}; --gw: ${GAUGE.width}; --gh: ${GAUGE.height}`}
+>
+  <div class="gauge-figure">
+    <svg
+      aria-hidden="true"
+      viewBox={GAUGE.viewBox}
+      data-cx={GAUGE.cx}
+      data-cy={GAUGE.cy}
+      data-r={GAUGE.r}
+    >
+      <path class="gauge-track" d={arc} />
+      <path class="gauge-fill" d={arc} pathLength="100" style={`--score: ${score ?? 0}`} />
+    </svg>
+    <p class="gauge-hole" aria-hidden="true">
       <span class="score-num">{score === null ? t('score.empty') : score}</span>
       {#if score !== null}
         <span class="score-denom">{t('gauge.denom')}</span>
       {/if}
-    </span>
+    </p>
+  </div>
+  <div class="gauge-status" aria-hidden="true">
     <StatusMark {level} />
-  </p>
+  </div>
 </div>
 
 <style>
   .gauge {
+    container-type: inline-size;
+    width: var(--gauge-size);
+    max-width: 100%;
+  }
+
+  .gauge[data-size='hero'] {
+    width: var(--gauge-hero);
+  }
+
+  .gauge-figure {
     position: relative;
-    width: min(100%, var(--gauge-size));
   }
 
   svg {
+    position: relative;
+    z-index: 0;
     display: block;
     width: 100%;
     height: auto;
@@ -82,34 +111,45 @@ const arc = gaugeArc(GAUGE.cx, GAUGE.cy, GAUGE.r);
     stroke: var(--score-problem);
   }
 
-  .gauge-readout {
+  .gauge-hole {
     position: absolute;
-    inset: 0;
+    z-index: 1;
+    left: calc(var(--gx) / var(--gw) * 100%);
+    top: calc(var(--gy) / var(--gh) * 100%);
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    gap: var(--space-1);
+    width: max-content;
+    max-width: none;
     margin: 0;
-  }
-
-  .score-line {
-    display: flex;
-    align-items: baseline;
-    gap: var(--space-1);
+    color: var(--ink);
+    font-size: 20cqw;
+    line-height: 1;
+    text-align: center;
+    transform: translate(-50%, -50%);
   }
 
   .score-num {
-    color: var(--ink);
-    font-size: var(--text-score);
+    font-size: 1em;
     font-variant-numeric: tabular-nums;
     font-weight: 600;
-    line-height: var(--leading-title);
+    line-height: 1;
+    white-space: nowrap;
   }
 
   .score-denom {
+    margin-top: var(--space-1);
     color: var(--ink-2);
-    font-size: var(--text-lg);
+    font-size: max(var(--text-xs), 0.42em);
     font-variant-numeric: tabular-nums;
+    font-weight: 400;
+    line-height: 1.2;
+    white-space: nowrap;
+  }
+
+  .gauge-status {
+    display: flex;
+    justify-content: center;
+    margin-top: var(--space-2);
   }
 </style>

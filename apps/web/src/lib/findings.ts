@@ -52,3 +52,27 @@ export function countByFilter(
     pass: findings.filter((item) => item.status === 'pass').length,
   };
 }
+
+export interface FindingGroups {
+  priority: Finding[];
+  next: Finding[];
+  good: Finding[];
+}
+
+/** Échecs d’abord, puis avertissements et non testés, réussites à part. */
+export function groupFindings(findings: readonly Finding[]): FindingGroups {
+  const sorted = sortFindings(findings);
+  return {
+    priority: sorted.filter((item) => item.status === 'fail'),
+    next: sorted.filter(
+      (item) => item.status === 'warn' || item.status === 'untested',
+    ),
+    good: sorted.filter((item) => item.status === 'pass'),
+  };
+}
+
+export function topActions(findings: readonly Finding[], limit = 3): Finding[] {
+  return sortFindings(
+    findings.filter((item) => item.status === 'fail' || item.status === 'warn'),
+  ).slice(0, limit);
+}

@@ -1,12 +1,19 @@
 import { describe, expect, it } from 'vitest';
-import { demoCategories, demoGlobalScore } from '../apps/web/src/data/demo.js';
+import {
+  demoCategories,
+  demoFindings,
+  demoGlobalScore,
+} from '../apps/web/src/data/demo.js';
 import {
   type Finding,
   filterFindings,
+  groupFindings,
   sortFindings,
+  topActions,
 } from '../apps/web/src/lib/findings.js';
 import { formatReportStamp } from '../apps/web/src/lib/format-report-stamp.js';
-import { gaugeArc, levelForScore } from '../apps/web/src/lib/score.js';
+import { GAUGE, gaugeArc, levelForScore } from '../apps/web/src/lib/score.js';
+import { verdictCopy } from '../apps/web/src/lib/verdict.js';
 
 describe('niveaux de score', () => {
   it('classe les seuils 80, 50 et l’absence de score', () => {
@@ -22,17 +29,52 @@ describe('niveaux de score', () => {
 
 describe('jauge', () => {
   it('trace un arc de 270° ouvert', () => {
-    const arc = gaugeArc(80, 68, 54);
+    const arc = gaugeArc(GAUGE.cx, GAUGE.cy, GAUGE.r);
     expect(arc.startsWith('M ')).toBe(true);
-    expect(arc).toContain('A 54 54 0 1 1');
+    expect(arc).toContain(`A ${GAUGE.r} ${GAUGE.r} 0 1 1`);
     expect(arc.includes('Z')).toBe(false);
+    expect(GAUGE.r).toBeGreaterThan(60);
   });
 });
 
 describe('score global d’exemple', () => {
   it('moyenne les domaines notés et ignore le non testé', () => {
-    expect(demoGlobalScore()).toBe(72);
+    expect(demoGlobalScore()).toBe(83);
     expect(demoCategories().some((item) => item.score === null)).toBe(true);
+    const seo = demoCategories().find((item) => item.id === 'seo');
+    expect(seo?.label).toBe('Visibilité sur Google');
+    expect(seo?.technical).toBe('Référencement');
+  });
+});
+
+describe('verdict d’exemple', () => {
+  it('reste honnête avec le score et les constats', () => {
+    const verdict = verdictCopy(demoGlobalScore(), demoFindings());
+    expect(verdict.level).toBe('good');
+    expect(verdict.headline).toBe('Votre site est en bonne santé.');
+    expect(verdict.detail).toBe(
+      '4 points à corriger, dont 1 urgent. 1 point n’a pas pu être testé.',
+    );
+    expect(topActions(demoFindings()).map((item) => item.id)).toEqual([
+      'https',
+      'frame',
+      'images',
+    ]);
+    const groups = groupFindings(demoFindings());
+    expect(groups.priority.map((item) => item.id)).toEqual(['https']);
+    expect(groups.good.map((item) => item.id)).toEqual(['lang', 'title']);
+  });
+
+  it('accorde le pluriel', () => {
+    expect(
+      verdictCopy(40, [{ status: 'fail' }, { status: 'fail' }]).detail,
+    ).toBe('2 points à corriger, dont 2 urgents.');
+    expect(verdictCopy(90, [{ status: 'pass' }]).detail).toBe(
+      'Rien à corriger pour l’instant.',
+    );
+    expect(verdictCopy(null, []).headline).toBe(
+      'Nous n’avons pas assez de mesures.',
+    );
   });
 });
 
