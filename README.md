@@ -10,8 +10,11 @@ Prérequis : Node 22 (`nvm use`), pnpm 10 (`corepack enable`).
 
 ```bash
 pnpm i
+supabase start
 pnpm check
 ```
+
+Supabase reste local (Docker). Aucun projet distant. Les clés viennent de `supabase status` et ne vont pas dans git.
 
 `pnpm check` lance le garde-fou anti-déploiement, Biome, le typecheck, Vitest et le build statique (`apps/web/dist`). Ensuite, avec le CLI Netlify installé chez vous : `netlify dev` (port 8888). Aucune liaison Git, aucun déploiement.
 

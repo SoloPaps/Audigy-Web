@@ -1,0 +1,9 @@
+<!doctype html>
+<html lang="fr">
+  <body>
+    <p>Suivez ce lien pour ouvrir votre session. Il expire dans une heure.</p>
+    <p><a href="{{ .ConfirmationURL }}">Ouvrir ma session</a></p>
+    <p>Code : {{ .Token }}</p>
+    <p>Si vous n'êtes pas à l'origine de cette demande, ignorez ce message.</p>
+  </body>
+</html>
