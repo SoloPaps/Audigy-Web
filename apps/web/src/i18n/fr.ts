@@ -155,6 +155,124 @@ export const fr = {
     'Nous n’avons pas pu tester : une erreur est survenue pendant le test.',
   'reason.invalid_result':
     'Nous n’avons pas pu tester : le résultat obtenu est inutilisable.',
+  'securite.https.pass_redirect':
+    'Les pages s’ouvrent en adresse chiffrée, et l’ancienne adresse y renvoie.',
+  'securite.https.pass_no_http':
+    'Les pages s’ouvrent en adresse chiffrée. L’ancienne adresse ne répond pas.',
+  'securite.https.fail':
+    'Le site s’ouvre sans chiffrement. Quelqu’un sur le réseau peut lire les échanges.',
+  'securite.https.warn_off_host':
+    'L’adresse non chiffrée part vers un autre nom. Le navigateur peut oublier la protection.',
+  'securite.https.warn_delayed':
+    'Le passage vers l’adresse chiffrée n’est pas immédiat. La première étape reste lisible.',
+  'securite.hsts.pass':
+    'Le navigateur refuse ensuite les adresses non chiffrées de ce site.',
+  'securite.hsts.fail_missing':
+    'Le navigateur peut encore tenter une adresse non chiffrée. La première visite reste exposée.',
+  'securite.hsts.fail_invalid':
+    'L’en-tête de durée de chiffrement est illisible. Le navigateur l’ignore.',
+  'securite.hsts.fail_no_https':
+    'Cette protection ne s’applique pas, le site n’a pas d’adresse chiffrée.',
+  'securite.hsts.warn_short':
+    'La protection contre l’adresse non chiffrée dure moins de six mois.',
+  'securite.csp.pass':
+    'Le site limite l’origine des scripts et des objets embarqués.',
+  'securite.csp.fail_missing':
+    'Aucune règle ne limite l’origine des scripts. Une page piégée peut en charger d’ailleurs.',
+  'securite.csp.fail_invalid':
+    'La règle d’origine des scripts est illisible. Le navigateur l’ignore.',
+  'securite.csp.fail_unsafe':
+    'La règle autorise des scripts trop larges. Une page piégée peut exécuter du code.',
+  'securite.csp.warn_loose':
+    'La règle bloque les scripts les plus risqués, mais elle reste trop ouverte.',
+  'securite.xcto.pass':
+    'Le navigateur respecte le type annoncé de chaque fichier.',
+  'securite.xcto.warn_missing':
+    'Le navigateur peut deviner le type d’un fichier. Un téléchargement peut alors s’exécuter.',
+  'securite.xcto.fail':
+    'Le type des fichiers est annoncé avec une valeur inconnue. Le navigateur l’ignore.',
+  'securite.frames.pass':
+    'Une autre page ne peut pas afficher la vôtre dans un cadre.',
+  'securite.frames.fail':
+    'Une autre page peut afficher la vôtre dans un cadre trompeur.',
+  'securite.frames.warn_obsolete':
+    'L’interdiction de cadre utilise une ancienne écriture. Les navigateurs actuels l’ignorent.',
+  'securite.referrer.pass':
+    'Le site limite l’adresse transmise quand un visiteur suit un lien.',
+  'securite.referrer.pass_absent':
+    'Aucun en-tête ne limite l’adresse envoyée. Les navigateurs récents la limitent déjà.',
+  'securite.referrer.warn_legacy':
+    'L’adresse complète part encore vers les autres sites chiffrés.',
+  'securite.referrer.warn_unsafe':
+    'Le site envoie trop d’adresse aux sites qui suivent. Un lien peut révéler la page.',
+  'securite.referrer.fail_invalid':
+    'L’en-tête qui limite l’adresse envoyée est illisible. Le navigateur l’ignore.',
+  'securite.permissions.pass':
+    'La caméra, le micro et la position sont refusés par défaut.',
+  'securite.permissions.warn_missing':
+    'La caméra, le micro ou la position peuvent encore être demandés.',
+  'securite.permissions.fail_open':
+    'Ces accès sont ouverts à tous les sites. Un cadre peut demander la caméra, le micro ou la position.',
+  'securite.permissions.fail_invalid':
+    'L’en-tête qui règle la caméra et le micro est illisible. Le navigateur l’ignore.',
+  'securite.cookies.pass_none':
+    'Aucune trace n’est déposée par la page sur votre navigateur.',
+  'securite.cookies.pass':
+    'Les traces déposées restent chiffrées, et le code de la page ne lit pas celles de session.',
+  'securite.cookies.warn_hsts':
+    'Une trace n’exige pas le chiffrement, mais l’adresse chiffrée est imposée.',
+  'securite.cookies.fail_session_secure':
+    'Une trace de session peut voyager sans chiffrement. Quelqu’un sur le réseau peut la copier.',
+  'securite.cookies.fail_session_httponly':
+    'Une trace de session est lisible par le code de la page. Un script piégé peut la prendre.',
+  'securite.cookies.fail_secure':
+    'Une trace peut voyager sans chiffrement. Elle peut être lue sur le réseau.',
+  'securite.cookies.fail_samesite':
+    'Une trace peut être envoyée depuis un autre site. Une action peut partir sans votre geste.',
+  'securite.cookies.fail_prefix':
+    'Une trace annonce un verrou que ses options contredisent. Le navigateur peut la refuser.',
+  'securite.certificate.pass':
+    'Le certificat est reconnu, au nom du site, pour encore {jours} jours.',
+  'securite.certificate.fail_expired':
+    'Le certificat est périmé. Les visiteurs voient une alerte et peuvent renoncer.',
+  'securite.certificate.fail_not_yet':
+    'Le certificat n’est pas encore valable. Les visiteurs voient une alerte.',
+  'securite.certificate.fail_hostname':
+    'Le certificat ne couvre pas le nom du site. Les visiteurs voient une alerte.',
+  'securite.certificate.fail_chain':
+    'Le navigateur ne reconnaît pas la chaîne du certificat. Les visiteurs voient une alerte.',
+  'securite.certificate.warn_soon':
+    'Le certificat expire dans {jours} jours. Après cette date, les visiteurs verront une alerte.',
+  'securite.certificate.warn_today':
+    'Le certificat expire dans moins d’un jour. Les visiteurs verront ensuite une alerte.',
+  'securite.mixed.pass':
+    'La page chiffrée ne charge aucun élément en adresse non chiffrée.',
+  'securite.mixed.fail':
+    'La page chiffrée charge du code en adresse non chiffrée. Ce code peut être modifié.',
+  'securite.mixed.warn':
+    'La page chiffrée charge des images ou des médias en adresse non chiffrée.',
+  'securite.mixed.na_http':
+    'Le contenu mixte ne s’applique pas, la page n’est pas chiffrée.',
+  'securite.mixed.na_not_html':
+    'Le contenu mixte n’est pas testé, la réponse n’est pas du HTML.',
+  'securite.security_txt.pass':
+    'Un fichier indique qui contacter en cas de faille, et il est encore valable.',
+  'securite.security_txt.fail_missing':
+    'Aucun fichier ne dit qui contacter si une faille est trouvée.',
+  'securite.security_txt.fail_invalid':
+    'Le fichier de contact est incomplet ou périmé. Personne ne sait qui écrire.',
+  'securite.security_txt.warn_soon':
+    'Le fichier de contact expire dans {jours} jours. Renouvelez-le avant cette date.',
+  'securite.security_txt.warn_today':
+    'Le fichier de contact expire dans moins d’un jour. Renouvelez-le maintenant.',
+  'securite.security_txt.warn_legacy':
+    'Le fichier de contact est à l’ancienne adresse. Placez-le dans le dossier prévu.',
+  'securite.security_txt.warn_type':
+    'Le fichier de contact n’est pas servi comme texte brut. Certains outils l’ignoreront.',
+  'securite.security_txt.warn_canonical':
+    'Le fichier de contact annonce une autre adresse que celle qui répond.',
+  'securite.security_txt.untested_status':
+    'Nous n’avons pas pu tester : le fichier de contact a répondu {status}.',
 } as const satisfies Record<string, string>;
 
 export type MessageKey = keyof typeof fr;
