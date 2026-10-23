@@ -111,3 +111,27 @@ Une clé absente ou une réponse 429 donne Non testé, avec la raison. Une erreu
 | performance.poids | 1 | Note Lighthouse du poids ≥ 80 | Note entre 50 et 79 | Note sous 50 |
 | performance.cache | 1 | Note Lighthouse du cache ≥ 80 | Note entre 50 et 79 | Note sous 50 |
 | performance.compression | 1 | Note Lighthouse de la compression ≥ 80 | Note entre 50 et 79 | Note sous 50 |
+
+## 10. Référencement
+
+Neuf tests passifs, version 2026.1. La note Lighthouse de référencement est celle déjà demandée avec la performance (catégories mobile et ordinateur, dans `ctx.shared`). Elle n’entraîne pas un second appel. Le score retenu est le plus faible des deux, avec les mêmes seuils : 80, puis 50. S’il manque une des deux mesures et que le score disponible vaut au moins 80, le statut devient À améliorer. Sans lot, sans clé, sur un quota ou sur une erreur, le test est Non testé.
+
+Les autres tests lisent la page demandée, puis `robots.txt` et le plan du site à la racine du domaine. Quand l’audit porte sur un chemin (un site publié dans un sous-dossier), ces deux fichiers sont à la racine, hors de la portée : ils sont Non applicable, sans requête. Un moteur ne lit le fichier robots qu’à cette racine.
+
+Le plan annoncé dans `robots.txt` est lu en premier. Sinon, `/sitemap.xml`. Au plus cinq fichiers et vingt adresses sont demandés. Une adresse absente du plan manquant est À améliorer : un plan n’est pas obligatoire. Une adresse annoncée qui ne répond pas est un Problème. Les adresses d’un autre site ne sont pas demandées.
+
+Le titre se compte en caractères : de 15 à 60. La description : de 50 à 160. Ce ne sont pas des largeurs d’affichage. L’absence de description est À améliorer. L’absence de titre est un Problème. Si le titre et la description répètent le même texte, c’est un doublon.
+
+`noindex`, dans la page ou dans l’en-tête `X-Robots-Tag`, est un Problème pour Googlebot et pour la consigne sans nom. `none` compte comme `noindex`. Une autre langue absente est Non applicable : un site en une seule langue n’a rien à déclarer. Une donnée structurée absente est À améliorer. Le type doit être dans une liste de base (WebSite, LocalBusiness, Article, Product, Organization, Person, FAQPage, BreadcrumbList, Event, et les types voisins). Un type hors liste est À améliorer. Un fichier illisible est un Problème.
+
+| Identifiant | Poids | Réussi | À améliorer | Problème |
+|---|---|---|---|---|
+| seo.lighthouse | 3 | Les deux scores sont là, et le plus faible vaut au moins 80. | Le plus faible est entre 50 et 79, ou une seule mesure est disponible alors que son score vaut au moins 80. | Le plus faible est sous 50. |
+| seo.robots | 2 | Le fichier laisse Googlebot lire l’adresse auditée, ou il n’existe pas (404 ou 410). | — | Le fichier bloque l’adresse, ou ce n’est pas un texte de règles. Hors chemin : Non applicable. |
+| seo.sitemap | 2 | Le plan est lisible et les adresses vérifiées (20 au plus) répondent 200, sans changer de page. | Aucun plan, adresses d’un autre site, ou redirection vers une autre page. | Fichier illisible, plan annoncé absent, plan vide, ou adresse qui ne répond pas 200. Hors chemin : Non applicable. |
+| seo.noindex | 3 | Ni la page ni l’en-tête ne demandent `noindex`. | — | `noindex` ou `none` pour tout le monde ou pour Googlebot. |
+| seo.canonical | 2 | Une seule adresse de référence, identique à la page. | Adresse absente, répétée à l’identique, ou pointant vers une autre page du même site. | Adresse illisible, contradictoire, ou vers un autre site. |
+| seo.title | 2 | Un seul titre, de 15 à 60 caractères. | Titre trop court, trop long, ou répété à l’identique. | Titre absent, ou plusieurs titres différents. |
+| seo.description | 1 | Une seule description, de 50 à 160 caractères, différente du titre. | Absente, trop courte, trop longue, identique au titre, ou répétée. | — |
+| seo.hreflang | 1 | Chaque langue a une adresse complète, sans conflit, et la page se cite. | Adresse relative, ou la page ne se cite pas. Aucune langue : Non applicable. | Code invalide, adresse inutilisable, ou la même langue vise deux adresses. |
+| seo.jsonld | 1 | Au moins un bloc lisible, et chaque type est dans la liste de base. | Bloc absent, ou type hors liste. | Bloc illisible, ou type manquant. |

@@ -16,6 +16,8 @@
  * - `SECURITE_CHECKS` : checks passifs du domaine Sécurité (PART-06).
  * - `PERFORMANCE_CHECKS` : laboratoire PSI (mobile + ordinateur) et terrain CrUX
  *   (adresse puis origine), stockés dans `ctx.shared` (`psi`, `crux`).
+ * - `SEO_CHECKS` : référencement. Lighthouse SEO lit le lot `psi` de PART-07.
+ *   `robots.txt` et le plan du site sont hors portée quand l’audit est un chemin.
  * - `googleApiKey`, `withGoogleApi` : clé `GOOGLE_API_KEY` et client `@audigy/net`.
  */
 
@@ -28,6 +30,7 @@ export {
   type PsiBundle,
 } from '../checks/performance/index.js';
 export { SECURITE_CHECKS } from '../checks/securite/index.js';
+export { createSeoChecks, SEO_CHECKS } from '../checks/seo/index.js';
 export { type AuditReport, runAudit } from './audit.js';
 export {
   FIX_VARIANTS,
