@@ -8,5 +8,7 @@ export default defineConfig({
       'apps/web/src/i18n/**/*.test.ts',
       'packages/**/*.test.ts',
     ],
+    testTimeout: 30_000,
+    hookTimeout: 300_000,
   },
 });
