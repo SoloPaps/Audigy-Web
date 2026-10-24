@@ -11,7 +11,9 @@ import { build, type Plugin } from 'esbuild';
 const source = 'netlify/functions';
 export const FUNCTIONS_OUT = 'netlify/dist/functions';
 
-const TRACKERS_MODULE = /packages\/engine\/checks\/vie_privee\/trackers\.ts$/;
+/** POSIX (`/`) et Windows (`\`) : esbuild garde les séparateurs du système. */
+export const TRACKERS_MODULE =
+  /packages[/\\]engine[/\\]checks[/\\]vie_privee[/\\]trackers\.ts$/;
 const TRACKERS_READ = "readFileSync(FILE, 'utf8')";
 
 /**

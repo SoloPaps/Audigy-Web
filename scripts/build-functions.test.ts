@@ -3,7 +3,7 @@ import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
-import { buildFunctions } from './build-functions.js';
+import { buildFunctions, TRACKERS_MODULE } from './build-functions.js';
 
 type Handler = (req: Request, context?: unknown) => Promise<Response>;
 
@@ -29,6 +29,26 @@ async function load(name: string) {
 }
 
 describe('fonctions Netlify', () => {
+  it('filtre trackers : chemin Windows et POSIX', () => {
+    const posix = '/repo/packages/engine/checks/vie_privee/trackers.ts';
+    const win = 'C:\\repo\\packages\\engine\\checks\\vie_privee\\trackers.ts';
+    expect(TRACKERS_MODULE.test(posix)).toBe(true);
+    expect(TRACKERS_MODULE.test(win)).toBe(true);
+    expect(
+      TRACKERS_MODULE.test(
+        'C:\\repo\\packages\\engine\\checks\\vie_privee\\other.ts',
+      ),
+    ).toBe(false);
+  });
+
+  it('liste de traceurs inlinée : plus de lecture disque au runtime', async () => {
+    const code = await readFile(
+      path.join(out, 'api-audits-create.mjs'),
+      'utf8',
+    );
+    expect(code).not.toContain('readFileSync(FILE');
+  });
+
   it('routes publiques et fonctions de fond sans route', async () => {
     expect(names.sort()).toEqual([
       'api-audits-create',

@@ -33,6 +33,23 @@ describe('labo local', () => {
     ).toHaveProperty(['bon.audigy.test']);
   });
 
+  it('fichier absent : labo désactivé', () => {
+    expect(
+      labFromEnv(
+        { [LAB_ENV_NAME]: path.join(dir, 'absent.json') },
+        { requireNetlifyDev: false },
+      ),
+    ).toBeNull();
+  });
+
+  it('JSON invalide : erreur conservée', async () => {
+    const broken = path.join(dir, 'broken.json');
+    await writeFile(broken, '{');
+    expect(() =>
+      labFromEnv({ [LAB_ENV_NAME]: broken }, { requireNetlifyDev: false }),
+    ).toThrow(SyntaxError);
+  });
+
   it('refuse un fichier hors schéma', async () => {
     const bad = path.join(dir, 'bad.json');
     await writeFile(
