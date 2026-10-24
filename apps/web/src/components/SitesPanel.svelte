@@ -114,6 +114,7 @@ async function onSignOut(): Promise<void> {
   <p role="status">{t('sites.need_login')}</p>
   <p><a href={loginHref('/sites')}>{t('nav.login')}</a></p>
 {:else}
+  <p><a href="/search-console">{t('gsc.connect')}</a></p>
   {#if notice}
     <p role="status">{notice}</p>
   {/if}

@@ -15,6 +15,9 @@
  *   et `POST /api/verifications/check`. Le client ne peut pas se marquer vérifié.
  * - `handleRecheck` : relecture quotidienne signée (`verification-recheck-background`).
  *   Pas de planification dans `netlify.toml` (PART-22).
+ * - `handleOauthStart`, `handleOauthCallback`, `handleOauthRevoke` : OAuth Google
+ *   (PKCE, `state`, accès hors ligne). Le jeton est chiffré (AES-256-GCM) et
+ *   n’est jamais renvoyé. La révocation supprime la ligne.
  * - `decideRecheck`, `confirmClaimedAudit` : refus si la preuve a plus de 10 min,
  *   si la portée ne correspond pas, ou si elle a disparu (`expired` + alerte).
  * - `processNextAudit(deps)` : claim → checks côté fonction → `partial` → runner
@@ -56,6 +59,7 @@ export {
   type DispatchResult,
   LOCAL_RUNNER_ENV_NAME,
 } from './dispatch.js';
+export { gscForAudit, loadSearchConsole } from './gsc-port.js';
 export {
   type ApiDeps,
   type ApiError,
@@ -86,6 +90,14 @@ export {
   SECRET_ENV_NAMES,
   secretsFromEnv,
 } from './log.js';
+export {
+  handleOauthCallback,
+  handleOauthRevoke,
+  handleOauthStart,
+  type OauthDeps,
+  type OauthTokenRows,
+  oauthDepsFromEnv,
+} from './oauth-google.js';
 export {
   type AuditSummary,
   assemble,
@@ -129,6 +141,12 @@ export {
   type SiteInput,
   targetOf,
 } from './target.js';
+export {
+  bufferToBytea,
+  byteaToBuffer,
+  createOauthCrypto,
+  parseTokenKey,
+} from './token-box.js';
 export {
   createTrigger,
   RUN_FUNCTION_PATH,

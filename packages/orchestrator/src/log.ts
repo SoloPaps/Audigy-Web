@@ -18,6 +18,8 @@ const PATTERNS: RegExp[] = [
   /\b(?:ghp|gho|ghs|ghu|github_pat)_[A-Za-z0-9_]+/g,
   /\bAIza[0-9A-Za-z_-]{20,}/g,
   /\bBearer\s+[^\s"']+/gi,
+  /\b1\/\/[A-Za-z0-9_\-+/=]{8,}/g,
+  /\bya29\.[A-Za-z0-9_-]+/g,
 ];
 
 export type LogLevel = 'info' | 'warn' | 'error';

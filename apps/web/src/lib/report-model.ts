@@ -68,7 +68,24 @@ export function toFinding(row: ApiFinding, fix: FixView | undefined): Finding {
     finding.sourceHref = fix.sourceHref;
     finding.sourceLabel = fix.sourceLabel;
   }
+  if (needsSearchConsole(row)) {
+    finding.actionHref = '/search-console';
+    finding.actionLabel = t('gsc.connect');
+  }
   return finding;
+}
+
+function needsSearchConsole(row: ApiFinding): boolean {
+  if (
+    row.messageKey === 'seo.gsc.untested_connect' ||
+    row.reason === 'seo.gsc.untested_connect' ||
+    row.messageKey === 'seo.gsc.untested_auth' ||
+    row.reason === 'seo.gsc.untested_auth'
+  ) {
+    return true;
+  }
+  const params = asParams(row.params);
+  return row.reason === 'reason.missing_source' && params?.source === 'gsc';
 }
 
 export function domainLevel(row: ApiDomain | undefined): Level {

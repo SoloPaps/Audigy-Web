@@ -35,9 +35,11 @@ import {
   type CheckResult,
   createRegistry,
   createSharedArtifacts,
+  type GscSnapshot,
   loadFixes,
   type RunContext,
   runChecks,
+  type SearchConsolePort,
   scoreDomain,
 } from '../src/index.js';
 
@@ -148,6 +150,7 @@ function context(
     pages?: Record<string, SafeResponse>;
     fallback?: (url: URL) => SafeResponse;
     api?: ExternalApi;
+    gsc?: SearchConsolePort;
   } = {},
 ): { ctx: RunContext; calls: string[] } {
   const calls: string[] = [];
@@ -174,10 +177,37 @@ function context(
         dns: noDns,
         tls: noTls,
         ...(options.api ? { api: options.api } : {}),
+        ...(options.gsc ? { gsc: options.gsc } : {}),
       },
       shared: createSharedArtifacts(),
       budget: createRequestBudget({ perHostIntervalMs: 0 }),
       now: () => NOW,
+    },
+  };
+}
+
+function goodGsc(): SearchConsolePort {
+  return {
+    async snapshot() {
+      return {
+        sites: 'ok',
+        property: 'sc-domain:exemple.test',
+        sitemaps: {
+          ok: true,
+          entries: [
+            {
+              path: `${ORIGIN}/sitemap-ok.xml`,
+              errors: 0,
+              warnings: 0,
+              pending: false,
+              isIndex: false,
+              submitted: 10,
+              indexed: 10,
+            },
+          ],
+        },
+        inspection: { ok: true, verdict: 'PASS' },
+      };
     },
   };
 }
@@ -248,10 +278,13 @@ function goodPages(): Record<string, SafeResponse> {
 }
 
 describe('registre SEO', () => {
-  it('expose neuf checks passifs, dans l’ordre des identifiants', () => {
+  it('expose douze checks passifs, dans l’ordre des identifiants', () => {
     expect(SEO_CHECKS.map((item) => item.id)).toEqual([
       'seo.canonical',
       'seo.description',
+      'seo.gsc_indexed',
+      'seo.gsc_inspection',
+      'seo.gsc_sitemaps',
       'seo.hreflang',
       'seo.jsonld',
       'seo.lighthouse',
@@ -261,13 +294,17 @@ describe('registre SEO', () => {
       'seo.title',
     ]);
     const registry = createRegistry(SEO_CHECKS);
-    expect(registry.list({ domain: 'seo' })).toHaveLength(9);
+    expect(registry.list({ domain: 'seo' })).toHaveLength(12);
     expect(registry.list({ mode: 'active' })).toHaveLength(0);
     for (const item of SEO_CHECKS) {
       expect(item.mode).toBe('passive');
       expect(item.domain).toBe('seo');
       expect(item.needs).toEqual(
-        item.id === 'seo.lighthouse' ? ['psi'] : ['http'],
+        item.id === 'seo.lighthouse'
+          ? ['psi']
+          : item.id.startsWith('seo.gsc_')
+            ? ['gsc']
+            : ['http'],
       );
     }
     expect(check('seo.lighthouse').timeoutMs).toBe(
@@ -359,10 +396,10 @@ describe('analyse des fichiers', () => {
 
 describe('page entière', () => {
   it('réussit le lot sur les fixtures, et partage les lectures', async () => {
-    const { ctx, calls } = context({ pages: goodPages() });
+    const { ctx, calls } = context({ pages: goodPages(), gsc: goodGsc() });
     await seedPsi(ctx, bundle(1, 1));
     const outcomes = await runChecks(SEO_CHECKS, ctx, {
-      available: ['http', 'psi'],
+      available: ['http', 'psi', 'gsc'],
       concurrency: 4,
     });
     for (const outcome of outcomes) {
@@ -391,10 +428,11 @@ describe('page entière', () => {
           ),
         ),
       },
+      gsc: goodGsc(),
     });
     await seedPsi(ctx, bundle(1, 1));
     const outcomes = await runChecks(SEO_CHECKS, ctx, {
-      available: ['http', 'psi'],
+      available: ['http', 'psi', 'gsc'],
     });
     const by = Object.fromEntries(
       outcomes.map((item) => [item.checkId, item.result]),
@@ -409,7 +447,7 @@ describe('page entière', () => {
     expect(calls.some((href) => href.endsWith('/sitemap.xml'))).toBe(false);
     const score = scoreDomain('seo', outcomes);
     expect(score.score).toBe(100);
-    expect(score.totalWeight).toBe(13);
+    expect(score.totalWeight).toBe(18);
   });
 });
 
@@ -1252,6 +1290,235 @@ describe('contenu de la page', () => {
     const result = await run('seo.title', down.ctx);
     expectResult(result, 'untested', 'seo.page.untested_status');
     expect(result.params).toEqual({ status: 503 });
+  });
+});
+
+describe('Search Console', () => {
+  function port(snapshot: GscSnapshot): SearchConsolePort {
+    return {
+      async snapshot() {
+        return snapshot;
+      },
+    };
+  }
+
+  function ready(
+    patch: Partial<GscSnapshot> & Pick<GscSnapshot, 'sitemaps' | 'inspection'>,
+  ): GscSnapshot {
+    return {
+      sites: 'ok',
+      property: 'sc-domain:exemple.test',
+      ...patch,
+    };
+  }
+
+  async function gscResult(
+    id: string,
+    gsc?: SearchConsolePort,
+  ): Promise<CheckResult> {
+    const { ctx } = context(gsc ? { gsc } : {});
+    return run(id, ctx, ['gsc']);
+  }
+
+  it('sans OAuth, les trois tests sont non testés', async () => {
+    for (const id of [
+      'seo.gsc_sitemaps',
+      'seo.gsc_inspection',
+      'seo.gsc_indexed',
+    ]) {
+      const result = await gscResult(id);
+      expectResult(result, 'untested', 'seo.gsc.untested_connect');
+      expect(JSON.stringify(result)).not.toContain('refresh-token');
+    }
+  });
+
+  it('signale un quota, une connexion expirée, une erreur ou une propriété absente', async () => {
+    const down = (failure: 'quota' | 'auth' | 'error'): GscSnapshot => ({
+      sites: failure,
+      property: null,
+      sitemaps: { ok: false, failure },
+      inspection: { ok: false, failure },
+    });
+    expectResult(
+      await gscResult('seo.gsc_sitemaps', port(down('quota'))),
+      'untested',
+      'seo.gsc.untested_quota',
+    );
+    expectResult(
+      await gscResult('seo.gsc_inspection', port(down('auth'))),
+      'untested',
+      'seo.gsc.untested_auth',
+    );
+    expectResult(
+      await gscResult('seo.gsc_indexed', port(down('error'))),
+      'untested',
+      'seo.gsc.untested_error',
+    );
+    expectResult(
+      await gscResult(
+        'seo.gsc_sitemaps',
+        port(
+          ready({
+            property: null,
+            sitemaps: { ok: true, entries: [] },
+            inspection: { ok: true, verdict: 'PASS' },
+          }),
+        ),
+      ),
+      'untested',
+      'seo.gsc.untested_property',
+    );
+  });
+
+  it('note les plans, l’inspection et le résumé d’indexation', async () => {
+    const empty = ready({
+      sitemaps: { ok: true, entries: [] },
+      inspection: { ok: true, verdict: 'PARTIAL' },
+    });
+    expectResult(
+      await gscResult('seo.gsc_sitemaps', port(empty)),
+      'warn',
+      'seo.gsc_sitemaps.warn_none',
+    );
+    expectResult(
+      await gscResult('seo.gsc_indexed', port(empty)),
+      'warn',
+      'seo.gsc_indexed.warn_none',
+    );
+    expectResult(
+      await gscResult('seo.gsc_inspection', port(empty)),
+      'warn',
+      'seo.gsc_inspection.warn',
+    );
+
+    const pending = ready({
+      sitemaps: {
+        ok: true,
+        entries: [
+          {
+            path: `${ORIGIN}/sitemap.xml`,
+            errors: 0,
+            warnings: 0,
+            pending: true,
+            isIndex: false,
+            submitted: 4,
+            indexed: 0,
+          },
+        ],
+      },
+      inspection: { ok: true, verdict: 'FAIL' },
+    });
+    expectResult(
+      await gscResult('seo.gsc_sitemaps', port(pending)),
+      'warn',
+      'seo.gsc_sitemaps.warn_pending',
+    );
+    expectResult(
+      await gscResult('seo.gsc_inspection', port(pending)),
+      'fail',
+      'seo.gsc_inspection.fail',
+    );
+
+    const warnings = ready({
+      sitemaps: {
+        ok: true,
+        entries: [
+          {
+            path: `${ORIGIN}/sitemap.xml`,
+            errors: 0,
+            warnings: 2,
+            pending: false,
+            isIndex: false,
+            submitted: 10,
+            indexed: 7,
+          },
+        ],
+      },
+      inspection: { ok: true, verdict: 'NEUTRAL' },
+    });
+    expectResult(
+      await gscResult('seo.gsc_sitemaps', port(warnings)),
+      'warn',
+      'seo.gsc_sitemaps.warn_warnings',
+    );
+    expectResult(
+      await gscResult('seo.gsc_indexed', port(warnings)),
+      'warn',
+      'seo.gsc_indexed.warn_partial',
+    );
+    expectResult(
+      await gscResult('seo.gsc_inspection', port(warnings)),
+      'warn',
+      'seo.gsc_inspection.warn',
+    );
+
+    const errors = ready({
+      sitemaps: {
+        ok: true,
+        entries: [
+          {
+            path: `${ORIGIN}/sitemap.xml`,
+            errors: 1,
+            warnings: 0,
+            pending: false,
+            isIndex: false,
+            submitted: 5,
+            indexed: 0,
+          },
+        ],
+      },
+      inspection: { ok: true, verdict: 'PASS' },
+    });
+    expectResult(
+      await gscResult('seo.gsc_sitemaps', port(errors)),
+      'fail',
+      'seo.gsc_sitemaps.fail',
+    );
+    expectResult(
+      await gscResult('seo.gsc_indexed', port(errors)),
+      'fail',
+      'seo.gsc_indexed.fail',
+    );
+    expectResult(
+      await gscResult('seo.gsc_inspection', port(errors)),
+      'pass',
+      'seo.gsc_inspection.pass',
+    );
+
+    const index = ready({
+      sitemaps: {
+        ok: true,
+        entries: [
+          {
+            path: `${ORIGIN}/sitemap.xml`,
+            errors: 0,
+            warnings: 0,
+            pending: false,
+            isIndex: true,
+            submitted: 100,
+            indexed: 100,
+          },
+          {
+            path: `${ORIGIN}/pages.xml`,
+            errors: 0,
+            warnings: 0,
+            pending: false,
+            isIndex: false,
+            submitted: 10,
+            indexed: 8,
+          },
+        ],
+      },
+      inspection: { ok: true, verdict: 'PASS' },
+    });
+    const indexed = await gscResult('seo.gsc_indexed', port(index));
+    expectResult(indexed, 'pass', 'seo.gsc_indexed.pass');
+    expect(indexed.measured).toMatchObject({ submitted: 10, indexed: 8 });
+    expectResult(
+      await gscResult('seo.gsc_sitemaps', port(index)),
+      'pass',
+      'seo.gsc_sitemaps.pass',
+    );
   });
 });
 

@@ -25,6 +25,7 @@ import {
   type Dispatcher,
   LOCAL_RUNNER_ENV_NAME,
 } from './dispatch.js';
+import { gscForAudit } from './gsc-port.js';
 import type { ApiDeps, AuditView, FindingView, RunDeps } from './http.js';
 import { labFromEnv } from './lab.js';
 import { errorCode, type Logger } from './log.js';
@@ -348,8 +349,21 @@ export function runDepsFromEnv(options: RunFromEnvOptions): RunDeps {
         dispatcher,
         checks: defaultChecks(),
         fixes: await fixesFromDisk(logger),
-        context: (target, verified) =>
-          createAuditContext({ target, verified, env, lab }),
+        context: async (target, verified, audit) => {
+          const base = createAuditContext({ target, verified, env, lab });
+          if (!audit) return base;
+          try {
+            const gsc = await gscForAudit(service, env, audit.siteId);
+            if (!gsc) return base;
+            return {
+              ...base,
+              ctx: { ...base.ctx, net: { ...base.ctx.net, gsc } },
+            };
+          } catch (error) {
+            logger.warn('gsc_unavailable', { code: errorCode(error) });
+            return base;
+          }
+        },
         confirmActive: async (audit) => {
           const { ctx } = createAuditContext({
             target: targetOf(audit.site),

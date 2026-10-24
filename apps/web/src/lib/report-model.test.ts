@@ -124,4 +124,29 @@ describe('rapport', () => {
     );
     expect(reportFindings(payload, fixes, 'securite')).toHaveLength(1);
   });
+
+  it('sans OAuth, le constat propose le lien Search Console', () => {
+    const row = {
+      domain: 'seo',
+      checkId: 'seo.gsc_inspection',
+      status: 'untested',
+      severity: 1,
+      impact: 1,
+      score: null,
+      measured: { connected: false },
+      messageKey: 'seo.gsc.untested_connect',
+      params: {},
+      fixKey: null,
+      effortMinutes: null,
+      reason: 'seo.gsc.untested_connect',
+    };
+    const [finding] = reportFindings(
+      { ...payload, findings: [row] },
+      new Map(),
+    );
+    expect(finding?.status).toBe('untested');
+    expect(finding?.actionLabel).toBe('Connecter Search Console');
+    expect(finding?.actionHref).toBe('/search-console');
+    expect(JSON.stringify(finding)).not.toContain('refresh');
+  });
 });
