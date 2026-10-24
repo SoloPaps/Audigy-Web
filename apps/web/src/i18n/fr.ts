@@ -28,6 +28,7 @@ export const fr = {
   'home.next': 'Le formulaire d’audit n’est pas encore en place.',
   'nav.main': 'Pages',
   'nav.sites': 'Sites',
+  'nav.account': 'Compte',
   'nav.login': 'Connexion',
   'meta.login.title': 'Connexion — Audigy',
   'meta.login.description': 'Recevez un lien pour ouvrir votre compte.',
@@ -66,6 +67,7 @@ export const fr = {
   'login.invalid_email': 'Cette adresse e-mail ne convient pas.',
   'login.ready': 'Vous êtes connecté.',
   'login.sites': 'Voir vos sites',
+  'login.account': 'Gérer le compte',
   'login.signout': 'Se déconnecter',
   'login.unconfigured':
     'La connexion n’est pas disponible sur cette installation.',
@@ -331,6 +333,12 @@ export const fr = {
   'domain.sentence.problem': 'Ce domaine pose un problème important.',
   'domain.sentence.untested': 'Nous n’avons pas pu noter ce domaine.',
   'footer.note': 'Outil gratuit. Aucun traceur. Polices hébergées ici.',
+  'footer.legal': 'Informations légales',
+  'footer.mentions': 'Mentions légales',
+  'footer.privacy': 'Confidentialité',
+  'footer.terms': 'Conditions',
+  'footer.a11y': 'Accessibilité',
+  'footer.method.nav': 'Méthode',
   'level.good': 'Bon',
   'level.improve': 'À améliorer',
   'level.problem': 'Problème',
@@ -542,6 +550,8 @@ export const fr = {
     'La connexion Search Console n’est pas configurée.',
   'api.error.places_disabled': 'Les avis ne sont pas activés.',
   'api.error.places_absent': 'Ce lieu est introuvable.',
+  'api.error.terms_version':
+    'Cette version des conditions n’est plus en vigueur.',
   'api.error.places_limit':
     'Vous avez fait trop de recherches. Réessayez dans une heure.',
   'reputation.avis.pass': 'Les avis publics sont favorables.',
@@ -1465,6 +1475,214 @@ export const fr = {
   'vie_privee.elements.warn': 'Il manque {missing} sur les pages légales.',
   'vie_privee.elements.fail':
     'Les pages légales n’indiquent ni l’éditeur, ni l’hébergeur, ni un contact.',
+  'legal.email': 'AudigyWeb@outlook.fr',
+  'legal.site': 'https://audigyweb.fr',
+  'legal.review':
+    'Le propriétaire doit encore relire ce texte avant l’ouverture.',
+  'meta.terms.title': 'Conditions d’utilisation — Audigy',
+  'meta.terms.description':
+    'Conditions d’utilisation d’Audigy, dont le mandat pour les tests actifs.',
+  'meta.privacy.title': 'Confidentialité — Audigy',
+  'meta.privacy.description':
+    'Quelles données Audigy garde, pourquoi, et comment les effacer.',
+  'meta.mentions.title': 'Mentions légales — Audigy',
+  'meta.mentions.description': 'Éditeur, contact et hébergeur du site Audigy.',
+  'meta.a11y.title': 'Accessibilité — Audigy',
+  'meta.a11y.description':
+    'Objectif d’accessibilité d’Audigy et état de l’audit.',
+  'meta.method.title': 'Méthode — Audigy',
+  'meta.method.description':
+    'Comment Audigy calcule ses notes, version par version.',
+  'meta.account.title': 'Compte — Audigy',
+  'meta.account.description':
+    'Accepter les conditions, exporter ou supprimer le compte.',
+  'terms.title': 'Conditions d’utilisation',
+  'terms.version.label': 'Version {version}.',
+  'terms.date': 'Texte du 24 oct. 2026.',
+  'terms.free.title': 'Service gratuit',
+  'terms.free.body':
+    'Audigy est gratuit. Il aide à comprendre l’état d’un site.',
+  'terms.free.limit': 'Le service peut changer, ou s’arrêter, sans préavis.',
+  'terms.owner.title': 'Propriété et mandat',
+  'terms.owner.declare':
+    'Vous déclarez être propriétaire du site, ou mandaté par écrit.',
+  'terms.owner.active': 'Cette déclaration vaut avant tout test actif.',
+  'terms.owner.law':
+    'Un test actif sans autorisation peut être une infraction.',
+  'terms.owner.article': 'Le texte visé est l’article 323-1 du code pénal.',
+  'terms.owner.passive':
+    'Un test passif se limite à ce qu’un visiteur peut voir.',
+  'terms.proof.title': 'Rapports',
+  'terms.proof.bailiff':
+    'Ce rapport n’est pas un constat de commissaire de justice.',
+  'terms.proof.value': 'Il n’en a pas la valeur.',
+  'terms.proof.date':
+    'Il décrit ce que les robots ont observé, à la date indiquée.',
+  'terms.proof.eidas':
+    'L’horodatage RFC 3161 est non qualifié au sens d’eIDAS.',
+  'terms.proof.article':
+    'L’article 41.1 d’eIDAS admet cet horodatage comme preuve.',
+  'terms.proof.presumption':
+    'L’article 41.2 n’en fait pas une présomption d’exactitude.',
+  'terms.accept.title': 'Acceptation',
+  'terms.accept.body': 'La version acceptée est enregistrée avec la date.',
+  'terms.accept.new': 'Une nouvelle version demande une nouvelle acceptation.',
+  'terms.account.title': 'Compte',
+  'terms.account.export': 'Vous pouvez exporter vos données en JSON.',
+  'terms.account.delete':
+    'Vous pouvez supprimer le compte, données et fichiers compris.',
+  'terms.law.title': 'Droit applicable',
+  'terms.law.body': 'Les conditions sont soumises au droit français.',
+  'privacy.title': 'Politique de confidentialité',
+  'privacy.who.title': 'Qui est responsable',
+  'privacy.who.body': 'Audigy est édité par un particulier non professionnel.',
+  'privacy.who.contact': 'Pour une question sur vos données, écrivez à',
+  'privacy.what.title': 'Quelles données',
+  'privacy.what.account':
+    'Le compte garde votre courriel et la date d’acceptation des conditions.',
+  'privacy.what.sites':
+    'Les sites, les audits, les notes et les fichiers de preuve sont enregistrés.',
+  'privacy.what.google':
+    'Un jeton Search Console, s’il existe, est chiffré. Il n’est pas exporté.',
+  'privacy.what.logs': 'Un journal technique garde les actions du compte.',
+  'privacy.why.title': 'Pourquoi',
+  'privacy.why.body':
+    'Ces données servent à auditer vos sites et à vous prévenir.',
+  'privacy.why.basis':
+    'La base est l’exécution des conditions, ou l’intérêt légitime pour la sécurité.',
+  'privacy.how.title': 'Où elles vont',
+  'privacy.how.eu':
+    'Elles sont stockées dans l’Union européenne, chez Supabase Pte. Ltd.',
+  'privacy.how.us':
+    'Les fonctions du site tournent aux États-Unis, dans l’Ohio, chez Netlify.',
+  'privacy.how.mail': 'Les e-mails partent par Brevo, en France.',
+  'privacy.how.google':
+    'Google intervient pour la vitesse, l’indexation ou les avis, si vous les activez.',
+  'privacy.how.github':
+    'Le navigateur d’audit, quand il tourne, passe par GitHub Actions.',
+  'privacy.how.none': 'Aucun traceur tiers n’est déposé. Aucune publicité.',
+  'privacy.cookies':
+    'La session de connexion est le seul stockage. Pas de bannière.',
+  'privacy.keep.title': 'Combien de temps',
+  'privacy.keep.results': 'Les résultats restent tant que le compte existe.',
+  'privacy.keep.files': 'Les captures et les PDF sont gardés douze mois.',
+  'privacy.keep.warc':
+    'Un fichier WARC n’existe que sur demande, pendant douze mois.',
+  'privacy.keep.account':
+    'La suppression du compte efface les données et les fichiers.',
+  'privacy.rights.title': 'Vos droits',
+  'privacy.rights.export':
+    'Vous pouvez télécharger un fichier JSON depuis votre compte.',
+  'privacy.rights.delete':
+    'Vous pouvez supprimer le compte, et donc les données.',
+  'privacy.rights.mail': 'Pour rectifier une donnée, écrivez à',
+  'privacy.rights.cnil':
+    'Vous pouvez saisir la CNIL si une réponse ne vous convient pas.',
+  'privacy.share': 'Les données ne sont pas vendues.',
+  'mentions.title': 'Mentions légales',
+  'mentions.editor.title': 'Éditeur',
+  'mentions.editor.body':
+    'Le site est édité par Audigy, un particulier non professionnel.',
+  'mentions.editor.anon':
+    'Son identité est communiquée à l’hébergeur, et non publiée ici.',
+  'mentions.editor.law':
+    'C’est le régime prévu pour une personne qui n’agit pas à titre professionnel.',
+  'mentions.director':
+    'La direction de la publication revient à ce même particulier.',
+  'mentions.contact.title': 'Contact',
+  'mentions.contact.body': 'Écrivez à',
+  'mentions.site': 'Le site visé est {site}.',
+  'mentions.host.title': 'Hébergeur',
+  'mentions.host.body': 'L’hébergeur du site est Netlify, Inc.',
+  'mentions.host.address':
+    '101 2nd Street, San Francisco, CA 94105, États-Unis.',
+  'mentions.host.mail': 'Courriel de l’hébergeur : support@netlify.com.',
+  'mentions.host.phone': 'L’hébergeur ne publie pas de numéro de téléphone.',
+  'mentions.data':
+    'Les données du compte sont stockées dans l’Union européenne, chez Supabase Pte. Ltd.',
+  'a11y.title': 'Déclaration d’accessibilité',
+  'a11y.state': 'État au 24 oct. 2026 : audit formel non réalisé.',
+  'a11y.goal': 'L’objectif est le niveau AA du RGAA 4.1.',
+  'a11y.wcag': 'Cela correspond aux WCAG 2.2, niveau AA.',
+  'a11y.honest':
+    'Cette page ne déclare pas la conformité. L’audit reste à faire.',
+  'a11y.contact': 'Signalez un blocage à',
+  'a11y.tech': 'Les pages sont en HTML, en français, sans script tiers.',
+  'a11y.limits': 'Le test lecteur d’écran de la jauge est prévu à la recette.',
+  'method.lead': 'Cette page explique comment Audigy calcule ses notes.',
+  'method.version': 'Méthode {version}.',
+  'method.change':
+    'Toute modification de pondération crée une nouvelle version.',
+  'method.recorded': 'La version est enregistrée sur chaque audit.',
+  'method.status.title': 'Résultat d’un test',
+  'method.status.body': 'Chaque test donne un statut.',
+  'method.pass': 'Réussi : le point est conforme. Valeur 1.',
+  'method.warn': 'À améliorer : le point est partiel. Valeur 0,5.',
+  'method.fail': 'Problème : le point n’est pas conforme. Valeur 0.',
+  'method.untested':
+    'Non testé : le test est impossible, avec la raison. Il est exclu.',
+  'method.na': 'Non applicable : le test est sans objet. Il est exclu.',
+  'method.partial': 'Un test peut donner une valeur entre 0 et 1.',
+  'method.weight': 'Chaque test pèse 1, 2 ou 3 dans son domaine.',
+  'method.lighthouse': 'Le score Lighthouse d’un domaine pèse 3.',
+  'method.skip.title': 'Quand un test devient non testé',
+  'method.skip.lead': 'Le test n’est pas compté, et la raison est affichée.',
+  'method.skip.active':
+    'Un test actif n’est jamais lancé sans propriété revérifiée.',
+  'method.skip.source': 'La source peut manquer : clé, quota ou navigateur.',
+  'method.skip.timeout': 'Un délai dépassé rend le test non testé.',
+  'method.skip.error': 'Une erreur pendant le test a le même effet.',
+  'method.passive': 'Un test passif fait ce qu’un visiteur ferait.',
+  'method.active': 'Un test actif exige un site vérifié.',
+  'method.penal': 'Sans mandat, un test actif peut être une infraction.',
+  'method.penal.link': 'Voir les conditions d’utilisation.',
+  'method.domain.title': 'Score d’un domaine',
+  'method.domain.formula':
+    'Le score arrondit 100 fois les points obtenus, divisés par les points possibles.',
+  'method.coverage': 'La couverture compare le poids noté au poids applicable.',
+  'method.coverage.low': 'Sous 50 % de couverture, le domaine reste non testé.',
+  'method.coverage.why': 'Une note sur trop peu de tests serait trompeuse.',
+  'method.global.title': 'Score global',
+  'method.global.body':
+    'Le score global est la moyenne des domaines notés, à poids égaux.',
+  'method.global.eight':
+    'Huit domaines principaux comptent, avec le même poids.',
+  'method.global.aside': 'Réputation et disponibilité sont affichées à part.',
+  'method.global.empty': 'Sans domaine noté, le score global est non testé.',
+  'method.level.title': 'Niveaux',
+  'method.level.good': 'De 80 à 100 : bon.',
+  'method.level.improve': 'De 50 à 79 : à améliorer.',
+  'method.level.problem': 'De 0 à 49 : problème.',
+  'method.level.none': 'Sans chiffre : non testé.',
+  'method.order.title': 'Ordre des corrections',
+  'method.order.body':
+    'Les problèmes viennent d’abord, puis les points à améliorer.',
+  'method.order.tie': 'À égalité, l’ordre suit l’identifiant du test.',
+  'method.repro.title': 'Reproductibilité',
+  'method.repro.body': 'Les mêmes réponses donnent le même rapport.',
+  'method.proof':
+    'Le rapport décrit une observation. Ce n’est pas un constat de commissaire de justice.',
+  'method.proof.link':
+    'Les mentions de preuve sont sur la page de vérification.',
+  'account.title': 'Votre compte',
+  'account.lead': 'Exportez vos données, ou supprimez le compte.',
+  'account.out': 'Connectez-vous pour gérer votre compte.',
+  'account.login': 'Aller à la connexion',
+  'account.terms.ok': 'Conditions version {version} : acceptées.',
+  'account.terms.missing':
+    'Conditions version {version} : pas encore acceptées.',
+  'account.terms.check': 'J’accepte les conditions de cette version.',
+  'account.terms.action': 'Enregistrer l’acceptation',
+  'account.terms.link': 'Lire les conditions',
+  'account.terms.required': 'Cochez la case pour accepter cette version.',
+  'account.terms.done': 'L’acceptation est enregistrée.',
+  'account.export.action': 'Télécharger mes données',
+  'account.export.done': 'Le fichier est prêt.',
+  'account.delete.label': 'Écrivez supprimer pour confirmer.',
+  'account.delete.hint': 'Les données et les fichiers seront effacés.',
+  'account.delete.action': 'Supprimer le compte',
+  'account.delete.done': 'Le compte est supprimé.',
+  'account.error': 'L’action n’a pas abouti. Réessayez.',
 } as const satisfies Record<string, string>;
 
 export type MessageKey = keyof typeof fr;

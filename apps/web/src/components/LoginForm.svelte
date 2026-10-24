@@ -62,6 +62,7 @@ async function onSignOut(): Promise<void> {
   <p role="status">{t('login.ready')}</p>
   <p class="page-links">
     <a href="/sites">{t('login.sites')}</a>
+    <a href="/compte">{t('login.account')}</a>
     <button type="button" class="button button-secondary" onclick={onSignOut}>
       {t('login.signout')}
     </button>

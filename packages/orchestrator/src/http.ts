@@ -21,6 +21,7 @@ export type ApiError =
   | 'places_disabled'
   | 'places_absent'
   | 'places_limit'
+  | 'terms_version'
   | 'internal';
 
 function json(

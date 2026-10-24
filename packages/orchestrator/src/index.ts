@@ -34,6 +34,8 @@
  * - `createAuditContext`, `defaultChecks` : réseau `@audigy/net` réel, ou labo local.
  * - `normalizeSiteUrl` : adresse saisie → site (`https`, portée, hébergeur).
  * - `createLogger`, `redact` : journal JSON sans secret ni donnée personnelle.
+ * - `handleAccount` : export JSON, acceptation versionnée des CGU, suppression
+ *   du compte (données et artefacts). `TERMS_VERSION` vient de `@audigy/db`.
  * - `handlePlaces` : recherche et confirmation d’un lieu (Places API New).
  *   Sans `PLACES_API_KEY`, `GET` répond `{ enabled: false }` et aucun appel ne part.
  *   Le navigateur ne parle qu’à `/api/places`. Cache 7 jours en base.
@@ -42,6 +44,16 @@
  *   `AUDIGY_LOCAL_RUNNER=true` (labo sous `netlify dev`) : pas d'appel GitHub, la
  *   fonction attend le runner lancé en local (`pnpm lab:audit --browser`).
  */
+export {
+  type AccountDeps,
+  type AccountExport,
+  type AccountGateway,
+  deleteAccount,
+  handleAccount,
+  mergeArtifactPaths,
+  OAUTH_EXPORT_FIELDS,
+} from './account.js';
+export { accountDepsFromEnv } from './account-db.js';
 export {
   type AuditContext,
   type AuditContextOptions,
