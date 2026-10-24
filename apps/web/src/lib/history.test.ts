@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import {
   type AuditSnapshot,
   axisDay,
+  axisLabels,
   clampSeries,
   compareAudits,
   historyDay,
@@ -125,6 +126,56 @@ describe('tableau', () => {
     });
     expect(table.rows[1]?.[1]).toMatchObject({ text: '83', level: 'good' });
     expect(axisDay(Date.parse(october) / 1000)).toBe('23 oct.');
+  });
+});
+
+describe('libellés d’axe', () => {
+  const at = (iso: string) => Date.parse(iso) / 1000;
+
+  it('garde le jour quand chaque point tombe un jour de Paris différent', () => {
+    expect(
+      axisLabels([
+        at('2026-03-03T08:00:00.000Z'),
+        at('2026-10-23T12:30:00.000Z'),
+      ]),
+    ).toEqual(['3 mars', '23 oct.']);
+  });
+
+  it('ajoute l’heure quand deux points partagent le jour de Paris', () => {
+    expect(
+      axisLabels([
+        at('2026-10-23T22:30:00.000Z'),
+        at('2026-10-24T12:32:00.000Z'),
+      ]),
+    ).toEqual(['24 oct. 00:30', '24 oct. 14:32']);
+  });
+
+  it('ajoute l’heure seulement aux jours partagés', () => {
+    expect(
+      axisLabels([
+        at('2026-10-22T10:00:00.000Z'),
+        at('2026-10-23T22:30:00.000Z'),
+        at('2026-10-24T12:32:00.000Z'),
+      ]),
+    ).toEqual(['22 oct.', '24 oct. 00:30', '24 oct. 14:32']);
+  });
+
+  it('sépare minuit à Paris même si l’instant UTC est le même jour', () => {
+    expect(
+      axisLabels([
+        at('2026-10-23T21:30:00.000Z'),
+        at('2026-10-23T22:30:00.000Z'),
+      ]),
+    ).toEqual(['23 oct.', '24 oct.']);
+  });
+
+  it('distingue un jour de Paris traversé par le changement d’heure', () => {
+    expect(
+      axisLabels([
+        at('2026-03-28T23:30:00.000Z'),
+        at('2026-03-29T12:00:00.000Z'),
+      ]),
+    ).toEqual(['29 mars 00:30', '29 mars 14:00']);
   });
 });
 
