@@ -2,18 +2,22 @@ import { mkdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { parseArgs } from 'node:util';
 import { isNetError } from '@audigy/net';
+import { chromium } from 'playwright';
 import { JobError, jobStoreFromEnv, runJob } from './job.js';
+import { pdfFromPage } from './pdf.js';
 import { type BrowserAuditOutput, runBrowserAudit } from './run.js';
 import type { BrowserAuditResult } from './schema.js';
 
 export const USAGE = `Usage :
-  audigy-browser audit <url> [--out <dossier>] [--desktop-only] [--json]
+  audigy-browser audit <url> [--out <dossier>] [--desktop-only] [--warc] [--json]
   audigy-browser job <auditId>
 
 audit : charge la page dans Chromium (profil vierge, aucune interaction) et écrit
         browser.json et les captures dans le dossier (défaut : .audigy-browser/<hôte>).
+        --warc écrit aussi accueil.warc (page d’accueil, sur demande).
 job   : exécution GitHub Actions. Lit l'audit dans Supabase (SUPABASE_URL,
-        SUPABASE_SERVICE_ROLE_KEY) et range les artefacts dans le seau privé.`;
+        SUPABASE_SERVICE_ROLE_KEY) et range les artefacts dans le seau privé.
+        WARC=true demande l’archive. Le PDF est toujours produit.`;
 
 export interface CliIo {
   out(line: string): void;
@@ -61,7 +65,20 @@ async function writeOutput(
   await writeFile(file, `${JSON.stringify(output.result, null, 2)}\n`);
   for (const shot of output.screenshots)
     await writeFile(path.join(dir, shot.file), shot.data);
+  if (output.warc)
+    await writeFile(path.join(dir, output.warc.file), output.warc.data);
   return file;
+}
+
+async function renderProofPdf(html: string): Promise<Buffer> {
+  const browser = await chromium.launch({ headless: true });
+  try {
+    const page = await browser.newPage();
+    await page.setContent(html, { waitUntil: 'load' });
+    return await pdfFromPage(page);
+  } finally {
+    await browser.close();
+  }
 }
 
 export async function main(
@@ -89,6 +106,7 @@ export async function main(
         url: arg,
         ...(botUrl ? { botUrl } : {}),
         ...(parsed.values['desktop-only'] ? { viewports: ['desktop'] } : {}),
+        ...(parsed.values.warc ? { warc: true } : {}),
       });
       if (parsed.values.json) {
         io.out(JSON.stringify(output.result, null, 2));
@@ -108,7 +126,9 @@ export async function main(
       const summary = await runJob(arg, {
         store: jobStoreFromEnv(io.env),
         run: deps.run,
-        ...(botUrl ? { botUrl } : {}),
+        ...(botUrl ? { botUrl, verifyOrigin: botUrl } : {}),
+        ...(io.env.WARC === 'true' ? { warc: true } : {}),
+        renderPdf: renderProofPdf,
       });
       io.out(
         `Audit ${summary.auditId} : ${summary.artifacts.length} artefacts, ${summary.errors} étapes non réalisées`,
@@ -140,6 +160,7 @@ function parse(argv: readonly string[]) {
       out: { type: 'string' },
       'desktop-only': { type: 'boolean' },
       json: { type: 'boolean' },
+      warc: { type: 'boolean' },
       help: { type: 'boolean', short: 'h' },
     },
   });

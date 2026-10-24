@@ -1,4 +1,5 @@
 import { createHash } from 'node:crypto';
+import { ARTIFACT_LIMITS } from '@audigy/evidence';
 import {
   createRequestBudget,
   createSafeFetch,
@@ -24,6 +25,7 @@ import {
   probeCmpInPage,
 } from './cmp.js';
 import {
+  cachedResponses,
   createInterceptor,
   createResponseCache,
   type Interceptor,
@@ -48,6 +50,7 @@ import {
   type StepError,
   type Viewport,
 } from './schema.js';
+import { buildHomepageWarc, HOMEPAGE_WARC } from './warc.js';
 
 /**
  * Le navigateur ne résout aucun nom : toute requête qui échapperait à l'interception
@@ -95,6 +98,8 @@ export interface BrowserAuditOptions {
   settleMs?: number;
   maxSettleMs?: number;
   now?: () => Date;
+  /** WARC de la page d’accueil. Uniquement sur demande (rapport probant). */
+  warc?: boolean;
 }
 
 export interface ScreenshotFile {
@@ -102,9 +107,16 @@ export interface ScreenshotFile {
   data: Buffer;
 }
 
+export interface WarcFile {
+  file: typeof HOMEPAGE_WARC;
+  data: Buffer;
+}
+
 export interface BrowserAuditOutput {
   result: BrowserAuditResult;
   screenshots: ScreenshotFile[];
+  /** Absent ou `null` si l’archive n’a pas été demandée. */
+  warc?: WarcFile | null;
 }
 
 export function launchBrowser(): Promise<Browser> {
@@ -154,7 +166,7 @@ export async function runBrowserAudit(
     );
     errors.push(...desktopErrors(desktop));
     const analysis = await analyze(desktop, target, now(), errors);
-    const desktopShot = await capture(desktop, errors);
+    const desktopShot = await capture(desktop, errors, now);
     await desktop.context.close();
 
     let mobile: LoadState | null = null;
@@ -167,7 +179,7 @@ export async function runBrowserAudit(
           message: mobile.load.error,
         });
       if (mobile.page) await measureEco(mobile, errors);
-      await capture(mobile, errors);
+      await capture(mobile, errors, now);
       await mobile.context.close();
     }
 
@@ -223,7 +235,14 @@ export async function runBrowserAudit(
     const screenshots = [desktopShot, mobile?.screenshot ?? null].filter(
       (s): s is ScreenshotFile => s !== null,
     );
-    return { result: parseBrowserAuditResult(result), screenshots };
+    const warc = await maybeWarc(
+      options.warc === true,
+      finalUrl ?? target.href,
+      startedAt,
+      cache,
+      errors,
+    );
+    return { result: parseBrowserAuditResult(result), screenshots, warc };
   } finally {
     if (!options.browser) await browser.close();
   }
@@ -476,24 +495,50 @@ async function measureEco(
   };
 }
 
+async function maybeWarc(
+  wanted: boolean,
+  homepageUrl: string,
+  date: Date,
+  cache: ResponseCache,
+  errors: StepError[],
+): Promise<WarcFile | null> {
+  if (!wanted) return null;
+  const data = await step(errors, 'warc', 'desktop', () =>
+    buildHomepageWarc({
+      homepageUrl,
+      date,
+      exchanges: cachedResponses(cache),
+    }),
+  );
+  if (!data) return null;
+  return { file: HOMEPAGE_WARC, data: Buffer.from(data) };
+}
+
 async function capture(
   state: LoadState,
   errors: StepError[],
+  now: () => Date,
 ): Promise<ScreenshotFile | null> {
   const page = state.page;
   if (!page) return null;
   const viewport = state.load.viewport;
+  const capturedAt = now().toISOString();
   const shot = await step(errors, 'screenshot', viewport, async () => {
-    const cdp = await state.context.newCDPSession(page);
-    try {
-      const { data } = await cdp.send('Page.captureScreenshot', {
-        format: 'webp',
-        quality: 80,
-      });
-      return Buffer.from(data, 'base64');
-    } finally {
-      await cdp.detach().catch(() => {});
+    let last: Buffer | null = null;
+    for (const quality of [80, 60, 40, 20] as const) {
+      const cdp = await state.context.newCDPSession(page);
+      try {
+        const { data } = await cdp.send('Page.captureScreenshot', {
+          format: 'webp',
+          quality,
+        });
+        last = Buffer.from(data, 'base64');
+      } finally {
+        await cdp.detach().catch(() => {});
+      }
+      if (last.length <= ARTIFACT_LIMITS.screenshotBytes) return last;
     }
+    throw new Error('CAPTURE_TOO_LARGE');
   });
   if (!shot) return null;
   const scale =
@@ -507,6 +552,7 @@ async function capture(
     height: Math.round(state.load.height * scale),
     bytes: shot.length,
     sha256: createHash('sha256').update(shot).digest('hex'),
+    capturedAt,
   };
   state.load.screenshot = meta;
   state.screenshot = { file, data: shot };

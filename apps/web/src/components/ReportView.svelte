@@ -24,6 +24,7 @@ import { verdictCopy } from '../lib/verdict.js';
 import CategoryList from './CategoryList.svelte';
 import FindingList from './FindingList.svelte';
 import HistoryPanel from './HistoryPanel.svelte';
+import PreuveMentions from './PreuveMentions.svelte';
 import ReportFooter from './ReportFooter.svelte';
 import ScoreGauge from './ScoreGauge.svelte';
 
@@ -169,20 +170,21 @@ onMount(() => {
     />
   {/if}
 
+  <p class="no-print">
+    <a href={`/rapport/${payload.audit.id}/imprimer`}>{t('print.link')}</a>
+  </p>
   <h2 id="verification">{t('section.verify')}</h2>
   <p class="prose">{t('verify.lead')}</p>
   <p class="prose">{t('verify.pending')}</p>
   <p class="prose">{t('verify.id')}</p>
-  <p class="prose">{t('verify.legal')}</p>
-  <p class="prose">{t('verify.legal.value')}</p>
-  <p class="prose">{t('verify.observed')}</p>
+  <PreuveMentions />
   <ReportFooter
     url={payload.audit.site.url}
     at={stamp}
     methodVersion={payload.audit.methodVersion}
     fingerprint={payload.audit.id}
     fingerprintKind="id"
-    verifyHref="#verification"
+    verifyHref={`/verifier/${payload.audit.id}`}
   />
 {/if}
 

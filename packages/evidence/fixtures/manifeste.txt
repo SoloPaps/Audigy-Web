@@ -1,0 +1,1 @@
+{"fichiers":[{"fichier":"rapport.pdf","octets":58,"sha256":"269d6a4b456524f1c73524ab7b3192bffc700088724675c98065fa57b7b2d033"}],"resultsSha256":"95e78b7494337c8a9a933cb5ced5a940f7d22b973c8dbcb381479792298ee0e5"}

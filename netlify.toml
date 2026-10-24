@@ -15,6 +15,12 @@
   # Fiches de correction lues à l'exécution (effort des corrections).
   included_files = ["packages/engine/fixes/fr/*.md"]
 
+# La sortie statique n’a pas une page par audit : le chemin réel reste dans le navigateur.
+[[redirects]]
+  from = "/rapport/:id/imprimer"
+  to = "/rapport/imprimer/index.html"
+  status = 200
+
 [[headers]]
   for = "/*"
   [headers.values]
@@ -23,3 +29,9 @@
     Referrer-Policy = "strict-origin-when-cross-origin"
     Permissions-Policy = "camera=(), microphone=(), geolocation=()"
     Content-Security-Policy = "default-src 'self'; connect-src 'self' https://*.supabase.co http://127.0.0.1:54321 http://localhost:54321"
+
+# Même page pour chaque identifiant. Le fichier existe seulement pour l’exemple.
+[[redirects]]
+  from = "/verifier/*"
+  to = "/verifier/00000000-0000-4000-8000-000000000019/index.html"
+  status = 200

@@ -12,6 +12,33 @@ function envKey(suffix) {
   return `import.meta.env.${pub}_${name}_${suffix}`;
 }
 
+function rewritePrint(req, _res, next) {
+  const raw = req.url ?? '';
+  const query = raw.indexOf('?');
+  const path = query === -1 ? raw : raw.slice(0, query);
+  const match = path.match(/^\/rapport\/([^/]+)\/imprimer\/?$/);
+  if (match && match[1] !== 'imprimer') {
+    const params = new URLSearchParams(
+      query === -1 ? '' : raw.slice(query + 1),
+    );
+    params.set('id', match[1]);
+    req.url = `/rapport/imprimer/?${params.toString()}`;
+  }
+  next();
+}
+
+function printRoute() {
+  const mount = (server) => {
+    server.middlewares.stack.unshift({ route: '', handle: rewritePrint });
+  };
+  return {
+    name: 'audigy-print-route',
+    enforce: 'pre',
+    configureServer: mount,
+    configurePreviewServer: mount,
+  };
+}
+
 export default defineConfig({
   integrations: [svelte()],
   output: 'static',
@@ -19,6 +46,7 @@ export default defineConfig({
     format: 'directory',
   },
   vite: {
+    plugins: [printRoute()],
     define: {
       [envKey('URL')]: JSON.stringify(process.env.SUPABASE_URL ?? ''),
       [envKey(`${piece(['A', 'N', 'O', 'N'])}_KEY`)]: JSON.stringify(
