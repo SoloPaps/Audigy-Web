@@ -28,10 +28,29 @@
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
     Permissions-Policy = "camera=(), microphone=(), geolocation=()"
-    Content-Security-Policy = "default-src 'self'; connect-src 'self' https://*.supabase.co http://127.0.0.1:54321 http://localhost:54321"
+    # Les îlots Astro/Svelte s’hydratent avec des scripts et styles inline.
+    # Firefox applique default-src à script-src-elem et style-src-elem :
+    # sans 'unsafe-inline', ThemeToggle et LoginForm ne démarrent pas.
+    # Empreintes ou nonces casseraient les boots régénérés à chaque build.
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://*.supabase.co http://127.0.0.1:54321 http://localhost:54321; base-uri 'self'; form-action 'self'"
 
 # Même page pour chaque identifiant. Le fichier existe seulement pour l’exemple.
 [[redirects]]
   from = "/verifier/*"
   to = "/verifier/00000000-0000-4000-8000-000000000019/index.html"
   status = 200
+
+[[redirects]]
+  from = "/score/*"
+  to = "/score/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/partage/*"
+  to = "/partage/index.html"
+  status = 200
+
+[[headers]]
+  for = "/partage/*"
+  [headers.values]
+    X-Robots-Tag = "noindex"

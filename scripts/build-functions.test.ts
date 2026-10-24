@@ -24,7 +24,11 @@ afterAll(async () => {
 async function load(name: string) {
   return (await import(pathToFileURL(path.join(out, `${name}.mjs`)).href)) as {
     default: Handler;
-    config?: { path: string; method: string | string[] };
+    config?: {
+      path?: string;
+      method?: string | string[];
+      schedule?: string;
+    };
   };
 }
 
@@ -34,12 +38,15 @@ describe('fonctions Netlify', () => {
       'api-audits-create',
       'api-audits-get',
       'api-places',
+      'api-unsubscribe',
       'api-verifications-check',
       'api-verifications-create',
       'audit-run-background',
+      'digest-weekly',
       'oauth-google-callback',
       'oauth-google-revoke',
       'oauth-google-start',
+      'schedule-tick',
       'verification-recheck-background',
     ]);
     expect((await load('api-audits-create')).config).toEqual({
@@ -66,6 +73,15 @@ describe('fonctions Netlify', () => {
     expect(
       (await load('verification-recheck-background')).config,
     ).toBeUndefined();
+    expect((await load('api-unsubscribe')).config).toEqual({
+      path: '/api/unsubscribe',
+    });
+    expect((await load('schedule-tick')).config).toEqual({
+      schedule: '*/15 * * * *',
+    });
+    expect((await load('digest-weekly')).config).toEqual({
+      schedule: '0 6,7 * * 1',
+    });
     expect((await load('oauth-google-start')).config).toEqual({
       path: '/api/oauth/google/start',
       method: 'POST',

@@ -3,13 +3,15 @@
  * HTTPS (AC de test générée au démarrage). Rien ne sort de 127.0.0.1.
  * `pnpm lab` écrit `.netlify/audigy-lab.json` puis reste ouvert. Avec
  * `AUDIGY_LAB=.netlify/audigy-lab.json`, `netlify dev` et la CLI auditent ces noms.
- * Si `.env` manque, il est créé avec les valeurs du Supabase local (jamais affichées).
+ * Si `.env` manque, il est créé avec les valeurs du Supabase local (jamais affichées,
+ * jamais commitées). `apps/web/.env` ne reçoit que l'URL et la clé anon.
  */
 import { existsSync } from 'node:fs';
 import { mkdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { generateTestCerts } from '../packages/net/test/certs.js';
+import { syncWebEnv } from '../scripts/dev-env.mjs';
 import {
   FIXTURE_SITES,
   type FixtureServer,
@@ -67,8 +69,12 @@ export async function startLab(): Promise<Lab> {
 
 async function ensureDevEnv(root: string, labFile: string): Promise<string> {
   const envPath = path.join(root, '.env');
-  if (existsSync(envPath))
-    return `.env existe : vérifiez AUDIGY_LAB=${labFile} et les clés SUPABASE_* locales.`;
+  if (existsSync(envPath)) {
+    const wrote = await syncWebEnv(root);
+    return wrote
+      ? `.env existe : apps/web/.env reprend l'URL et la clé anon. Les deux fichiers restent locaux, jamais commités. Vérifiez AUDIGY_LAB=${labFile}.`
+      : `.env existe : URL ou clé anon manquante, apps/web/.env inchangé. Vérifiez AUDIGY_LAB=${labFile} et les clés SUPABASE_* locales.`;
+  }
   const { localSupabaseStatus } = await import('../packages/db/test/local.js');
   let local: ReturnType<typeof localSupabaseStatus>;
   try {
@@ -91,7 +97,8 @@ async function ensureDevEnv(root: string, labFile: string): Promise<string> {
     ].join('\n'),
     { mode: 0o600 },
   );
-  return '.env créé avec les valeurs du Supabase local.';
+  await syncWebEnv(root);
+  return '.env créé avec les valeurs du Supabase local. apps/web/.env ne contient que l’URL et la clé anon. Rien n’est commité.';
 }
 
 if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {

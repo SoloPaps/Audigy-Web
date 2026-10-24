@@ -1,16 +1,16 @@
 import { spawn } from 'node:child_process';
 import { access, readdir, readFile, rm } from 'node:fs/promises';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { commandOptions, loadRootEnv } from './dev-env.mjs';
 
+const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const dist = 'apps/web/dist';
 const devPage = path.join(dist, 'dev/composants/index.html');
 
 function run(command, args) {
   return new Promise((resolve, reject) => {
-    const child = spawn(command, args, {
-      stdio: 'inherit',
-      env: { ...process.env, ASTRO_TELEMETRY_DISABLED: '1' },
-    });
+    const child = spawn(command, args, commandOptions());
     child.on('error', reject);
     child.on('exit', (code) => {
       if (code === 0) resolve();
@@ -97,6 +97,7 @@ async function pruneUnreferenced(root) {
   return removed;
 }
 
+await loadRootEnv(root);
 await run('pnpm', ['--filter', '@audigy/web', 'build']);
 await run('node', ['scripts/build-functions.ts']);
 await rm(path.join(dist, 'dev'), { recursive: true, force: true });

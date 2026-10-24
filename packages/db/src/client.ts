@@ -5,6 +5,8 @@ type AuditRow =
   Database['public']['Functions']['claim_next_audit']['Returns'][number];
 type SharedReportRow =
   Database['public']['Functions']['read_report_by_share_token']['Returns'][number];
+type PublicScoreRow =
+  Database['public']['Functions']['read_public_score']['Returns'][number];
 
 export interface DbEnv {
   url: string;
@@ -114,6 +116,38 @@ export async function readReportByShareToken(
     p_token: token,
   });
   if (error) throw new Error('report_lookup_failed');
+  return data?.[0] ?? null;
+}
+
+const PUBLIC_SLUG = /^[a-z0-9-]{8,64}$/;
+const SHARE_TOKEN = /^[0-9a-f]{32}$/;
+
+/** Score public d'un site opt-in. `null` si le slug est absent ou retiré. */
+export async function readPublicScore(
+  client: SupabaseClient<Database>,
+  slug: string,
+): Promise<PublicScoreRow | null> {
+  if (!PUBLIC_SLUG.test(slug)) return null;
+  const { data, error } = await client.rpc('read_public_score', {
+    p_slug: slug,
+  });
+  if (error) throw new Error('public_score_failed');
+  return data?.[0] ?? null;
+}
+
+/**
+ * Score d'un lien `link` encore ouvert.
+ * Révoqué (`revoked_at` renseigné) : `null` dès la lecture suivante.
+ */
+export async function readSharedScore(
+  client: SupabaseClient<Database>,
+  token: string,
+): Promise<PublicScoreRow | null> {
+  if (!SHARE_TOKEN.test(token)) return null;
+  const { data, error } = await client.rpc('read_shared_score', {
+    p_token: token,
+  });
+  if (error) throw new Error('shared_score_failed');
   return data?.[0] ?? null;
 }
 

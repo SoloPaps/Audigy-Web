@@ -142,6 +142,13 @@ export async function scan(root: string): Promise<CopyIssue[]> {
   } catch {
     return [];
   }
+  const copy = path.join(root, 'packages', 'orchestrator', 'src', 'copy.ts');
+  try {
+    await readFile(copy, 'utf8');
+    files.push(copy);
+  } catch {
+    // gabarits d'e-mail absents
+  }
   const issues: CopyIssue[] = [];
   for (const file of files) {
     const source = await readFile(file, 'utf8');
