@@ -5,6 +5,12 @@ import Base from '../layouts/Base.astro';
 ---
 
 <Base title={t('meta.progress.title')} description={t('meta.progress.description')}>
-  <h1>{t('progress.title')}</h1>
-  <ProgressPanel client:load />
+  <div class="reading">
+    <section class="glass glass-module">
+      <div class="glass-plate">
+        <h1>{t('progress.title')}</h1>
+        <ProgressPanel client:load />
+      </div>
+    </section>
+  </div>
 </Base>

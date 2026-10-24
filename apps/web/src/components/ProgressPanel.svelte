@@ -69,7 +69,7 @@ onMount(() => {
   <p class="kicker">{payload.audit.site.url}</p>
 {/if}
 {#if payload && waiting}
-  <AuditOverlay message={progressLive(payload.audit.status, names)} />
+  <AuditOverlay plain message={progressLive(payload.audit.status, names)} />
 {:else}
   <p role="status" aria-live="polite">
     {payload ? progressLive(payload.audit.status, names) : message}

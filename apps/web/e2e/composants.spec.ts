@@ -320,6 +320,9 @@ test('historique en tableau, traits distincts et comparaison', async ({
     page.getByRole('link', { name: /Score global : 83 sur 100/ }),
   ).toBeVisible();
   await expect(page.locator('table')).toBeHidden();
+  const others = page.locator('details', { hasText: 'Autres mesures' });
+  await expect(others).not.toHaveJSProperty('open', true);
+  await expect(page.locator('.swatch')).toHaveCount(1);
   await page.getByRole('button', { name: 'Voir en tableau' }).click();
   const table = page.getByRole('table');
   await expect(table).toBeVisible();
@@ -327,6 +330,9 @@ test('historique en tableau, traits distincts et comparaison', async ({
   await expect(table).toContainText('83');
   await expect(table.getByText('Bon').first()).toBeVisible();
   await expect(table.getByText('À améliorer').first()).toBeVisible();
+  await others.locator('summary').click();
+  await page.getByRole('checkbox', { name: 'Vitesse' }).check();
+  await page.getByRole('checkbox', { name: 'Protection' }).check();
   const strokes = await page.locator('.swatch').evaluateAll((nodes) =>
     nodes.map((node) => {
       const view = globalThis as unknown as {
@@ -350,7 +356,9 @@ test('historique en tableau, traits distincts et comparaison', async ({
   await seo.click();
   await expect(seo).not.toBeChecked();
   await expect(page.getByText('Trois courbes au plus.')).toBeVisible();
-  const compare = page.getByRole('region', { name: 'Comparer deux audits' });
+  const compare = page.locator('details', { hasText: 'Comparer deux audits' });
+  await expect(compare).not.toHaveJSProperty('open', true);
+  await compare.locator('summary').click();
   await expect(
     compare.getByRole('heading', { name: 'Nouveaux problèmes' }),
   ).toBeVisible();

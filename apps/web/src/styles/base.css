@@ -266,6 +266,12 @@ a:visited {
   margin-top: var(--space-3);
 }
 
+.footer-note {
+  margin: var(--space-3) 0 0;
+  color: var(--ink-2);
+  font-size: var(--text-sm);
+}
+
 @media (max-width: 768px) {
   .button {
     min-height: var(--touch-min);

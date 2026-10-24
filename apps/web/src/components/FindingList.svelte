@@ -6,6 +6,7 @@ import {
   levelForStatus,
 } from '../lib/findings.js';
 import { correctionPrompt } from '../lib/report-export.js';
+import EmptyState from './EmptyState.svelte';
 import StatusMark from './StatusMark.svelte';
 
 interface Props {
@@ -112,7 +113,12 @@ async function copyPrompt(finding: Finding): Promise<void> {
           </button>
         {/if}
         {#if finding.sourceHref && finding.sourceLabel}
-          <p><a class="link-inline" href={finding.sourceHref}>{finding.sourceLabel}</a></p>
+          <p>
+            <a class="link-inline" href={finding.sourceHref}>
+              {finding.sourceLabel}
+              <span class="visually-hidden">, {t('link.external')}</span>
+            </a>
+          </p>
         {/if}
       </details>
     </article>
@@ -173,7 +179,7 @@ async function copyPrompt(finding: Finding): Promise<void> {
     </section>
   {/if}
   {#if counts[filter] === 0}
-    <p>{t('report.filter.empty')}</p>
+    <EmptyState message={t('report.filter.empty')} />
   {/if}
 </div>
 
@@ -191,17 +197,18 @@ async function copyPrompt(finding: Finding): Promise<void> {
     gap: var(--space-2);
     min-height: var(--touch-min);
     padding-inline: var(--space-3);
-    border: var(--border) solid var(--line);
+    border: var(--border) solid transparent;
     border-radius: var(--radius-sm);
-    background: var(--surface);
+    background: transparent;
     color: var(--ink);
     font: 400 var(--text-sm) / var(--leading-title) var(--font-text);
     cursor: pointer;
   }
 
   .filter[aria-pressed='true'] {
-    border-color: var(--accent);
-    background: var(--paper);
+    border-color: var(--ink);
+    border-radius: var(--radius-pill);
+    background: var(--surface);
     font-weight: 600;
   }
 

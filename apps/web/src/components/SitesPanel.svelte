@@ -14,6 +14,7 @@ import {
 } from '../lib/places-api.js';
 import { latestAuditBySite, type SiteMark } from '../lib/site-tiles.js';
 import { InvalidSiteUrl, normalizeSiteUrl } from '../lib/site-url.js';
+import EmptyState from './EmptyState.svelte';
 import ReputationPanel from './ReputationPanel.svelte';
 import ScoreGauge from './ScoreGauge.svelte';
 import SiteShare from './SiteShare.svelte';
@@ -34,6 +35,7 @@ let marks = $state<Map<string, SiteMark>>(new Map());
 let loading = $state(true);
 let needLogin = $state(false);
 let error = $state('');
+let loadError = $state('');
 let notice = $state('');
 let url = $state('');
 let pending = $state(false);
@@ -60,7 +62,7 @@ async function load(): Promise<void> {
     .order('label', { ascending: true });
   loading = false;
   if (readError) {
-    error = t('sites.error');
+    loadError = t('sites.error');
     return;
   }
   rows = (data ?? []).map((row) => ({
@@ -180,8 +182,13 @@ async function onSignOut(): Promise<void> {
   {#if notice}
     <p role="status">{notice}</p>
   {/if}
-  {#if rows.length === 0}
-    <p>{t('sites.empty')}</p>
+  {#if loadError}
+    <p role="status">{loadError}</p>
+    {@render addForm()}
+  {:else if rows.length === 0}
+    <EmptyState message={t('sites.empty')}>
+      {@render addForm()}
+    </EmptyState>
   {:else}
     <ul class="site-list stagger">
       {#each rows as site (site.id)}
@@ -212,24 +219,34 @@ async function onSignOut(): Promise<void> {
               </div>
             </a>
           {/if}
-          <div class="site-extra">
-            <a class="link-action" href={`/verifier?site=${encodeURIComponent(site.id)}`}>
-              {t('sites.verify')}
+          <details class="site-actions">
+            <summary>
+              {t('sites.actions')}
               <span class="visually-hidden">{site.label}</span>
-            </a>
-            {#if places?.enabled}
-              <ReputationPanel
-                siteId={site.id}
-                token={accessToken}
-                place={placeFor(site.id)}
-              />
-            {/if}
-            <SiteShare {site} />
-          </div>
+            </summary>
+            <div class="site-extra">
+              <a class="link-action" href={`/verifier?site=${encodeURIComponent(site.id)}`}>
+                {t('sites.verify')}
+                <span class="visually-hidden">{site.label}</span>
+              </a>
+              {#if places?.enabled}
+                <ReputationPanel
+                  siteId={site.id}
+                  token={accessToken}
+                  place={placeFor(site.id)}
+                />
+              {/if}
+              <SiteShare {site} />
+            </div>
+          </details>
         </li>
       {/each}
     </ul>
+    {@render addForm()}
   {/if}
+{/if}
+
+{#snippet addForm()}
   <form class="audit-form" method="dialog" onsubmit={onSubmit}>
     <div class="field">
       <label for="new-site">{t('sites.url')}</label>
@@ -255,6 +272,9 @@ async function onSignOut(): Promise<void> {
       {pending ? t('sites.adding') : t('sites.add')}
     </button>
   </form>
+{/snippet}
+
+{#if !loading && !needLogin}
   <p class="page-links">
     <button type="button" class="button button-link" onclick={onSignOut}>
       {t('sites.signout')}
@@ -277,10 +297,20 @@ async function onSignOut(): Promise<void> {
     width: 100%;
   }
 
+  .site-actions {
+    margin-bottom: var(--space-5);
+  }
+
+  .site-actions > summary {
+    min-height: var(--touch-min);
+    cursor: pointer;
+    font-weight: 600;
+  }
+
   .site-extra {
     display: flex;
     flex-direction: column;
     gap: var(--space-3);
-    margin-bottom: var(--space-5);
+    margin-top: var(--space-3);
   }
 </style>

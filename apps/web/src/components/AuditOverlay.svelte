@@ -3,21 +3,32 @@ import { t } from '../i18n/index.js';
 
 interface Props {
   message: string;
+  plain?: boolean;
 }
 
-let { message }: Props = $props();
+let { message, plain = false }: Props = $props();
 </script>
 
-<div class="overlay glass">
-  <div class="glass-plate">
-    <p role="status" aria-live="polite">{message}</p>
-    <div class="disk"></div>
-    <div class="bar"></div>
-    <div class="bar"></div>
-    <div class="bar"></div>
-    <p><a class="link-action" href="/">{t('progress.home')}</a></p>
+{#snippet body()}
+  <p role="status" aria-live="polite">{message}</p>
+  <div class="disk"></div>
+  <div class="bar"></div>
+  <div class="bar"></div>
+  <div class="bar"></div>
+  <p><a class="link-action" href="/">{t('progress.home')}</a></p>
+{/snippet}
+
+{#if plain}
+  <div class="overlay">
+    {@render body()}
   </div>
-</div>
+{:else}
+  <div class="overlay glass">
+    <div class="glass-plate">
+      {@render body()}
+    </div>
+  </div>
+{/if}
 
 <style>
   .disk,

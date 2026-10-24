@@ -23,6 +23,7 @@ import {
   yRange,
 } from '../lib/history.js';
 import DataTable from './DataTable.svelte';
+import EmptyState from './EmptyState.svelte';
 import StatusMark from './StatusMark.svelte';
 
 interface Props {
@@ -47,7 +48,13 @@ let {
   initialSeries = [GLOBAL_SERIES],
 }: Props = $props();
 
-let selected = $state(untrack(() => clampSeries(initialSeries)));
+let selected = $state(
+  untrack(() => {
+    const next = clampSeries(initialSeries);
+    if (next.includes(GLOBAL_SERIES)) return next;
+    return clampSeries([GLOBAL_SERIES, ...next]);
+  }),
+);
 let limit = $state(false);
 let olderId = $state(untrack(() => audits[0]?.id ?? ''));
 let newerId = $state(untrack(() => audits.at(-1)?.id ?? ''));
@@ -56,6 +63,7 @@ let frame = $state<HTMLDivElement | null>(null);
 let host = $state<HTMLDivElement | null>(null);
 let dots = $state<Dot[]>([]);
 
+const others = $derived(series.filter((item) => item.id !== GLOBAL_SERIES));
 const active = $derived(
   selected.flatMap((id) => {
     const item = series.find((seriesItem) => seriesItem.id === id);
@@ -76,6 +84,7 @@ const diff = $derived(
 );
 
 function toggle(id: string, want: boolean): void {
+  if (id === GLOBAL_SERIES) return;
   if (want) {
     if (selected.includes(id)) return;
     if (selected.length >= MAX_SERIES) {
@@ -86,7 +95,6 @@ function toggle(id: string, want: boolean): void {
     selected = [...selected, id];
     return;
   }
-  if (selected.length <= 1) return;
   limit = false;
   selected = selected.filter((item) => item !== id);
 }
@@ -315,31 +323,14 @@ $effect(() => {
 });
 </script>
 
+{#if points.length === 0}
+  <EmptyState message={t('history.summary.empty')} />
+{:else}
 <p class="summary">{summary}</p>
 {#if curveHelp}
   <p class="hint">{curveHelp}</p>
 {/if}
 
-{#if series.length > 0}
-  <fieldset class="series">
-    <legend>{t('history.series')}</legend>
-    {#each series as item (item.id)}
-      <label class="choice">
-        <input
-          type="checkbox"
-          checked={selected.includes(item.id)}
-          onchange={(event) => onCheck(item.id, event.currentTarget)}
-        />
-        <span>{item.label}</span>
-      </label>
-    {/each}
-  </fieldset>
-{/if}
-{#if limit}
-  <p role="status">{t('history.series.limit')}</p>
-{/if}
-
-{#if points.length > 0}
   <div
     class="chart-frame"
     bind:this={frame}
@@ -374,6 +365,27 @@ $effect(() => {
       {/each}
     </div>
   </div>
+
+{#if others.length > 0}
+  <details class="fold">
+    <summary>{t('history.others')}</summary>
+    <fieldset class="series">
+      <legend>{t('history.series')}</legend>
+      {#each others as item (item.id)}
+        <label class="choice">
+          <input
+            type="checkbox"
+            checked={selected.includes(item.id)}
+            onchange={(event) => onCheck(item.id, event.currentTarget)}
+          />
+          <span>{item.label}</span>
+        </label>
+      {/each}
+    </fieldset>
+    {#if limit}
+      <p role="status">{t('history.series.limit')}</p>
+    {/if}
+  </details>
 {/if}
 
 <button
@@ -391,8 +403,8 @@ $effect(() => {
   <DataTable caption={table.caption} columns={table.columns} rows={table.rows} />
 </div>
 
-<section class="compare" aria-label={t('compare.title')}>
-  <h3>{t('compare.title')}</h3>
+<details class="fold">
+  <summary>{t('compare.title')}</summary>
   {#if audits.length < 2}
     <p>{t('compare.need')}</p>
   {:else}
@@ -445,10 +457,21 @@ $effect(() => {
       <p>{t('compare.same')}</p>
     {/if}
   {/if}
-</section>
+</details>
+{/if}
 
 <style>
   .summary {
+    font-weight: 600;
+  }
+
+  .fold {
+    margin-top: var(--space-4);
+  }
+
+  .fold > summary {
+    min-height: var(--touch-min);
+    cursor: pointer;
     font-weight: 600;
   }
 

@@ -242,6 +242,7 @@ test('la confirmation affiche la note et le score à part', async ({ page }) => 
   await signIn(page);
   await page.goto('/sites');
   await waitForIslands(page);
+  await page.locator('details.site-actions summary').click();
   await page.getByLabel('Nom du lieu').fill('Cabinet');
   await page.getByRole('button', { name: 'Chercher le lieu' }).click();
   await expect(
