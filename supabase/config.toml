@@ -58,7 +58,13 @@ enabled = false
 [auth]
 enabled = true
 site_url = "http://127.0.0.1:8888"
-additional_redirect_urls = ["http://127.0.0.1:8888", "http://127.0.0.1:4321"]
+# netlify dev (8888) et le serveur Astro (4321). /compte/retour vient de location.origin.
+additional_redirect_urls = [
+  "http://127.0.0.1:8888",
+  "http://localhost:8888",
+  "http://127.0.0.1:4321",
+  "http://localhost:4321",
+]
 jwt_expiry = 3600
 enable_refresh_token_rotation = true
 refresh_token_reuse_interval = 10
