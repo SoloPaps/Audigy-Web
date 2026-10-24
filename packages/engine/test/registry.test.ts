@@ -1,7 +1,14 @@
 import { describe, expect, it } from 'vitest';
-import { createRegistry } from '../src/index.js';
+import pkg from '../package.json' with { type: 'json' };
+import { createRegistry, ENGINE_VERSION } from '../src/index.js';
 import { facticeActif, facticePassif } from './factices.js';
 import { fakeCheck, result } from './helpers.js';
+
+describe('ENGINE_VERSION', () => {
+  it('suit la version du paquet', () => {
+    expect(ENGINE_VERSION).toBe(pkg.version);
+  });
+});
 
 describe('createRegistry', () => {
   it('liste les checks triés et filtre par domaine et mode', () => {

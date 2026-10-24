@@ -13,6 +13,8 @@
  * - `parseFix`, `loadFixes(store)`, `variantFor` : fiches §5.3. Lecture disque :
  *   `fileFixStore(dir?)` depuis `@audigy/engine/fixes-fs`.
  * - `createSharedArtifacts()` : artefacts chargés une seule fois par audit.
+ *   `BROWSER_SHARED_KEY` : sortie du runner navigateur, pour les checks `needs: ['browser']`.
+ * - `ENGINE_VERSION`, `METHOD_VERSION` : versions stockées sur chaque audit.
  * - `SECURITE_CHECKS` : checks passifs du domaine Sécurité (PART-06).
  * - `DNS_EMAIL_CHECKS` : MX, SPF, DMARC, DKIM, CAA, DNSSEC, MTA-STS, TLS-RPT (PART-09).
  * - `PERFORMANCE_CHECKS` : laboratoire PSI (mobile + ordinateur) et terrain CrUX
@@ -126,7 +128,7 @@ export {
   scoreDomains,
   scoreGlobal,
 } from './score.js';
-export { createSharedArtifacts } from './shared.js';
+export { BROWSER_SHARED_KEY, createSharedArtifacts } from './shared.js';
 export {
   type Check,
   type CheckContext,
@@ -134,6 +136,7 @@ export {
   type CheckResult,
   DOMAINS,
   type Domain,
+  ENGINE_VERSION,
   type Hosting,
   MAIN_DOMAINS,
   METHOD_VERSION,
