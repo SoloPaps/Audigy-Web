@@ -255,7 +255,7 @@ function blocked(
     });
   }
   if (bundle.reason === 'no_data') {
-    return finding(id, 'untested', 1, 1, 'performance.field.absent');
+    return finding(id, 'na', 1, 1, 'performance.field.absent');
   }
   return finding(
     id,

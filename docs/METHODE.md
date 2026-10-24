@@ -100,7 +100,7 @@ Le score de laboratoire retenu est le plus faible des deux, arrondi au point le 
 
 Le poids, le cache et la compression utilisent la note Lighthouse du pire des deux contextes, avec les mêmes seuils de 80 et de 50. Le poids affiché est celui de ce contexte.
 
-Les seuils de visite réelle sont ceux des Core Web Vitals. LCP : au plus 2,5 s, puis 4 s. INP : au plus 200 ms, puis 500 ms. CLS : au plus 0,1, puis 0,25. Sans donnée, ou si une seule mesure manque, le test est Non testé. Ce n’est pas un défaut du site.
+Les seuils de visite réelle sont ceux des Core Web Vitals. LCP : au plus 2,5 s, puis 4 s. INP : au plus 200 ms, puis 500 ms. CLS : au plus 0,1, puis 0,25. Sans donnée de visite réelle, pour l’adresse et pour l’origine, ces trois tests sont Non applicable. Ils sortent du total de couverture. Ce n’est pas un défaut du site. Si une seule mesure manque dans un rapport reçu, ce test reste Non testé.
 
 Une clé absente ou une réponse 429 donne Non testé, avec la raison. Une erreur réseau ou un code 5xx est réessayé une fois. L’appel de laboratoire attend au plus 120 secondes. Une réponse réussie, un quota ou une absence de terrain est réutilisée le même jour (UTC) pour la même adresse. La clé d’API n’est pas conservée.
 

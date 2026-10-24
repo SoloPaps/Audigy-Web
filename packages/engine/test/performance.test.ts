@@ -27,6 +27,7 @@ import {
   judgeWeight,
 } from '../checks/performance/judge.js';
 import type {
+  CruxBundle,
   CruxOk,
   PsiBundle,
   PsiStrategyResult,
@@ -232,6 +233,47 @@ function psi(
   desktop: PsiStrategyResult | null,
 ): PsiBundle {
   return { ok: true, mobile, desktop, fetchedOn: '2026-10-23' };
+}
+
+function outcome(
+  checkId: string,
+  weight: 1 | 2 | 3,
+  result: CheckResult,
+): CheckOutcome {
+  return {
+    checkId,
+    domain: 'performance',
+    mode: 'passive',
+    weight,
+    result,
+  };
+}
+
+/** Laboratoire noté, cache et compression sans audit (cas PSI réel fréquent). */
+function labOnlyPsi(): PsiBundle {
+  const none = { score: null, numericValue: null };
+  const mobile = strategy('mobile', 0.91, 0.9, 200_000);
+  const desktop = strategy('desktop', 0.95, 0.9, 180_000);
+  mobile.audits['uses-long-cache-ttl'] = none;
+  desktop.audits['uses-long-cache-ttl'] = none;
+  mobile.audits['uses-text-compression'] = none;
+  desktop.audits['uses-text-compression'] = none;
+  return psi(mobile, desktop);
+}
+
+function fieldOutcomes(
+  bundle: PsiBundle,
+  cruxBundle: CruxBundle,
+): CheckOutcome[] {
+  return [
+    outcome('performance.cache', 1, judgeCache(bundle)),
+    outcome('performance.cls', 2, judgeCls(cruxBundle)),
+    outcome('performance.compression', 1, judgeCompression(bundle)),
+    outcome('performance.inp', 2, judgeInp(cruxBundle)),
+    outcome('performance.lcp', 2, judgeLcp(cruxBundle)),
+    outcome('performance.lighthouse', 3, judgeLighthouse(bundle)),
+    outcome('performance.poids', 1, judgeWeight(bundle)),
+  ];
 }
 
 function crux(
@@ -622,16 +664,80 @@ describe('échecs honnêtes', () => {
       cruxOrigin: missing,
     });
     const { outcomes } = await runAll(api);
-    expectResult(
-      resultOf(outcomes, 'performance.lcp'),
-      'untested',
-      'performance.field.absent',
-    );
+    for (const id of [
+      'performance.lcp',
+      'performance.inp',
+      'performance.cls',
+    ]) {
+      expectResult(resultOf(outcomes, id), 'na', 'performance.field.absent');
+    }
     expect(fr['performance.field.absent']).not.toMatch(/pas pu tester|lent/);
     expect(scoreDomain('performance', outcomes)).toMatchObject({
       score: 96,
-      coverage: 0.5,
+      coverage: 1,
+      testedWeight: 6,
+      totalWeight: 6,
     });
+  });
+
+  it('sans donnée de terrain, le laboratoire suffit à noter la vitesse', () => {
+    const bundle = labOnlyPsi();
+    const absent = { ok: false as const, reason: 'no_data' as const };
+    for (const result of [
+      judgeLcp(absent),
+      judgeInp(absent),
+      judgeCls(absent),
+    ]) {
+      expectResult(result, 'na', 'performance.field.absent');
+      expect(result.reason).toBe('performance.field.absent');
+    }
+    expect(judgeCache(bundle).status).toBe('na');
+    expect(judgeCompression(bundle).status).toBe('na');
+    expect(
+      scoreDomain('performance', fieldOutcomes(bundle, absent)),
+    ).toMatchObject({
+      score: 91,
+      coverage: 1,
+      testedWeight: 4,
+      totalWeight: 4,
+      level: 'good',
+    });
+  });
+
+  it('clé absente, quota ou erreur de terrain restent Non testé', () => {
+    const bundle = labOnlyPsi();
+    const cases = [
+      { reason: 'missing_key' as const, key: 'performance.missing_key' },
+      {
+        reason: 'quota' as const,
+        key: 'performance.quota',
+        status: 429,
+      },
+      { reason: 'error' as const, key: 'performance.error', status: 500 },
+    ];
+    for (const item of cases) {
+      const failure = {
+        ok: false as const,
+        reason: item.reason,
+        ...(item.status === undefined ? {} : { status: item.status }),
+      };
+      for (const result of [
+        judgeLcp(failure),
+        judgeInp(failure),
+        judgeCls(failure),
+      ]) {
+        expectResult(result, 'untested', item.key);
+      }
+      expect(
+        scoreDomain('performance', fieldOutcomes(bundle, failure)),
+      ).toMatchObject({
+        score: null,
+        coverage: 0.4,
+        testedWeight: 4,
+        totalWeight: 10,
+        level: 'untested',
+      });
+    }
   });
 
   it('une mesure de terrain absente reste Non testé', async () => {
@@ -917,6 +1023,9 @@ describe('clé, fiches et méthode', () => {
     );
     expect(methode).toContain('120 secondes');
     expect(methode).toContain('CrUX');
+    expect(methode).toMatch(
+      /Sans donnée de visite réelle[\s\S]{0,240}Non applicable/,
+    );
     for (const item of PERFORMANCE_CHECKS) {
       const sheet = sheets.get(item.id);
       expect(sheet, item.id).toBeTruthy();
