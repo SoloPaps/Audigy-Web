@@ -133,3 +133,18 @@ describe('plafond et charte', () => {
     expect(rule).not.toContain('Source Serif');
   });
 });
+
+describe('transitions', () => {
+  it('nomme la jauge hero et coupe le mouvement réduit', () => {
+    const gauge = text('apps/web/src/components/ScoreGauge.svelte');
+    expect(gauge).toContain('view-transition-name: audigy-gauge');
+    expect(gauge).toContain("data-size='hero'");
+    const layout = text('apps/web/src/layouts/Base.astro');
+    expect(layout).toContain('ClientRouter');
+    expect(layout).toContain('fallback="swap"');
+    expect(layout).toContain("fade({ duration: '280ms' })");
+    const arc = text('apps/web/src/styles/arc.css');
+    expect(arc).toContain('::view-transition-old(root)');
+    expect(arc).toContain('prefers-reduced-motion: reduce');
+  });
+});

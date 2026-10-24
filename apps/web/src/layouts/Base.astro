@@ -1,4 +1,5 @@
 ---
+import { ClientRouter, fade } from 'astro:transitions';
 import SiteBar from '../components/SiteBar.svelte';
 import ThemeToggle from '../components/ThemeToggle.svelte';
 import { t } from '../i18n/index.js';
@@ -23,7 +24,7 @@ const initialTheme =
 ---
 
 <!doctype html>
-<html lang="fr">
+<html lang="fr" transition:animate={fade({ duration: '280ms' })}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -32,6 +33,7 @@ const initialTheme =
     <link rel="canonical" href={canonical} />
     {jsonLd ? <script type="application/ld+json" set:html={jsonLd} /> : null}
     {robots ? <meta name="robots" content={robots} /> : null}
+    <ClientRouter fallback="swap" />
     <script is:inline src="/theme-init.js"></script>
   </head>
   <body>

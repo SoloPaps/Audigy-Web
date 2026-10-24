@@ -57,6 +57,7 @@ const scoreAttr = $derived(score === null ? 'none' : String(score));
 
   .gauge[data-size='hero'] {
     width: var(--gauge-hero);
+    view-transition-name: audigy-gauge;
   }
 
   .gauge-figure {
@@ -89,7 +90,7 @@ const scoreAttr = $derived(score === null ? 'none' : String(score));
 
   @media (prefers-reduced-motion: no-preference) {
     .gauge-fill {
-      animation: gauge-rise var(--duration-gauge) linear;
+      animation: gauge-rise var(--duration-gauge) var(--ease-out) both;
     }
   }
 
