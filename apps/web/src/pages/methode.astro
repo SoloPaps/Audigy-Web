@@ -1,4 +1,5 @@
 ---
+import PageToc from '../components/PageToc.astro';
 import { t } from '../i18n/index.js';
 import Base from '../layouts/Base.astro';
 ---
@@ -9,8 +10,19 @@ import Base from '../layouts/Base.astro';
   <p class="prose">{t('method.version')}</p>
   <p class="prose">{t('method.change')}</p>
   <p class="prose">{t('method.recorded')}</p>
+  <PageToc
+    items={[
+      { id: 'method-status', label: t('method.status.title') },
+      { id: 'method-skip', label: t('method.skip.title') },
+      { id: 'method-domain', label: t('method.domain.title') },
+      { id: 'method-global', label: t('method.global.title') },
+      { id: 'method-level', label: t('method.level.title') },
+      { id: 'method-order', label: t('method.order.title') },
+      { id: 'method-repro', label: t('method.repro.title') },
+    ]}
+  />
 
-  <h2>{t('method.status.title')}</h2>
+  <h2 id="method-status">{t('method.status.title')}</h2>
   <p class="prose">{t('method.status.body')}</p>
   <ul class="prose-list">
     <li>{t('method.pass')}</li>
@@ -23,7 +35,7 @@ import Base from '../layouts/Base.astro';
   <p class="prose">{t('method.weight')}</p>
   <p class="prose">{t('method.lighthouse')}</p>
 
-  <h2>{t('method.skip.title')}</h2>
+  <h2 id="method-skip">{t('method.skip.title')}</h2>
   <p class="prose">{t('method.skip.lead')}</p>
   <ul class="prose-list">
     <li>{t('method.skip.active')}</li>
@@ -38,19 +50,19 @@ import Base from '../layouts/Base.astro';
     <a class="link-inline" href="/cgu">{t('method.penal.link')}</a>
   </p>
 
-  <h2>{t('method.domain.title')}</h2>
+  <h2 id="method-domain">{t('method.domain.title')}</h2>
   <p class="prose">{t('method.domain.formula')}</p>
   <p class="prose">{t('method.coverage')}</p>
   <p class="prose">{t('method.coverage.low')}</p>
   <p class="prose">{t('method.coverage.why')}</p>
 
-  <h2>{t('method.global.title')}</h2>
+  <h2 id="method-global">{t('method.global.title')}</h2>
   <p class="prose">{t('method.global.body')}</p>
   <p class="prose">{t('method.global.eight')}</p>
   <p class="prose">{t('method.global.aside')}</p>
   <p class="prose">{t('method.global.empty')}</p>
 
-  <h2>{t('method.level.title')}</h2>
+  <h2 id="method-level">{t('method.level.title')}</h2>
   <ul class="prose-list">
     <li>{t('method.level.good')}</li>
     <li>{t('method.level.improve')}</li>
@@ -58,11 +70,11 @@ import Base from '../layouts/Base.astro';
     <li>{t('method.level.none')}</li>
   </ul>
 
-  <h2>{t('method.order.title')}</h2>
+  <h2 id="method-order">{t('method.order.title')}</h2>
   <p class="prose">{t('method.order.body')}</p>
   <p class="prose">{t('method.order.tie')}</p>
 
-  <h2>{t('method.repro.title')}</h2>
+  <h2 id="method-repro">{t('method.repro.title')}</h2>
   <p class="prose">{t('method.repro.body')}</p>
   <p class="prose">{t('method.proof')}</p>
   <p class="prose"><a class="link-inline" href="/verifier">{t('method.proof.link')}</a></p>

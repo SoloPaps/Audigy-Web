@@ -145,7 +145,66 @@ describe('rapport', () => {
     expect(all[1]?.why).toBe(
       'Nous n’avons pas pu tester : le navigateur d’audit n’a pas tourné.',
     );
+    expect(all[1]?.limit ?? null).toBeNull();
     expect(reportFindings(payload, fixes, 'securite')).toHaveLength(1);
+  });
+
+  it('range la limite à part et garde la cause hors du constat', () => {
+    const hosted = {
+      domain: 'ecologie',
+      checkId: 'ecologie.hebergeur',
+      status: 'warn',
+      severity: 2,
+      impact: 1,
+      score: 60,
+      measured: {},
+      messageKey: 'ecologie.hebergeur.pass_anonyme',
+      params: {},
+      fixKey: null,
+      effortMinutes: 10,
+      reason: null,
+    };
+    const [plain] = reportFindings(
+      { ...payload, findings: [hosted] },
+      new Map(),
+    );
+    expect(plain?.title).toBe(
+      'L’annuaire indique un hébergeur à électricité renouvelable.',
+    );
+    expect(plain?.why).toBe(plain?.title);
+    expect(plain?.limit).toBe(
+      'Cela ne couvre pas toute la chaîne d’hébergement.',
+    );
+    const withFix = reportFindings(
+      {
+        ...payload,
+        findings: [
+          {
+            ...hosted,
+            fixKey: 'ecologie.hebergeur',
+            reason: 'reason.missing_source',
+            params: { source: 'psi' },
+          },
+        ],
+      },
+      new Map([
+        [
+          'ecologie.hebergeur',
+          {
+            title: 'Choisir l’hébergeur',
+            why: 'L’électricité du serveur compte dans la page.',
+            effortMinutes: 10,
+            steps: ['Regardez l’annuaire.'],
+          },
+        ],
+      ]),
+    );
+    expect(withFix[0]?.why).toBe(
+      'L’électricité du serveur compte dans la page.',
+    );
+    expect(withFix[0]?.limit).toContain('PageSpeed');
+    expect(withFix[0]?.limit).not.toContain('psi');
+    expect(JSON.stringify(withFix[0])).not.toMatch(/clé/u);
   });
 
   it('sans OAuth, le constat propose le lien Search Console', () => {

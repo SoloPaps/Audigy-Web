@@ -484,6 +484,17 @@ a:visited {
   details.preuve-mentions:not([open]) > :not(summary) {
     display: block;
   }
+
+  details.finding-limit::details-content,
+  details.good-group::details-content {
+    content-visibility: visible;
+    display: block;
+  }
+
+  details.finding-limit:not([open]) > :not(summary),
+  details.good-group:not([open]) > :not(summary) {
+    display: block;
+  }
 }
 
 .visually-hidden {

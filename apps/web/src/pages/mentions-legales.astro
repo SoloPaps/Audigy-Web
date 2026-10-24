@@ -1,4 +1,5 @@
 ---
+import PageToc from '../components/PageToc.astro';
 import { t } from '../i18n/index.js';
 import Base from '../layouts/Base.astro';
 
@@ -10,21 +11,28 @@ const site = t('legal.site');
   <h1>{t('mentions.title')}</h1>
   <p class="prose">{t('terms.date')}</p>
   <p class="prose">{t('legal.review')}</p>
+  <PageToc
+    items={[
+      { id: 'mentions-editor', label: t('mentions.editor.title') },
+      { id: 'mentions-contact', label: t('mentions.contact.title') },
+      { id: 'mentions-host', label: t('mentions.host.title') },
+    ]}
+  />
 
-  <h2>{t('mentions.editor.title')}</h2>
+  <h2 id="mentions-editor">{t('mentions.editor.title')}</h2>
   <p class="prose">{t('mentions.editor.body')}</p>
   <p class="prose">{t('mentions.editor.anon')}</p>
   <p class="prose">{t('mentions.editor.law')}</p>
   <p class="prose">{t('mentions.director')}</p>
 
-  <h2>{t('mentions.contact.title')}</h2>
+  <h2 id="mentions-contact">{t('mentions.contact.title')}</h2>
   <p class="prose">
     {t('mentions.contact.body')}{' '}
     <a class="link-inline" href={`mailto:${email}`}>{email}</a>
   </p>
   <p class="prose">{t('mentions.site', { site })}</p>
 
-  <h2>{t('mentions.host.title')}</h2>
+  <h2 id="mentions-host">{t('mentions.host.title')}</h2>
   <p class="prose">{t('mentions.host.body')}</p>
   <p class="prose">{t('mentions.host.address')}</p>
   <p class="prose">{t('mentions.host.mail')}</p>

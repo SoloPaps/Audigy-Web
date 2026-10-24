@@ -8,9 +8,10 @@ import {
   REPORT_DOMAINS,
 } from './domains.js';
 import type { Finding, FindingStatus } from './findings.js';
+import { presentFinding } from './report-export.js';
 import { type Level, levelForScore } from './score.js';
 import { asParams, translate } from './translate.js';
-import { explainUntested } from './untested-cause.js';
+import { causeOfFinding, explainUntested } from './untested-cause.js';
 
 export interface FixView {
   title: string;
@@ -53,14 +54,28 @@ export function toFinding(row: ApiFinding, fix: FixView | undefined): Finding {
   let why = fix?.why ?? reason ?? observed ?? t('finding.untested');
   if (why === title) why = reason ?? observed ?? t('finding.untested');
   if (status === 'pass' && !fix) why = t('finding.done');
+  const cause = causeOfFinding(row)?.text ?? null;
+  const reasonIsStatement =
+    reason !== null &&
+    why.replace(/\s+/g, ' ').trim() === reason.replace(/\s+/g, ' ').trim();
+  const copy = presentFinding(
+    why,
+    reasonIsStatement ? null : (cause ?? reason),
+    observed,
+  );
   const minutes = row.effortMinutes ?? fix?.effortMinutes ?? null;
+  let shownTitle = title;
+  if (copy.limit && shownTitle.includes(copy.limit)) {
+    shownTitle = copy.statement;
+  }
   const finding: Finding = {
     id: row.checkId,
     status,
     severity: rank(row.severity, 4),
     impact: rank(row.impact, 3) as 1 | 2 | 3,
-    title,
-    why,
+    title: shownTitle,
+    why: copy.statement,
+    limit: copy.limit,
     effort: effortLabel(status, minutes),
     steps: fix?.steps?.length ? fix.steps : [t('finding.done')],
   };

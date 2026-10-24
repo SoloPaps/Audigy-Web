@@ -10,19 +10,24 @@ import {
   isKnownDomain,
   REPORT_DOMAINS,
 } from '../lib/domains.js';
-import { topActions } from '../lib/findings.js';
+import { levelForStatus, topActions } from '../lib/findings.js';
 import { fixesFor, hostingOf } from '../lib/fix-catalog.js';
 import { GLOBAL_SERIES, type HistoryView } from '../lib/history.js';
 import { loginHref } from '../lib/nav.js';
 import { formatRating } from '../lib/places-api.js';
 import { progressLive } from '../lib/progress-live.js';
 import {
+  markdownFilename,
+  renderMarkdown,
+  saveTextFile,
+} from '../lib/report-export.js';
+import {
   categoryItems,
   reportFindings,
   reputationAside,
   scoredDomainCount,
 } from '../lib/report-model.js';
-import { levelForScore } from '../lib/score.js';
+import { levelForScore, levelLabel } from '../lib/score.js';
 import { loadSiteHistory } from '../lib/site-history.js';
 import { explainUntested } from '../lib/untested-cause.js';
 import { verdictCopy } from '../lib/verdict.js';
@@ -86,6 +91,41 @@ const stamp = $derived.by(() => {
   const date = raw ? new Date(raw) : new Date();
   return Number.isNaN(date.getTime()) ? new Date() : date;
 });
+
+function downloadMarkdown(event: MouseEvent): void {
+  event.preventDefault();
+  if (!payload) return;
+  const file = markdownFilename(payload.audit.site.url, stamp);
+  saveTextFile(
+    file,
+    renderMarkdown({
+      url: payload.audit.site.url,
+      at: stamp,
+      methodVersion: payload.audit.methodVersion,
+      globalScore: global,
+      publicView: false,
+      domains: items.map((item) => ({
+        label: item.label,
+        score: item.score,
+        detail: item.detail,
+        coverageNote: item.coverageNote,
+        causes: item.causes
+          ? {
+              primary: item.causes.primary?.text ?? null,
+              others: item.causes.others.map((line) => line.text),
+              closing: item.causes.closing,
+            }
+          : null,
+      })),
+      findings: shown.map((finding) => ({
+        title: finding.title,
+        statusLabel: levelLabel(levelForStatus(finding.status)),
+        statement: finding.why,
+        limit: finding.limit ?? null,
+      })),
+    }),
+  );
+}
 
 onMount(() => {
   let cancelled = false;
@@ -233,7 +273,7 @@ onMount(() => {
     <section class="glass glass-module">
       <div class="glass-plate">
         <h2 id="corrections">{t('section.findings')}</h2>
-        <FindingList findings={shown} />
+        <FindingList findings={shown} url={payload.audit.site.url} />
       </div>
     </section>
 
@@ -253,8 +293,14 @@ onMount(() => {
 
     <section class="glass glass-module">
       <div class="glass-plate">
-        <p class="no-print">
+        <p class="no-print export-links">
           <a class="link-action" href={`/rapport/${payload.audit.id}/imprimer`}>{t('print.link')}</a>
+          <a
+            class="link-action"
+            href={`/rapport?id=${encodeURIComponent(payload.audit.id)}`}
+            download={markdownFilename(payload.audit.site.url, stamp)}
+            onclick={downloadMarkdown}
+          >{t('export.markdown')}</a>
         </p>
         <h2 id="verification">{t('section.verify')}</h2>
         <details>
@@ -302,6 +348,12 @@ onMount(() => {
 
   .actions li + li {
     margin-top: var(--space-2);
+  }
+
+  .export-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
   }
 
   @media (max-width: 768px) {

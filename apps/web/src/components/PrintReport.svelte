@@ -98,21 +98,28 @@ async function load(): Promise<void> {
   }
   payload = result.payload;
   phase = 'ready';
-  const href = `${location.origin}/verifier/${auditId}`;
-  const svg = await QRCode.toString(href, {
-    type: 'svg',
-    margin: 0,
-    errorCorrectionLevel: 'M',
-    color: { dark: '#1b1f24', light: '#ffffff' },
-  });
-  qr = svg.replace('<svg ', '<svg aria-hidden="true" ');
+  try {
+    const href = `${location.origin}/verifier/${auditId}`;
+    const svg = await QRCode.toString(href, {
+      type: 'svg',
+      margin: 0,
+      errorCorrectionLevel: 'M',
+      color: { dark: '#1b1f24', light: '#ffffff' },
+    });
+    qr = svg.replace('<svg ', '<svg aria-hidden="true" ');
+  } catch {
+    qr = '';
+  }
+  window.print();
+}
+
+function onPrint(event: MouseEvent): void {
+  event.preventDefault();
+  window.print();
 }
 </script>
 
 <h1>{t('print.heading')}</h1>
-<p class="prose">{t('print.legal')}</p>
-<p class="prose">{t('print.observed')}</p>
-<p class="prose">{t('print.eidas')}</p>
 
 {#if phase === 'loading'}
   <p role="status" aria-live="polite">{message}</p>
@@ -126,9 +133,11 @@ async function load(): Promise<void> {
     <p><a class="link-action" href="/sites">{t('nav.sites')}</a></p>
   {/if}
 {:else if payload}
-  <p class="no-print">
+  <p class="no-print export-links">
     <a class="link-action" href={`/rapport?id=${encodeURIComponent(payload.audit.id)}`}>{t('report.back')}</a>
+    <a class="link-action" href={`/rapport/${payload.audit.id}/imprimer`} onclick={onPrint}>{t('print.link')}</a>
   </p>
+  <p class="no-print hint">{t('print.pdf')}</p>
   <header class="verdict">
     <ScoreGauge domain={t('domain.global')} score={global} size="hero" />
     <div>
@@ -146,7 +155,7 @@ async function load(): Promise<void> {
   <h2>{t('section.categories')}</h2>
   <CategoryList {items} />
   <h2>{t('section.findings')}</h2>
-  <FindingList findings={shown} />
+  <FindingList findings={shown} url={payload.audit.site.url} />
   <h2>{t('section.verify')}</h2>
   <dl class="proof">
     <dt>{t('print.id')}</dt>
@@ -183,6 +192,12 @@ async function load(): Promise<void> {
   .detail {
     max-width: var(--line-length);
     font-size: var(--text-lg);
+  }
+
+  .export-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
   }
 
   .proof {

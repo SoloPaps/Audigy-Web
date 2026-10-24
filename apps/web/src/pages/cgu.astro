@@ -1,5 +1,6 @@
 ---
 import { TERMS_VERSION } from '@audigy/db';
+import PageToc from '../components/PageToc.astro';
 import { t } from '../i18n/index.js';
 import Base from '../layouts/Base.astro';
 
@@ -11,19 +12,29 @@ const email = t('legal.email');
   <p class="prose">{t('terms.version.label', { version: TERMS_VERSION })}</p>
   <p class="prose">{t('terms.date')}</p>
   <p class="prose">{t('legal.review')}</p>
+  <PageToc
+    items={[
+      { id: 'terms-free', label: t('terms.free.title') },
+      { id: 'terms-owner', label: t('terms.owner.title') },
+      { id: 'terms-proof', label: t('terms.proof.title') },
+      { id: 'terms-accept', label: t('terms.accept.title') },
+      { id: 'terms-account', label: t('terms.account.title') },
+      { id: 'terms-law', label: t('terms.law.title') },
+    ]}
+  />
 
-  <h2>{t('terms.free.title')}</h2>
+  <h2 id="terms-free">{t('terms.free.title')}</h2>
   <p class="prose">{t('terms.free.body')}</p>
   <p class="prose">{t('terms.free.limit')}</p>
 
-  <h2>{t('terms.owner.title')}</h2>
+  <h2 id="terms-owner">{t('terms.owner.title')}</h2>
   <p class="prose">{t('terms.owner.declare')}</p>
   <p class="prose">{t('terms.owner.active')}</p>
   <p class="prose">{t('terms.owner.law')}</p>
   <p class="prose">{t('terms.owner.article')}</p>
   <p class="prose">{t('terms.owner.passive')}</p>
 
-  <h2>{t('terms.proof.title')}</h2>
+  <h2 id="terms-proof">{t('terms.proof.title')}</h2>
   <p class="prose">{t('terms.proof.bailiff')}</p>
   <p class="prose">{t('terms.proof.value')}</p>
   <p class="prose">{t('terms.proof.date')}</p>
@@ -31,16 +42,16 @@ const email = t('legal.email');
   <p class="prose">{t('terms.proof.article')}</p>
   <p class="prose">{t('terms.proof.presumption')}</p>
 
-  <h2>{t('terms.accept.title')}</h2>
+  <h2 id="terms-accept">{t('terms.accept.title')}</h2>
   <p class="prose">{t('terms.accept.body')}</p>
   <p class="prose">{t('terms.accept.new')}</p>
 
-  <h2>{t('terms.account.title')}</h2>
+  <h2 id="terms-account">{t('terms.account.title')}</h2>
   <p class="prose">{t('terms.account.export')}</p>
   <p class="prose">{t('terms.account.delete')}</p>
   <p class="prose"><a class="link-inline" href="/compte">{t('nav.account')}</a></p>
 
-  <h2>{t('terms.law.title')}</h2>
+  <h2 id="terms-law">{t('terms.law.title')}</h2>
   <p class="prose">{t('terms.law.body')}</p>
   <p class="prose">
     <a class="link-inline" href={`mailto:${email}`}>{email}</a>
