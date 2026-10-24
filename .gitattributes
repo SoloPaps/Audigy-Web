@@ -1,0 +1,9 @@
+# LF obligatoire : les empreintes SHA-256 sont celles des octets LF.
+packages/engine/data/trackers/domains.txt text eol=lf
+packages/evidence/fixtures/results.json text eol=lf
+packages/evidence/fixtures/manifeste.txt text eol=lf
+packages/evidence/fixtures/meta.json text eol=lf
+packages/evidence/fixtures/*.pem text eol=lf
+# Pas d’octet NUL : Git les traiterait comme du texte et casserait l’empreinte.
+packages/evidence/fixtures/rapport.pdf binary
+packages/evidence/fixtures/*.tsr binary
