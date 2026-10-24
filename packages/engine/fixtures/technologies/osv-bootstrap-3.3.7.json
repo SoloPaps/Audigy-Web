@@ -1,0 +1,109 @@
+{
+  "vulns": [
+    {
+      "id": "GHSA-3mgp-fx93-9xv5",
+      "summary": "XSS vulnerability that affects bootstrap",
+      "aliases": ["CVE-2018-20676"],
+      "modified": "2026-09-10T03:47:46.054292108Z",
+      "database_specific": {
+        "severity": "MODERATE"
+      },
+      "severity": [
+        {
+          "type": "CVSS_V3",
+          "score": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"
+        }
+      ]
+    },
+    {
+      "id": "GHSA-3wqf-4x89-9g79",
+      "summary": "Bootstrap vulnerable to Cross-Site Scripting (XSS)",
+      "aliases": ["CVE-2018-14040"],
+      "modified": "2026-09-10T03:49:30.782545493Z",
+      "database_specific": {
+        "severity": "MODERATE"
+      },
+      "severity": [
+        {
+          "type": "CVSS_V3",
+          "score": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"
+        }
+      ]
+    },
+    {
+      "id": "GHSA-4p24-vmcr-4gqj",
+      "summary": "Bootstrap Cross-site Scripting vulnerability",
+      "aliases": ["CVE-2016-10735"],
+      "modified": "2026-09-10T03:47:46.216378687Z",
+      "database_specific": {
+        "severity": "MODERATE"
+      },
+      "severity": [
+        {
+          "type": "CVSS_V3",
+          "score": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"
+        }
+      ]
+    },
+    {
+      "id": "GHSA-7mvr-5x2g-wfc8",
+      "summary": "Bootstrap Cross-site Scripting vulnerability",
+      "aliases": ["CVE-2018-14042"],
+      "modified": "2026-09-10T03:47:12.013657838Z",
+      "database_specific": {
+        "severity": "MODERATE"
+      },
+      "severity": [
+        {
+          "type": "CVSS_V3",
+          "score": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"
+        }
+      ]
+    },
+    {
+      "id": "GHSA-9v3m-8fp8-mj99",
+      "summary": "Bootstrap Vulnerable to Cross-Site Scripting",
+      "aliases": ["CVE-2019-8331"],
+      "modified": "2026-09-10T03:47:48.887199478Z",
+      "database_specific": {
+        "severity": "MODERATE"
+      },
+      "severity": [
+        {
+          "type": "CVSS_V3",
+          "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"
+        }
+      ]
+    },
+    {
+      "id": "GHSA-ph58-4vrj-w6hr",
+      "summary": "bootstrap Cross-site Scripting vulnerability",
+      "aliases": ["CVE-2018-20677"],
+      "modified": "2026-09-10T03:47:59.283661706Z",
+      "database_specific": {
+        "severity": "MODERATE"
+      },
+      "severity": [
+        {
+          "type": "CVSS_V3",
+          "score": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"
+        }
+      ]
+    },
+    {
+      "id": "GHSA-vxmc-5x29-h64v",
+      "summary": "Bootstrap Cross-Site Scripting (XSS) vulnerability for data-* attributes",
+      "aliases": ["CVE-2024-6485"],
+      "modified": "2026-09-10T03:50:17.018129226Z",
+      "database_specific": {
+        "severity": "MODERATE"
+      },
+      "severity": [
+        {
+          "type": "CVSS_V3",
+          "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:H/I:L/A:L"
+        }
+      ]
+    }
+  ]
+}

@@ -1260,7 +1260,11 @@ abc
 
 describe('textes, fiches et méthode', () => {
   it('chaque clé de sécurité est produite par un test', () => {
-    const keys = Object.keys(fr).filter((key) => key.startsWith('securite.'));
+    const technologies =
+      /^securite\.(technologies|cve_scripts|cve_logiciels)\./;
+    const keys = Object.keys(fr).filter(
+      (key) => key.startsWith('securite.') && !technologies.test(key),
+    );
     expect(keys.filter((key) => !seen.has(key)).sort()).toEqual([]);
   });
 
