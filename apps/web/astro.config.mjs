@@ -12,27 +12,40 @@ function envKey(suffix) {
   return `import.meta.env.${pub}_${name}_${suffix}`;
 }
 
-function rewritePrint(req, _res, next) {
+function rewriteRoutes(req, _res, next) {
   const raw = req.url ?? '';
   const query = raw.indexOf('?');
   const path = query === -1 ? raw : raw.slice(0, query);
-  const match = path.match(/^\/rapport\/([^/]+)\/imprimer\/?$/);
-  if (match && match[1] !== 'imprimer') {
-    const params = new URLSearchParams(
-      query === -1 ? '' : raw.slice(query + 1),
-    );
-    params.set('id', match[1]);
+  const extra = query === -1 ? '' : raw.slice(query + 1);
+  const params = new URLSearchParams(extra);
+  const print = path.match(/^\/rapport\/([^/]+)\/imprimer\/?$/);
+  if (print && print[1] !== 'imprimer') {
+    params.set('id', print[1]);
     req.url = `/rapport/imprimer/?${params.toString()}`;
+    next();
+    return;
+  }
+  const score = path.match(/^\/score\/([^/]+)\/?$/);
+  if (score && score[1] !== 'index') {
+    params.set('slug', score[1]);
+    req.url = `/score/?${params.toString()}`;
+    next();
+    return;
+  }
+  const share = path.match(/^\/partage\/([^/]+)\/?$/);
+  if (share && share[1] !== 'index') {
+    params.set('token', share[1]);
+    req.url = `/partage/?${params.toString()}`;
   }
   next();
 }
 
 function printRoute() {
   const mount = (server) => {
-    server.middlewares.stack.unshift({ route: '', handle: rewritePrint });
+    server.middlewares.stack.unshift({ route: '', handle: rewriteRoutes });
   };
   return {
-    name: 'audigy-print-route',
+    name: 'audigy-public-routes',
     enforce: 'pre',
     configureServer: mount,
     configurePreviewServer: mount,

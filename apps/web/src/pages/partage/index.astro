@@ -1,0 +1,13 @@
+---
+import PublicScore from '../../components/PublicScore.svelte';
+import { t } from '../../i18n/index.js';
+import Base from '../../layouts/Base.astro';
+---
+
+<Base
+  title={t('meta.share.title')}
+  description={t('meta.share.description')}
+  robots="noindex"
+>
+  <PublicScore mode="share" client:load />
+</Base>

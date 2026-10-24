@@ -16,6 +16,8 @@
  * - `failStaleAudits(client, minutes)` : audits `running`/`partial` trop vieux → `failed`.
  * - `createUserClient({ …, accessToken })` : client au nom de l'utilisateur (fonctions).
  * - `readReportByShareToken(client, token)` : rapport `link` non révoqué.
+ * - `readPublicScore(client, slug)` : scores d'un site `is_public`.
+ * - `readSharedScore(client, token)` : scores d'un lien encore ouvert.
  * - `dbEnvFrom(env)` : exige `SUPABASE_URL`, `SUPABASE_ANON_KEY`,
  *   `SUPABASE_SERVICE_ROLE_KEY`. Aucune valeur dans le dépôt.
  */
@@ -33,7 +35,9 @@ export {
   type RequestAuditInput,
   type RequestAuditOutcome,
   type RequestAuditResult,
+  readPublicScore,
   readReportByShareToken,
+  readSharedScore,
   requestAudit,
   requestMagicLink,
   type UserClientOptions,
