@@ -10,6 +10,8 @@ export interface Finding {
   impact: 1 | 2 | 3;
   title: string;
   why: string;
+  /** Absente quand elle répète le constat. */
+  limit?: string | null;
   effort: string;
   steps: string[];
   code?: string;

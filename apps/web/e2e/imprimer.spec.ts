@@ -46,7 +46,10 @@ function auditBody(): unknown {
         hosting: 'other',
       },
     },
-    domains: [{ domain: 'securite', score: 40, coverage: 1, level: 'problem' }],
+    domains: [
+      { domain: 'securite', score: 40, coverage: 1, level: 'problem' },
+      { domain: 'vie_privee', score: null, coverage: 0.2, level: 'untested' },
+    ],
     findings: [
       {
         domain: 'securite',
@@ -62,6 +65,34 @@ function auditBody(): unknown {
         effortMinutes: 15,
         reason: null,
       },
+      {
+        domain: 'ecologie',
+        checkId: 'ecologie.hebergeur',
+        status: 'warn',
+        severity: 2,
+        impact: 1,
+        score: 60,
+        measured: {},
+        messageKey: 'ecologie.hebergeur.pass_anonyme',
+        params: {},
+        fixKey: null,
+        effortMinutes: 10,
+        reason: null,
+      },
+      {
+        domain: 'vie_privee',
+        checkId: 'vie_privee.traceurs',
+        status: 'untested',
+        severity: 1,
+        impact: 1,
+        score: null,
+        measured: {},
+        messageKey: 'finding.untested',
+        params: {},
+        fixKey: null,
+        effortMinutes: null,
+        reason: 'reason.runner_absent',
+      },
     ],
     proof: {
       resultsSha256: HASH,
@@ -74,6 +105,15 @@ function auditBody(): unknown {
 }
 
 async function install(page: Page): Promise<void> {
+  await page.addInitScript(() => {
+    const view = globalThis as unknown as {
+      print: () => void;
+      __printCount?: number;
+    };
+    view.print = () => {
+      view.__printCount = (view.__printCount ?? 0) + 1;
+    };
+  });
   await page.addInitScript((value) => {
     const storage = (
       globalThis as unknown as {
@@ -120,13 +160,23 @@ test('impression : mentions, PDF gris, polices, plafond', async ({ page }) => {
     page.getByRole('heading', { level: 1, name: 'Rapport à imprimer' }),
   ).toBeVisible();
   await expect(
-    page.getByText(
-      'Ce rapport n’est pas un constat de commissaire de justice et n’en a pas la valeur.',
-    ),
+    page.getByText('Le navigateur peut l’enregistrer en PDF.'),
   ).toBeVisible();
-  await expect(
-    page.getByText('Horodatage RFC 3161 non qualifié au sens d’eIDAS.'),
-  ).toBeVisible();
+  await expect
+    .poll(() =>
+      page.evaluate(
+        () => (globalThis as { __printCount?: number }).__printCount ?? 0,
+      ),
+    )
+    .toBe(1);
+  await page.getByRole('link', { name: 'Imprimer' }).click();
+  await expect
+    .poll(() =>
+      page.evaluate(
+        () => (globalThis as { __printCount?: number }).__printCount ?? 0,
+      ),
+    )
+    .toBe(2);
   await expect(page.getByText(HASH)).toBeVisible();
   await expect(page.getByText(`Identifiant du rapport`)).toBeVisible();
   await expect(
@@ -137,10 +187,38 @@ test('impression : mentions, PDF gris, polices, plafond', async ({ page }) => {
   await expect(
     page.getByText('Problème', { exact: true }).first(),
   ).toBeVisible();
+  const limit = page.locator('details.finding-limit');
+  await expect(limit).not.toHaveJSProperty('open', true);
+  await expect(limit.locator('.why, p').first()).toBeHidden();
   const violations = await new AxeBuilder({ page }).analyze();
   expect(violations.violations).toEqual([]);
 
   await page.emulateMedia({ media: 'print' });
+  await expect(
+    page.getByText(
+      'Ce rapport n’est pas un constat de commissaire de justice.',
+    ),
+  ).toBeVisible();
+  await expect(
+    page.getByText('Cela ne couvre pas toute la chaîne d’hébergement.'),
+  ).toBeVisible();
+  await expect(
+    page.getByText('Le navigateur d’audit n’a pas tourné.', { exact: true }),
+  ).toBeVisible();
+  const order = (await page.locator('#contenu').textContent()) ?? '';
+  const index = (needle: string) => order.indexOf(needle);
+  const verdict = index('Votre site peut mieux faire.');
+  const domains = index('Ce qui compose la note');
+  const findings = index('Quoi corriger');
+  const footer = index('Identifiant du rapport');
+  const proof = index(
+    'Ce rapport n’est pas un constat de commissaire de justice.',
+  );
+  expect(verdict).toBeGreaterThanOrEqual(0);
+  expect(verdict).toBeLessThan(domains);
+  expect(domains).toBeLessThan(findings);
+  expect(findings).toBeLessThan(footer);
+  expect(footer).toBeLessThan(proof);
   const paint = await page.evaluate(() => {
     const view = globalThis as unknown as {
       document: { body: unknown };
@@ -170,7 +248,11 @@ test('impression : mentions, PDF gris, polices, plafond', async ({ page }) => {
 test('impression sans identifiant', async ({ page }) => {
   await page.goto('/rapport/imprimer');
   await expect(page.getByText('Ce rapport est introuvable.')).toBeVisible();
-  await expect(
-    page.getByText('Horodatage RFC 3161 non qualifié au sens d’eIDAS.'),
-  ).toBeVisible();
+  await expect
+    .poll(() =>
+      page.evaluate(
+        () => (globalThis as { __printCount?: number }).__printCount ?? 0,
+      ),
+    )
+    .toBe(0);
 });

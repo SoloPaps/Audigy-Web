@@ -16,6 +16,11 @@ import {
   type SecurityDetail,
   scoreBadgeSvg,
 } from '../lib/public-score.js';
+import {
+  markdownFilename,
+  renderMarkdown,
+  saveTextFile,
+} from '../lib/report-export.js';
 import { type Level, levelForScore } from '../lib/score.js';
 import { translate } from '../lib/translate.js';
 import { publicCoverageNote } from '../lib/untested-cause.js';
@@ -78,6 +83,41 @@ function securityLine(detail: SecurityDetail): string {
 function segment(): string {
   const parts = location.pathname.split('/').filter(Boolean);
   return decodeURIComponent(parts[1] ?? '');
+}
+
+function downloadMarkdown(event: MouseEvent): void {
+  event.preventDefault();
+  if (!view) return;
+  const at = stamp;
+  saveTextFile(
+    markdownFilename(view.url, at ?? new Date()),
+    renderMarkdown({
+      url: view.url,
+      at,
+      methodVersion: view.methodVersion,
+      globalScore: view.globalScore,
+      publicView: true,
+      domains: items.map((item) => ({
+        label: item.label,
+        score: item.score,
+        detail: item.detail,
+        coverageNote: item.coverageNote,
+        causes: item.causes
+          ? {
+              primary: item.causes.primary?.text ?? null,
+              others: item.causes.others.map((line) => line.text),
+              closing: item.causes.closing,
+            }
+          : null,
+      })),
+      findings: [],
+      securityHeading: t('score.security.title'),
+      securityLines:
+        view.securityDetails.length === 0
+          ? [t('score.security.hidden')]
+          : view.securityDetails.map((detail) => securityLine(detail)),
+    }),
+  );
 }
 
 function download(): void {
@@ -153,10 +193,16 @@ onMount(() => {
     </ul>
   {/if}
 
-  <p>
+  <p class="export-links">
     <button type="button" class="button button-secondary" onclick={download}>
       {t('sites.badge')}
     </button>
+    <a
+      class="link-action"
+      href={location.pathname}
+      download={markdownFilename(view.url, stamp ?? new Date())}
+      onclick={downloadMarkdown}
+    >{t('export.markdown')}</a>
   </p>
   <p class="hint">{t('sites.badge.hint')}</p>
 
@@ -190,6 +236,13 @@ onMount(() => {
     max-width: var(--line-length);
     margin-bottom: var(--space-3);
     font-size: var(--text-lg);
+  }
+
+  .export-links {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-3);
   }
 
   @media (max-width: 768px) {

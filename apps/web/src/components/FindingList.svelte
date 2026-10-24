@@ -5,16 +5,20 @@ import {
   groupFindings,
   levelForStatus,
 } from '../lib/findings.js';
+import { correctionPrompt } from '../lib/report-export.js';
 import StatusMark from './StatusMark.svelte';
 
 interface Props {
   findings: Finding[];
+  url?: string;
 }
 
 type FilterId = 'all' | 'fail' | 'warn' | 'pass';
+type CopyState = 'copied' | 'failed';
 
-let { findings }: Props = $props();
+let { findings, url = '' }: Props = $props();
 let copiedId = $state<string | null>(null);
+let promptState = $state<Record<string, CopyState>>({});
 let filter = $state<FilterId>('all');
 const groups = $derived(groupFindings(findings));
 const counts = $derived({
@@ -39,6 +43,26 @@ async function copyCode(finding: Finding): Promise<void> {
     copiedId = null;
   }
 }
+
+function promptText(finding: Finding): string {
+  return correctionPrompt({
+    url,
+    title: finding.title,
+    statement: finding.why,
+    limit: finding.limit ?? null,
+    steps: finding.steps,
+    code: finding.code,
+  });
+}
+
+async function copyPrompt(finding: Finding): Promise<void> {
+  try {
+    await navigator.clipboard.writeText(promptText(finding));
+    promptState = { ...promptState, [finding.id]: 'copied' };
+  } catch {
+    promptState = { ...promptState, [finding.id]: 'failed' };
+  }
+}
 </script>
 
 {#snippet rows(items: Finding[])}
@@ -48,13 +72,21 @@ async function copyCode(finding: Finding): Promise<void> {
         <StatusMark level={levelForStatus(finding.status)} />
         <div class="finding-copy">
           <h4>{finding.title}</h4>
-          <p class="why">{finding.why}</p>
+          {#if finding.why !== finding.title}
+            <p class="why">{finding.why}</p>
+          {/if}
           {#if finding.actionHref && finding.actionLabel}
             <p><a class="link-action" href={finding.actionHref}>{finding.actionLabel}</a></p>
           {/if}
         </div>
         <p class="effort">{finding.effort}</p>
       </div>
+      {#if finding.limit}
+        <details class="finding-limit">
+          <summary>{t('finding.limit')}</summary>
+          <p>{finding.limit}</p>
+        </details>
+      {/if}
       <details>
         <summary>{t('finding.fix')}</summary>
         <ol>
@@ -62,6 +94,17 @@ async function copyCode(finding: Finding): Promise<void> {
             <li>{step}</li>
           {/each}
         </ol>
+        <div class="prompt no-print">
+          <textarea readonly rows="8" aria-label={t('prompt.label')}>{promptText(finding)}</textarea>
+          <button type="button" class="button button-secondary" onclick={() => copyPrompt(finding)}>
+            {t('prompt.copy')}
+          </button>
+          {#if promptState[finding.id] === 'copied'}
+            <p role="status">{t('prompt.copied')}</p>
+          {:else if promptState[finding.id] === 'failed'}
+            <p role="status">{t('prompt.failed')}</p>
+          {/if}
+        </div>
         {#if finding.code}
           <pre><code>{finding.code}</code></pre>
           <button type="button" class="button button-secondary" onclick={() => copyCode(finding)}>
@@ -76,7 +119,7 @@ async function copyCode(finding: Finding): Promise<void> {
   {/each}
 {/snippet}
 
-<div class="filters" role="group" aria-label={t('report.filter.label')}>
+<div class="filters no-print" role="group" aria-label={t('report.filter.label')}>
   {#each filters as item (item.id)}
     <button
       type="button"
@@ -237,7 +280,9 @@ async function copyCode(finding: Finding): Promise<void> {
     margin-top: var(--space-2);
   }
 
-  pre {
+  pre,
+  textarea {
+    width: 100%;
     max-width: 100%;
     margin: 0 0 var(--space-3);
     padding: var(--space-4);
@@ -251,6 +296,22 @@ async function copyCode(finding: Finding): Promise<void> {
     line-height: var(--leading-body);
     white-space: pre-wrap;
     overflow-wrap: anywhere;
+  }
+
+  textarea {
+    resize: vertical;
+  }
+
+  .prompt {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-2);
+    margin-top: var(--space-3);
+  }
+
+  details + details {
+    margin-top: var(--space-2);
   }
 
   @media (max-width: 768px) {
