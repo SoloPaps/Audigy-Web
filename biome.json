@@ -11,7 +11,8 @@
       "!docs",
       "!**/*.md",
       "!pnpm-lock.yaml",
-      "!fixtures/sites"
+      "!fixtures/sites",
+      "!packages/evidence/fixtures"
     ]
   },
   "formatter": {

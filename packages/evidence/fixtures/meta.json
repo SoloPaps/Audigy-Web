@@ -1,0 +1,20 @@
+{
+  "empreinte": "eded424e1e5919ad8b99aba8c3b53e9e4254479dd5249d784920955a9f74b151",
+  "date": "2026-10-24T08:00:00.000Z",
+  "jetons": [
+    {
+      "fichier": "jeton-a.tsr",
+      "ancre": "ancre-a.pem",
+      "nonce": "09e053b92030084a16134e03ef63e956",
+      "emetteur": "Horodatage A",
+      "genTime": "2026-10-24T08:00:00.000Z"
+    },
+    {
+      "fichier": "jeton-b.tsr",
+      "ancre": "ancre-b.pem",
+      "nonce": "1d863724d8894760e43adc2a6bacafde",
+      "emetteur": "Horodatage B",
+      "genTime": "2026-10-24T08:00:00.000Z"
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "alg": "Ed25519",
+  "kid": "audigy-2026",
+  "publicKeyPem": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAGqM6H7jv5Q176mlsBgNAAo1Guhw/K/xbtknM8dYZNSQ=\n-----END PUBLIC KEY-----\n",
+  "jwk": {
+    "kty": "OKP",
+    "crv": "Ed25519",
+    "x": "GqM6H7jv5Q176mlsBgNAAo1Guhw_K_xbtknM8dYZNSQ",
+    "alg": "EdDSA"
+  }
+}
