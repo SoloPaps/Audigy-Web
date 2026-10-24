@@ -7,6 +7,7 @@ import {
   createExternalApi,
   EXTERNAL_API_HOSTS,
   type ExternalApi,
+  GREEN_WEB_HOST,
 } from '../src/index.js';
 import { generateTestCerts } from './certs.js';
 
@@ -84,10 +85,11 @@ function client(
 }
 
 describe('createExternalApi', () => {
-  it('n’autorise que PSI et CrUX par défaut', () => {
+  it('n’autorise que PSI, CrUX et Green Web par défaut', () => {
     expect([...EXTERNAL_API_HOSTS]).toEqual([
       'www.googleapis.com',
       'chromeuxreport.googleapis.com',
+      GREEN_WEB_HOST,
     ]);
   });
 

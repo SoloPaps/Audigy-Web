@@ -161,7 +161,88 @@ DNSSEC est le drapeau AD du résolveur sur la question SOA. MTA-STS lit l’enre
 | dns_email.spf | 3 | Une seule annonce lisible, au plus 10 consultations, terminée par `-all`. | `~all`, `?all`, pas de `all`, mécanisme `ptr`, ou macro non suivie. | Absente, en double, illisible, `+all`, boucle, trop de consultations, ou pas de `-all` alors que le nom n’envoie pas de courrier. |
 | dns_email.tls_rpt | 1 | TXT `v=TLSRPTv1` avec un `rua`. Sans courrier : Non applicable. | Enregistrement absent. | Enregistrement illisible ou en double. |
 
-## 12. Qualité technique
+## 12. Écologie
+
+Huit tests passifs, version 2026.1. L’EcoIndex et le CO2 par visite sont des estimations. Ils décrivent une page, pas une mesure physique de l’électricité consommée. Les gaz et l’eau de l’EcoIndex ne sont pas le chiffre CO2.js.
+
+Le poids, les requêtes, les éléments, les polices, les images, le cache et la compression viennent du même rapport de laboratoire que la performance. Dans un audit, ce rapport n’est chargé qu’une fois. Le côté retenu est le plus complet (poids, requêtes et éléments), puis le plus lourd. À égalité, le téléphone. Si l’autre côté n’a pas les trois mesures, le constat le dit.
+
+L’unité de l’EcoIndex est le kilooctet décimal : 1 Ko = 1 000 octets. L’affichage du poids, des polices et du budget utilise le kioctet binaire : 1 Kio = 1 024 octets.
+
+### EcoIndex
+
+Formule publique, table de quantiles `ecoindex-5.10.0`. Le score est arrondi à l’entier, moitié vers le pair, puis borné de 0 à 100. La lettre, les gaz et l’eau partent de cet entier.
+
+Score = 100 − 5 × (3 × quantile des éléments + 2 × quantile des requêtes + quantile du poids) / 6.
+
+Lettre : A au-dessus de 80, B au-dessus de 70, C au-dessus de 55, D au-dessus de 40, E au-dessus de 25, F au-dessus de 10, sinon G. 80 est un B.
+
+Gaz, en grammes : 2 + 2 × (50 − score) / 100, arrondi au centième. Eau, en centilitres : 3 + 3 × (50 − score) / 100, arrondi au centième.
+
+Statut : 80 ou plus, Réussi. De 50 à 79, À améliorer. En dessous, Problème.
+
+Trois cas de référence, recalculés avec cette table :
+
+| Éléments | Requêtes | Poids | Score | Lettre | Gaz | Eau |
+|---|---|---|---|---|---|---|
+| 100 | 100 | 100 Ko | 72 | B | 1,56 g | 2,34 cl |
+| 201 | 6 | 107,178 Ko | 87 | A | 1,26 g | 1,89 cl |
+| 47 | 2 | 1,37 Ko | 95 | A | 1,1 g | 1,65 cl |
+
+Le premier est l’exemple du README EcoIndex 5.10.0. Le deuxième est l’exemple publié avec la bibliothèque de calcul. Le troisième est le premier palier positif de la table. Sources : <https://github.com/cnumr/ecoindex_python> et <https://www.ecoindex.fr/comment-ca-marche/>.
+
+### CO2 par visite
+
+CO2.js 0.19.0, modèle Sustainable Web Design version 4, calcul `perVisit`. C’est une visite moyenne, avec l’hypothèse de cache du modèle. Seul le poids sert. Le drapeau vert baisse l’intensité du centre de données.
+
+Lettres du modèle, en grammes : A+ jusqu’à 0,04, A jusqu’à 0,079, B jusqu’à 0,145, C jusqu’à 0,209, D jusqu’à 0,278, E jusqu’à 0,359, sinon F.
+
+Réussi : A+, A ou B. À améliorer : C ou D. Problème : E ou F.
+
+Le drapeau vert n’est posé que si l’annuaire répond et liste l’hôte. Si l’annuaire échoue, le calcul garde le réseau moyen et le dit. Un hôte confirmé hors liste garde aussi le réseau moyen.
+
+### Hébergeur
+
+GET `https://api.thegreenwebfoundation.org/api/v3/greencheck/{nom}`. Le nom est l’hôte seul, en minuscules, sans port ni chemin. Le `www` est conservé. Une adresse IP n’est pas envoyée : le test est Non testé. Délai de 8 secondes, un seul réessai sur 408, 429 ou 5xx. Un second 429 est un quota. Toute réponse autre que 200 est Non testé, pas un problème du site. Seule une réponse réussie est réutilisée le même jour (UTC), pour le même hôte.
+
+Ce test ne valide pas le critère 8.5. Il ne lit pas une documentation d’électricité. Le 8.5 reste une question du questionnaire.
+
+### Référentiel, partie automatique
+
+Le référentiel général d’écoconception (version 2024, 78 critères) n’est pas entièrement automatisable. La partie automatique observe une page. Elle ne prouve pas une déclaration écrite. Critères couverts :
+
+| Critère | Test | Observation |
+|---|---|---|
+| 4.8 | ecologie.rgesn_polices | Fichiers de police et leur poids. |
+| 5.1 | ecologie.rgesn_images | Part d’images matricielles en format léger. |
+| 6.1 | ecologie.rgesn_budget | Poids et nombre de requêtes, plafonds absolus. |
+| 6.2 | ecologie.rgesn_cache | Note Lighthouse du cache, pire des deux côtés. |
+| 6.3 | ecologie.rgesn_compression | Note Lighthouse de la compression, pire des deux côtés. |
+
+Les critères 6.2 et 6.3 relisent les mêmes notes que la performance, avec les seuils 80 et 50. Le budget 6.1 ne reprend pas la note Lighthouse du poids.
+
+4.8 : Réussi sans fichier, ou jusqu’à 400 Kio, ou jusqu’à 2 fichiers. À améliorer jusqu’à 4 fichiers, ou si le poids manque. Problème seulement au-delà de 4 fichiers et de 400 Kio.
+
+5.1 : le SVG ne compte pas. Un type inconnu compte comme une image non légère. Réussi à partir de 75 % en WebP, AVIF ou JPEG XL. À améliorer à partir de 50 %. Aucune image matricielle : Sans objet.
+
+6.1 : Réussi jusqu’à 1 Mio et 30 requêtes. À améliorer jusqu’à 2 Mio et 100 requêtes. Au-dessus : Problème. Le pire des deux l’emporte. S’il en manque un, on ne peut pas réussir : un résultat correct ou moyen devient À améliorer, un dépassement reste un Problème.
+
+### Questionnaire
+
+Schéma seulement. Pas de note, pas d’interface. Version 2024, 78 questions. Réponses : oui, partiel, non, na. Les critères 4.8, 5.1, 6.1, 6.2 et 6.3 restent posés, parce que la mesure automatique ne couvre qu’une page.
+
+| Identifiant | Poids | Réussi | À améliorer | Problème |
+|---|---|---|---|---|
+| ecologie.co2 | 2 | Lettre A+, A ou B | Lettre C ou D | Lettre E ou F |
+| ecologie.ecoindex | 3 | Score entier ≥ 80 | Score de 50 à 79 | Score sous 50 |
+| ecologie.hebergeur | 2 | L’annuaire liste l’hôte | — | L’annuaire ne liste pas l’hôte |
+| ecologie.rgesn_budget | 2 | ≤ 1 Mio et ≤ 30 requêtes | ≤ 2 Mio et ≤ 100, ou une mesure manque | Au-dessus de 2 Mio ou de 100 requêtes |
+| ecologie.rgesn_cache | 1 | Note Lighthouse ≥ 80 | Note de 50 à 79 | Note sous 50 |
+| ecologie.rgesn_compression | 1 | Note Lighthouse ≥ 80 | Note de 50 à 79 | Note sous 50 |
+| ecologie.rgesn_images | 1 | Au moins 75 % de formats légers | De 50 % à 74 % | Moins de 50 % |
+| ecologie.rgesn_polices | 1 | 0 fichier, ≤ 2 fichiers, ou ≤ 400 Kio | 3 ou 4 fichiers au-dessus de 400 Kio, ou poids inconnu | Plus de 4 fichiers et plus de 400 Kio |
+
+## 13. Qualité technique
 
 Cinq tests passifs, version 2026.1. Ils lisent les pages publiques liées, comme un visiteur. Le parcours reste dans la portée demandée. Un audit sur un chemin ne sort pas de ce chemin.
 
