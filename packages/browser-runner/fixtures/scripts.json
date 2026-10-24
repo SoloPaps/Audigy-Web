@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "url": "https://exemple.test/",
+  "cookies": [],
+  "requests": [
+    {
+      "url": "https://cdn.cabinet-martin.test/app.js",
+      "host": "cdn.cabinet-martin.test",
+      "resourceType": "script"
+    }
+  ],
+  "cmp": { "present": false, "vendor": null, "rejectAllFirstLevel": false }
+}

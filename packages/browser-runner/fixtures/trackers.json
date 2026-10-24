@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "url": "https://exemple.test/",
+  "cookies": [
+    { "name": "_ga", "domain": ".google-analytics.com" },
+    { "name": "IDE", "domain": ".doubleclick.net" }
+  ],
+  "requests": [
+    {
+      "url": "https://www.google-analytics.com/g/collect",
+      "host": "www.google-analytics.com",
+      "resourceType": "script"
+    }
+  ],
+  "cmp": { "present": false, "vendor": null, "rejectAllFirstLevel": false }
+}

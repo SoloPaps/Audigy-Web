@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "url": "https://exemple.test/",
+  "cookies": [
+    { "name": "session", "domain": "exemple.test", "value": "secret-trace" }
+  ],
+  "requests": [],
+  "cmp": { "present": false, "vendor": null, "rejectAllFirstLevel": false }
+}

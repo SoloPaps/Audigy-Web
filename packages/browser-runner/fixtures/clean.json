@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "url": "https://exemple.test/",
+  "interacted": false,
+  "cookies": [],
+  "requests": [
+    {
+      "url": "https://exemple.test/",
+      "host": "exemple.test",
+      "resourceType": "document"
+    },
+    {
+      "url": "https://exemple.test/app.js",
+      "host": "exemple.test",
+      "resourceType": "script"
+    }
+  ],
+  "cmp": { "present": false, "vendor": null, "rejectAllFirstLevel": false }
+}
