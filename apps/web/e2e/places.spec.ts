@@ -1,6 +1,24 @@
 import AxeBuilder from '@axe-core/playwright';
 import { expect, type Page, test } from '@playwright/test';
 
+async function settleFiniteAnimations(page: Page): Promise<void> {
+  await page.evaluate(async () => {
+    const view = globalThis as unknown as {
+      document: {
+        getAnimations: () => Array<{
+          effect: { getTiming: () => { iterations: number } } | null;
+          finished: Promise<unknown>;
+        }>;
+      };
+    };
+    const pending = view.document.getAnimations().filter((item) => {
+      const iterations = item.effect?.getTiming().iterations ?? 1;
+      return Number.isFinite(iterations);
+    });
+    await Promise.all(pending.map((item) => item.finished));
+  });
+}
+
 const USER_ID = '11111111-1111-4111-8111-111111111111';
 const SITE_ID = '7a2b3c4d-5e6f-4789-a012-bcdef0123456';
 const AUDIT_ID = '6f1c1f52-6a43-4d55-9d0c-3c2b1f6e7a10';
@@ -245,6 +263,7 @@ test('la confirmation affiche la note et le score à part', async ({ page }) => 
   await expect(
     page.getByRole('img', { name: /Score global : 72 sur 100/ }),
   ).toBeVisible();
+  await settleFiniteAnimations(page);
   const results = await new AxeBuilder({ page }).analyze();
   expect(results.violations).toEqual([]);
   expect(google).toEqual([]);
