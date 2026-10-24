@@ -39,8 +39,7 @@ const NEEDLE: Readonly<Record<string, string>> = {
   'ecologie.rgesn_compression': 'référentiel général d’écoconception',
   'qualite.html': 'html-validate',
   'securite.cve_scripts': 'https://osv.dev/',
-  'securite.cve_logiciels':
-    'https://nvd.nist.gov/developers/vulnerabilities',
+  'securite.cve_logiciels': 'https://nvd.nist.gov/developers/vulnerabilities',
   'vie_privee.traceurs': 'Tracker Radar',
   'vie_privee.cmp': 'Tracker Radar',
 };
@@ -69,7 +68,10 @@ function tablesOf(section: string): Table[] {
       continue;
     }
     const block: string[] = [];
-    while (index < lines.length && (lines[index] ?? '').trim().startsWith('|')) {
+    while (
+      index < lines.length &&
+      (lines[index] ?? '').trim().startsWith('|')
+    ) {
       block.push(lines[index] ?? '');
       index += 1;
     }
@@ -86,10 +88,13 @@ function tablesOf(section: string): Table[] {
 }
 
 function sectionsOf(markdown: string): string[] {
-  return markdown.split(/^## /m).slice(1).map((part) => {
-    const cut = part.indexOf('\n');
-    return cut === -1 ? '' : part.slice(cut + 1);
-  });
+  return markdown
+    .split(/^## /m)
+    .slice(1)
+    .map((part) => {
+      const cut = part.indexOf('\n');
+      return cut === -1 ? '' : part.slice(cut + 1);
+    });
 }
 
 function clean(value: string): string | null {
@@ -98,12 +103,16 @@ function clean(value: string): string | null {
   return text;
 }
 
-export function parseMethodeCatalog(markdown: string): Map<string, MethodeEntry> {
+export function parseMethodeCatalog(
+  markdown: string,
+): Map<string, MethodeEntry> {
   const catalog = new Map<string, MethodeEntry>();
   const criteria = new Map<string, string>();
   for (const section of sectionsOf(markdown)) {
     for (const table of tablesOf(section)) {
-      const header = table.header.map((cell) => cell.toLocaleLowerCase('fr-FR'));
+      const header = table.header.map((cell) =>
+        cell.toLocaleLowerCase('fr-FR'),
+      );
       if (
         header[0] !== 'critère' ||
         header[1] !== 'test' ||
@@ -114,7 +123,9 @@ export function parseMethodeCatalog(markdown: string): Map<string, MethodeEntry>
       for (const row of table.rows) {
         const id = (row[1] ?? '').trim();
         if (id === '') continue;
-        const text = `${row[0] ?? ''} — ${row[2] ?? ''}`.replace(/\s+/g, ' ').trim();
+        const text = `${row[0] ?? ''} — ${row[2] ?? ''}`
+          .replace(/\s+/g, ' ')
+          .trim();
         criteria.set(id, text);
       }
     }
@@ -136,7 +147,8 @@ export function parseMethodeCatalog(markdown: string): Map<string, MethodeEntry>
           id,
           pass: clean(row[passAt] ?? ''),
           criterion: criteria.get(id) ?? null,
-          citation: needle !== undefined && section.includes(needle) ? needle : null,
+          citation:
+            needle !== undefined && section.includes(needle) ? needle : null,
         });
       }
     }

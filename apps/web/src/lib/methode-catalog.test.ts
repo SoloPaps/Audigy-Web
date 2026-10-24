@@ -37,7 +37,9 @@ describe('parseMethodeCatalog', () => {
     expect(catalog.get('performance.lcp')?.citation).toBe('CrUX');
     expect(catalog.get('performance.poids')?.citation).toBe('Lighthouse');
     expect(catalog.get('seo.lighthouse')?.citation).toBe('Lighthouse');
-    expect(catalog.get('accessibilite.lighthouse')?.citation).toBe('Lighthouse');
+    expect(catalog.get('accessibilite.lighthouse')?.citation).toBe(
+      'Lighthouse',
+    );
     expect(catalog.get('seo.title')?.citation).toBeNull();
     expect(catalog.get('dns_email.spf')?.citation).toBe('RFC 7208');
     expect(catalog.get('dns_email.mx')?.citation).toBe('RFC 7505');
@@ -45,7 +47,9 @@ describe('parseMethodeCatalog', () => {
     expect(catalog.get('ecologie.ecoindex')?.citation).toBe(
       'https://www.ecoindex.fr/comment-ca-marche/',
     );
-    expect(catalog.get('ecologie.co2')?.citation).toBe('Sustainable Web Design');
+    expect(catalog.get('ecologie.co2')?.citation).toBe(
+      'Sustainable Web Design',
+    );
     expect(catalog.get('ecologie.hebergeur')?.citation).toBe(
       'thegreenwebfoundation.org',
     );
@@ -53,7 +57,9 @@ describe('parseMethodeCatalog', () => {
       'référentiel général d’écoconception',
     );
     expect(catalog.get('qualite.html')?.citation).toBe('html-validate');
-    expect(catalog.get('securite.cve_scripts')?.citation).toBe('https://osv.dev/');
+    expect(catalog.get('securite.cve_scripts')?.citation).toBe(
+      'https://osv.dev/',
+    );
     expect(catalog.get('securite.cve_logiciels')?.citation).toBe(
       'https://nvd.nist.gov/developers/vulnerabilities',
     );

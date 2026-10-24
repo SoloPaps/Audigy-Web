@@ -75,9 +75,10 @@ describe('fragments du brief', () => {
       expect(text, key).toBeTypeOf('string');
       const issues = lintText(text, key);
       expect(failureCount(issues), key).toBe(0);
-      expect(issues.some((issue) => issue.rule === 'sentence-length'), key).toBe(
-        false,
-      );
+      expect(
+        issues.some((issue) => issue.rule === 'sentence-length'),
+        key,
+      ).toBe(false);
       expect(text.toLocaleLowerCase('fr-FR'), key).not.toContain('clé');
     }
     expect(fr['brief.terminal.fix']).toBe('Fix');

@@ -1,5 +1,10 @@
 import { describe, expect, it } from 'vitest';
-import { barState, failsOf, generatedLive, selectionLabel } from './brief-bar.js';
+import {
+  barState,
+  failsOf,
+  generatedLive,
+  selectionLabel,
+} from './brief-bar.js';
 
 describe('barre du brief', () => {
   it('compte et active selon les cases', () => {

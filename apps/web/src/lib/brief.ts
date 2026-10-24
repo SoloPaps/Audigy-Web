@@ -82,9 +82,14 @@ function spoken(value: string): string {
 function findingBlock(item: BriefFinding): string[] {
   const lines = [
     bullet(`${item.title} — ${item.statusLabel}`),
-    bullet(t('brief.finding.status', { label: spoken(item.statusLabel) }), '  '),
+    bullet(
+      t('brief.finding.status', { label: spoken(item.statusLabel) }),
+      '  ',
+    ),
   ];
-  lines.push(bullet(t('brief.finding.proof', { proof: spoken(item.proof) }), '  '));
+  lines.push(
+    bullet(t('brief.finding.proof', { proof: spoken(item.proof) }), '  '),
+  );
   if (item.impact && !sameSentence(item.proof, item.impact)) {
     lines.push(
       bullet(t('brief.finding.impact', { impact: spoken(item.impact) }), '  '),
@@ -99,18 +104,29 @@ function catalogBlock(
   sources: ReadonlyMap<string, readonly BriefSource[]>,
 ): string[] {
   const entry = catalog.get(item.checkId);
-  const lines = [bullet(item.title), bullet(t('brief.ref.id', { id: item.checkId }), '  ')];
+  const lines = [
+    bullet(item.title),
+    bullet(t('brief.ref.id', { id: item.checkId }), '  '),
+  ];
   if (entry?.criterion) {
     lines.push(
-      bullet(t('brief.ref.criterion', { criterion: spoken(entry.criterion) }), '  '),
+      bullet(
+        t('brief.ref.criterion', { criterion: spoken(entry.criterion) }),
+        '  ',
+      ),
     );
   }
   if (entry?.pass) {
     lines.push(bullet(t('brief.ref.pass', { pass: spoken(entry.pass) }), '  '));
   }
-  const citation = referenceOf(sources.get(item.checkId) ?? [], entry?.citation ?? null);
+  const citation = referenceOf(
+    sources.get(item.checkId) ?? [],
+    entry?.citation ?? null,
+  );
   if (citation) {
-    lines.push(bullet(t('brief.ref.source', { citation: spoken(citation) }), '  '));
+    lines.push(
+      bullet(t('brief.ref.source', { citation: spoken(citation) }), '  '),
+    );
   }
   return lines;
 }
@@ -128,7 +144,9 @@ export function renderBriefBody(input: BriefDocument): string {
     lines.push(bullet(t('brief.context.stack', { stack: input.stack })));
   }
   if (input.at) {
-    lines.push(bullet(t('brief.context.date', { date: formatDateTime(input.at) })));
+    lines.push(
+      bullet(t('brief.context.date', { date: formatDateTime(input.at) })),
+    );
   }
   lines.push('', t('brief.h.findings'));
   for (const item of input.findings) lines.push(...findingBlock(item));
