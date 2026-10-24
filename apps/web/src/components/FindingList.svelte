@@ -97,7 +97,9 @@ async function copyCode(finding: Finding): Promise<void> {
     {#if groups.priority.length > 0}
       <section class="group">
         <h3>{t('group.priority')}</h3>
-        {@render rows(groups.priority)}
+        <div class="stagger">
+          {@render rows(groups.priority)}
+        </div>
       </section>
     {/if}
   {/if}
@@ -105,7 +107,9 @@ async function copyCode(finding: Finding): Promise<void> {
     {#if groups.next.length > 0}
       <section class="group">
         <h3>{t('group.next')}</h3>
-        {@render rows(groups.next)}
+        <div class="stagger">
+          {@render rows(groups.next)}
+        </div>
       </section>
     {/if}
   {/if}
@@ -114,7 +118,9 @@ async function copyCode(finding: Finding): Promise<void> {
       <summary>
         <h3>{t('group.good')}</h3>
       </summary>
-      {@render rows(groups.good)}
+      <div class="stagger">
+        {@render rows(groups.good)}
+      </div>
     </details>
   {/if}
   {#if filter === 'pass' && groups.good.length > 0}
@@ -143,7 +149,7 @@ async function copyCode(finding: Finding): Promise<void> {
     min-height: var(--touch-min);
     padding-inline: var(--space-3);
     border: var(--border) solid var(--line);
-    border-radius: var(--radius-pill);
+    border-radius: var(--radius-sm);
     background: var(--surface);
     color: var(--ink);
     font: 400 var(--text-sm) / var(--leading-title) var(--font-text);

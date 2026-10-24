@@ -124,92 +124,126 @@ onMount(() => {
     <p><a href="/sites">{t('nav.sites')}</a></p>
   {/if}
 {:else if payload}
-  {#if mode === 'domain'}
-    <p><a href={`/rapport?id=${encodeURIComponent(payload.audit.id)}`}>{t('report.back')}</a></p>
-    <header class="verdict">
-      <ScoreGauge domain={domainPlain(domainId)} score={domainScore} size="hero" />
-      <div>
-        <p class="kicker">{payload.audit.site.url}</p>
-        <h1>{domainPlain(domainId)}</h1>
-        <p class="detail">{domainSentence(domainId, levelForScore(domainScore))}</p>
-        {#if domainId === 'reputation' && aside?.rating !== null && aside}
-          <p>{t('places.rating', { rating: formatRating(aside.rating) })}</p>
-          <p>{t('places.count', { count: formatNumber(aside.reviewCount ?? 0) })}</p>
-        {/if}
-      </div>
-    </header>
-  {:else}
-    <header class="verdict">
-      <ScoreGauge domain={t('domain.global')} score={global} size="hero" />
-      <div>
-        <p class="kicker">{payload.audit.site.url}</p>
-        <h1>{verdict.headline}</h1>
-        <p class="detail">{verdict.detail}</p>
-        <p class="hint">
-          {t('report.coverage', {
-            scored: scoredDomainCount(items),
-            total: REPORT_DOMAINS.length,
-          })}
-        </p>
-        {#if actions.length > 0}
-          <p id="actions-label" class="hint">{t('verdict.actions')}</p>
-          <ol class="actions" aria-labelledby="actions-label">
-            {#each actions as item (item.id)}
-              <li><a href={`#finding-${item.id}`}>{item.title}</a></li>
-            {/each}
-          </ol>
-        {/if}
-      </div>
-    </header>
-    <h2>{t('section.categories')}</h2>
-    <CategoryList {items} />
-    {#if aside}
-      <h2>{t('places.aside.title')}</h2>
-      <p class="hint">{t('places.aside.note')}</p>
-      <ScoreGauge domain={t('domain.reputation.plain')} score={aside.score} />
-      {#if aside.name}
-        <p>{aside.name}</p>
-      {/if}
-      {#if aside.rating !== null}
-        <p>{t('places.rating', { rating: formatRating(aside.rating) })}</p>
-        <p>{t('places.count', { count: formatNumber(aside.reviewCount ?? 0) })}</p>
-      {/if}
-      <p>{domainSentence('reputation', aside.level)}</p>
-      {#if aside.score === null}
-        <p><a href="/sites">{t('places.choose')}</a></p>
+  <div class="reading">
+    {#if mode === 'domain'}
+      <section class="glass glass-module">
+        <div class="glass-plate">
+          <p><a href={`/rapport?id=${encodeURIComponent(payload.audit.id)}`}>{t('report.back')}</a></p>
+          <header class="verdict">
+            <ScoreGauge domain={domainPlain(domainId)} score={domainScore} size="hero" />
+            <div>
+              <p class="kicker">{payload.audit.site.url}</p>
+              <h1>{domainPlain(domainId)}</h1>
+              <p class="detail">{domainSentence(domainId, levelForScore(domainScore))}</p>
+              {#if domainId === 'reputation' && aside?.rating !== null && aside}
+                <p>{t('places.rating', { rating: formatRating(aside.rating) })}</p>
+                <p>{t('places.count', { count: formatNumber(aside.reviewCount ?? 0) })}</p>
+              {/if}
+            </div>
+          </header>
+        </div>
+      </section>
+    {:else}
+      <section class="glass glass-module">
+        <div class="glass-plate">
+          <header class="verdict">
+            <ScoreGauge domain={t('domain.global')} score={global} size="hero" />
+            <div>
+              <p class="kicker">{payload.audit.site.url}</p>
+              <h1>{verdict.headline}</h1>
+              <p class="detail">{verdict.detail}</p>
+              <p class="hint">
+                {t('report.coverage', {
+                  scored: scoredDomainCount(items),
+                  total: REPORT_DOMAINS.length,
+                })}
+              </p>
+              {#if actions.length > 0}
+                <p id="actions-label" class="hint">{t('verdict.actions')}</p>
+                <ol class="actions" aria-labelledby="actions-label">
+                  {#each actions as item (item.id)}
+                    <li><a href={`#finding-${item.id}`}>{item.title}</a></li>
+                  {/each}
+                </ol>
+              {/if}
+            </div>
+          </header>
+        </div>
+      </section>
+      <section class="glass glass-module">
+        <div class="glass-plate">
+          <h2>{t('section.categories')}</h2>
+          <CategoryList {items} />
+        </div>
+      </section>
+      {#if aside}
+        <section class="glass glass-module">
+          <div class="glass-plate">
+            <h2>{t('places.aside.title')}</h2>
+            <p class="hint">{t('places.aside.note')}</p>
+            <ScoreGauge domain={t('domain.reputation.plain')} score={aside.score} />
+            {#if aside.name}
+              <p>{aside.name}</p>
+            {/if}
+            {#if aside.rating !== null}
+              <p>{t('places.rating', { rating: formatRating(aside.rating) })}</p>
+              <p>{t('places.count', { count: formatNumber(aside.reviewCount ?? 0) })}</p>
+            {/if}
+            <p>{domainSentence('reputation', aside.level)}</p>
+            {#if aside.score === null}
+              <p><a href="/sites">{t('places.choose')}</a></p>
+            {/if}
+          </div>
+        </section>
       {/if}
     {/if}
-  {/if}
 
-  <h2 id="corrections">{t('section.findings')}</h2>
-  <FindingList findings={shown} />
+    <section class="glass glass-module">
+      <div class="glass-plate">
+        <h2 id="corrections">{t('section.findings')}</h2>
+        <FindingList findings={shown} />
+      </div>
+    </section>
 
-  {#if mode === 'report' && history}
-    <h2>{t('section.table')}</h2>
-    <HistoryPanel
-      series={history.series}
-      points={history.points}
-      audits={history.snapshots}
-      initialSeries={[GLOBAL_SERIES]}
-    />
-  {/if}
+    {#if mode === 'report' && history}
+      <section class="glass glass-module">
+        <div class="glass-plate">
+          <h2>{t('section.table')}</h2>
+          <HistoryPanel
+            series={history.series}
+            points={history.points}
+            audits={history.snapshots}
+            initialSeries={[GLOBAL_SERIES]}
+          />
+        </div>
+      </section>
+    {/if}
 
-  <p class="no-print">
-    <a href={`/rapport/${payload.audit.id}/imprimer`}>{t('print.link')}</a>
-  </p>
-  <h2 id="verification">{t('section.verify')}</h2>
-  <p class="prose">{t('verify.lead')}</p>
-  <p class="prose">{t('verify.pending')}</p>
-  <p class="prose">{t('verify.id')}</p>
-  <PreuveMentions />
-  <ReportFooter
-    url={payload.audit.site.url}
-    at={stamp}
-    methodVersion={payload.audit.methodVersion}
-    fingerprint={payload.audit.id}
-    fingerprintKind="id"
-    verifyHref={`/verifier/${payload.audit.id}`}
-  />
+    <section class="glass glass-module">
+      <div class="glass-plate">
+        <p class="no-print">
+          <a href={`/rapport/${payload.audit.id}/imprimer`}>{t('print.link')}</a>
+        </p>
+        <h2 id="verification">{t('section.verify')}</h2>
+        <p class="prose">{t('verify.lead')}</p>
+        <p class="prose">{t('verify.pending')}</p>
+        <p class="prose">{t('verify.id')}</p>
+        <PreuveMentions />
+      </div>
+    </section>
+    <section class="glass glass-module">
+      <div class="glass-plate">
+        <ReportFooter
+          url={payload.audit.site.url}
+          at={stamp}
+          methodVersion={payload.audit.methodVersion}
+          fingerprint={payload.audit.id}
+          fingerprintKind="id"
+          verifyHref={`/verifier/${payload.audit.id}`}
+        />
+      </div>
+    </section>
+  </div>
 {/if}
 
 <style>
@@ -218,8 +252,6 @@ onMount(() => {
     grid-template-columns: auto minmax(0, 1fr);
     gap: var(--space-6) var(--space-7);
     align-items: center;
-    padding-bottom: var(--space-6);
-    border-bottom: var(--border) solid var(--line);
   }
 
   .detail {

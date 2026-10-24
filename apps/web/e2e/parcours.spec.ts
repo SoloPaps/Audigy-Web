@@ -52,6 +52,21 @@ async function waitForIslands(page: Page): Promise<void> {
 }
 
 async function expectNoViolations(page: Page): Promise<void> {
+  await page.evaluate(async () => {
+    const view = globalThis as unknown as {
+      document: {
+        getAnimations: () => Array<{
+          effect: { getTiming: () => { iterations: number } } | null;
+          finished: Promise<unknown>;
+        }>;
+      };
+    };
+    const pending = view.document.getAnimations().filter((item) => {
+      const iterations = item.effect?.getTiming().iterations ?? 1;
+      return Number.isFinite(iterations);
+    });
+    await Promise.all(pending.map((item) => item.finished));
+  });
   const results = await new AxeBuilder({ page }).analyze();
   expect(
     results.violations,

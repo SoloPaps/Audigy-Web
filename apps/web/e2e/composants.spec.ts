@@ -371,6 +371,18 @@ test('le chiffre reste dans le cercle à 390 px', async ({ page }) => {
   expect(widths.scrollWidth).toBeLessThanOrEqual(widths.clientWidth);
 });
 
+test('la ligne de domaine est un seul lien dans une colonne', async ({
+  page,
+}) => {
+  await page.goto('/dev/composants');
+  const row = page.getByRole('link', { name: /Visibilité sur Google/ });
+  await expect(row).toBeVisible();
+  const nested = await row.locator('a').count();
+  expect(nested).toBe(0);
+  const box = await page.locator('.reading').boundingBox();
+  expect(Math.round(box?.width ?? 0)).toBeLessThanOrEqual(720);
+});
+
 test('la jauge et la liste annoncent la note', async ({ page }) => {
   await page.goto('/dev/composants?theme=light');
   await expect(
