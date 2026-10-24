@@ -16,6 +16,8 @@ const pages = [
   `http://${host}:${port}/connexion?theme=dark`,
   `http://${host}:${port}/sites?theme=light`,
   `http://${host}:${port}/sites?theme=dark`,
+  `http://${host}:${port}/verifier?theme=light`,
+  `http://${host}:${port}/verifier?theme=dark`,
 ];
 
 function waitForPort(timeoutMs) {

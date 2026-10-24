@@ -16,6 +16,10 @@
  *   `BROWSER_SHARED_KEY` : sortie du runner navigateur, pour les checks `needs: ['browser']`.
  * - `ENGINE_VERSION`, `METHOD_VERSION` : versions stockées sur chaque audit.
  * - `SECURITE_CHECKS` : checks passifs du domaine Sécurité (PART-06).
+ * - `ACTIVE_SECURITE_CHECKS` : fichiers exposés, liste de dossier, versions TLS
+ *   (PART-18). Un check `active` ne part que si `verified` est vrai.
+ * - `generateToken`, `activeAllowed`, `probeOwnership`, `buildChallenge` :
+ *   preuve de propriété (DNS TXT, fichier, balise), fraîcheur 10 min, portée.
  * - `DNS_EMAIL_CHECKS` : MX, SPF, DMARC, DKIM, CAA, DNSSEC, MTA-STS, TLS-RPT (PART-09).
  * - `PERFORMANCE_CHECKS` : laboratoire PSI (mobile + ordinateur) et terrain CrUX
  *   (adresse puis origine), stockés dans `ctx.shared` (`psi`, `crux`).
@@ -88,7 +92,9 @@ export {
   type PsiBundle,
 } from '../checks/performance/index.js';
 export { QUALITE_CHECKS } from '../checks/qualite/index.js';
+export { ACTIVE_SECURITE_CHECKS } from '../checks/securite/active.js';
 export { SECURITE_CHECKS } from '../checks/securite/index.js';
+export { EXPOSED_FILES, LISTING_DIRS } from '../checks/securite/signatures.js';
 export {
   CVE_TIMEOUT_MS,
   createTechnologiesChecks,
@@ -114,6 +120,29 @@ export {
   variantFor,
 } from './fixes.js';
 export { googleApiKey, withGoogleApi } from './google-api.js';
+export {
+  activeAllowed,
+  buildChallenge,
+  type ChallengeView,
+  challengeName,
+  challengeValue,
+  FRESH_MS,
+  generateToken,
+  isFresh,
+  looksLikeHtml,
+  metaContent,
+  type OwnershipSite,
+  type ProbeOutcome,
+  type ProofRecord,
+  probeOwnership,
+  scopedUrl,
+  scopesMatch,
+  siteFromTarget,
+  TOKEN_RE,
+  VERIFICATION_METHODS,
+  type VerificationMethod,
+  verificationFileUrl,
+} from './ownership.js';
 export { createRegistry, type Registry, validateCheck } from './registry.js';
 export {
   DEFAULT_AVAILABLE,

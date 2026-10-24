@@ -33,8 +33,9 @@ import {
   type ProcessDeps,
   processNextAudit,
 } from './process.js';
-import type { SiteInput } from './target.js';
+import { type SiteInput, targetOf } from './target.js';
 import { createTrigger } from './trigger.js';
+import { appendAuditLog, confirmClaimedAudit } from './verify-db.js';
 
 type Client = SupabaseClient<Database>;
 
@@ -80,6 +81,8 @@ export function supabaseAuditStore(
       if (error) throw new Error('verification_lookup_failed');
       return (data ?? []).length > 0;
     },
+
+    appendAudit: (entry) => appendAuditLog(service, entry),
 
     writeResults: (input) => writeAuditResults(service, input),
 
@@ -347,6 +350,16 @@ export function runDepsFromEnv(options: RunFromEnvOptions): RunDeps {
         fixes: await fixesFromDisk(logger),
         context: (target, verified) =>
           createAuditContext({ target, verified, env, lab }),
+        confirmActive: async (audit) => {
+          const { ctx } = createAuditContext({
+            target: targetOf(audit.site),
+            verified: false,
+            env,
+            lab,
+            budget: { maxRequests: 4 },
+          });
+          return confirmClaimedAudit(service, ctx.net, audit, new Date());
+        },
         logger,
         ...options.overrides,
       });
