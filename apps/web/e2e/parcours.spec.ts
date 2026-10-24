@@ -330,6 +330,7 @@ test('parcours accueil, connexion, progression, rapport et sites', async ({
   await expect(
     page.getByRole('link', { name: 'Vérifier ce rapport' }),
   ).toBeVisible();
+  await page.locator('details.preuve-mentions summary').click();
   await expect(
     page.getByText(
       'Ce rapport n’est pas un constat de commissaire de justice.',

@@ -75,6 +75,7 @@ function retourner(octets: Uint8Array): Buffer {
 
 test('mentions, horodatage, signature et code', async ({ page }) => {
   await ouvrir(page);
+  await page.locator('details.preuve-mentions summary').click();
   await expect(
     page.getByText(
       'Ce rapport n’est pas un constat de commissaire de justice.',
@@ -98,7 +99,7 @@ test('mentions, horodatage, signature et code', async ({ page }) => {
   await expect(
     page.getByText('Horodatage B', { exact: true }).first(),
   ).toBeVisible();
-  await expect(page.getByText('24 oct. 2026, 10:00').first()).toBeVisible();
+  await expect(page.getByText('24 oct. 2026, 10 h 00').first()).toBeVisible();
   await expect(
     page.getByRole('img', { name: 'Code du lien de vérification' }),
   ).toBeVisible();
@@ -177,6 +178,7 @@ test('reflow à 320 px', async ({ page }) => {
 
 test('mentions aussi sur la page des composants', async ({ page }) => {
   await page.goto('/dev/composants?theme=light');
+  await page.locator('details.preuve-mentions summary').click();
   await expect(
     page.getByText('Horodatage RFC 3161 non qualifié au sens d’eIDAS.'),
   ).toBeVisible();
