@@ -1,6 +1,16 @@
 ---
+import HomeAuditForm from '../components/HomeAuditForm.svelte';
+import ScoreGauge from '../components/ScoreGauge.svelte';
+import StatusMark from '../components/StatusMark.svelte';
 import { t } from '../i18n/index.js';
 import Base from '../layouts/Base.astro';
+import { domainPlain, REPORT_DOMAINS } from '../lib/domains.js';
+import {
+  HOME_EXAMPLE_ROWS,
+  HOME_EXAMPLE_SCORE,
+  HOME_OFFER_SCORES,
+} from '../lib/home-example.js';
+import { levelForScore } from '../lib/score.js';
 
 const jsonLd = JSON.stringify({
   '@context': 'https://schema.org',
@@ -9,33 +19,85 @@ const jsonLd = JSON.stringify({
   inLanguage: 'fr',
   description: t('meta.home.description'),
 });
+
+const levels = ['good', 'improve', 'problem', 'untested'] as const;
+
+const labels = {
+  good: t('level.good'),
+  improve: t('level.improve'),
+  problem: t('level.problem'),
+  untested: t('level.untested'),
+} as const;
+
+const ranges = {
+  good: t('home.scale.range.good'),
+  improve: t('home.scale.range.improve'),
+  problem: t('home.scale.range.problem'),
+  untested: t('score.empty'),
+} as const;
 ---
 
-<Base
-  title={t('home.headline')}
-  description={t('meta.home.description')}
-  jsonLd={jsonLd}
->
-  <h1>{t('home.headline')}</h1>
-  <p class="prose">{t('home.lead')}</p>
-  <p class="prose">{t('home.scope')}</p>
-  <form class="audit-form" action="/lancer" method="get">
-    <div class="field">
-      <label for="site-url">{t('home.url')}</label>
-      <input
-        id="site-url"
-        class="mono"
-        name="url"
-        type="text"
-        required
-        autocomplete="url"
-        spellcheck="false"
-        maxlength="2048"
-        aria-describedby="url-hint"
-      />
-      <p id="url-hint" class="hint">{t('home.url.hint')}</p>
+<Base title={t('home.headline')} description={t('meta.home.description')} jsonLd={jsonLd}>
+  <section class="hero">
+    <div class="hero-copy">
+      <h1>{t('home.headline')}</h1>
+      <p class="prose">{t('home.support')}</p>
+      <HomeAuditForm client:load />
     </div>
-    <button class="button button-primary" type="submit">{t('home.submit')}</button>
-  </form>
-  <p class="prose hint">{t('home.account')}</p>
+    <aside class="hero-preview glass">
+      <div class="glass-plate">
+        <p class="badge">{t('home.example.badge')}</p>
+        <ScoreGauge domain={t('domain.global')} score={HOME_EXAMPLE_SCORE} size="hero" />
+        <p>{t('home.example.sentence')}</p>
+        <ul class="stagger offer-list">
+          {HOME_EXAMPLE_ROWS.map((row) => (
+            <li>
+              <span>{row.key === 'domain.seo.plain' ? t('domain.seo.plain') : t('home.example.https')}</span>
+              <span>{row.score}</span>
+              <StatusMark level={levelForScore(row.score)} />
+            </li>
+          ))}
+        </ul>
+      </div>
+    </aside>
+  </section>
+  <section class="below">
+    <article class="offer glass glass-module">
+      <div class="glass-plate">
+        <h2>{t('home.offer.title')}</h2>
+        <ul class="offer-list">
+          {REPORT_DOMAINS.map((id) => (
+            <li>
+              <span>{domainPlain(id)}</span>
+              <span>{HOME_OFFER_SCORES[id]}</span>
+              <StatusMark level={levelForScore(HOME_OFFER_SCORES[id])} />
+            </li>
+          ))}
+        </ul>
+        <p><a href="/methode">{t('home.offer.link')}</a></p>
+      </div>
+    </article>
+    <article class="free glass glass-module">
+      <div class="glass-plate">
+        <h2>{t('home.free.title')}</h2>
+        <p>{t('home.free.audit')}</p>
+        <p>{t('home.free.account')}</p>
+        <p>{t('home.free.private')}</p>
+      </div>
+    </article>
+    <article class="scale glass glass-module">
+      <div class="glass-plate">
+        <h2>{t('home.scale.title')}</h2>
+        <ul class="offer-list">
+          {levels.map((level) => (
+            <li>
+              <StatusMark level={level} />
+              <span>{labels[level]}</span>
+              <span>{ranges[level]}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </article>
+  </section>
 </Base>

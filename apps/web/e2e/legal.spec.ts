@@ -37,7 +37,7 @@ test('le pied de page ouvre les pages légales', async ({ page }) => {
     footer.getByRole('link', { name: 'Confidentialité' }),
   ).toHaveAttribute('href', '/confidentialite');
   await expect(
-    footer.getByRole('link', { name: 'Conditions' }),
+    footer.getByRole('link', { name: 'Conditions d’utilisation' }),
   ).toHaveAttribute('href', '/cgu');
   await expect(
     footer.getByRole('link', { name: 'Accessibilité' }),

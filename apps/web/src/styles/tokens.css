@@ -8,7 +8,7 @@
   --line: #e3ded5;
   --accent: #0f5c5a;
   --focus: #c2410c;
-  --on-accent: var(--paper);
+  --on-accent: #ffffff;
   --score-good: #1f5fad;
   --score-good-bg: #e6eef8;
   --score-improve: #9a5800;
@@ -17,7 +17,36 @@
   --score-problem-bg: #fbe7e5;
   --score-untested: #5f6672;
   --score-untested-bg: #f1f1ef;
-  --shadow-overlay: 0 4px 16px rgb(0 0 0 / 0.08);
+  --wash-top: #faf8f4;
+  --wash-bottom: #d7e7f2;
+  --blob-petrol: #9fcfcb;
+  --blob-peach: #f3c7b4;
+  --blob-lilac: #e3d4f0;
+  --blob-opacity-petrol: 0.55;
+  --blob-opacity-peach: 0.45;
+  --blob-opacity-lilac: 0.35;
+  --glass: rgb(255 255 255 / 0.64);
+  --glass-border: rgb(255 255 255 / 0.3);
+  --glass-blur: 20px;
+  --shadow-float: 0 18px 48px rgb(27 31 36 / 0.1);
+  --plate: #ffffff;
+  --peach-fill: #f8e4d8;
+  --peach-border: #e39a78;
+  --on-peach: #1b1f24;
+  --radius-float: 16px;
+  --font-display: "Outfit", "Atkinson Hyperlegible Next", sans-serif;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --duration-hover: 200ms;
+  --duration-enter: 280ms;
+  --duration-row: 240ms;
+  --duration-page: 450ms;
+  --duration-blob: 32s;
+  --lift: -3px;
+  --bar-height: 56px;
+  --scroll-pad: 88px;
+  --gauge-mini: 64px;
+  --reading-max: 45rem;
+  --login-max: 30rem;
   --space-1: 4px;
   --space-2: 8px;
   --space-3: 12px;
@@ -69,6 +98,16 @@
   --score-problem-bg: #3a2220;
   --score-untested: #c5cad1;
   --score-untested-bg: #2a2e33;
+  --on-accent: var(--paper);
+  --wash-top: #15181c;
+  --wash-bottom: #1a2830;
+  --glass: rgb(29 33 38 / 0.72);
+  --glass-border: rgb(255 255 255 / 0.18);
+  --shadow-float: 0 18px 48px rgb(0 0 0 / 0.35);
+  --plate: #1d2126;
+  --blob-opacity-petrol: 0.18;
+  --blob-opacity-peach: 0.18;
+  --blob-opacity-lilac: 0.18;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -88,6 +127,16 @@
     --score-problem-bg: #3a2220;
     --score-untested: #c5cad1;
     --score-untested-bg: #2a2e33;
+    --on-accent: var(--paper);
+    --wash-top: #15181c;
+    --wash-bottom: #1a2830;
+    --glass: rgb(29 33 38 / 0.72);
+    --glass-border: rgb(255 255 255 / 0.18);
+    --shadow-float: 0 18px 48px rgb(0 0 0 / 0.35);
+    --plate: #1d2126;
+    --blob-opacity-petrol: 0.18;
+    --blob-opacity-peach: 0.18;
+    --blob-opacity-lilac: 0.18;
   }
 }
 
@@ -112,6 +161,11 @@
     --score-problem-bg: #ffffff;
     --score-untested: #4a5260;
     --score-untested-bg: #ffffff;
-    --shadow-overlay: none;
+    --wash-top: #ffffff;
+    --wash-bottom: #ffffff;
+    --glass: #ffffff;
+    --glass-border: #4a5260;
+    --shadow-float: none;
+    --plate: #ffffff;
   }
 }

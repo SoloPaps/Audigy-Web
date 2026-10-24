@@ -18,6 +18,7 @@ Mesures du 24 oct. 2026, sur le build statique servi en local (`pnpm self-audit`
 | disponibilite | non mesuré | 0 % | hors ligne |
 
 Poids de l’accueil : 75 255 octets (plafond 500 000). Polices : 58 668 octets (plafond 409 600). Tiers : aucun. Hydratation Chromium sous la CSP du build : le thème sombre s’applique, sans refus de script.
+Le plafond de 500 000 octets est celui de la mesure PART-26 ci-dessus. L’implémentation Arc Soft porte la constante à 700 000 octets pour le document, le CSS, le JS et les polices de l’accueil. Le chiffre 75 255 ne change pas.
 
 Non testés, volontairement, parce que la source n’existe pas en local : certificat TLS, Search Console, Lighthouse SEO, cache et métriques de performance, DNS et courrier, CO₂ et EcoIndex, bandeau et traceurs (navigateur). Un domaine noté sous 90 ferait échouer `pnpm self-audit`. Un domaine exigé sans note aussi (`securite`, `seo`, `qualite`).
 

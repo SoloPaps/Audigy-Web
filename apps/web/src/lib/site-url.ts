@@ -78,3 +78,16 @@ export function normalizeSiteUrl(raw: string): SiteDraft {
     label: scope === 'origin' ? host : `${host}${prefix}`,
   };
 }
+
+export function isCompleteHttpUrl(raw: string): boolean {
+  if (raw.length === 0 || raw.length > MAX_URL_LENGTH) return false;
+  try {
+    const url = new URL(raw);
+    return (
+      (url.protocol === 'https:' || url.protocol === 'http:') &&
+      url.hostname.includes('.')
+    );
+  } catch {
+    return false;
+  }
+}
