@@ -5,6 +5,7 @@ import {
   PSI_CATEGORIES,
   type PsiAudit,
   type PsiCategory,
+  type PsiPageFacts,
   type PsiStrategyResult,
 } from './types.js';
 
@@ -40,7 +41,197 @@ export function parsePsiStrategy(
     categories: parsed,
     audits: picked,
     lighthouseVersion: typeof version === 'string' ? version : null,
+    page: parsePageFacts(audits),
   };
+}
+
+const EFFICIENT_EXT = new Set(['webp', 'avif', 'jxl']);
+const RASTER_EXT = new Set([
+  'webp',
+  'avif',
+  'jxl',
+  'jpg',
+  'jpeg',
+  'png',
+  'gif',
+  'bmp',
+  'tif',
+  'tiff',
+]);
+const FONT_EXT = new Set(['woff', 'woff2', 'ttf', 'otf', 'eot']);
+
+/** Compteurs de la page. Les adresses ne sortent pas du parseur. */
+export function parsePageFacts(
+  audits: Record<string, unknown> | null,
+): PsiPageFacts {
+  const bytes = nonNegative(
+    asRecord(audits?.['total-byte-weight'])?.numericValue,
+  );
+  const domElements = readDom(audits?.['dom-size']);
+  const items = networkItems(audits?.['network-requests']);
+  if (items) {
+    const fonts = sumFonts(items);
+    const images = countImages(items);
+    return {
+      bytes,
+      requests: countRequests(items),
+      domElements,
+      fontFiles: fonts.files,
+      fontBytes: fonts.bytes,
+      rasterImages: images.raster,
+      efficientImages: images.efficient,
+    };
+  }
+  const summary = readSummary(audits?.['resource-summary']);
+  return {
+    bytes,
+    requests: summary.total,
+    domElements,
+    fontFiles: summary.fonts,
+    fontBytes: summary.fontBytes,
+    rasterImages: null,
+    efficientImages: null,
+  };
+}
+
+function networkItems(audit: unknown): Record<string, unknown>[] | null {
+  const details = asRecord(asRecord(audit)?.details);
+  if (!details || !Array.isArray(details.items)) return null;
+  return details.items.filter(isRecord);
+}
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return asRecord(value) !== null;
+}
+
+function countRequests(items: readonly Record<string, unknown>[]): number {
+  let count = 0;
+  for (const item of items) {
+    const url = typeof item.url === 'string' ? item.url : '';
+    if (url.startsWith('data:') || url.startsWith('blob:')) continue;
+    count += 1;
+  }
+  return count;
+}
+
+function sumFonts(items: readonly Record<string, unknown>[]): {
+  files: number;
+  bytes: number | null;
+} {
+  let files = 0;
+  let bytes = 0;
+  let complete = true;
+  for (const item of items) {
+    if (!isFont(item)) continue;
+    files += 1;
+    const size = nonNegative(item.transferSize);
+    if (size === null) complete = false;
+    else bytes += size;
+  }
+  return { files, bytes: complete ? bytes : null };
+}
+
+function countImages(items: readonly Record<string, unknown>[]): {
+  raster: number;
+  efficient: number;
+} {
+  let raster = 0;
+  let efficient = 0;
+  for (const item of items) {
+    const kind = imageKind(item);
+    if (kind === 'skip') continue;
+    raster += 1;
+    if (kind === 'efficient') efficient += 1;
+  }
+  return { raster, efficient };
+}
+
+function isFont(item: Record<string, unknown>): boolean {
+  const type = text(item.resourceType).toLowerCase();
+  const mime = text(item.mimeType).toLowerCase();
+  const ext = extension(text(item.url));
+  return (
+    type === 'font' ||
+    mime.startsWith('font/') ||
+    mime === 'application/font-woff' ||
+    FONT_EXT.has(ext)
+  );
+}
+
+function imageKind(
+  item: Record<string, unknown>,
+): 'skip' | 'efficient' | 'other' {
+  const type = text(item.resourceType).toLowerCase();
+  const mime = text(item.mimeType).toLowerCase();
+  const ext = extension(text(item.url));
+  const svg = mime === 'image/svg+xml' || ext === 'svg';
+  const image =
+    type === 'image' || mime.startsWith('image/') || RASTER_EXT.has(ext) || svg;
+  if (!image || svg) return 'skip';
+  const efficient =
+    mime === 'image/webp' ||
+    mime === 'image/avif' ||
+    mime === 'image/jxl' ||
+    EFFICIENT_EXT.has(ext);
+  return efficient ? 'efficient' : 'other';
+}
+
+function readDom(audit: unknown): number | null {
+  const record = asRecord(audit);
+  if (!record) return null;
+  const details = asRecord(record.details);
+  const items = Array.isArray(details?.items) ? details.items : [];
+  for (const item of items) {
+    const row = asRecord(item);
+    if (!row) continue;
+    const statistic = text(row.statistic);
+    if (!/total/i.test(statistic) || !/element/i.test(statistic)) continue;
+    const wrapped = asRecord(row.value);
+    const raw = wrapped && 'value' in wrapped ? wrapped.value : row.value;
+    const count = nonNegative(raw);
+    if (count !== null) return Math.round(count);
+  }
+  const numeric = nonNegative(record.numericValue);
+  return numeric === null ? null : Math.round(numeric);
+}
+
+function readSummary(audit: unknown): {
+  total: number | null;
+  fonts: number | null;
+  fontBytes: number | null;
+} {
+  const details = asRecord(asRecord(audit)?.details);
+  const items = Array.isArray(details?.items) ? details.items : null;
+  if (!items) return { total: null, fonts: null, fontBytes: null };
+  let total: number | null = null;
+  let fonts: number | null = null;
+  let fontBytes: number | null = null;
+  for (const item of items) {
+    const row = asRecord(item);
+    if (!row) continue;
+    const type = text(row.resourceType).toLowerCase();
+    const count = nonNegative(row.requestCount);
+    const bytes = nonNegative(row.transferSize);
+    if (type === 'total' && count !== null) total = Math.round(count);
+    if (type === 'font' && count !== null) {
+      fonts = Math.round(count);
+      fontBytes = bytes;
+    }
+  }
+  return { total, fonts, fontBytes };
+}
+
+function extension(url: string): string {
+  const path = url.split(/[?#]/, 1)[0] ?? '';
+  const slash = path.lastIndexOf('/');
+  const name = slash >= 0 ? path.slice(slash + 1) : path;
+  const dot = name.lastIndexOf('.');
+  if (dot <= 0) return '';
+  return name.slice(dot + 1).toLowerCase();
+}
+
+function text(value: unknown): string {
+  return typeof value === 'string' ? value : '';
 }
 
 export function parseCruxRecord(text: string): CruxRecord | null {

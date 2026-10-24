@@ -37,6 +37,7 @@ const ACRONYMS = new Set([
   'JPEG',
   'JSON',
   'RGAA',
+  'RGESN',
   'RGPD',
   'WARC',
   'WCAG',
