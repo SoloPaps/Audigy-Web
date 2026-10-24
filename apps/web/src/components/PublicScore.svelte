@@ -18,6 +18,7 @@ import {
 } from '../lib/public-score.js';
 import { type Level, levelForScore } from '../lib/score.js';
 import { translate } from '../lib/translate.js';
+import { publicCoverageNote } from '../lib/untested-cause.js';
 import CategoryList from './CategoryList.svelte';
 import PreuveMentions from './PreuveMentions.svelte';
 import ReportFooter from './ReportFooter.svelte';
@@ -64,6 +65,8 @@ function categoryItems(score: PublicScoreView): CategoryItem[] {
       technical: domainTech(row.domain),
       detail: domainSentence(row.domain, level),
       score: row.score,
+      coverageNote:
+        row.score === null ? publicCoverageNote(row.coverage) : null,
     };
   });
 }

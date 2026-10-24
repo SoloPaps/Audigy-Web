@@ -1,5 +1,5 @@
 ---
-title: Dire qui peut écrire avec votre nom
+title: Courrier : dire qui peut écrire
 why: Sans cette limite, n’importe qui peut envoyer du courrier à votre place.
 effortMinutes: 20
 sources:

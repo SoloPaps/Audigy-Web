@@ -193,6 +193,19 @@ export function historySummary(
   return t('history.summary.down', { points: amount, date });
 }
 
+/** Aide sous le résumé, seulement si la courbe visible est plate ou seule. */
+export function historyCurveHelp(
+  points: readonly HistoryPoint[],
+  seriesId: string,
+): string | null {
+  const rows = scored(points, seriesId);
+  if (rows.length === 1) return t('history.curve.single');
+  if (rows.length < 2) return null;
+  const first = rows[0]?.scores[seriesId];
+  const flat = rows.every((row) => row.scores[seriesId] === first);
+  return flat ? t('history.curve.flat') : null;
+}
+
 function scoreCell(score: number | null): HistoryCell {
   if (score === null) return { text: t('score.empty') };
   return { text: String(score), numeric: true, level: levelForScore(score) };

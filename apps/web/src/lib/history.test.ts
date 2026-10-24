@@ -5,6 +5,7 @@ import {
   axisLabels,
   clampSeries,
   compareAudits,
+  historyCurveHelp,
   historyDay,
   historySummary,
   historyTable,
@@ -92,6 +93,35 @@ describe('résumé', () => {
         'global',
       ),
     ).toBe('Même score depuis le 3 mars');
+  });
+
+  it('aide seulement une courbe plate ou une mesure seule', () => {
+    expect(
+      historyCurveHelp(
+        [
+          { id: 'a', at: march, href: '#a', scores: { global: 80 } },
+          { id: 'b', at: october, href: '#b', scores: { global: 80 } },
+        ],
+        'global',
+      ),
+    ).toBe('La courbe est plate : le score n’a pas changé.');
+    expect(
+      historyCurveHelp(
+        [{ id: 'a', at: march, href: '#a', scores: { global: 71 } }],
+        'global',
+      ),
+    ).toBe('Une seule mesure. La courbe viendra au prochain audit.');
+    expect(
+      historyCurveHelp(
+        [
+          { id: 'a', at: march, href: '#a', scores: { global: 80 } },
+          { id: 'b', at: june, href: '#b', scores: { global: 70 } },
+          { id: 'c', at: october, href: '#c', scores: { global: 80 } },
+        ],
+        'global',
+      ),
+    ).toBeNull();
+    expect(historyCurveHelp([], 'global')).toBeNull();
   });
 
   it('ne invente pas un écart sans seconde mesure', () => {

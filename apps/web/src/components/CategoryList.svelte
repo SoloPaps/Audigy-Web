@@ -3,6 +3,7 @@ import { t } from '../i18n/index.js';
 import type { CategoryItem } from '../lib/categories.js';
 import { gaugeLabel, type Level, levelForScore } from '../lib/score.js';
 import StatusMark from './StatusMark.svelte';
+import UntestedCause from './UntestedCause.svelte';
 
 interface Props {
   items: CategoryItem[];
@@ -39,6 +40,7 @@ let { items }: Props = $props();
           {@render body(item, level)}
         </div>
       {/if}
+      <UntestedCause coverageNote={item.coverageNote} causes={item.causes} />
     </li>
   {/each}
 </ul>

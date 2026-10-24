@@ -81,7 +81,7 @@ describe('verdict d’exemple', () => {
 describe('pied de rapport', () => {
   it('formate la date à Paris', () => {
     expect(formatReportStamp(new Date('2026-10-23T12:30:00Z'))).toBe(
-      '23 oct. 2026, 14:30',
+      '23 oct. 2026, 14 h 30',
     );
   });
 });

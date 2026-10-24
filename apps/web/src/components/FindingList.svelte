@@ -50,7 +50,7 @@ async function copyCode(finding: Finding): Promise<void> {
           <h4>{finding.title}</h4>
           <p class="why">{finding.why}</p>
           {#if finding.actionHref && finding.actionLabel}
-            <p><a href={finding.actionHref}>{finding.actionLabel}</a></p>
+            <p><a class="link-action" href={finding.actionHref}>{finding.actionLabel}</a></p>
           {/if}
         </div>
         <p class="effort">{finding.effort}</p>
@@ -69,7 +69,7 @@ async function copyCode(finding: Finding): Promise<void> {
           </button>
         {/if}
         {#if finding.sourceHref && finding.sourceLabel}
-          <p><a href={finding.sourceHref}>{finding.sourceLabel}</a></p>
+          <p><a class="link-inline" href={finding.sourceHref}>{finding.sourceLabel}</a></p>
         {/if}
       </details>
     </article>

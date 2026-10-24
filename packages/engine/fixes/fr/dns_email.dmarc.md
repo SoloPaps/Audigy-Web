@@ -1,5 +1,5 @@
 ---
-title: Refuser les faux messages
+title: Courrier : refuser les faux messages
 why: Sans règle, les faux messages peuvent arriver comme s’ils venaient de vous.
 effortMinutes: 20
 sources:

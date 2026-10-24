@@ -1,5 +1,5 @@
 ---
-title: Signer le courrier qui part
+title: Courrier : signer les messages qui partent
 why: Sans signature, un serveur peut douter que le message vient de vous.
 effortMinutes: 30
 sources:

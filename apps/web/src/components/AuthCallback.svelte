@@ -18,7 +18,7 @@ onMount(async () => {
 
 {#if failed}
   <p role="alert">{t('callback.failed')}</p>
-  <p><a href="/connexion">{t('callback.retry')}</a></p>
+  <p><a class="link-action" href="/connexion">{t('callback.retry')}</a></p>
 {:else}
   <p role="status">{t('callback.working')}</p>
 {/if}

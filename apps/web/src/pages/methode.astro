@@ -34,8 +34,8 @@ import Base from '../layouts/Base.astro';
   <p class="prose">{t('method.passive')}</p>
   <p class="prose">{t('method.active')}</p>
   <p class="prose">
-    {t('method.penal')}
-    <a href="/cgu">{t('method.penal.link')}</a>
+    {t('method.penal')}{' '}
+    <a class="link-inline" href="/cgu">{t('method.penal.link')}</a>
   </p>
 
   <h2>{t('method.domain.title')}</h2>
@@ -65,5 +65,5 @@ import Base from '../layouts/Base.astro';
   <h2>{t('method.repro.title')}</h2>
   <p class="prose">{t('method.repro.body')}</p>
   <p class="prose">{t('method.proof')}</p>
-  <p class="prose"><a href="/verifier">{t('method.proof.link')}</a></p>
+  <p class="prose"><a class="link-inline" href="/verifier">{t('method.proof.link')}</a></p>
 </Base>

@@ -1,6 +1,11 @@
 import { fr, type MessageKey } from './fr.js';
 
-export { formatDate, formatDuration, formatNumber } from './format.js';
+export {
+  formatDate,
+  formatDateTime,
+  formatDuration,
+  formatNumber,
+} from './format.js';
 export { fr, type MessageKey };
 
 type ParamNames<S extends string> =

@@ -42,5 +42,5 @@ function onSubmit(event: SubmitEvent): void {
   <button class="button button-primary lift" type="submit">{t('home.submit')}</button>
 </form>
 <p class="page-links">
-  <a href="/methode">{t('home.method')}</a>
+  <a class="link-inline" href="/methode">{t('home.method')}</a>
 </p>

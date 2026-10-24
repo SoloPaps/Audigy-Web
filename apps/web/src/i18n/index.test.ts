@@ -55,6 +55,17 @@ describe('t', () => {
     );
     expect(t('account.delete.cancel')).toBe('Annuler');
     expect(t('account.delete.forever')).toBe('Supprimer définitivement');
+    expect(t('login.lead')).toBe(
+      'Indiquez votre e-mail. Nous vous envoyons un lien, sans mot de passe.',
+    );
+    expect(t('account.lead')).toBe(
+      'Gérez l’export de vos données et la suppression du compte.',
+    );
+    expect(t('footer.note')).toBe(
+      'Outil gratuit. Aucun traceur. Polices hébergées ici.',
+    );
+    expect(t('domain.dns_email.plain')).toBe('Nom et courrier');
+    expect(t('print.link')).toBe('Imprimer');
   });
 
   it('couvre chaque clé du dictionnaire', () => {

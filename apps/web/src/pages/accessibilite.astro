@@ -16,7 +16,7 @@ const email = t('legal.email');
   <p class="prose">{t('a11y.tech')}</p>
   <p class="prose">{t('a11y.limits')}</p>
   <p class="prose">
-    {t('a11y.contact')}
-    <a href={`mailto:${email}`}>{email}</a>
+    {t('a11y.contact')}{' '}
+    <a class="link-inline" href={`mailto:${email}`}>{email}</a>
   </p>
 </Base>

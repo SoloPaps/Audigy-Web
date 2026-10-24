@@ -1,5 +1,5 @@
 ---
-title: Signer les réponses DNS
+title: Nom de domaine : signer les réponses DNS
 why: Sans signature, un faux serveur DNS peut répondre à la place du vôtre.
 effortMinutes: 40
 sources:

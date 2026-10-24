@@ -10,6 +10,7 @@ import {
 import type { Finding, FindingStatus } from './findings.js';
 import { type Level, levelForScore } from './score.js';
 import { asParams, translate } from './translate.js';
+import { explainUntested } from './untested-cause.js';
 
 export interface FixView {
   title: string;
@@ -99,6 +100,7 @@ const ASIDE_DOMAINS = new Set(['reputation', 'disponibilite']);
 export function categoryItems(
   domains: readonly ApiDomain[],
   auditId: string,
+  findings?: readonly ApiFinding[],
 ): CategoryItem[] {
   const byId = new Map(domains.map((row) => [row.domain, row]));
   const ids = [...REPORT_DOMAINS] as string[];
@@ -111,7 +113,7 @@ export function categoryItems(
     const row = byId.get(id);
     const score = row?.score ?? null;
     const level = domainLevel(row);
-    return {
+    const item: CategoryItem = {
       id,
       label: domainPlain(id),
       technical: domainTech(id),
@@ -119,6 +121,15 @@ export function categoryItems(
       score: row ? score : null,
       href: `/domaine?id=${encodeURIComponent(auditId)}&domaine=${encodeURIComponent(id)}`,
     };
+    if (findings && item.score === null) {
+      const explained = explainUntested({
+        coverage: row?.coverage ?? null,
+        findings: findings.filter((finding) => finding.domain === id),
+      });
+      item.coverageNote = explained.coverageNote;
+      item.causes = explained.causes;
+    }
+    return item;
   });
 }
 

@@ -13,8 +13,8 @@ const email = t('legal.email');
   <h2>{t('privacy.who.title')}</h2>
   <p class="prose">{t('privacy.who.body')}</p>
   <p class="prose">
-    {t('privacy.who.contact')}
-    <a href={`mailto:${email}`}>{email}</a>
+    {t('privacy.who.contact')}{' '}
+    <a class="link-inline" href={`mailto:${email}`}>{email}</a>
   </p>
 
   <h2>{t('privacy.what.title')}</h2>
@@ -46,10 +46,10 @@ const email = t('legal.email');
   <p class="prose">{t('privacy.rights.export')}</p>
   <p class="prose">{t('privacy.rights.delete')}</p>
   <p class="prose">
-    {t('privacy.rights.mail')}
-    <a href={`mailto:${email}`}>{email}</a>
+    {t('privacy.rights.mail')}{' '}
+    <a class="link-inline" href={`mailto:${email}`}>{email}</a>
   </p>
   <p class="prose">{t('privacy.rights.cnil')}</p>
   <p class="prose">{t('privacy.share')}</p>
-  <p class="prose"><a href="/compte">{t('account.title')}</a></p>
+  <p class="prose"><a class="link-inline" href="/compte">{t('account.title')}</a></p>
 </Base>

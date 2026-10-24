@@ -1,5 +1,5 @@
 ---
-title: Annoncer où arrive le courrier
+title: Courrier : annoncer où il arrive
 why: Sans serveur annoncé, un message peut viser l’adresse du site.
 effortMinutes: 15
 sources:

@@ -51,7 +51,7 @@ onMount(async () => {
 <p role="status" aria-live="polite">{message}</p>
 {#if failed}
   <p class="page-links">
-    <a href="/">{t('launch.back')}</a>
-    <a href="/sites">{t('nav.sites')}</a>
+    <a class="link-action" href="/">{t('launch.back')}</a>
+    <a class="link-action" href="/sites">{t('nav.sites')}</a>
   </p>
 {/if}

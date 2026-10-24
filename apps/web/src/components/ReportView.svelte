@@ -24,6 +24,7 @@ import {
 } from '../lib/report-model.js';
 import { levelForScore } from '../lib/score.js';
 import { loadSiteHistory } from '../lib/site-history.js';
+import { explainUntested } from '../lib/untested-cause.js';
 import { verdictCopy } from '../lib/verdict.js';
 import AuditOverlay from './AuditOverlay.svelte';
 import CategoryList from './CategoryList.svelte';
@@ -32,6 +33,7 @@ import HistoryPanel from './HistoryPanel.svelte';
 import PreuveMentions from './PreuveMentions.svelte';
 import ReportFooter from './ReportFooter.svelte';
 import ScoreGauge from './ScoreGauge.svelte';
+import UntestedCause from './UntestedCause.svelte';
 
 interface Props {
   mode?: 'report' | 'domain';
@@ -46,7 +48,9 @@ let domainId = $state('');
 let history = $state<HistoryView | null>(null);
 
 const items = $derived(
-  payload ? categoryItems(payload.domains, payload.audit.id) : [],
+  payload
+    ? categoryItems(payload.domains, payload.audit.id, payload.findings)
+    : [],
 );
 const shown = $derived.by(() => {
   if (!payload) return [];
@@ -59,7 +63,19 @@ const aside = $derived(payload ? reputationAside(payload) : null);
 const verdict = $derived(verdictCopy(global, shown));
 const actions = $derived(topActions(shown));
 const domainRow = $derived(items.find((item) => item.id === domainId));
-const domainScore = $derived(domainRow?.score ?? null);
+const domainScore = $derived(
+  payload?.domains.find((row) => row.domain === domainId)?.score ??
+    domainRow?.score ??
+    null,
+);
+const domainUntested = $derived.by(() => {
+  if (!payload || mode !== 'domain' || domainScore !== null) return null;
+  const row = payload.domains.find((item) => item.domain === domainId);
+  return explainUntested({
+    coverage: row?.coverage ?? null,
+    findings: payload.findings.filter((item) => item.domain === domainId),
+  });
+});
 const finishedNames = $derived(
   (payload?.domains ?? [])
     .filter((domain) => typeof domain.score === 'number')
@@ -128,23 +144,29 @@ onMount(() => {
   <p role="status">{message}</p>
   {#if payload}
     <p>
-      <a href={`/progression?id=${encodeURIComponent(payload.audit.id)}`}>{t('report.progress')}</a>
+      <a class="link-action" href={`/progression?id=${encodeURIComponent(payload.audit.id)}`}>{t('report.progress')}</a>
     </p>
   {:else}
-    <p><a href="/sites">{t('nav.sites')}</a></p>
+    <p><a class="link-action" href="/sites">{t('nav.sites')}</a></p>
   {/if}
 {:else if payload}
   <div class="reading">
     {#if mode === 'domain'}
       <section class="glass glass-module">
         <div class="glass-plate">
-          <p><a href={`/rapport?id=${encodeURIComponent(payload.audit.id)}`}>{t('report.back')}</a></p>
+          <p><a class="link-action" href={`/rapport?id=${encodeURIComponent(payload.audit.id)}`}>{t('report.back')}</a></p>
           <header class="verdict">
             <ScoreGauge domain={domainPlain(domainId)} score={domainScore} size="hero" />
             <div>
               <p class="kicker">{payload.audit.site.url}</p>
               <h1>{domainPlain(domainId)}</h1>
               <p class="detail">{domainSentence(domainId, levelForScore(domainScore))}</p>
+              {#if domainUntested}
+                <UntestedCause
+                  coverageNote={domainUntested.coverageNote}
+                  causes={domainUntested.causes}
+                />
+              {/if}
               {#if domainId === 'reputation' && aside?.rating !== null && aside}
                 <p>{t('places.rating', { rating: formatRating(aside.rating) })}</p>
                 <p>{t('places.count', { count: formatNumber(aside.reviewCount ?? 0) })}</p>
@@ -172,7 +194,7 @@ onMount(() => {
                 <p id="actions-label" class="hint">{t('verdict.actions')}</p>
                 <ol class="actions" aria-labelledby="actions-label">
                   {#each actions as item (item.id)}
-                    <li><a href={`#finding-${item.id}`}>{item.title}</a></li>
+                    <li><a class="link-inline" href={`#finding-${item.id}`}>{item.title}</a></li>
                   {/each}
                 </ol>
               {/if}
@@ -201,7 +223,7 @@ onMount(() => {
             {/if}
             <p>{domainSentence('reputation', aside.level)}</p>
             {#if aside.score === null}
-              <p><a href="/sites">{t('places.choose')}</a></p>
+              <p><a class="link-action" href="/sites">{t('places.choose')}</a></p>
             {/if}
           </div>
         </section>
@@ -232,12 +254,15 @@ onMount(() => {
     <section class="glass glass-module">
       <div class="glass-plate">
         <p class="no-print">
-          <a href={`/rapport/${payload.audit.id}/imprimer`}>{t('print.link')}</a>
+          <a class="link-action" href={`/rapport/${payload.audit.id}/imprimer`}>{t('print.link')}</a>
         </p>
         <h2 id="verification">{t('section.verify')}</h2>
-        <p class="prose">{t('verify.lead')}</p>
-        <p class="prose">{t('verify.pending')}</p>
-        <p class="prose">{t('verify.id')}</p>
+        <details>
+          <summary>{t('verify.how')}</summary>
+          <p class="prose">{t('verify.lead')}</p>
+          <p class="prose">{t('verify.pending')}</p>
+          <p class="prose">{t('verify.id')}</p>
+        </details>
         <PreuveMentions />
       </div>
     </section>

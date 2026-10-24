@@ -23,6 +23,8 @@ export interface PublicDomain {
   domain: string;
   score: number | null;
   level: string;
+  /** Couverture déjà calculée, si la réponse la porte. */
+  coverage: number | null;
 }
 
 /** Vue publique : scores seulement. `measured` n'est jamais recopié. */
@@ -66,13 +68,23 @@ export interface RawPublicScore {
   globalScore: number | null;
   auditId: string | null;
   exposeSecurity?: boolean;
-  domains: readonly { domain: string; score: number | null; level?: string }[];
+  domains: readonly {
+    domain: string;
+    score: number | null;
+    level?: string;
+    coverage?: number | null;
+  }[];
   securityDetails?: readonly RawDetail[];
 }
 
 function asScore(value: unknown): number | null {
   if (typeof value !== 'number' || !Number.isFinite(value)) return null;
   return Math.round(value);
+}
+
+function asCoverage(value: unknown): number | null {
+  if (typeof value !== 'number' || !Number.isFinite(value)) return null;
+  return value;
 }
 
 function asDetails(
@@ -107,6 +119,7 @@ export function toPublicScore(
       domain: row.domain,
       score: asScore(row.score),
       level: typeof row.level === 'string' ? row.level : 'untested',
+      coverage: asCoverage(row.coverage),
     });
   }
   return {
@@ -147,11 +160,17 @@ function asDomainList(value: Json): RawPublicScore['domains'] {
     if (!item || typeof item !== 'object' || Array.isArray(item)) continue;
     const domain = item.domain;
     if (typeof domain !== 'string') continue;
-    const row: { domain: string; score: number | null; level?: string } = {
+    const row: {
+      domain: string;
+      score: number | null;
+      level?: string;
+      coverage?: number | null;
+    } = {
       domain,
       score: typeof item.score === 'number' ? item.score : null,
     };
     if (typeof item.level === 'string') row.level = item.level;
+    if (typeof item.coverage === 'number') row.coverage = item.coverage;
     domains.push(row);
   }
   return domains;
