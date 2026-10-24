@@ -1,0 +1,9 @@
+{
+  "X-Content-Type-Options": "nosniff",
+  "/index.html": {
+    "Set-Cookie": "session_id=abc123; Path=/; HttpOnly; Secure; SameSite=Lax"
+  },
+  "/tiers/pixel.svg": {
+    "Set-Cookie": "uid=tiers-42; Path=/; Max-Age=31536000; Secure; SameSite=None"
+  }
+}

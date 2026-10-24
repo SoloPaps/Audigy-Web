@@ -1,0 +1,112 @@
+{
+  "version": 1,
+  "mode": "passive",
+  "runner": {
+    "name": "audigy-browser",
+    "browser": "chromium",
+    "axe": "4.14.0",
+    "fetchUserAgent": "AudigyBot/1.0"
+  },
+  "target": {
+    "url": "https://exemple.test/",
+    "finalUrl": "https://exemple.test/",
+    "secure": true
+  },
+  "startedAt": "2026-10-24T08:00:00.000Z",
+  "finishedAt": "2026-10-24T08:00:05.000Z",
+  "loads": {
+    "desktop": {
+      "viewport": "desktop",
+      "width": 1920,
+      "height": 1080,
+      "userAgent": "Mozilla/5.0",
+      "status": 200,
+      "finalUrl": "https://exemple.test/",
+      "timedOut": false,
+      "error": null,
+      "requests": [
+        {
+          "url": "https://www.google-analytics.com/g/collect",
+          "method": "GET",
+          "resourceType": "script",
+          "host": "www.google-analytics.com",
+          "thirdParty": true,
+          "outcome": "network",
+          "status": 200,
+          "mimeType": null,
+          "transferBytes": 120,
+          "reason": null
+        },
+        {
+          "url": "https://consent.cookiebot.com/uc.js",
+          "method": "GET",
+          "resourceType": "script",
+          "host": "consent.cookiebot.com",
+          "thirdParty": true,
+          "outcome": "network",
+          "status": 200,
+          "mimeType": null,
+          "transferBytes": 120,
+          "reason": null
+        }
+      ],
+      "eco": {
+        "domElements": 12,
+        "requests": 2,
+        "transferBytes": 120,
+        "truncated": false
+      },
+      "screenshot": {
+        "viewport": "desktop",
+        "file": "capture-desktop.webp",
+        "format": "webp",
+        "width": 1920,
+        "height": 1080,
+        "bytes": 3,
+        "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      }
+    },
+    "mobile": null
+  },
+  "preConsent": {
+    "cookies": [
+      {
+        "name": "_ga",
+        "domain": ".google-analytics.com",
+        "path": "/",
+        "thirdParty": true,
+        "secure": true,
+        "httpOnly": false,
+        "sameSite": "Lax",
+        "expires": null,
+        "lifetimeDays": null,
+        "setBy": "script",
+        "valueLength": 8
+      }
+    ],
+    "localStorage": [],
+    "sessionStorage": [],
+    "thirdPartyHosts": ["www.google-analytics.com", "consent.cookiebot.com"],
+    "thirdPartyRequests": 2
+  },
+  "cmp": {
+    "detected": [
+      {
+        "id": "cookiebot",
+        "name": "Cookiebot",
+        "evidence": ["script:cookiebot"]
+      }
+    ],
+    "tcfApi": false,
+    "buttons": ["Tout accepter", "Tout refuser"]
+  },
+  "console": [],
+  "mixedContent": [],
+  "axe": null,
+  "rgaa": null,
+  "limits": {
+    "blockedRequests": 0,
+    "budgetExhausted": false
+  },
+  "errors": []
+}

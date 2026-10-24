@@ -32,6 +32,11 @@
  *   `X-Powered-By`, balise generator, signatures retire.js Apache-2.0 sur les scripts
  *   chargés), failles OSV (bibliothèques) et NVD (logiciels), croisées avec le catalogue
  *   KEV. Version inconnue : aucune alerte. Cache jour UTC. `nvdApiKey` lit `NVD_API_KEY`.
+ * - `VIE_PRIVEE_CHECKS` : traceurs avant consentement (liste DuckDuckGo, licence
+ *   CC BY-NC-SA 4.0), bannière, refus au premier niveau, scripts et polices tiers,
+ *   mentions légales et confidentialité. Le rapport navigateur se lit dans
+ *   `ctx.shared` sous la clé `browser` (schéma `@audigy/browser-runner`).
+ *   Sans ce rapport, les checks navigateur sont « Non testé ».
  */
 
 export { DKIM_SELECTORS, DNS_EMAIL_CHECKS } from '../checks/dns_email/index.js';
@@ -93,6 +98,8 @@ export {
 } from '../checks/securite/technologies/index.js';
 export { SIGNATURES as RETIRE_SIGNATURES } from '../checks/securite/technologies/retire.js';
 export { createSeoChecks, SEO_CHECKS } from '../checks/seo/index.js';
+export { BROWSER_KEY, VIE_PRIVEE_CHECKS } from '../checks/vie_privee/index.js';
+export { TRACKER_LIST } from '../checks/vie_privee/trackers.js';
 export { type AuditReport, runAudit } from './audit.js';
 export { nvdApiKey, withExternalApi } from './external.js';
 export {

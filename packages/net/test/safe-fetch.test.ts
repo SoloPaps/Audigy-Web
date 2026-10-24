@@ -267,6 +267,15 @@ describe('safeFetch — requêtes', () => {
     );
   });
 
+  it('compte les octets reçus avant décompression', async () => {
+    const { safeFetch } = setup();
+    const gzip = await safeFetch('http://public.test/gzip');
+    expect(gzip.transferBytes).toBe(gzipSync('compressé').length);
+    expect(gzip.body.byteLength).toBe(Buffer.byteLength('compressé'));
+    const plain = await safeFetch('http://public.test/ok');
+    expect(plain.transferBytes).toBe(plain.body.byteLength);
+  });
+
   it('refuse une redirection vers une IP privée', async () => {
     const { safeFetch, dialed } = setup();
     await expect(

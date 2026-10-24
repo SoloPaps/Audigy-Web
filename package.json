@@ -14,7 +14,7 @@
     "format": "biome check --write .",
     "typecheck": "tsc -p tsconfig.json --noEmit && pnpm --filter @audigy/web run check:types",
     "test": "vitest run",
-    "test:ui": "pnpm --filter @audigy/web run test:ui",
+    "test:ui": "pnpm --filter @audigy/web run test:ui && pnpm --filter @audigy/browser-runner run test:ui",
     "test:a11y": "node scripts/lighthouse-a11y.mjs",
     "fixtures": "node fixtures/server.ts",
     "lab": "tsx fixtures/lab.ts",
