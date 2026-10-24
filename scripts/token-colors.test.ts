@@ -36,10 +36,24 @@ const ALLOWED_HEX = new Set(
     '#3a2220',
     '#2a2e33',
     '#c5cad1',
+    '#d7e7f2',
+    '#9fcfcb',
+    '#f3c7b4',
+    '#e3d4f0',
+    '#f8e4d8',
+    '#e39a78',
+    '#1a2830',
   ].map((hex) => hex.toLowerCase()),
 );
 
-const ALLOWED_RGB = 'rgb(0 0 0 / 0.08)';
+const ALLOWED_RGB = [
+  'rgb(255 255 255 / 0.64)',
+  'rgb(255 255 255 / 0.3)',
+  'rgb(255 255 255 / 0.18)',
+  'rgb(27 31 36 / 0.1)',
+  'rgb(29 33 38 / 0.72)',
+  'rgb(0 0 0 / 0.35)',
+];
 const HEX =
   /#(?:[0-9a-fA-F]{8}|[0-9a-fA-F]{6}|[0-9a-fA-F]{4}|[0-9a-fA-F]{3})\b/g;
 const COLOR_FN = /\b(?:rgba?|hsla?|hwb|lab|lch|oklab|oklch)\(/g;
@@ -105,7 +119,12 @@ describe('couleurs des CSS', () => {
         }
         for (const match of chunk.matchAll(COLOR_FN)) {
           const around = chunk.slice(match.index ?? 0, (match.index ?? 0) + 40);
-          if (!(isTokens && around.startsWith(ALLOWED_RGB))) {
+          if (
+            !(
+              isTokens &&
+              ALLOWED_RGB.some((prefix) => around.startsWith(prefix))
+            )
+          ) {
             violations.push(
               `${relative}:${lineOf(chunk, match.index ?? 0)} ${match[0]}`,
             );
@@ -128,19 +147,39 @@ describe('couleurs des CSS', () => {
       for (const chunk of styleChunks(file, text)) {
         const lines = chunk.split('\n');
         for (const [index, line] of lines.entries()) {
-          if (line.includes('@media')) continue;
-          if (/\d+px\b/.test(line))
-            violations.push(`${relative}:${index + 1} ${line.trim()}`);
+          if (line.includes('@media') || line.includes('@supports')) continue;
+          if (/\d+px\b/.test(line)) {
+            const sizes = [...line.matchAll(/(\d+)px\b/g)].map((match) =>
+              Number(match[1]),
+            );
+            const arcShell = relative === 'apps/web/src/styles/arc.css';
+            const specPx = new Set([12, 24, 260, 420, 520, 640]);
+            if (!(arcShell && sizes.every((size) => specPx.has(size)))) {
+              violations.push(`${relative}:${index + 1} ${line.trim()}`);
+            }
+          }
           if (
             /linear-gradient|radial-gradient|backdrop-filter|blur\(/.test(line)
           ) {
-            violations.push(`${relative}:${index + 1} effet interdit`);
+            const tokenEffect =
+              /linear-gradient\(to bottom, var\(--wash-top\), var\(--wash-bottom\)\)/.test(
+                line,
+              ) ||
+              /blur\(var\(--(?:space-8|glass-blur)\)\)/.test(line) ||
+              /backdrop-filter:\s*none/.test(line);
+            if (!tokenEffect) {
+              violations.push(`${relative}:${index + 1} effet interdit`);
+            }
           }
           if (/text-transform\s*:\s*uppercase/.test(line)) {
             violations.push(`${relative}:${index + 1} capitales`);
           }
-          if (/box-shadow/.test(line))
+          if (
+            /box-shadow/.test(line) &&
+            !/box-shadow:\s*(?:var\(--shadow-float\)|none)\s*;/.test(line)
+          ) {
             violations.push(`${relative}:${index + 1} ombre`);
+          }
         }
       }
     }

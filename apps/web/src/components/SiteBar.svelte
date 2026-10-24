@@ -67,8 +67,8 @@ onMount(() => {
   a[aria-current='page'] {
     color: var(--accent);
     text-decoration: underline;
-    text-decoration-thickness: 2px;
-    text-underline-offset: 4px;
+    text-decoration-thickness: var(--focus-width);
+    text-underline-offset: var(--space-1);
   }
   @media (max-width: 768px) {
     .menu-button { display: inline-flex; }

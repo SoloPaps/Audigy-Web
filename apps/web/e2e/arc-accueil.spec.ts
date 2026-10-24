@@ -77,11 +77,17 @@ test('l’accueil ne défile pas en large à 320, 768 et 1280', async ({
   for (const width of [320, 768, 1280]) {
     await page.setViewportSize({ width, height: 800 });
     await page.goto('/');
-    const overflow = await page.evaluate(
-      () =>
-        document.documentElement.scrollWidth >
-        document.documentElement.clientWidth + 1,
-    );
+    const overflow = await page.evaluate(() => {
+      const root = globalThis as unknown as {
+        document: {
+          documentElement: { scrollWidth: number; clientWidth: number };
+        };
+      };
+      return (
+        root.document.documentElement.scrollWidth >
+        root.document.documentElement.clientWidth + 1
+      );
+    });
     expect(overflow).toBe(false);
   }
   await page.setViewportSize({ width: 390, height: 800 });
