@@ -2,7 +2,9 @@ node_modules/
 dist/
 .astro/
 .netlify/
+# Secrets locaux. Jamais commités : `.env` (racine et sous-dossiers) et `apps/web/.env`.
 .env
+apps/web/.env
 .env.*
 !.env.example
 coverage/
