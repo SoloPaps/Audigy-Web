@@ -64,7 +64,16 @@ export interface TlsProbeOptions {
   ca?: string[];
 }
 
-export type TlsProbe = (host: string) => Promise<TlsProbeResult>;
+/** Versions demandées pour un appel. L’énumération active s’en sert. */
+export interface TlsProbeCall {
+  minVersion?: SecureVersion;
+  maxVersion?: SecureVersion;
+}
+
+export type TlsProbe = (
+  host: string,
+  call?: TlsProbeCall,
+) => Promise<TlsProbeResult>;
 
 export const TLS_PORT = 443;
 const DAY_MS = 86_400_000;
@@ -77,7 +86,7 @@ export function createTlsProbe(options: TlsProbeOptions = {}): TlsProbe {
   const now = options.now ?? (() => new Date());
   const pins = new Map<string, string>();
 
-  return async function probeTls(hostname) {
+  return async function probeTls(hostname, call) {
     const { host, literalIp } = normalizeHost(hostname);
     const signal = AbortSignal.timeout(timeoutMs);
     let ip: string;
@@ -95,8 +104,12 @@ export function createTlsProbe(options: TlsProbeOptions = {}): TlsProbe {
       port: target.port,
       ...(literalIp ? {} : { servername: host }),
       rejectUnauthorized: false,
-      ...(options.minVersion ? { minVersion: options.minVersion } : {}),
-      ...(options.maxVersion ? { maxVersion: options.maxVersion } : {}),
+      ...((call?.minVersion ?? options.minVersion)
+        ? { minVersion: call?.minVersion ?? options.minVersion }
+        : {}),
+      ...((call?.maxVersion ?? options.maxVersion)
+        ? { maxVersion: call?.maxVersion ?? options.maxVersion }
+        : {}),
       ...(options.ca ? { ca: options.ca } : {}),
     });
 

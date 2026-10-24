@@ -127,10 +127,16 @@ async function onSignOut(): Promise<void> {
             <p>{site.label}</p>
             <p class="kicker">{site.url}</p>
           </div>
-          <a href={`/lancer?site=${encodeURIComponent(site.id)}`}>
-            {t('sites.audit')}
-            <span class="visually-hidden">{site.label}</span>
-          </a>
+          <div class="site-actions">
+            <a href={`/lancer?site=${encodeURIComponent(site.id)}`}>
+              {t('sites.audit')}
+              <span class="visually-hidden">{site.label}</span>
+            </a>
+            <a href={`/verifier?site=${encodeURIComponent(site.id)}`}>
+              {t('sites.verify')}
+              <span class="visually-hidden">{site.label}</span>
+            </a>
+          </div>
         </li>
       {/each}
     </ul>

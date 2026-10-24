@@ -76,7 +76,7 @@ Correspondance utilisée, sauf mention :
 | de −5 à −10 | À améliorer |
 | −20 ou moins, ou contrôle absent quand il est indispensable | Problème |
 
-Le test suit les redirections comme un visiteur. Il ne distingue pas une redirection permanente d'une redirection temporaire. La liste de préchargement HSTS n'est pas consultée. Les versions TLS, les fichiers non liés et le contenu mixte chargé par le navigateur sont hors de ce lot. Les technologies et leurs failles connues sont au §14.
+Le test suit les redirections comme un visiteur. Il ne distingue pas une redirection permanente d'une redirection temporaire. La liste de préchargement HSTS n'est pas consultée. Le contenu mixte chargé par le navigateur est hors de ce lot. Les fichiers non liés et les versions de chiffrement sont des tests actifs, au §16. Les technologies et leurs failles connues sont au §14.
 
 | Identifiant | Poids | Réussi | À améliorer | Problème |
 |---|---|---|---|---|
@@ -313,4 +313,16 @@ Le constat décrit ce qui est observé. Il ne qualifie pas une infraction.
 | vie_privee.mentions | 2 | Page liée, avec du texte. | — | Introuvable, ou sans texte. |
 | vie_privee.confidentialite | 2 | Page liée, avec du texte. | — | Introuvable, ou sans texte. |
 | vie_privee.elements | 1 | Éditeur, hébergeur et contact. | Une ou deux de ces informations manquent. | Aucune des trois. |
+
+## 16. Sécurité active
+
+Trois tests actifs, version 2026.1. Ils ne partent que si la propriété du site est vérifiée et revérifiée depuis moins de 10 minutes, et si la portée correspond. Une portée « chemin » ne sonde que ce chemin. Sinon le test n’est pas lancé.
+
+Un code 200 ne suffit pas. Beaucoup de sites renvoient la page d’accueil pour chaque adresse inconnue. Le fichier ne compte que si son contenu a la forme attendue (dépôt git, fichier d’environnement, clé, copie de base, archive) et s’il n’est pas cette page d’accueil. La liste de dossier se reconnaît au titre « Index of ». Les versions de chiffrement sont essayées une par une, sans rien envoyer d’autre qu’une poignée de main.
+
+| Identifiant | Poids | Réussi | À améliorer | Problème |
+|---|---|---|---|---|
+| securite.fichiers | 3 | Aucun des chemins connus n’a le contenu d’un fichier sensible. | — | Au moins un chemin a ce contenu. |
+| securite.listing | 2 | Aucun dossier sondé n’affiche sa liste. | — | Un dossier affiche sa liste. |
+| securite.tls | 2 | TLS 1.2 ou TLS 1.3, sans TLS 1.0 ni TLS 1.1, et TLS 1.3 est proposé. | Seulement TLS 1.2. | TLS 1.0 ou TLS 1.1 est accepté. |
 
