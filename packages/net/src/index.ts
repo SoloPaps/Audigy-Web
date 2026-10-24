@@ -15,9 +15,10 @@
  * - `createDohResolver(options?)` : DNS sur HTTPS (JSON), `query(nom, type)` et `addresses(nom)`.
  * - `createTlsProbe(options?) → probeTls(hôte)` : connexion TLS au port 443 (IP publique
  *   épinglée) ; protocole, suite, validité de la chaîne, SAN, expiration (selon `now`).
- * - `createExternalApi(options?) → api.request({ method, url, body?, timeoutMs?, signal? })` :
- *   HTTPS vers une liste fermée d’API (PSI, CrUX, Green Web). POST permis, délai 120 s,
- *   pas de redirection, IP publique épinglée. Ne sert pas à joindre le site audité.
+ * - `createExternalApi(options?) → api.request({ method, url, body?, headers?, timeoutMs?, signal? })` :
+ *   HTTPS vers une liste fermée d’API (PSI, CrUX, Green Web, OSV, NVD, KEV). POST permis,
+ *   délai 120 s, pas de redirection, IP publique épinglée. `headers` ne remplace aucun
+ *   en-tête du client. Ne sert pas à joindre le site audité.
  * - `blockedReason(ip)`, `isPublicAddress(ip)`, `parseIpv4Loose(hôte)`, `validateTargetUrl(url)`.
  *
  * Toute erreur est une `NetError` avec un `code` stable (`BLOCKED_ADDRESS`, `BLOCKED_PORT`,
@@ -52,6 +53,9 @@ export {
   type ExternalRequest,
   type ExternalResponse,
   GREEN_WEB_HOST,
+  KEV_HOST,
+  NVD_HOST,
+  OSV_HOST,
 } from './external-api.js';
 export {
   blockedReason,

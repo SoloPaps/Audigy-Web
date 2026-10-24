@@ -16,11 +16,21 @@ import {
 /** Hôte de l’annuaire Green Web Foundation (greencheck v3). */
 export const GREEN_WEB_HOST = 'api.thegreenwebfoundation.org';
 
-/** Hôtes des API tierces utilisées en passif (PSI, CrUX, Green Web). */
+/** Base de failles des bibliothèques (OSV.dev). */
+export const OSV_HOST = 'api.osv.dev';
+/** Base de failles du NIST (NVD API 2.0). */
+export const NVD_HOST = 'services.nvd.nist.gov';
+/** Catalogue CISA des failles exploitées (KEV). */
+export const KEV_HOST = 'www.cisa.gov';
+
+/** Hôtes des API tierces utilisées en passif (PSI, CrUX, Green Web, OSV, NVD, KEV). */
 export const EXTERNAL_API_HOSTS = [
   'www.googleapis.com',
   'chromeuxreport.googleapis.com',
   GREEN_WEB_HOST,
+  OSV_HOST,
+  NVD_HOST,
+  KEV_HOST,
 ] as const;
 
 export const DEFAULT_EXTERNAL_TIMEOUT_MS = 120_000;
@@ -28,10 +38,28 @@ export const DEFAULT_EXTERNAL_MAX_BYTES = 8 * 1024 * 1024;
 
 const REDIRECT_STATUSES = new Set([301, 302, 303, 307, 308]);
 
+/** En-têtes posés par le client, jamais remplacés par l’appelant. */
+const RESERVED_HEADERS = new Set([
+  'host',
+  'user-agent',
+  'accept',
+  'accept-encoding',
+  'accept-language',
+  'connection',
+  'content-type',
+  'content-length',
+  'cookie',
+  'authorization',
+  'transfer-encoding',
+]);
+const HEADER_NAME_RE = /^[A-Za-z0-9-]{1,40}$/;
+
 export interface ExternalRequest {
   method: 'GET' | 'POST';
   url: URL;
   body?: string;
+  /** En-têtes en plus (ex. `apiKey` de NVD). Jamais recopiés dans une erreur. */
+  headers?: Readonly<Record<string, string>>;
   timeoutMs?: number;
   signal?: AbortSignal;
 }
@@ -95,6 +123,7 @@ export function createExternalApi(
       if (input.method !== 'GET' && input.method !== 'POST') {
         throw new NetError('BLOCKED_METHOD', 'Méthode refusée');
       }
+      const extra = extraHeaders(input.headers);
       const timeoutMs = input.timeoutMs ?? DEFAULT_EXTERNAL_TIMEOUT_MS;
       if (!(Number.isFinite(timeoutMs) && timeoutMs > 0)) {
         throw new NetError('TIMEOUT', 'Délai invalide');
@@ -117,6 +146,7 @@ export function createExternalApi(
           ip,
           input.method,
           input.body,
+          extra,
           ua,
           dial,
           options.ca,
@@ -144,6 +174,7 @@ function send(
   ip: string,
   method: 'GET' | 'POST',
   body: string | undefined,
+  extra: Record<string, string>,
   ua: string,
   dial: Dial,
   ca: string[] | undefined,
@@ -152,6 +183,7 @@ function send(
   const target = dial(ip, 443);
   const hostname = url.hostname.replace(/^\[|\]$/g, '');
   const headers: Record<string, string> = {
+    ...extra,
     host: url.host,
     'user-agent': ua,
     accept: 'application/json',
@@ -243,6 +275,27 @@ function decodeText(body: Uint8Array, contentType: string): string {
   } catch {
     return new TextDecoder('utf-8').decode(body);
   }
+}
+
+function extraHeaders(
+  input: Readonly<Record<string, string>> | undefined,
+): Record<string, string> {
+  const out: Record<string, string> = {};
+  if (!input) return out;
+  for (const [name, value] of Object.entries(input)) {
+    const key = name.toLowerCase();
+    if (
+      !HEADER_NAME_RE.test(name) ||
+      RESERVED_HEADERS.has(key) ||
+      Object.hasOwn(out, key) ||
+      typeof value !== 'string' ||
+      !/^[\x20-\x7e]{0,512}$/.test(value)
+    ) {
+      throw new NetError('BLOCKED_HEADER', 'En-tête refusé');
+    }
+    out[key] = value;
+  }
+  return out;
 }
 
 function redactSecrets(value: string): string {
