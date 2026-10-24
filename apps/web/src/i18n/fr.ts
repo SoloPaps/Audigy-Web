@@ -889,6 +889,22 @@ export const fr = {
     'Nous n’avons pas pu tester : la mesure de référencement a échoué.',
   'seo.lighthouse.absent':
     'Nous n’avons pas pu tester : la note de référencement est absente.',
+  'accessibilite.lighthouse.pass':
+    'L’accès mesuré est bon : {mobile} sur 100 au téléphone, {desktop} sur 100 sur ordinateur.',
+  'accessibilite.lighthouse.warn':
+    'L’accès mesuré est moyen : {mobile} sur 100 au téléphone, {desktop} sur 100 sur ordinateur.',
+  'accessibilite.lighthouse.fail':
+    'L’accès mesuré est faible : {mobile} sur 100 au téléphone, {desktop} sur 100 sur ordinateur.',
+  'accessibilite.lighthouse.partial':
+    'Une des deux mesures d’accès manque. Le score obtenu est {score} sur 100.',
+  'accessibilite.lighthouse.missing_key':
+    'Nous n’avons pas pu tester : la source de mesure n’est pas configurée.',
+  'accessibilite.lighthouse.quota':
+    'Nous n’avons pas pu tester : le quota de mesure est atteint.',
+  'accessibilite.lighthouse.error':
+    'Nous n’avons pas pu tester : la mesure d’accès a échoué.',
+  'accessibilite.lighthouse.absent':
+    'Nous n’avons pas pu tester : la note d’accès est absente.',
   'seo.robots.pass':
     'Le fichier robots laisse les moteurs explorer cette adresse.',
   'seo.robots.pass_absent':

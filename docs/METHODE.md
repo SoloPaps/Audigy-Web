@@ -27,7 +27,7 @@ Le test n'est pas compté, et la raison est affichée (« Nous n'avons pas pu te
 - délai dépassé (30 s par défaut, propre à chaque test sinon) ;
 - erreur pendant le test, ou résultat inutilisable.
 
-Les tests qui demandent un navigateur (accessibilité, vie privée, poids réel de la page) passent par un navigateur d'audit séparé. Pendant son travail, l'audit est « partiel ». Audigy l'attend au plus 10 minutes. S'il ne répond pas, ces tests sont « Non testé », avec la raison, et l'audit se termine.
+Les tests qui demandent un navigateur (vie privée, poids réel de la page) passent par un navigateur d'audit séparé. Pendant son travail, l'audit est « partiel ». Audigy l'attend au plus 10 minutes. S'il ne répond pas, ces tests sont « Non testé », avec la raison, et l'audit se termine.
 
 Un test passif fait seulement ce que ferait un visiteur ou un moteur de recherche. Un test actif (chemins non liés, énumération TLS, crawl étendu) exige un site vérifié.
 
@@ -342,4 +342,12 @@ Le score du domaine est l’arrondi de note / 5 × 100. Une note de 4,0 donne 80
 | Identifiant | Poids | Réussi | À améliorer | Problème |
 |---|---|---|---|---|
 | reputation.avis | 3 | Note d’au moins 4,0 sur 5, avec au moins un avis. | Note de 2,5 à 3,9. | Note inférieure à 2,5. |
+
+## 18. Accès
+
+Un test passif, version 2026.1. La note Lighthouse d’accessibilité est celle déjà demandée avec la performance (catégories mobile et ordinateur, dans `ctx.shared`). Elle n’entraîne pas un second appel. Le score retenu est le plus faible des deux, avec les mêmes seuils : 80, puis 50. S’il manque une des deux mesures et que le score disponible vaut au moins 80, le statut devient À améliorer. Sans lot, sans clé, sur un quota ou sur une erreur, le test est Non testé. Le domaine reste alors « Non testé », sans chiffre.
+
+| Identifiant | Poids | Réussi | À améliorer | Problème |
+|---|---|---|---|---|
+| accessibilite.lighthouse | 3 | Les deux scores sont là, et le plus faible vaut au moins 80. | Le plus faible est entre 50 et 79, ou une seule mesure est disponible alors que son score vaut au moins 80. | Le plus faible est sous 50. |
 
