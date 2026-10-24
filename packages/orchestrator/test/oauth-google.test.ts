@@ -256,6 +256,152 @@ describe('OAuth Google', () => {
     expect(deps.lines.join('\n')).not.toContain(REFRESH);
   });
 
+  it('aligne redirect_uri, cookie et retour sur le Host local', async () => {
+    let exchangedUri = '';
+    const deps = harness({
+      config: {
+        clientId: 'client-id.apps.googleusercontent.com',
+        origin: 'http://localhost:8888/',
+        redirectUri: 'http://localhost:8888/api/oauth/google/callback',
+        secureCookie: false,
+      },
+      google: {
+        async exchange(input) {
+          exchangedUri = input.redirectUri;
+          return {
+            accessToken: ACCESS,
+            refreshToken: REFRESH,
+            scope: GOOGLE_WEBMASTERS_SCOPE,
+            expiresIn: 3600,
+          };
+        },
+        async refresh() {
+          throw new Error('unused');
+        },
+        async revoke() {},
+      },
+    });
+    const started = await handleOauthStart(
+      new Request('http://localhost:8888/api/oauth/google/start', {
+        method: 'POST',
+        headers: {
+          authorization: 'Bearer header.payload.signature',
+          host: '127.0.0.1:8888',
+        },
+      }),
+      deps,
+    );
+    const body = (await started.json()) as { authorizeUrl: string };
+    expect(new URL(body.authorizeUrl).searchParams.get('redirect_uri')).toBe(
+      'http://127.0.0.1:8888/api/oauth/google/callback',
+    );
+    const cookie = started.headers.get('set-cookie') ?? '';
+    expect(cookie).toContain('Path=/api/oauth/google');
+    expect(cookie).toContain('HttpOnly');
+    expect(cookie).toContain('SameSite=Lax');
+    expect(cookie).not.toContain('Secure');
+    const pending = JSON.parse(
+      deps.crypto?.decrypt(Buffer.from(cookieValue(cookie), 'base64url')) ?? '',
+    ) as { state: string };
+    const response = await handleOauthCallback(
+      new Request(
+        `http://localhost:8888/api/oauth/google/callback?code=code-value-0123456789&state=${pending.state}`,
+        {
+          headers: {
+            host: '127.0.0.1:8888',
+            cookie: `audigy_gsc=${cookieValue(cookie)}`,
+          },
+        },
+      ),
+      deps,
+    );
+    expect(response.status).toBe(302);
+    expect(response.headers.get('location')).toBe(
+      'http://127.0.0.1:8888/search-console?etat=ok',
+    );
+    expect(exchangedUri).toBe(
+      'http://127.0.0.1:8888/api/oauth/google/callback',
+    );
+  });
+
+  it('ignore un Host qui n’est pas l’alias local du même port', async () => {
+    const local = {
+      clientId: 'client-id.apps.googleusercontent.com',
+      origin: 'http://localhost:8888/',
+      redirectUri: 'http://localhost:8888/api/oauth/google/callback',
+      secureCookie: false,
+    };
+    const httpsDeps = harness();
+    const spoofed = await handleOauthStart(
+      new Request('https://audigy.example/api/oauth/google/start', {
+        method: 'POST',
+        headers: {
+          authorization: 'Bearer header.payload.signature',
+          host: '127.0.0.1:8888',
+        },
+      }),
+      httpsDeps,
+    );
+    const spoofedBody = (await spoofed.json()) as { authorizeUrl: string };
+    expect(
+      new URL(spoofedBody.authorizeUrl).searchParams.get('redirect_uri'),
+    ).toBe('https://audigy.example/api/oauth/google/callback');
+
+    const otherPort = harness({ config: local });
+    const shifted = await handleOauthStart(
+      new Request('http://localhost:8888/api/oauth/google/start', {
+        method: 'POST',
+        headers: {
+          authorization: 'Bearer header.payload.signature',
+          host: 'evil.example:8888',
+        },
+      }),
+      otherPort,
+    );
+    const shiftedBody = (await shifted.json()) as { authorizeUrl: string };
+    expect(
+      new URL(shiftedBody.authorizeUrl).searchParams.get('redirect_uri'),
+    ).toBe('http://localhost:8888/api/oauth/google/callback');
+
+    const wrongPort = harness({ config: local });
+    const port = await handleOauthStart(
+      new Request('http://127.0.0.1:9999/api/oauth/google/start', {
+        method: 'POST',
+        headers: {
+          authorization: 'Bearer header.payload.signature',
+          host: '127.0.0.1:9999',
+        },
+      }),
+      wrongPort,
+    );
+    const portBody = (await port.json()) as { authorizeUrl: string };
+    expect(
+      new URL(portBody.authorizeUrl).searchParams.get('redirect_uri'),
+    ).toBe('http://localhost:8888/api/oauth/google/callback');
+  });
+
+  it('reprend l’origine de l’URL si Host est absent', async () => {
+    const deps = harness({
+      config: {
+        clientId: 'client-id.apps.googleusercontent.com',
+        origin: 'http://localhost:8888/',
+        redirectUri: 'http://localhost:8888/api/oauth/google/callback',
+        secureCookie: false,
+      },
+    });
+    const response = await handleOauthStart(
+      new Request('http://127.0.0.1:8888/api/oauth/google/start', {
+        method: 'POST',
+        headers: { authorization: 'Bearer header.payload.signature' },
+      }),
+      deps,
+    );
+    const body = (await response.json()) as { authorizeUrl: string };
+    expect(new URL(body.authorizeUrl).searchParams.get('redirect_uri')).toBe(
+      'http://127.0.0.1:8888/api/oauth/google/callback',
+    );
+  });
+
   it('répond 503 si la configuration OAuth manque', async () => {
     const deps = harness({ config: null, crypto: null, google: null });
     const response = await handleOauthStart(startRequest(), deps);

@@ -166,10 +166,11 @@ export async function handleOauthStart(
     userId,
     exp: deps.now() + MAX_AGE * 1000,
   };
-  const cookie = seal(ready.crypto, pending, ready.config);
+  const config = configForRequest(ready.config, req);
+  const cookie = seal(ready.crypto, pending, config);
   const url = new URL('https://accounts.google.com/o/oauth2/v2/auth');
-  url.searchParams.set('client_id', ready.config.clientId);
-  url.searchParams.set('redirect_uri', ready.config.redirectUri);
+  url.searchParams.set('client_id', config.clientId);
+  url.searchParams.set('redirect_uri', config.redirectUri);
   url.searchParams.set('response_type', 'code');
   url.searchParams.set('scope', GOOGLE_WEBMASTERS_SCOPE);
   url.searchParams.set('code_challenge', challengeOf(verifier));
@@ -190,11 +191,12 @@ export async function handleOauthCallback(
   }
   const ready = readyDeps(deps);
   if (!ready) return apiError(503, 'oauth_unconfigured');
+  const config = configForRequest(ready.config, req);
   const url = new URL(req.url);
-  if (url.searchParams.get('error')) return back(ready.config, 'erreur');
+  if (url.searchParams.get('error')) return back(config, 'erreur');
   const code = url.searchParams.get('code') ?? '';
   const state = url.searchParams.get('state') ?? '';
-  if (!/^[\w\-._~]{16,512}$/.test(code)) return back(ready.config, 'erreur');
+  if (!/^[\w\-._~]{16,512}$/.test(code)) return back(config, 'erreur');
   const pending = open(
     ready.crypto,
     readCookie(req.headers.get('cookie'), COOKIE),
@@ -204,29 +206,29 @@ export async function handleOauthCallback(
     pending.exp < deps.now() ||
     !sameSecret(pending.state, state)
   ) {
-    return back(ready.config, 'erreur');
+    return back(config, 'erreur');
   }
   try {
     const tokens = await ready.google.exchange({
       code,
       verifier: pending.verifier,
-      redirectUri: ready.config.redirectUri,
+      redirectUri: config.redirectUri,
     });
-    if (!tokens.refreshToken) return back(ready.config, 'erreur');
+    if (!tokens.refreshToken) return back(config, 'erreur');
     if (!tokens.scope.split(/[\s,]+/).includes(GOOGLE_WEBMASTERS_SCOPE)) {
-      return back(ready.config, 'erreur');
+      return back(config, 'erreur');
     }
     await deps.rows.save(
       pending.userId,
       ready.crypto.encrypt(tokens.refreshToken),
     );
     deps.logger.info('oauth_google_saved', { provider: 'google' });
-    return back(ready.config, 'ok');
+    return back(config, 'ok');
   } catch (error) {
     deps.logger.warn('oauth_google_callback_failed', {
       code: errorCode(error),
     });
-    return back(ready.config, 'erreur');
+    return back(config, 'erreur');
   }
 }
 
@@ -329,6 +331,78 @@ function readCookie(header: string | null, name: string): string | null {
     return part.slice(eq + 1).trim();
   }
   return null;
+}
+
+/**
+ * En http local, `redirect_uri` et le retour suivent l'en-tête Host
+ * (`localhost` ou `127.0.0.1`, même port que `APP_BASE_URL`).
+ * Le cookie `audigy_gsc` est limité à cet hôte : un aller sur 127.0.0.1
+ * et un retour sur localhost perd la session Supabase (`audigy-auth`)
+ * et le state. En https, `APP_BASE_URL` seul — Host est ignoré.
+ * Le client Google doit lister les deux URI de redirection locales.
+ */
+function configForRequest(config: OauthConfig, req: Request): OauthConfig {
+  const configured = appOrigin(config.origin);
+  if (!configured || !isLocalHttp(configured)) return config;
+  const local =
+    localOriginFromHost(req.headers.get('host'), configured) ??
+    localOriginFromRequestUrl(req.url, configured);
+  if (!local || local.href === configured.href) return config;
+  return {
+    ...config,
+    origin: local.href,
+    redirectUri: new URL('/api/oauth/google/callback', local).href,
+    secureCookie: false,
+  };
+}
+
+function isLocalHttp(url: URL): boolean {
+  return (
+    url.protocol === 'http:' &&
+    (url.hostname === 'localhost' || url.hostname === '127.0.0.1')
+  );
+}
+
+function httpPort(url: URL): string {
+  return url.port || '80';
+}
+
+function localOriginFromHost(host: string | null, configured: URL): URL | null {
+  if (!host) return null;
+  const trimmed = host.trim();
+  if (
+    !trimmed ||
+    trimmed.includes('/') ||
+    trimmed.includes('@') ||
+    /[\s,\\]/.test(trimmed)
+  ) {
+    return null;
+  }
+  let url: URL;
+  try {
+    url = new URL(`http://${trimmed}`);
+  } catch {
+    return null;
+  }
+  if (!isLocalHttp(url) || httpPort(url) !== httpPort(configured)) return null;
+  url.pathname = '/';
+  url.search = '';
+  url.hash = '';
+  return url;
+}
+
+function localOriginFromRequestUrl(raw: string, configured: URL): URL | null {
+  let url: URL;
+  try {
+    url = new URL(raw);
+  } catch {
+    return null;
+  }
+  if (!isLocalHttp(url) || httpPort(url) !== httpPort(configured)) return null;
+  url.pathname = '/';
+  url.search = '';
+  url.hash = '';
+  return url;
 }
 
 function appOrigin(value: string | undefined): URL | null {
