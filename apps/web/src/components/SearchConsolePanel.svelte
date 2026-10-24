@@ -55,6 +55,7 @@ async function start(): Promise<void> {
   try {
     const response = await fetch('/api/oauth/google/start', {
       method: 'post'.toUpperCase(),
+      credentials: 'include',
       headers: {
         authorization: `Bearer ${session.access_token}`,
         accept: 'application/json',
