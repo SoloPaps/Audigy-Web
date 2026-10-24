@@ -198,4 +198,24 @@ describe('renderBrief', () => {
       'Critère : 6.1 — Poids et nombre de requêtes, plafonds absolus.',
     );
   });
+
+  it('n’ajoute Terminal que si on le demande et qu’un constat n’est pas Rien', () => {
+    const withMode = doc({
+      includeTerminal: true,
+      findings: [finding({ terminal: 'verif' })],
+    });
+    expect(renderBrief(withMode)).toContain('Terminal');
+    expect(renderBrief(withMode)).toContain('Vérif');
+    expect(renderBrief({ ...withMode, includeTerminal: false })).not.toContain(
+      'Terminal',
+    );
+    expect(
+      renderBrief(
+        doc({
+          includeTerminal: true,
+          findings: [finding({ terminal: 'rien' })],
+        }),
+      ),
+    ).not.toContain('Terminal');
+  });
 });

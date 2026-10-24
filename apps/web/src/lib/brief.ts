@@ -1,5 +1,6 @@
 import { formatDateTime } from '../i18n/format.js';
 import { t } from '../i18n/index.js';
+import { renderTerminal } from './brief-terminal.js';
 import type { MethodeEntry } from './methode-catalog.js';
 import { asParams } from './translate.js';
 
@@ -153,5 +154,9 @@ export function renderBriefBody(input: BriefDocument): string {
 }
 
 export function renderBrief(input: BriefDocument): string {
-  return renderBriefBody(input);
+  const body = renderBriefBody(input);
+  if (!input.includeTerminal) return body;
+  const terminal = renderTerminal(input.findings);
+  if (terminal === '') return body;
+  return `${body}\n${terminal}`;
 }
