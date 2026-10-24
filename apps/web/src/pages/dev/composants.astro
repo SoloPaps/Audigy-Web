@@ -1,14 +1,17 @@
 ---
 import CategoryList from '../../components/CategoryList.svelte';
-import DataTable from '../../components/DataTable.svelte';
 import FindingList from '../../components/FindingList.svelte';
+import HistoryPanel from '../../components/HistoryPanel.svelte';
 import ReportFooter from '../../components/ReportFooter.svelte';
 import ScoreGauge from '../../components/ScoreGauge.svelte';
 import {
+  demoAuditSnapshots,
   demoCategories,
   demoFindings,
   demoGlobalScore,
-  demoTable,
+  demoHistoryInitial,
+  demoHistoryPoints,
+  demoHistorySeries,
 } from '../../data/demo.js';
 import { t } from '../../i18n/index.js';
 import Base from '../../layouts/Base.astro';
@@ -20,7 +23,6 @@ const findings = demoFindings();
 const global = demoGlobalScore();
 const verdict = verdictCopy(global, findings);
 const actions = topActions(findings);
-const table = demoTable();
 const auditedAt = new Date('2026-10-23T12:30:00Z');
 const url = 'https://exemple.fr';
 ---
@@ -53,11 +55,12 @@ const url = 'https://exemple.fr';
     <FindingList findings={findings} client:load />
 
     <h2>{t('section.table')}</h2>
-    <DataTable
-      caption={t('table.caption')}
-      summary={t('table.summary')}
-      columns={table.columns}
-      rows={table.rows}
+    <HistoryPanel
+      client:load
+      series={demoHistorySeries()}
+      points={demoHistoryPoints()}
+      audits={demoAuditSnapshots()}
+      initialSeries={demoHistoryInitial()}
     />
 
     <h2 id="verification">{t('section.verify')}</h2>
