@@ -40,15 +40,6 @@ export interface ExportReport {
   securityLines?: readonly string[] | null;
 }
 
-export interface PromptInput {
-  url: string;
-  title: string;
-  statement: string;
-  limit: string | null;
-  steps: readonly string[];
-  code?: string;
-}
-
 function normalize(value: string): string {
   return value.replace(/\s+/g, ' ').trim().toLocaleLowerCase('fr-FR');
 }
@@ -223,24 +214,6 @@ export function renderMarkdown(report: ExportReport): string {
   }
   lines.push(t('export.notProof'));
   return `${lines.join('\n').replace(/\n{3,}/g, '\n\n')}\n`;
-}
-
-/** Prompt affiché, puis copié. Aucun envoi. */
-export function correctionPrompt(input: PromptInput): string {
-  const lines = [
-    t('prompt.address', { url: input.url }),
-    t('prompt.title', { title: input.title }),
-    t('prompt.statement', { text: input.statement }),
-    t('prompt.limit', { text: input.limit ?? t('prompt.limit.none') }),
-  ];
-  for (const step of input.steps) lines.push(t('prompt.step', { text: step }));
-  if (input.code) lines.push(t('prompt.code', { text: input.code }));
-  lines.push(
-    t('prompt.ask.owner'),
-    t('prompt.ask.score'),
-    t('prompt.ask.test'),
-  );
-  return lines.join('\n');
 }
 
 /** Téléchargement local. N’appelle pas le réseau. */

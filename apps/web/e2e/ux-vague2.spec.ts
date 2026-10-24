@@ -119,8 +119,7 @@ async function install(page: Page): Promise<void> {
   });
 }
 
-test('markdown local, prompt copiable, limite repliée', async ({ page }) => {
-  await page.context().grantPermissions(['clipboard-read', 'clipboard-write']);
+test('markdown local et limite repliée', async ({ page }) => {
   await install(page);
   const calls: string[] = [];
   await page.goto(`/rapport?id=${AUDIT_ID}`);
@@ -166,40 +165,9 @@ test('markdown local, prompt copiable, limite repliée', async ({ page }) => {
   await limit.locator('summary').focus();
   await page.keyboard.press('Enter');
   await expect(limit).toHaveJSProperty('open', true);
-
-  const fix = page
-    .locator('details', { hasText: 'Voir comment corriger' })
-    .first();
-  await fix.locator('summary').click();
-  const prompt = fix.getByRole('textbox', { name: 'Prompt de correction' });
-  await expect(prompt).toHaveValue(/N’inventez pas de note\./);
-  await expect(prompt).toHaveValue(/Ne proposez pas de test sur le site\./);
-  await expect(prompt).toHaveValue(
-    /Proposez des étapes que le propriétaire peut faire\./,
-  );
-  await fix.getByRole('button', { name: 'Copier le prompt' }).click();
-  await expect(page.getByText('Prompt copié.')).toBeVisible();
-  const copied = await page.evaluate(() => {
-    const nav = navigator as unknown as {
-      clipboard: { readText: () => Promise<string> };
-    };
-    return nav.clipboard.readText();
-  });
-  expect(copied).toBe(await prompt.inputValue());
-  expect(calls.some((url) => /openai|anthropic|gemini/iu.test(url))).toBe(
-    false,
-  );
-
-  await page.evaluate(() => {
-    const nav = navigator as unknown as {
-      clipboard: { writeText: (value: string) => Promise<void> };
-    };
-    nav.clipboard.writeText = () => Promise.reject(new Error('refus'));
-  });
-  await fix.getByRole('button', { name: 'Copier le prompt' }).click();
   await expect(
-    page.getByText('La copie a échoué. Sélectionnez le texte.'),
-  ).toBeVisible();
+    page.getByRole('button', { name: 'Copier le prompt' }),
+  ).toHaveCount(0);
 
   await page.setViewportSize({ width: 390, height: 800 });
   await expect(
@@ -300,7 +268,7 @@ test('captures clair et sombre', async ({ page }) => {
       await page.getByText('Voir comment corriger').first().click();
       await expect(
         page.getByRole('button', { name: 'Copier le prompt' }),
-      ).toBeVisible();
+      ).toHaveCount(0);
     }
     await page.addStyleTag({
       content:
