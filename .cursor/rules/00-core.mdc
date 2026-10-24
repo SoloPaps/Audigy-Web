@@ -8,3 +8,6 @@ alwaysApply: true
 - Jamais de déploiement Netlify ni de liaison Git/Netlify. `netlify dev` seulement.
 - Jamais de test actif sur un site non vérifié.
 - Tests requis. Commits conventionnels.
+- Never read packages/engine/data/**, pnpm-lock.yaml, node_modules, builds unless user gives exact path.
+- One PART = AGENTS.md + that PART section of docs/PLAN.md + listed files only. Max 8 files. No repo-wide explore.
+- Before tools: one line listing files to open.
