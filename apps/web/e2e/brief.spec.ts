@@ -36,7 +36,12 @@ test('le brief se génère au clavier, sans requête', async ({ page }) => {
   await expect(fail).toBeChecked();
   await page.getByRole('button', { name: 'Copier' }).click();
   await expect(page.getByText('Brief copié')).toBeVisible();
-  const copied = await page.evaluate(() => navigator.clipboard.readText());
+  const copied = await page.evaluate(() => {
+    const nav = globalThis as unknown as {
+      navigator: { clipboard: { readText: () => Promise<string> } };
+    };
+    return nav.navigator.clipboard.readText();
+  });
   expect(copied).toContain('Terminal');
   expect(
     urls.some((url) => /openai|anthropic|cursor\.com\/api/u.test(url)),
@@ -91,10 +96,16 @@ test('à 320 px le panneau ne déborde pas', async ({ page }) => {
     })
     .check();
   await page.getByRole('button', { name: 'Générer le brief' }).click();
-  const overflow = await page.evaluate(
-    () =>
-      document.documentElement.scrollWidth >
-      document.documentElement.clientWidth + 1,
-  );
+  const overflow = await page.evaluate(() => {
+    const root = globalThis as unknown as {
+      document: {
+        documentElement: { scrollWidth: number; clientWidth: number };
+      };
+    };
+    return (
+      root.document.documentElement.scrollWidth >
+      root.document.documentElement.clientWidth + 1
+    );
+  });
   expect(overflow).toBe(false);
 });
