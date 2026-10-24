@@ -41,11 +41,14 @@ let { caption, summary, columns, rows }: Props = $props();
         <tr>
           {#each row as cell, cellIndex (`${index}-${cellIndex}`)}
             <td class:numeric={cell.numeric}>
-              {#if cell.level}
-                <StatusMark level={cell.level} />
-              {:else}
-                {cell.text}
-              {/if}
+              <span class="cell">
+                {#if cell.text !== ''}
+                  <span>{cell.text}</span>
+                {/if}
+                {#if cell.level}
+                  <StatusMark level={cell.level} />
+                {/if}
+              </span>
             </td>
           {/each}
         </tr>
@@ -65,7 +68,15 @@ let { caption, summary, columns, rows }: Props = $props();
 
   table {
     width: 100%;
+    table-layout: fixed;
     border-collapse: collapse;
+  }
+
+  .cell {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    align-items: center;
   }
 
   caption {

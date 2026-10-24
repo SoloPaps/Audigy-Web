@@ -1,7 +1,12 @@
-import { type MessageKey, t } from '../i18n/index.js';
+import { formatDate, type MessageKey, t } from '../i18n/index.js';
 import { type CategoryItem, globalScore } from '../lib/categories.js';
 import type { Finding, FindingStatus } from '../lib/findings.js';
-import type { Level } from '../lib/score.js';
+import type {
+  AuditSnapshot,
+  ComparedIssue,
+  HistoryPoint,
+  HistorySeries,
+} from '../lib/history.js';
 
 const CATEGORIES: readonly {
   id: string;
@@ -195,33 +200,80 @@ export function demoFindings(): Finding[] {
   });
 }
 
-export interface DemoCell {
-  text: string;
-  level?: Level;
-  numeric?: boolean;
+const HISTORY_AT = {
+  mars: '2026-03-03T08:00:00.000Z',
+  juin: '2026-06-02T08:00:00.000Z',
+  oct: '2026-10-23T12:30:00.000Z',
+} as const;
+
+export function demoHistorySeries(): HistorySeries[] {
+  return [
+    { id: 'global', label: t('domain.global') },
+    { id: 'performance', label: t('domain.performance.plain') },
+    { id: 'securite', label: t('domain.securite.plain') },
+    { id: 'seo', label: t('domain.seo.plain') },
+  ];
 }
 
-export function demoTable(): {
-  columns: { key: string; label: string }[];
-  rows: DemoCell[][];
-} {
-  return {
-    columns: [
-      { key: 'date', label: t('table.date') },
-      { key: 'score', label: t('table.score') },
-      { key: 'level', label: t('table.level') },
-    ],
-    rows: [
-      [
-        { text: t('table.row1.date') },
-        { text: '71', numeric: true },
-        { text: '', level: 'improve' },
-      ],
-      [
-        { text: t('table.row2.date') },
-        { text: '83', numeric: true },
-        { text: '', level: 'good' },
-      ],
-    ],
-  };
+export function demoHistoryInitial(): string[] {
+  return ['global', 'performance', 'securite'];
+}
+
+export function demoHistoryPoints(): HistoryPoint[] {
+  const rows: {
+    id: keyof typeof HISTORY_AT;
+    global: number;
+    performance: number;
+    securite: number;
+    seo: number;
+  }[] = [
+    { id: 'mars', global: 71, performance: 64, securite: 55, seo: 90 },
+    { id: 'juin', global: 76, performance: 70, securite: 48, seo: 92 },
+    { id: 'oct', global: 83, performance: 86, securite: 41, seo: 100 },
+  ];
+  return rows.map((row) => ({
+    id: row.id,
+    at: HISTORY_AT[row.id],
+    href: `#audit-${row.id}`,
+    scores: {
+      global: row.global,
+      performance: row.performance,
+      securite: row.securite,
+      seo: row.seo,
+    },
+  }));
+}
+
+function issue(
+  id: string,
+  title: MessageKey,
+  status: FindingStatus,
+): ComparedIssue {
+  return { id, title: t(title), status, href: `#finding-${id}` };
+}
+
+export function demoAuditSnapshots(): AuditSnapshot[] {
+  return (Object.keys(HISTORY_AT) as (keyof typeof HISTORY_AT)[]).map((id) => {
+    const at = HISTORY_AT[id];
+    const findings: ComparedIssue[] = [
+      issue('https', 'demo.https.title', 'fail'),
+      issue('title', 'demo.title.title', 'pass'),
+    ];
+    if (id === 'mars')
+      findings.push(issue('frame', 'demo.frame.title', 'warn'));
+    if (id === 'juin') {
+      findings.push(
+        issue('frame', 'demo.frame.title', 'warn'),
+        issue('images', 'demo.image.title', 'warn'),
+      );
+    }
+    if (id === 'oct') {
+      findings.push(
+        issue('frame', 'demo.frame.title', 'pass'),
+        issue('images', 'demo.image.title', 'warn'),
+        issue('cookies', 'demo.cookie.title', 'untested'),
+      );
+    }
+    return { id, at, label: formatDate(new Date(at)), findings };
+  });
 }

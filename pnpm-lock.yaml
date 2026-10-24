@@ -63,6 +63,9 @@ importers:
       svelte:
         specifier: ^5.57.2
         version: 5.57.2
+      uplot:
+        specifier: 1.6.32
+        version: 1.6.32
     devDependencies:
       '@astrojs/check':
         specifier: ^0.9.12
@@ -2416,6 +2419,9 @@ packages:
         optional: true
       uploadthing:
         optional: true
+
+  uplot@1.6.32:
+    resolution: {integrity: sha512-KIMVnG68zvu5XXUbC4LQEPnhwOxBuLyW1AHtpm6IKTXImkbLgkMy+jabjLgSLMasNuGGzQm/ep3tOkyTxpiQIw==}
 
   verkit@0.5.0:
     resolution: {integrity: sha512-u4J1hr6Y+C/hit34GwL3eIcUf3wngT8TlYUjK7tk0jxydKLAq3sYvifjdTDA6U3KCKRcQCQDGf/srjxfZF3l7g==}
@@ -4838,6 +4844,8 @@ snapshots:
       node-fetch-native: 1.6.7
       ofetch: 1.5.1
       ufo: 1.6.4
+
+  uplot@1.6.32: {}
 
   verkit@0.5.0: {}
 

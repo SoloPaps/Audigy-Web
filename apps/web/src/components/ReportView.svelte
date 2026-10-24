@@ -11,6 +11,7 @@ import {
 } from '../lib/domains.js';
 import { topActions } from '../lib/findings.js';
 import { fixesFor, hostingOf } from '../lib/fix-catalog.js';
+import { GLOBAL_SERIES, type HistoryView } from '../lib/history.js';
 import { loginHref } from '../lib/nav.js';
 import {
   categoryItems,
@@ -18,9 +19,11 @@ import {
   scoredDomainCount,
 } from '../lib/report-model.js';
 import { levelForScore } from '../lib/score.js';
+import { loadSiteHistory } from '../lib/site-history.js';
 import { verdictCopy } from '../lib/verdict.js';
 import CategoryList from './CategoryList.svelte';
 import FindingList from './FindingList.svelte';
+import HistoryPanel from './HistoryPanel.svelte';
 import ReportFooter from './ReportFooter.svelte';
 import ScoreGauge from './ScoreGauge.svelte';
 
@@ -34,6 +37,7 @@ let phase = $state<'loading' | 'message' | 'ready'>('loading');
 let message = $state(t('report.loading'));
 let payload = $state<AuditPayload | null>(null);
 let domainId = $state('');
+let history = $state<HistoryView | null>(null);
 
 const items = $derived(
   payload ? categoryItems(payload.domains, payload.audit.id) : [],
@@ -55,36 +59,49 @@ const stamp = $derived.by(() => {
   return Number.isNaN(date.getTime()) ? new Date() : date;
 });
 
-onMount(async () => {
-  const params = new URLSearchParams(location.search);
-  const id = params.get('id');
-  domainId = params.get('domaine') ?? '';
-  if (!id || (mode === 'domain' && !isKnownDomain(domainId))) {
-    phase = 'message';
-    message =
-      mode === 'domain' ? t('report.domain.missing') : t('report.missing');
-    return;
-  }
-  const session = await currentSession();
-  if (!session) {
-    location.replace(loginHref(`${location.pathname}${location.search}`));
-    return;
-  }
-  const result = await readAudit(session.access_token, id);
-  if (!result.ok) {
-    phase = 'message';
-    message = result.status === 404 ? t('report.missing') : result.message;
-    return;
-  }
-  const status = result.payload.audit.status;
-  if (status === 'queued' || status === 'running') {
-    phase = 'message';
-    message = t('report.pending');
+onMount(() => {
+  let cancelled = false;
+  void load();
+  return () => {
+    cancelled = true;
+  };
+
+  async function load(): Promise<void> {
+    const params = new URLSearchParams(location.search);
+    const id = params.get('id');
+    domainId = params.get('domaine') ?? '';
+    if (!id || (mode === 'domain' && !isKnownDomain(domainId))) {
+      phase = 'message';
+      message =
+        mode === 'domain' ? t('report.domain.missing') : t('report.missing');
+      return;
+    }
+    const session = await currentSession();
+    if (!session) {
+      location.replace(loginHref(`${location.pathname}${location.search}`));
+      return;
+    }
+    const result = await readAudit(session.access_token, id);
+    if (!result.ok) {
+      phase = 'message';
+      message = result.status === 404 ? t('report.missing') : result.message;
+      return;
+    }
+    const status = result.payload.audit.status;
+    if (status === 'queued' || status === 'running') {
+      phase = 'message';
+      message = t('report.pending');
+      payload = result.payload;
+      return;
+    }
     payload = result.payload;
-    return;
+    phase = 'ready';
+    const loaded = await loadSiteHistory(
+      result.payload.audit.site.id,
+      result.payload.audit.site.hosting,
+    );
+    if (!cancelled) history = loaded;
   }
-  payload = result.payload;
-  phase = 'ready';
 });
 </script>
 
@@ -141,6 +158,16 @@ onMount(async () => {
 
   <h2 id="corrections">{t('section.findings')}</h2>
   <FindingList findings={shown} />
+
+  {#if mode === 'report' && history}
+    <h2>{t('section.table')}</h2>
+    <HistoryPanel
+      series={history.series}
+      points={history.points}
+      audits={history.snapshots}
+      initialSeries={[GLOBAL_SERIES]}
+    />
+  {/if}
 
   <h2 id="verification">{t('section.verify')}</h2>
   <p class="prose">{t('verify.lead')}</p>

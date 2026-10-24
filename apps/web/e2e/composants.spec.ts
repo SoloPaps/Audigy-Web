@@ -293,6 +293,66 @@ test('le chiffre reste dans le cercle', async ({ page }) => {
   await expectScoreInside(page);
 });
 
+test('historique en tableau, traits distincts et comparaison', async ({
+  page,
+}) => {
+  await page.goto('/dev/composants?theme=light');
+  await expect(page.getByText('+12 points depuis le 3 mars')).toBeVisible();
+  await expect(page.getByText('Axe de 0 à 100.')).toBeVisible();
+  await expect(page.getByText('Les bandes marquent 50 et 80.')).toBeVisible();
+  await expect(page.locator('[data-ymin="0"][data-ymax="100"]')).toBeVisible();
+  await expect(
+    page.getByRole('link', { name: /Score global : 83 sur 100/ }),
+  ).toBeVisible();
+  await expect(page.locator('table')).toBeHidden();
+  await page.getByRole('button', { name: 'Voir en tableau' }).click();
+  const table = page.getByRole('table');
+  await expect(table).toBeVisible();
+  await expect(table).toContainText('3 mars 2026');
+  await expect(table).toContainText('83');
+  await expect(table.getByText('Bon').first()).toBeVisible();
+  await expect(table.getByText('À améliorer').first()).toBeVisible();
+  const strokes = await page.locator('.swatch').evaluateAll((nodes) =>
+    nodes.map((node) => {
+      const view = globalThis as unknown as {
+        getComputedStyle: (target: unknown) => { borderTopStyle: string };
+      };
+      return view.getComputedStyle(node).borderTopStyle;
+    }),
+  );
+  expect(strokes).toEqual(['solid', 'dashed', 'dotted']);
+  await page.evaluate(() => {
+    const root = globalThis as unknown as {
+      document: { documentElement: { style: { filter: string } } };
+    };
+    root.document.documentElement.style.filter = 'grayscale(1)';
+  });
+  await expect(page.getByText('+12 points depuis le 3 mars')).toBeVisible();
+  await expect(
+    page.getByRole('link', { name: /Score global : 83 sur 100/ }),
+  ).toBeVisible();
+  const seo = page.getByRole('checkbox', { name: 'Visibilité sur Google' });
+  await seo.click();
+  await expect(seo).not.toBeChecked();
+  await expect(page.getByText('Trois courbes au plus.')).toBeVisible();
+  const compare = page.getByRole('region', { name: 'Comparer deux audits' });
+  await expect(
+    compare.getByRole('heading', { name: 'Nouveaux problèmes' }),
+  ).toBeVisible();
+  await expect(
+    compare.getByRole('link', {
+      name: 'Certaines images sont plus lourdes que nécessaire',
+    }),
+  ).toBeVisible();
+  await expect(
+    compare.getByRole('link', {
+      name: 'La page peut être affichée dans un cadre trompeur',
+    }),
+  ).toBeVisible();
+  await page.getByRole('link', { name: /Score global : 83 sur 100/ }).click();
+  await expect(page).toHaveURL(/#audit-oct$/);
+});
+
 test('le chiffre reste dans le cercle à 390 px', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/dev/composants?theme=light');

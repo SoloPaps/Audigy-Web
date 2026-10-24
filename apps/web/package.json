@@ -19,7 +19,8 @@
     "@audigy/engine": "workspace:*",
     "@supabase/supabase-js": "^2.118.0",
     "astro": "^7.4.2",
-    "svelte": "^5.57.2"
+    "svelte": "^5.57.2",
+    "uplot": "1.6.32"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.12",
