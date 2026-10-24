@@ -74,7 +74,7 @@ Correspondance utilisée, sauf mention :
 | de −5 à −10 | À améliorer |
 | −20 ou moins, ou contrôle absent quand il est indispensable | Problème |
 
-Le test suit les redirections comme un visiteur. Il ne distingue pas une redirection permanente d'une redirection temporaire. La liste de préchargement HSTS n'est pas consultée. Les versions TLS, les fichiers non liés, le contenu mixte chargé par le navigateur et les failles logicielles sont hors de ce lot.
+Le test suit les redirections comme un visiteur. Il ne distingue pas une redirection permanente d'une redirection temporaire. La liste de préchargement HSTS n'est pas consultée. Les versions TLS, les fichiers non liés et le contenu mixte chargé par le navigateur sont hors de ce lot. Les technologies et leurs failles connues sont au §14.
 
 | Identifiant | Poids | Réussi | À améliorer | Problème |
 |---|---|---|---|---|
@@ -263,3 +263,27 @@ Une image au-dessus de 200 Ko est un problème. La taille vient de l’en-tête 
 | qualite.images_poids | 2 | Chaque image mesurée fait au plus 200 Ko. | Une taille n’est pas indiquée. | Au moins une image dépasse 200 Ko. Aucune image : Non applicable. |
 | qualite.images_dimensions | 1 | Chaque image a une largeur et une hauteur. | Une partie des images n’a pas les deux. | Aucune image n’a les deux. Aucune image : Non applicable. |
 | qualite.images_format | 1 | Chaque image bitmap propose WebP ou AVIF. | Une partie seulement. | Aucune image bitmap n’est en format moderne. SVG seul : Non applicable. |
+
+## 14. Technologies et failles connues
+
+Trois tests passifs du domaine Sécurité, version 2026.1. Ils relisent la page demandée (la même lecture qu’au §8), puis au plus 10 scripts qu’elle charge, dans l’ordre de la page. Le rythme reste d’une requête par seconde et par hôte, dans le budget passif. Les scripts ajoutés plus tard par le navigateur ne sont pas vus.
+
+Ce qui est lu : les en-têtes `Server`, `X-Powered-By`, `X-AspNet-Version`, `X-AspNetMvc-Version` et `X-Generator`, la balise `<meta name="generator">`, puis l’adresse, le nom et le contenu des scripts, y compris les scripts écrits dans la page. Le contenu l’emporte sur le nom, et le nom sur l’adresse. Un script qui répond hors de 200 à 299, ou qui renvoie une page HTML, n’est pas chargé : il est ignoré. Un script non lu (budget, délai, panne) est listé, mais jamais comparé.
+
+**Signatures.** Les scripts sont reconnus avec les extracteurs de [retire.js](https://github.com/RetireJS/retire.js), fichier `repository/jsrepository-master.json`, commit `e5e228659bbcaea7ba85536a2ef8d4fb97b366e9`. Licence vérifiée le 24/10/2026 : Apache-2.0 (`LICENSE.md` du dépôt), avis « Copyright 2018 Erlend Oftedal » (`NOTICE.md`). La copie, la licence et l’avis sont dans `packages/engine/data/retire/`. Seuls les extracteurs sont gardés. Les failles listées par retire.js ne servent pas, et les extracteurs `func`, qui exécutent du code, sont retirés. Les logiciels serveur suivent une liste maison : aucune empreinte de type Wappalyzer (souvent sous GPL).
+
+**Version.** Une version inconnue ou partielle ne donne jamais d’alerte. Une bibliothèque est comparée seulement si elle a un paquet npm connu et une version complète `x.y.z` (une préversion est permise). Un logiciel est comparé seulement avec la précision de sa règle : trois nombres pour Apache, nginx et PHP ; OpenSSL peut finir par une ou deux lettres ; WordPress accepte deux nombres. `Apache/2.4` n’est pas comparé : la base renverrait les failles de toute la branche. Les hébergeurs gérés (Netlify, GitHub Pages, Vercel, Cloudflare…) et les outils de construction (Hugo, Jekyll, Astro…) ne sont pas comparés : ils ne tournent pas sous votre responsabilité sur le site publié.
+
+**Sources.** Bibliothèques : [OSV.dev](https://osv.dev/), `POST /v1/query`, écosystème npm. OSV applique lui-même les plages de versions. Une fiche retirée est ignorée. La gravité est l’étiquette de la fiche GitHub ; sans étiquette, elle compte comme modérée. Logiciels : [NVD API 2.0](https://nvd.nist.gov/developers/vulnerabilities), `cpeName=cpe:2.3:a:<éditeur>:<produit>:<version>`, sans les fiches rejetées. Une fiche contestée (`disputed`) est ignorée. La gravité est celle du CVSS 4.0, sinon 3.1, 3.0, puis 2, de la source principale d’abord. Noms CPE vérifiés : `apache:http_server`, `f5:nginx`, `php:php`, `openssl:openssl`, `wordpress:wordpress`. La clé `NVD_API_KEY` est facultative et voyage dans un en-tête, jamais dans l’adresse. Au plus 10 bibliothèques et 4 logiciels sont interrogés par audit (NVD sans clé : 5 requêtes par 30 secondes).
+
+**Failles exploitées.** Le [catalogue KEV de la CISA](https://www.cisa.gov/known-exploited-vulnerabilities-catalog) n’est lu que si une faille trouvée a un numéro CVE. Une faille de ce catalogue donne Problème, gravité 4. Si le catalogue ne répond pas, le reste du constat est gardé.
+
+**Cache.** Une réponse réussie d’OSV, de NVD ou du catalogue est réutilisée le même jour (UTC), soit 24 heures au plus. La clé est la base, le paquet, la version et le jour. Un échec n’est pas mémorisé. Un réessai a lieu sur erreur réseau, 408, 429 ou 5xx. Un second 429, ou un 403 de NVD, est un quota : le test est Non testé.
+
+**Prudence.** Le constat dit « version possiblement vulnérable ». Audigy compare un numéro ; il ne teste pas la faille. Une faille propre au serveur d’un cadriciel peut ne pas toucher un site statique. Un paquet de distribution (commentaire ou suffixe Ubuntu, Debian, CentOS, Red Hat, `fips`…) est au plus À améliorer : ces distributions corrigent souvent sans changer le numéro. Pour l’annonce des versions, seuls les en-têtes comptent. La balise generator est relevée sans pénalité.
+
+| Identifiant | Poids | Réussi | À améliorer | Problème |
+|---|---|---|---|---|
+| securite.technologies | 1 | Aucun en-tête n’annonce de numéro de version. | Un en-tête annonce une version. | — |
+| securite.cve_scripts | 2 | Aucune faille connue dans OSV pour les versions comparées. | Failles connues, toutes modérées, faibles ou sans gravité. | Une faille grave ou critique, ou une faille du catalogue KEV. Rien à comparer : Non applicable. |
+| securite.cve_logiciels | 2 | Aucune faille connue pour les versions comparées. | Failles modérées, ou paquet de distribution. | Une faille grave ou critique, ou du catalogue KEV, hors paquet de distribution. Hébergeur géré, outil ou version inconnue : Non applicable. |

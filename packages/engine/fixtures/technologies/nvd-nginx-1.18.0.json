@@ -1,0 +1,190 @@
+{
+  "resultsPerPage": 6,
+  "startIndex": 0,
+  "totalResults": 6,
+  "format": "NVD_CVE",
+  "version": "2.0",
+  "timestamp": "2026-10-24T01:30:01.338",
+  "vulnerabilities": [
+    {
+      "cve": {
+        "id": "CVE-2021-23017",
+        "vulnStatus": "Modified",
+        "cveTags": [],
+        "metrics": {
+          "cvssMetricV31": [
+            {
+              "source": "nvd@nist.gov",
+              "type": "Primary",
+              "cvssData": {
+                "version": "3.1",
+                "baseScore": 7.7,
+                "baseSeverity": "HIGH"
+              }
+            }
+          ],
+          "cvssMetricV2": [
+            {
+              "source": "nvd@nist.gov",
+              "type": "Primary",
+              "cvssData": {
+                "version": "2.0",
+                "baseScore": 6.8
+              },
+              "baseSeverity": "MEDIUM"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "cve": {
+        "id": "CVE-2021-3618",
+        "vulnStatus": "Modified",
+        "cveTags": [],
+        "metrics": {
+          "cvssMetricV31": [
+            {
+              "source": "nvd@nist.gov",
+              "type": "Primary",
+              "cvssData": {
+                "version": "3.1",
+                "baseScore": 7.4,
+                "baseSeverity": "HIGH"
+              }
+            }
+          ],
+          "cvssMetricV2": [
+            {
+              "source": "nvd@nist.gov",
+              "type": "Primary",
+              "cvssData": {
+                "version": "2.0",
+                "baseScore": 5.8
+              },
+              "baseSeverity": "MEDIUM"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "cve": {
+        "id": "CVE-2022-41741",
+        "vulnStatus": "Modified",
+        "cveTags": [],
+        "metrics": {
+          "cvssMetricV31": [
+            {
+              "source": "f5sirt@f5.com",
+              "type": "Secondary",
+              "cvssData": {
+                "version": "3.1",
+                "baseScore": 7,
+                "baseSeverity": "HIGH"
+              }
+            },
+            {
+              "source": "nvd@nist.gov",
+              "type": "Primary",
+              "cvssData": {
+                "version": "3.1",
+                "baseScore": 7.8,
+                "baseSeverity": "HIGH"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "cve": {
+        "id": "CVE-2022-41742",
+        "vulnStatus": "Modified",
+        "cveTags": [],
+        "metrics": {
+          "cvssMetricV31": [
+            {
+              "source": "f5sirt@f5.com",
+              "type": "Secondary",
+              "cvssData": {
+                "version": "3.1",
+                "baseScore": 7.1,
+                "baseSeverity": "HIGH"
+              }
+            },
+            {
+              "source": "nvd@nist.gov",
+              "type": "Primary",
+              "cvssData": {
+                "version": "3.1",
+                "baseScore": 7.1,
+                "baseSeverity": "HIGH"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "cve": {
+        "id": "CVE-2023-44487",
+        "vulnStatus": "Analyzed",
+        "cveTags": [],
+        "metrics": {
+          "cvssMetricV31": [
+            {
+              "source": "nvd@nist.gov",
+              "type": "Primary",
+              "cvssData": {
+                "version": "3.1",
+                "baseScore": 7.5,
+                "baseSeverity": "HIGH"
+              }
+            },
+            {
+              "source": "134c704f-9b21-4f2e-91b3-4a467353bcc0",
+              "type": "Secondary",
+              "cvssData": {
+                "version": "3.1",
+                "baseScore": 7.5,
+                "baseSeverity": "HIGH"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "cve": {
+        "id": "CVE-2025-23419",
+        "vulnStatus": "Analyzed",
+        "cveTags": [],
+        "metrics": {
+          "cvssMetricV40": [
+            {
+              "source": "f5sirt@f5.com",
+              "type": "Secondary",
+              "cvssData": {
+                "version": "4.0",
+                "baseScore": 5.3,
+                "baseSeverity": "MEDIUM"
+              }
+            }
+          ],
+          "cvssMetricV31": [
+            {
+              "source": "f5sirt@f5.com",
+              "type": "Secondary",
+              "cvssData": {
+                "version": "3.1",
+                "baseScore": 4.3,
+                "baseSeverity": "MEDIUM"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

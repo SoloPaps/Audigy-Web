@@ -25,6 +25,7 @@ const MARKUP_EXT = new Set(['.astro', '.svelte', '.html']);
 const ACRONYMS = new Set([
   'ANSSI',
   'AVIF',
+  'CISA',
   'CNIL',
   'DKIM',
   'DMARC',

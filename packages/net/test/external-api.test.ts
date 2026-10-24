@@ -8,6 +8,9 @@ import {
   EXTERNAL_API_HOSTS,
   type ExternalApi,
   GREEN_WEB_HOST,
+  KEV_HOST,
+  NVD_HOST,
+  OSV_HOST,
 } from '../src/index.js';
 import { generateTestCerts } from './certs.js';
 
@@ -85,12 +88,56 @@ function client(
 }
 
 describe('createExternalApi', () => {
-  it('n’autorise que PSI, CrUX et Green Web par défaut', () => {
+  it('n’autorise que PSI, CrUX, Green Web, OSV, NVD et KEV par défaut', () => {
     expect([...EXTERNAL_API_HOSTS]).toEqual([
       'www.googleapis.com',
       'chromeuxreport.googleapis.com',
       GREEN_WEB_HOST,
+      'api.osv.dev',
+      'services.nvd.nist.gov',
+      'www.cisa.gov',
     ]);
+    expect([OSV_HOST, NVD_HOST, KEV_HOST]).toEqual([
+      'api.osv.dev',
+      'services.nvd.nist.gov',
+      'www.cisa.gov',
+    ]);
+  });
+
+  it('ajoute un en-tête permis sans remplacer ceux du client', async () => {
+    seen.length = 0;
+    const api = client();
+    const got = await api.request({
+      method: 'GET',
+      url: new URL('https://audigy.test/nvd'),
+      headers: { apiKey: SECRET },
+      timeoutMs: 1000,
+    });
+    expect(got.status).toBe(200);
+    expect(seen[0]?.headers.apikey).toBe(SECRET);
+    expect(seen[0]?.headers['user-agent']).toContain('AudigyBot');
+    for (const headers of [
+      { 'User-Agent': 'autre' },
+      { Host: 'evil.example' },
+      { cookie: 'a=b' },
+      { 'bad name': 'x' },
+      { apiKey: 'a\r\nx-injecte: 1' },
+      { apiKey: 'a', APIKEY: 'b' },
+    ]) {
+      const error = await api
+        .request({
+          method: 'GET',
+          url: new URL('https://audigy.test/nvd'),
+          headers,
+          timeoutMs: 1000,
+        })
+        .catch((caught: unknown) => caught);
+      expect(error, JSON.stringify(headers)).toMatchObject({
+        code: 'BLOCKED_HEADER',
+      });
+      expect(JSON.stringify(error)).not.toContain(SECRET);
+    }
+    expect(seen).toHaveLength(1);
   });
 
   it('passe l’allowlist puis refuse une IP privée, sans composer la clé', async () => {
