@@ -1,0 +1,658 @@
+{
+  "source": "https://github.com/RetireJS/retire.js/blob/e5e228659bbcaea7ba85536a2ef8d4fb97b366e9/repository/jsrepository-master.json",
+  "commit": "e5e228659bbcaea7ba85536a2ef8d4fb97b366e9",
+  "license": "Apache-2.0",
+  "copyright": "Copyright 2018 Erlend Oftedal",
+  "changes": "Modifié par Audigy : extracteurs uri, filename, filecontent, filecontentreplace et hashes seulement. Failles, licences et extracteurs func retirés.",
+  "libraries": {
+    "@angular/core": {
+      "uri": ["@angular/core@(§§version§§)/"],
+      "filecontent": [
+        "/\\*\\*[\\s*]+@license Angular v(§§version§§)",
+        "\\[['\"]ng-version['\"],['\"](§§version§§)['\"]\\]"
+      ]
+    },
+    "AlaSQL": {
+      "uri": ["/alasql[/@](§§version§§)/.*\\.js"],
+      "filename": ["alasql-(§§version§§)(\\.min)?\\.js"],
+      "filecontent": ["/\\*!?[ \n]*AlaSQL v(§§version§§)"]
+    },
+    "DOMPurify": {
+      "filecontent": [
+        "DOMPurify.version = '(§§version§§)';",
+        "DOMPurify.version=\"(§§version§§)\"",
+        "DOMPurify=.[^\\r\\n]{10,850}?\\.version=\"(§§version§§)\"",
+        "/\\*! @license DOMPurify (§§version§§)",
+        "var .=\"dompurify\"+.{10,550}?\\.version=\"(§§version§§)\""
+      ]
+    },
+    "DWR": {
+      "filecontent": [" dwr-(§§version§§).jar"]
+    },
+    "ExtJS": {
+      "uri": ["/extjs/(§§version§§)/.*\\.js"],
+      "filename": [
+        "/ext-all-(§§version§§)(\\.min)?\\.js",
+        "/ext-all-debug-(§§version§§)(\\.min)?\\.js",
+        "/ext-base-(§§version§§)(\\.min)?\\.js"
+      ],
+      "filecontent": [
+        "/*!\n * Ext JS Library (§§version§§)",
+        "Ext = \\{[\\s]*/\\*[^/]+/[\\s]*version *: *['\"](§§version§§)['\"]",
+        "var version *= *['\"](§§version§§)['\"], *Version;[\\s]*Ext.Version *= *Version *= *Ext.extend"
+      ]
+    },
+    "YUI": {
+      "filename": ["yui-(§§version§§)(.min)?\\.js"],
+      "filecontent": [
+        "/*\nYUI (§§version§§)",
+        "/yui/license.(?:html|txt)\nversion: (§§version§§)"
+      ]
+    },
+    "alpinejs": {
+      "uri": ["/alpinejs[@/](§§version§§)/"],
+      "filename": ["alpine(?:js)?[-.](§§version§§)(.min)?.js"],
+      "filecontent": [
+        "version:['\"](§§version§§)['\"],flushAndStopDeferringMutations"
+      ]
+    },
+    "angularjs": {
+      "uri": ["/(§§version§§)/angular(\\.min)?\\.js"],
+      "filename": ["angular(?:js)?-(§§version§§)(.min)?\\.js"],
+      "filecontent": [
+        "/\\*[\\*\\s]+(?:@license )?AngularJS(?: NES)? v(§§version§§)",
+        "http://errors\\.angularjs\\.org/(§§version§§)/"
+      ]
+    },
+    "axios": {
+      "uri": ["/axios/(§§version§§)/.*\\.js"],
+      "filename": ["axios-(§§version§§)(\\.min)?\\.js"],
+      "filecontent": [
+        "/\\*!? *[Aa]xios v(§§version§§) ",
+        "// Axios v(§§version§§) C",
+        "return\"\\[Axios v(§§version§§)\\] Transitional",
+        "\\\"axios\\\",\\\"version\\\":\\\"(§§version§§)\\\""
+      ]
+    },
+    "backbone.js": {
+      "uri": ["/(§§version§§)/backbone(\\.min)?\\.js"],
+      "filename": ["backbone(?:js)?-(§§version§§)(.min)?\\.js"],
+      "filecontent": [
+        "//[ ]+Backbone.js (§§version§§)",
+        "a=t.Backbone=\\{\\}\\}a.VERSION=\"(§§version§§)\"",
+        "Backbone\\.VERSION *= *[\"'](§§version§§)[\"']"
+      ]
+    },
+    "blueimp-file-upload": {
+      "uri": [
+        "/blueimp-file-upload/(§§version§§)/jquery.fileupload(-ui)?(\\.min)?\\.js"
+      ],
+      "filecontent": [
+        "/\\*[\\s*]+jQuery File Upload User Interface Plugin (§§version§§)[\\s*]+https://github.com/blueimp"
+      ]
+    },
+    "bootstrap": {
+      "uri": [
+        "/(§§version§§)/bootstrap(\\.min)?\\.js",
+        "/(§§version§§)/js/bootstrap(\\.min)?\\.js"
+      ],
+      "filename": ["bootstrap-(§§version§§)(\\.min)?\\.js"],
+      "filecontent": [
+        "/\\*!? Bootstrap v(§§version§§)",
+        "\\* Bootstrap v(§§version§§)",
+        "/\\*! Bootstrap v(§§version§§)",
+        "this\\.close\\)\\};.\\.VERSION=\"(§§version§§)\"(?:,.\\.TRANSITION_DURATION=150)?,.\\.prototype\\.close"
+      ]
+    },
+    "bootstrap-select": {
+      "uri": ["/bootstrap-select/(§§version§§)/"],
+      "filecontent": [
+        "/\\*![\\s]+\\*[\\s]+Bootstrap-select[\\s]+v(§§version§§)",
+        ".\\.data\\(\"selectpicker\",.=new .\\(this,.\\)\\)\\}\"string\"==typeof .&&\\(.=.\\[.\\]instanceof Function\\?.\\[.\\]\\.apply\\(.,.\\):.\\.options\\[.\\]\\)\\}\\}\\);return void 0!==.\\?.:.\\}.\\.VERSION=\"(§§version§§)\","
+      ]
+    },
+    "c3": {
+      "uri": ["/(§§version§§)/c3(\\.min)?\\.js"],
+      "filecontent": [
+        "[\\s]+var c3 ?= ?\\{ ?version: ?['\"](§§version§§)['\"] ?\\};[\\s]+var c3_chart_fn,"
+      ]
+    },
+    "chart.js": {
+      "uri": [
+        "/Chart.js/(§§version§§)/chart(\\.min)?\\.js",
+        "/Chart.js/(§§version§§)/Chart.bundle(\\.min)?\\.js"
+      ],
+      "filecontent": [
+        "var version=\"(§§version§§)\";const KNOWN_POSITIONS=\\[\"top\",\"bottom\",\"left\",\"right\",\"chartArea\"\\]",
+        "/\\*![\\s]+\\* Chart.js v(§§version§§)",
+        "/\\*![\\s]+\\* Chart.js[\\s]+\\* http://chartjs.org/[\\s]+\\* Version: (§§version§§)"
+      ]
+    },
+    "ckeditor": {
+      "uri": ["/(§§version§§)/ckeditor(\\.min)?\\.js"],
+      "filename": ["ckeditor-(§§version§§)(\\.min)?\\.js"],
+      "filecontent": [
+        "ckeditor..js.{4,30}=\\{timestamp:\"[^\"]+\",version:\"(§§version§§)",
+        "window\\.CKEDITOR=function\\(\\)\\{var [a-z]=\\{timestamp:\"[^\"]+\",version:\"(§§version§§)"
+      ]
+    },
+    "ckeditor5": {
+      "uri": ["/(§§version§§)/ckeditor5(\\.min)?\\.js"],
+      "filename": ["ckeditor5-(§§version§§)(\\.min)?\\.js"],
+      "filecontent": [
+        "const .=\"(§§version§§)\"[,;].{0,140}?\\.CKEDITOR_VERSION=.;",
+        "CKEDITOR_VERSION=\"(§§version§§)\""
+      ]
+    },
+    "d3": {
+      "uri": ["/d3[@/](§§version§§)/d3.(min.)?js"],
+      "filename": ["d3[-.](§§version§§)(.min)?.js"],
+      "filecontent": [
+        "\\/\\/ https:\\/\\/d3js\\.org (?:v|Version )(§§version§§) "
+      ]
+    },
+    "dojo": {
+      "uri": ["/(?:dojo-)?(§§version§§)(?:/dojo)?/dojo(\\.min)?\\.js"],
+      "filename": ["dojo-(§§version§§)(\\.min)?\\.js"],
+      "filecontentreplace": [
+        "/dojo.version=\\{major:([0-9]+),minor:([0-9]+),patch:([0-9]+)/$1.$2.$3/",
+        "/\"dojox\"[\\s\\S]{1,350}\\.version=\\{major:([0-9]+),minor:([0-9]+),patch:([0-9]+)/$1.$2.$3/"
+      ],
+      "hashes": {
+        "73cdd262799aab850abbe694cd3bfb709ea23627": "1.4.1",
+        "c8c84eddc732c3cbf370764836a7712f3f873326": "1.4.0",
+        "d569ce9efb7edaedaec8ca9491aab0c656f7c8f0": "1.0.0",
+        "ad44e1770895b7fa84aff5a56a0f99b855a83769": "1.3.2",
+        "8fc10142a06966a8709cd9b8732f7b6db88d0c34": "1.3.1",
+        "a09b5851a0a3e9d81353745a4663741238ee1b84": "1.3.0",
+        "2ab48d45abe2f54cdda6ca32193b5ceb2b1bc25d": "1.2.3",
+        "12208a1e649402e362f528f6aae2c614fc697f8f": "1.2.0",
+        "72a6a9fbef9fa5a73cd47e49942199147f905206": "1.1.1"
+      }
+    },
+    "easyXDM": {
+      "uri": ["/(?:easyXDM-)?(§§version§§)/easyXDM(\\.min)?\\.js"],
+      "filename": ["easyXDM-(§§version§§)(.min)?\\.js"],
+      "filecontent": [
+        " \\* easyXDM\n \\* http://easyxdm.net/(?:\r|\n|.)+version:\"(§§version§§)\"",
+        "@class easyXDM(?:.|\r|\n)+@version (§§version§§)(\r|\n)"
+      ],
+      "hashes": {
+        "cf266e3bc2da372c4f0d6b2bd87bcbaa24d5a643": "2.4.6"
+      }
+    },
+    "echarts": {
+      "uri": ["/echarts[@/](§§version§§)/"],
+      "filename": ["echarts[-.](§§version§§)(.min)?.js"],
+      "filecontent": [
+        "'(§§version§§)';[\\s]+var dependencies = \\{[\\s]+zrender: '[0-9.]+'[\\s]+\\};[\\s]+var TEST_FRAME_REMAIN_TIME = 1;",
+        "setPlatformAPI=[a-zA-Z_]+,.\\.throttle=[a-zA-Z_]+,.\\.time=[a-zA-Z_]+,.\\.use=[a-zA-Z_]+,.\\.util=[a-zA-Z_]+,.\\.vector=[a-zA-Z_]+,.\\.version=['\"](§§version§§)['\"],.\\.zrUtil",
+        ".\\.throttle=[a-zA-Z_]+,.\\.time=[a-zA-Z_]+,.\\.util=[a-zA-Z_]+,.\\.vector=[a-zA-Z_]+,.\\.version=['\"](§§version§§)['\"],.\\.zrender"
+      ]
+    },
+    "ember": {
+      "uri": [
+        "/(?:v)?(§§version§§)/ember(\\.min)?\\.js",
+        "/ember\\.?js/(§§version§§)/ember((\\.|-)[a-z\\-.]+)?\\.js"
+      ],
+      "filename": ["ember-(§§version§§)(\\.min)?\\.js"],
+      "filecontent": [
+        "Project:   Ember -(?:.*\n){9,11}// Version: v(§§version§§)",
+        "// Version: v(§§version§§)(.*\n){10,15}(Ember Debug|@module ember|@class ember)",
+        "Ember.VERSION[ ]?=[ ]?(?:'|\")(§§version§§)(?:'|\")",
+        "meta\\.revision=\"Ember@(§§version§§)\"",
+        "e\\(\"ember/version\",\\[\"exports\"\\],function\\(e\\)\\{\"use strict\";?[\\s]*e(?:\\.|\\[\")default(?:\"\\])?=\"(§§version§§)\"",
+        "\\(\"ember/version\",\\[\"exports\"\\],function\\(e\\)\\{\"use strict\";.{1,70}\\.default=\"(§§version§§)\"",
+        "/\\*![\\s]+\\* @overview  Ember - JavaScript Application Framework[\\s\\S]{0,400}\\* @version   (§§version§§)",
+        "// Version: (§§version§§)[\\s]+\\(function\\(\\) *\\{[\\s]*/\\*\\*[\\s]+@module ember[\\s]",
+        "Object\\.defineProperty\\(\\{__proto__:null,CI:!1,DEBUG:!1\\},Symbol\\.toStringTag,\\{value:\"Module\"\\}\\),\\w+=\"(§§version§§)\"",
+        "isLowLevelRegister:function\\(e\\)\\{return e<=3\\}\\},Symbol\\.toStringTag,\\{value:\"Module\"\\}\\),\\w+=\"(§§version§§)\""
+      ]
+    },
+    "flowplayer": {
+      "uri": ["flowplayer-(§§version§§)(\\.min)?\\.js"],
+      "filename": ["flowplayer-(§§version§§)(\\.min)?\\.js"]
+    },
+    "froala": {
+      "uri": ["/froala-editor/(§§version§§)/", "/froala-editor@(§§version§§)/"],
+      "filecontent": [
+        "/\\*![\\s]+\\* froala_editor v(§§version§§)",
+        "VERSION:\"(§§version§§)\",INSTANCES:\\[\\],OPTS_MAPPING:\\{\\}"
+      ]
+    },
+    "handlebars": {
+      "uri": ["/(§§version§§)/handlebars(\\.min)?\\.js"],
+      "filename": ["handlebars(?:js)?-(§§version§§)(.min)?\\.js"],
+      "filecontent": [
+        "Handlebars.VERSION = \"(§§version§§)\";",
+        "Handlebars=\\{VERSION:(?:'|\")(§§version§§)(?:'|\")",
+        "this.Handlebars=\\{\\};[\n\r \t]+\\(function\\([a-z]\\)\\{[a-z].VERSION=(?:'|\")(§§version§§)(?:'|\")",
+        "exports.HandlebarsEnvironment=[\\s\\S]{70,120}exports.VERSION=(?:'|\")(§§version§§)(?:'|\")",
+        "/\\*+![\\s]+(?:@license)?[\\s]+handlebars v+(§§version§§)",
+        "window\\.Handlebars=.,.\\.VERSION=\"(§§version§§)\"",
+        ".\\.HandlebarsEnvironment=.;var .=.\\(.\\),.=.\\(.\\),.=\"(§§version§§)\";.\\.VERSION="
+      ]
+    },
+    "highcharts": {
+      "uri": ["highcharts/(§§version§§)/highcharts(\\.min)?\\.js"],
+      "filecontent": [
+        "product:\"Highcharts\",version:\"(§§version§§)\"",
+        "product=\"Highcharts\"[,;].\\.version=\"(§§version§§)\""
+      ]
+    },
+    "highlightjs": {
+      "uri": ["/highlight.js[@/](§§version§§)/"],
+      "filename": ["highlight[-.](§§version§§)(.min)?.js"],
+      "filecontent": [
+        "/\\*!\\s*[Hh]ighlight.js v(§§version§§)",
+        "\"after:highlightBlock\"[\\s\\S]{0,170}versionString=['\"](§§version§§)['\"]"
+      ]
+    },
+    "jPlayer": {
+      "filecontent": [
+        "/\\*!?[\n *]+jPlayer Plugin for jQuery (?:.*\n){1,10}[ *]+Version: (§§version§§)",
+        "/\\*!? jPlayer (§§version§§) for jQuery"
+      ]
+    },
+    "jquery": {
+      "uri": ["/(§§version§§)/jquery(\\.min)?\\.js"],
+      "filename": ["jquery-(§§version§§)(\\.min)?\\.js"],
+      "filecontent": [
+        "/\\*!? jQuery v(§§version§§)",
+        "\\* jQuery JavaScript Library v(§§version§§)",
+        "\\* jQuery (§§version§§) - New Wave Javascript",
+        "/\\*![\\s]+\\* jQuery JavaScript Library v(§§version§§)",
+        "// \\$Id: jquery.js,v (§§version§§)",
+        "/\\*! jQuery v(§§version§§)",
+        "[^a-z]f=\"(§§version§§)\",.*[^a-z]jquery:f,",
+        "[^a-z]m=\"(§§version§§)\",.*[^a-z]jquery:m,",
+        "[^a-z.]jquery:[ ]?\"(§§version§§)\"",
+        "\\$\\.documentElement,Q=e.jQuery,Z=e\\.\\$,ee=\\{\\},te=\\[\\],ne=\"(§§version§§)\"",
+        "=\"(§§version§§)\",.{50,300}(.)\\.fn=(\\2)\\.prototype=\\{jquery:"
+      ],
+      "filecontentreplace": [
+        "/var [a-z]=[a-z]\\.document,([a-z])=\"(§§version§§)\",([a-z])=.{130,160};\\3\\.fn=\\3\\.prototype=\\{jquery:\\1/$2/"
+      ]
+    },
+    "jquery-deparam": {
+      "hashes": {
+        "61c9d49ae64331402c3bde766c9dc504ed2ca509": "0.5.3",
+        "10a68e5048995351a01b0ad7f322bb755a576a02": "0.5.2",
+        "b8f063c860fa3aab266df06b290e7da648f9328d": "0.4.2",
+        "851bc74dc664aa55130ecc74dd6b1243becc3242": "0.4.1",
+        "2aae12841f4d00143ffc1effa59fbd058218c29f": "0.4.0",
+        "967942805137f9eb0ae26005d94e8285e2e288a0": "0.3.0",
+        "fbf2e115feae7ade26788e38ebf338af11a98bb2": "0.1.0"
+      }
+    },
+    "jquery-migrate": {
+      "filename": ["jquery-migrate-(§§version§§)(.min)?\\.js"],
+      "filecontent": [
+        "/\\*!?(?:\n \\*)? jQuery Migrate(?: -)? v(§§version§§)",
+        "\\.migrateVersion ?= ?\"(§§version§§)\"[\\s\\S]{10,150}(migrateDisablePatches|migrateWarnings|JQMIGRATE)",
+        "jQuery\\.migrateVersion ?= ?\"(§§version§§)\""
+      ]
+    },
+    "jquery-mobile": {
+      "uri": ["/(§§version§§)/jquery.mobile(\\.min)?\\.js"],
+      "filename": ["jquery.mobile-(§§version§§)(.min)?\\.js"],
+      "filecontent": [
+        "/\\*!?[\\s*]*jQuery Mobile(?: -)? v?(§§version§§)",
+        "// Version of the jQuery Mobile Framework[\\s]+version: *[\"'](§§version§§)[\"'],"
+      ]
+    },
+    "jquery-ui": {
+      "uri": ["/(§§version§§)/jquery-ui(\\.min)?\\.js"],
+      "filecontent": [
+        "/\\*!? jQuery UI - v(§§version§§)",
+        "/\\*!?[\n *]+jQuery UI (§§version§§)"
+      ]
+    },
+    "jquery-ui-autocomplete": {
+      "filecontent": [
+        "/\\*!? jQuery UI - v(§§version§§)(.*\n){1,3}.*jquery\\.ui\\.autocomplete\\.js",
+        "/\\*!?[\n *]+jQuery UI (§§version§§)(.*\n)*.*\\.ui\\.autocomplete",
+        "/\\*!?[\n *]+jQuery UI Autocomplete (§§version§§)",
+        "/\\*!? jQuery UI - v(§§version§§)(.*\n){1,3}\\* Includes: .* autocomplete\\.js"
+      ]
+    },
+    "jquery-ui-dialog": {
+      "filecontent": [
+        "/\\*!? jQuery UI - v(§§version§§)(.*\n){1,3}.*jquery\\.ui\\.dialog\\.js",
+        "/\\*!?[\n *]+jQuery UI (§§version§§)(.*\n)*.*\\.ui\\.dialog",
+        "/\\*!?[\n *]+jQuery UI Dialog (§§version§§)",
+        "/\\*!? jQuery UI - v(§§version§§)(.*\n){1,3}\\* Includes: .* dialog\\.js"
+      ]
+    },
+    "jquery-ui-tooltip": {
+      "filecontent": [
+        "/\\*!? jQuery UI - v(§§version§§)(.*\n){1,3}.*jquery\\.ui\\.tooltip\\.js",
+        "/\\*!?[\n *]+jQuery UI (§§version§§)(.*\n)*.*\\.ui\\.tooltip",
+        "/\\*!?[\n *]+jQuery UI Tooltip (§§version§§)"
+      ]
+    },
+    "jquery-validation": {
+      "uri": [
+        "/(§§version§§)/jquery.validat(ion|e)(\\.min)?\\.js",
+        "/jquery-validation@(§§version§§)/dist/.*\\.js"
+      ],
+      "filename": ["jquery.validat(?:ion|e)-(§§version§§)(.min)?\\.js"],
+      "filecontent": [
+        "/\\*!?(?:\n \\*)?[\\s]*jQuery Validation Plugin -? ?v(§§version§§)",
+        "Original file: /npm/jquery-validation@(§§version§§)/dist/jquery.validate.js"
+      ]
+    },
+    "jquery.datatables": {
+      "uri": ["/(§§version§§)/(js/)?(jquery.)?dataTables(.min)?.js"],
+      "filename": ["jquery.dataTables-(§§version§§)(\\.min)?\\.js"],
+      "filecontent": [
+        "http://www.datatables.net\n +DataTables (§§version§§)",
+        "/\\*! DataTables (§§version§§)",
+        ".\\.version=\"(§§version§§)\";[\\s]*.\\.settings=\\[\\];[\\s]*.\\.models=\\{[\\s]*\\};[\\s]*.\\.models.oSearch"
+      ]
+    },
+    "jquery.prettyPhoto": {
+      "uri": [
+        "/prettyPhoto/(§§version§§)/js/jquery\\.prettyPhoto(\\.min?)\\.js",
+        "/prettyphoto@(§§version§§)/js/jquery\\.prettyPhoto\\.js"
+      ],
+      "filecontent": [
+        "/\\*[\r\n -]+Class: prettyPhoto(?:.*\n){1,3}[ ]*Version: (§§version§§)",
+        "\\.prettyPhoto[ ]?=[ ]?\\{version:[ ]?(?:'|\")(§§version§§)(?:'|\")\\}"
+      ]
+    },
+    "jquery.terminal": {
+      "uri": ["/jquery.terminal[@/](§§version§§)/"],
+      "filecontent": [
+        "version (§§version§§)[\\s]+\\*[\\s]+\\* This file is part of jQuery Terminal.",
+        "\\$\\.terminal=\\{version:\"(§§version§§)\""
+      ]
+    },
+    "jszip": {
+      "uri": ["/jszip[/@](§§version§§)/.*\\.js"],
+      "filename": ["jszip-(§§version§§)(\\.min)?\\.js"],
+      "filecontent": ["/\\*![\\s]+JSZip v(§§version§§) "]
+    },
+    "knockout": {
+      "uri": ["/knockout/(§§version§§)/knockout(-[a-z.]+)?\\.js"],
+      "filename": ["knockout-(§§version§§)(.min)?\\.js"],
+      "filecontent": [
+        "(?:\\*|//) Knockout JavaScript library v(§§version§§)",
+        ".version=\"(§§version§§)\",_.b\\(.version.,_.version\\),_.options=\\{deferUpdates:!1,useOnlyNativeEvents:!1,foreachHidesDestroyed:!1\\}"
+      ]
+    },
+    "lodash": {
+      "uri": ["/(§§version§§)/lodash(\\.min)?\\.js"],
+      "filecontent": [
+        "/\\*[\\s*!]+(?:@license)?[\\s*]+(?:Lo-Dash|lodash|Lodash) v?(§§version§§)[\\s\\S]{1,200}Build: `lodash modern -o",
+        "/\\*[\\s*!]+(?:@license)?[\\s*]+(?:Lo-Dash|lodash|Lodash) v?(§§version§§) <",
+        "/\\*[\\s*!]+(?:@license)?[\\s*]+(?:Lo-Dash|lodash|Lodash) v?(§§version§§) lodash.com/license",
+        "=\"(§§version§§)(?<=[0-9]{1,2}\\.[0-9]{1,2}\\.[0-9]{1,2})\"[\\s\\S]{1,300}__lodash_hash_undefined__",
+        "/\\*[\\s*]+@license[\\s*]+(?:Lo-Dash|lodhash|Lodash)[\\s\\S]{1,500}var VERSION *= *['\"](§§version§§)['\"]",
+        "var VERSION=\"(§§version§§)\";var BIND_FLAG=1,BIND_KEY_FLAG=2,CURRY_BOUND_FLAG=4,CURRY_FLAG=8"
+      ]
+    },
+    "markdown-it": {
+      "uri": ["/markdown-it[/@](§§version§§)/?.*\\.js"],
+      "filename": ["markdown-it-(§§version§§)(\\.min)?\\.js"],
+      "filecontent": ["/\\*! markdown-it(?:-ins)? (§§version§§)"]
+    },
+    "marked": {
+      "uri": ["/marked[@/](§§version§§)/"],
+      "filename": ["marked[-.](§§version§§)(.min)?.js"],
+      "filecontent": ["/[!*\\s/]+[\\s]marked v(§§version§§)"]
+    },
+    "mathjax": {
+      "uri": ["/mathjax@(§§version§§)/", "/mathjax/(§§version§§)/"],
+      "filecontent": [
+        "\\.MathJax\\.config\\.startup;{10,100}.\\.VERSION=\"(§§version§§)\"",
+        "\\.MathJax=\\{version:\"(§§version§§)\"",
+        "MathJax.{0,100}.\\.VERSION=void 0,.\\.VERSION=\"(§§version§§)\"",
+        "MathJax\\.version=\"(§§version§§)\";",
+        "\\.mathjaxVersion=\"(§§version§§)\""
+      ]
+    },
+    "moment.js": {
+      "uri": ["/moment\\.js/(§§version§§)/moment(.min)?\\.js"],
+      "filename": ["moment(?:-|\\.)(§§version§§)(?:-min)?\\.js"],
+      "filecontent": [
+        "//!? moment.js(?:[\n\r]+)//!? version : (§§version§§)",
+        "/\\* Moment.js +\\| +version : (§§version§§) \\|",
+        "\\.version=\"(§§version§§)\".{20,60}\"isBefore\".{20,60}\"isAfter\".{200,500}\\.isMoment=",
+        "\\.version=\"(§§version§§)\".{20,300}duration.{2,100}\\.isMoment=",
+        "\\.isMoment\\(.{50,400}_isUTC.{50,400}=\"(§§version§§)\"",
+        "=\"(§§version§§)\".{300,1000}Years:31536e6.{60,80}\\.isMoment",
+        "// Moment.js is freely distributable under the terms of the MIT license.[\\s]+//[\\s]+// Version (§§version§§)"
+      ]
+    },
+    "mootools": {
+      "uri": ["/mootools/(§§version§§)/mootools"],
+      "filename": ["mootools-(§§version§§)(?:\\.min)?\\.js"],
+      "filecontent": [
+        "this\\.MooTools\\s*=\\s*\\{[\\s\\S]{0,30}version:\\s*['\"](§§version§§)['\"]"
+      ]
+    },
+    "mustache.js": {
+      "uri": ["/(§§version§§)/mustache(\\.min)?\\.js"],
+      "filename": ["mustache(?:js)?-(§§version§§)(.min)?\\.js"],
+      "filecontent": [
+        "name:\\s*['\"]mustache.js['\"],\\s*version:\\s*['\"](§§version§§)['\"]",
+        "name=\"mustache.js\"[;,].\\.version=\"(§§version§§)\"",
+        "[^a-z]mustache.version[ ]?=[ ]?(?:'|\")(§§version§§)(?:'|\")",
+        "exports.name[ ]?=[ ]?\"mustache.js\";[\n ]*exports.version[ ]?=[ ]?(?:'|\")(§§version§§)(?:'|\");"
+      ]
+    },
+    "nextjs": {
+      "filecontent": [
+        "version=\"(§§version§§)\".{1,1500}document\\.getElementById\\(\"__NEXT_DATA__\"\\)\\.textContent",
+        "document\\.getElementById\\(\"__NEXT_DATA__\"\\)\\.textContent\\);window\\.__NEXT_DATA__=.;.\\.version=\"(§§version§§)\"",
+        "=\"(§§version§§)\"[\\s\\S]{10,100}Component[\\s\\S]{1,10}componentDidCatch[\\s\\S]{10,30}componentDidMount"
+      ]
+    },
+    "pdf.js": {
+      "uri": ["/pdf\\.js/(§§version§§)/", "/pdfjs-dist@(§§version§§)/"],
+      "filecontent": [
+        "(?:const|var) pdfjsVersion = ['\"](§§version§§)['\"];",
+        "PDFJS.version ?= ?['\"](§§version§§)['\"]",
+        "apiVersion: ?['\"](§§version§§)['\"][\\s\\S]*,data(:[a-zA-Z.]{1,6})?,[\\s\\S]*password(:[a-zA-Z.]{1,10})?,[\\s\\S]*disableAutoFetch(:[a-zA-Z.]{1,22})?,[\\s\\S]*rangeChunkSize",
+        "messageHandler\\.sendWithPromise\\(\"GetDocRequest\",\\{docId:[a-zA-Z],apiVersion:\"(§§version§§)\"",
+        "const version = ['\"](§§version§§)['\"];\\s*const build ="
+      ]
+    },
+    "pdfobject": {
+      "uri": [
+        "/pdfobject@(§§version§§)/",
+        "/pdfobject/(§§version§§)/pdfobject(\\.min)?\\.js"
+      ],
+      "filecontent": [
+        "\\* +PDFObject v(§§version§§)",
+        "/*[\\s]+PDFObject v(§§version§§)",
+        "let pdfobjectversion = \"(§§version§§)\";",
+        "pdfobjectversion:\"(§§version§§)\""
+      ]
+    },
+    "pendo": {
+      "filecontent": [
+        "// Pendo Agent Wrapper\n//[\\s]+Environment:[\\s]+[^\n]+\n// Agent Version:[\\s]+(§§version§§)"
+      ]
+    },
+    "plupload": {
+      "uri": ["/(§§version§§)/plupload(\\.min)?\\.js"],
+      "filename": ["plupload-(§§version§§)(.min)?\\.js"],
+      "filecontent": [
+        "\\* Plupload - multi-runtime File Uploader(?:\r|\n)+ \\* v(§§version§§)",
+        "var g=\\{VERSION:\"(§§version§§)\",.*;window.plupload=g\\}"
+      ]
+    },
+    "protobufjs": {
+      "uri": ["/protobufjs/(§§version§§)/protobuf(?:\\.min)?\\.js"],
+      "filename": ["protobuf-(§§version§§)(?:\\.min)?\\.js"],
+      "filecontent": ["protobuf\\.js v(§§version§§)"]
+    },
+    "prototypejs": {
+      "uri": ["/(§§version§§)/prototype(\\.min)?\\.js"],
+      "filename": ["prototype-(§§version§§)(.min)?\\.js"],
+      "filecontent": [
+        "Prototype JavaScript framework, version (§§version§§)",
+        "Prototype[ ]?=[ ]?\\{[ \r\n\t]*Version:[ ]?(?:'|\")(§§version§§)(?:'|\")"
+      ]
+    },
+    "quill": {
+      "uri": ["/(§§version§§)/quill(?:\\.min)?\\.js"],
+      "filename": ["quill-(§§version§§)(?:\\.min)?\\.js"],
+      "filecontent": [
+        "Quill Editor v(§§version§§)",
+        "static version=\"(§§version§§)\";static imports=\\{delta:[^,]{1,20},parchment:"
+      ]
+    },
+    "react": {
+      "filecontent": [
+        "/\\*\\*\n +\\* React \\(with addons\\) ?v(§§version§§)",
+        "/\\*\\*\n +\\* React v(§§version§§)",
+        "/\\*\\* @license React v(§§version§§)[\\s]*\\* react(-jsx-runtime)?\\.",
+        "\"\\./ReactReconciler\":[0-9]+,\"\\./Transaction\":[0-9]+,\"fbjs/lib/invariant\":[0-9]+\\}\\],[0-9]+:\\[function\\(require,module,exports\\)\\{\"use strict\";module\\.exports=\"(§§version§§)\"\\}",
+        "ReactVersion\\.js[\\*! \\\\/\n\r]{0,100}function\\(e,t\\)\\{\"use strict\";e\\.exports=\"(§§version§§)\"",
+        "expected a ReactNode.[\\s\\S]{0,1800}?function\\(e,t\\)\\{\"use strict\";e\\.exports=\"(§§version§§)\""
+      ]
+    },
+    "react-dom": {
+      "uri": ["/react-dom@(§§version§§)/", "/react-dom/(§§version§§)/"],
+      "filecontent": [
+        "version:\"(§§version§§)[a-z0-9\\-]*\"[\\s,]*rendererPackageName:\"react-dom\"",
+        "/\\*\\* @license React v(§§version§§)[\\s]*\\* react-dom\\.",
+        "return[\\s]+ReactSharedInternals.[a-zA-Z].useHostTransitionStatus\\(\\)[;]?[\\s]*\\}[;,][\\s]*exports.version[\\s]*=[\\s]*\"(§§version§§)\""
+      ]
+    },
+    "react-is": {
+      "filecontent": [
+        "/\\*\\* @license React v(§§version§§)[\\s]*\\* react-is\\."
+      ]
+    },
+    "scheduler": {
+      "filecontent": [
+        "/\\*\\* @license React v(§§version§§)[\\s]*\\* scheduler\\."
+      ]
+    },
+    "select2": {
+      "uri": ["(§§version§§)/(js/)?select2(.min)?\\.js"],
+      "filecontent": [
+        "/\\*!(?:[\\s]+\\*)? Select2 (§§version§§)",
+        "/\\*[\\s]+Copyright 20[0-9]{2} [I]gor V[a]ynberg[\\s]+Version: (§§version§§)[\\s\\S]{1,5000}(\\.attr\\(\"class\",\"select2-sizer\"|\\.data\\(document, *\"select2-lastpos\"|document\\)\\.data\\(\"select2-lastpos\"|SingleSelect2, *MultiSelect2|window.Select2 *!== *undefined)"
+      ]
+    },
+    "sessvars": {
+      "filename": ["sessvars-(§§version§§)(.min)?\\.js"],
+      "filecontent": ["sessvars ver (§§version§§)"]
+    },
+    "svelte": {
+      "uri": ["/svelte@(§§version§§)/"],
+      "filename": ["svelte[@\\-](§§version§§)(.min)?\\.m?js"],
+      "filecontent": [
+        "generated by Svelte v\\$\\{['\"](§§version§§)['\"]\\}",
+        "generated by Svelte v(§§version§§) \\*/",
+        "version: '(§§version§§)' [\\s\\S]{80,200}'SvelteDOMInsert'",
+        "VERSION = '(§§version§§)'[\\s\\S]{21,200}parse\\$[0-9][\\s\\S]{10,80}preprocess",
+        "var version\\$[0-9] = \"(§§version§§)\";[\\s\\S]{10,30}normalizeOptions\\(options\\)[\\s\\S]{80,200}'SvelteComponent.html'"
+      ]
+    },
+    "swfobject": {
+      "filename": ["swfobject_(§§version§§)(.min)?\\.js"],
+      "filecontent": ["SWFObject v(§§version§§) "]
+    },
+    "swiper": {
+      "uri": ["/[Ss]wiper[@/](§§version§§)/swiper"],
+      "filename": ["swiper[-.](§§version§§)(.min)?.js"],
+      "filecontent": ["\\* Swiper (§§version§§)"]
+    },
+    "tableexport.jquery.plugin": {
+      "uri": [
+        "/tableexport.jquery.plugin@(§§version§§)/tableExport.min.js",
+        "/TableExport/(§§version§§)/js/tableexport.min.js"
+      ],
+      "filecontent": [
+        "/\\*[\\s]+tableExport.jquery.plugin[\\s]+Version (§§version§§)",
+        "/\\*![\\s]+\\* TableExport.js v(§§version§§)"
+      ]
+    },
+    "threejs": {
+      "uri": ["/three.js/(§§version§§)/", "/three.js@(§§version§§)/"],
+      "filecontentreplace": [
+        "/Copyright 2010-20[0-9]{2} Three.js [\\s\\S]{0,90}const (?:REVISION|[a-z]) ?= ?['\"]([0-9]+)['\"]/0.$1.0/",
+        "/THREE ?= ?\\{\\}\\)\\)?;?[\\s]*\\}\\)?\\(this, ?\\(function ?\\([a-z]+\\) ?\\{ ?[\"']use strict[\"'];[\\s]*const (?:REVISION|[a-z]) ?= ?['\"]([0-9]+)['\"]/0.$1.0/",
+        "/QuaternionLinearInterpolant=[a-z]+;[a-z].REVISION=['\"]([0-9]+)['\"]/0.$1.0/"
+      ]
+    },
+    "tinyMCE": {
+      "uri": ["/tinymce/(§§version§§)/tinymce(\\.min)?\\.js"],
+      "filecontent": [
+        "// (§§version§§) \\([0-9\\-]+\\)[\n\r]+.{0,1200}l=.tinymce/geom/Rect.",
+        "/\\*\\*[\\s]*\\* TinyMCE version (§§version§§)"
+      ],
+      "filecontentreplace": [
+        "/tinyMCEPreInit.*majorVersion:.([0-9]+).,minorVersion:.([0-9.]+)./$1.$2/",
+        "/majorVersion:.([0-9]+).,minorVersion:.([0-9.]+).,.*tinyMCEPreInit/$1.$2/"
+      ]
+    },
+    "ua-parser-js": {
+      "uri": [
+        "/(§§version§§)/ua-parser(.min)?.js",
+        "/ua-parser-js@(§§version§§)/"
+      ],
+      "filecontent": [
+        "/\\* UAParser.js v(§§version§§)",
+        "/\\*[*!](?:@license)?[\\s]+\\* UAParser.js v(§§version§§)",
+        "// UAParser.js v(§§version§§)",
+        ".\\.VERSION=\"(§§version§§)\",.\\.BROWSER=\\{NAME:.,MAJOR:\"major\",VERSION:.\\},.\\.CPU=\\{ARCHITECTURE:",
+        ".\\.VERSION=\"(§§version§§)\",.\\.BROWSER=.\\(\\[[^\\]]{1,20}\\]\\),.\\.CPU=",
+        "LIBVERSION=\"(§§version§§)\",EMPTY=\"\",UNKNOWN=\"\\?\",FUNC_TYPE=\"function\",UNDEF_TYPE=\"undefined\"",
+        ".=\"(§§version§§)\",.=\"\",.=\"\\?\",.=\"function\",.=\"undefined\",.=\"object\",(.=\"string\",)?.=\"major\",.=\"model\",.=\"name\",.=\"type\",.=\"vendor\""
+      ]
+    },
+    "underscore.js": {
+      "uri": ["/underscore\\.js/(§§version§§)/underscore(-min)?\\.js"],
+      "filecontent": [
+        "//[\\s]*Underscore.js (§§version§§)",
+        "// *Underscore\\.js[\\s\\S]{1,2500}_\\.VERSION *= *['\"](§§version§§)['\"]"
+      ]
+    },
+    "video.js": {
+      "uri": ["/video\\.js[@/](§§version§§)/"],
+      "filename": ["video\\.js[-.](§§version§§)(\\.min)?\\.js"],
+      "filecontent": [
+        "\\* Video\\.js (§§version§§)",
+        "\\.videojs=[a-zA-Z]\\(\\)\\}\\(this,function\\(\\)\\{var [a-zA-Z]=[\"'](§§version§§)[\"']",
+        "[\"']The element or ID supplied is not valid. \\(videojs\\)[\"']\\)[\\s\\S]{100,400}var (?:[a-zA-Z]{1,2},)?[a-zA-Z]{1,2}=[\"'](§§version§§)[\"']"
+      ]
+    },
+    "vue": {
+      "uri": [
+        "/vue@(§§version§§)/dist/vue\\.js",
+        "/vue/(§§version§§)/vue\\..*\\.js",
+        "/npm/vue@(§§version§§)"
+      ],
+      "filename": ["vue-(§§version§§)(\\.min)?\\.js"],
+      "filecontent": [
+        "/\\*!\\n \\* Vue.js v(§§version§§)",
+        "/\\*\\*?!?\\n ?\\* vue v(§§version§§)",
+        "Vue.version = '(§§version§§)';",
+        "'(§§version§§)'[^\\n]{0,8000}Vue compiler",
+        "\\* Original file: /npm/vue@(§§version§§)/dist/vue.(global|common).js",
+        "const version[ ]*=[ ]*\"(§§version§§)\";[\\s]*/\\*\\*[\\s]*\\* SSR utils for \\\\@vue/server-renderer",
+        "\\.__vue_app__=.{0,8000}?const [a-z]+=\"(§§version§§)\",",
+        "let [A-Za-z]+=\"(§§version§§)\",..=\"undefined\"!=typeof window&&window.trustedTypes;if\\(..\\)try\\{.=..\\.createPolicy\\(\"vue\",",
+        "isCustomElement.{1,5}?compilerOptions.{0,500}exposeProxy.{0,700}\"(§§version§§)\"",
+        "\"(§§version§§)\"[\\s\\S]{0,150}\\.createPolicy\\(\"vue\"",
+        "devtoolsFormatters[\\s\\S]{50,180}\"(§§version§§)\"[\\s\\S]{50,180}\\.createElement\\(\"template\"\\)"
+      ]
+    },
+    "zrender": {
+      "uri": ["/zrender[@/](§§version§§)/"],
+      "filename": ["zrender[-.](§§version§§)(.min)?.js"],
+      "filecontent": [
+        "ssrDataGetter = getter;[\\s]+\\}[\\s]+var version = '(§§version§§)';[\\s]+",
+        "painterCtors\\[name\\] = Ctor;[\\s]+\\}[\\s]+var version = '(§§version§§)';[\\s]+",
+        ".\\.util=[a-zA-Z_]+,.\\.vector=[a-zA-Z_]+,.\\.version=['\"](§§version§§)['\"],Object"
+      ]
+    }
+  }
+}
