@@ -261,7 +261,7 @@ test('parcours accueil, connexion, progression, rapport et sites', async ({
       name: 'Vérifiez la santé de votre site, gratuitement.',
     }),
   ).toBeVisible();
-  await page.getByLabel('Adresse du site').fill('exemple.fr');
+  await page.getByLabel('Adresse du site').fill('https://exemple.fr');
   await page.getByRole('button', { name: "Lancer l'audit" }).click();
   await expect(page).toHaveURL(/\/connexion/);
   await waitForIslands(page);

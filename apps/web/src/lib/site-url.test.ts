@@ -1,5 +1,9 @@
 import { describe, expect, it } from 'vitest';
-import { InvalidSiteUrl, normalizeSiteUrl } from './site-url.js';
+import {
+  InvalidSiteUrl,
+  isCompleteHttpUrl,
+  normalizeSiteUrl,
+} from './site-url.js';
 
 describe('normalizeSiteUrl', () => {
   it('note une origine en https', () => {
@@ -41,5 +45,16 @@ describe('normalizeSiteUrl', () => {
     'https://bon.audigy.test',
   ])('refuse %s', (raw) => {
     expect(() => normalizeSiteUrl(raw)).toThrow(InvalidSiteUrl);
+  });
+});
+
+describe('isCompleteHttpUrl', () => {
+  it('accepte une adresse complète et refuse un nom seul', () => {
+    expect(isCompleteHttpUrl('https://exemple.fr')).toBe(true);
+    expect(isCompleteHttpUrl('http://exemple.fr/chemin')).toBe(true);
+    expect(isCompleteHttpUrl('exemple.fr')).toBe(false);
+    expect(isCompleteHttpUrl('')).toBe(false);
+    expect(isCompleteHttpUrl('ftp://exemple.fr')).toBe(false);
+    expect(isCompleteHttpUrl('https://localhost')).toBe(false);
   });
 });

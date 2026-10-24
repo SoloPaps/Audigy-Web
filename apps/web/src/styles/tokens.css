@@ -98,6 +98,7 @@
   --score-problem-bg: #3a2220;
   --score-untested: #c5cad1;
   --score-untested-bg: #2a2e33;
+  --on-accent: var(--paper);
   --wash-top: #15181c;
   --wash-bottom: #1a2830;
   --glass: rgb(29 33 38 / 0.72);
@@ -126,6 +127,7 @@
     --score-problem-bg: #3a2220;
     --score-untested: #c5cad1;
     --score-untested-bg: #2a2e33;
+    --on-accent: var(--paper);
     --wash-top: #15181c;
     --wash-bottom: #1a2830;
     --glass: rgb(29 33 38 / 0.72);

@@ -80,7 +80,6 @@ body {
   padding-block: var(--space-6) var(--space-8);
 }
 
-h1,
 h2,
 h3,
 h4 {
@@ -93,7 +92,13 @@ h4 {
 }
 
 h1 {
+  margin: 0 0 var(--space-3);
+  color: var(--ink);
+  font-family: var(--font-display);
   font-size: var(--text-2xl);
+  font-weight: 600;
+  line-height: var(--leading-title);
+  text-wrap: wrap;
 }
 
 h2 {
@@ -107,6 +112,13 @@ h3 {
 
 h4 {
   font-size: var(--text-md);
+}
+
+.legal h1,
+.legal h2,
+.legal h3,
+.legal h4 {
+  font-family: var(--font-text);
 }
 
 p {
@@ -169,9 +181,26 @@ a {
 }
 
 .button-secondary {
+  border-color: var(--peach-border);
+  background: var(--peach-fill);
+  color: var(--on-peach);
+}
+
+.button-bordered {
   border-color: var(--line);
+  background: var(--plate);
+  color: var(--ink);
+}
+
+.badge {
+  display: inline-block;
+  margin: 0 0 var(--space-3);
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
   background: var(--surface);
   color: var(--ink);
+  font-size: var(--text-xs);
+  font-weight: 600;
 }
 
 .button-link {
