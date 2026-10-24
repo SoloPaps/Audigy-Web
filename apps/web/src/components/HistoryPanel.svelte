@@ -5,7 +5,7 @@ import { formatDate, t } from '../i18n/index.js';
 import { levelForStatus } from '../lib/findings.js';
 import {
   type AuditSnapshot,
-  axisDay,
+  axisLabels,
   clampSeries,
   compareAudits,
   GLOBAL_SERIES,
@@ -228,7 +228,7 @@ $effect(() => {
           grid: { show: false },
           ticks: { stroke: line },
           splits: times,
-          values: (_self, splits) => splits.map((tick) => axisDay(tick)),
+          values: (_self, splits) => axisLabels(splits),
         },
         {
           stroke: ink,

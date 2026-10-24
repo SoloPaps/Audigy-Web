@@ -102,10 +102,26 @@ const dayFormat = new Intl.DateTimeFormat('fr-FR', {
   timeZone: 'Europe/Paris',
 });
 
+const PARIS = 'Europe/Paris';
+
 const axisFormat = new Intl.DateTimeFormat('fr-FR', {
   day: 'numeric',
   month: 'short',
-  timeZone: 'Europe/Paris',
+  timeZone: PARIS,
+});
+
+const axisTimeFormat = new Intl.DateTimeFormat('fr-FR', {
+  hour: '2-digit',
+  minute: '2-digit',
+  hourCycle: 'h23',
+  timeZone: PARIS,
+});
+
+const parisDayParts = new Intl.DateTimeFormat('fr-FR', {
+  year: 'numeric',
+  month: '2-digit',
+  day: '2-digit',
+  timeZone: PARIS,
 });
 
 export function historyDay(iso: string): string {
@@ -114,6 +130,30 @@ export function historyDay(iso: string): string {
 
 export function axisDay(unixSeconds: number): string {
   return axisFormat.format(new Date(unixSeconds * 1000));
+}
+
+function axisTime(unixSeconds: number): string {
+  return axisTimeFormat.format(new Date(unixSeconds * 1000));
+}
+
+function parisDayKey(unixSeconds: number): string {
+  const parts = parisDayParts.formatToParts(new Date(unixSeconds * 1000));
+  const pick = (type: Intl.DateTimeFormatPartTypes) =>
+    parts.find((part) => part.type === type)?.value ?? '';
+  return `${pick('year')}-${pick('month')}-${pick('day')}`;
+}
+
+/** Jour seul, ou jour et heure si plusieurs points partagent le jour de Paris. */
+export function axisLabels(unixSeconds: readonly number[]): string[] {
+  const keys = unixSeconds.map(parisDayKey);
+  const counts = new Map<string, number>();
+  for (const key of keys) counts.set(key, (counts.get(key) ?? 0) + 1);
+  return unixSeconds.map((tick, index) => {
+    const day = axisDay(tick);
+    const key = keys[index];
+    if (!key || (counts.get(key) ?? 0) < 2) return day;
+    return `${day} ${axisTime(tick)}`;
+  });
 }
 
 export function sortPoints(points: readonly HistoryPoint[]): HistoryPoint[] {
