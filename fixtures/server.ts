@@ -1,6 +1,7 @@
 /**
  * Serveur local des sites de test `fixtures/sites/<site>/` (127.0.0.1 uniquement).
  * `headers.json` d'un site = en-têtes ajoutés à chaque réponse (jamais servi).
+ * Une clé qui commence par `/` porte des en-têtes réservés à ce chemin.
  * Usage : `pnpm fixtures bon [port]` ou `startFixtureServer('bon')` dans un test.
  */
 import { readFile } from 'node:fs/promises';
@@ -9,7 +10,7 @@ import type { AddressInfo } from 'node:net';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-export const FIXTURE_SITES = ['bon', 'mauvais'] as const;
+export const FIXTURE_SITES = ['bon', 'mauvais', 'navigateur'] as const;
 export type FixtureSite = (typeof FIXTURE_SITES)[number];
 
 const SITES_DIR = fileURLToPath(new URL('./sites/', import.meta.url));
@@ -19,6 +20,9 @@ const TYPES: Record<string, string> = {
   '.txt': 'text/plain; charset=utf-8',
   '.xml': 'application/xml',
   '.json': 'application/json',
+  '.js': 'text/javascript; charset=utf-8',
+  '.css': 'text/css; charset=utf-8',
+  '.svg': 'image/svg+xml',
 };
 
 export interface FixtureServer {
@@ -37,14 +41,19 @@ export async function startFixtureServer(
   const root = path.join(SITES_DIR, site);
   const extraHeaders = JSON.parse(
     await readFile(path.join(root, 'headers.json'), 'utf8'),
-  ) as Record<string, string>;
+  ) as Record<string, string | Record<string, string>>;
   const requests: string[] = [];
 
   const server = http.createServer(async (req, res) => {
     const pathname = new URL(req.url ?? '/', 'http://fixture').pathname;
     requests.push(pathname);
-    for (const [name, value] of Object.entries(extraHeaders))
-      res.setHeader(name, value);
+    const served = pathname.endsWith('/') ? `${pathname}index.html` : pathname;
+    for (const [name, value] of Object.entries(extraHeaders)) {
+      if (typeof value === 'string') res.setHeader(name, value);
+      else if (name === served)
+        for (const [own, ownValue] of Object.entries(value))
+          res.setHeader(own, ownValue);
+    }
 
     let relative: string;
     try {
