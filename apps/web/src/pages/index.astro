@@ -3,8 +3,27 @@ import { t } from '../i18n/index.js';
 import Base from '../layouts/Base.astro';
 ---
 
-<Base title={t('meta.home.title')} description={t('meta.home.description')}>
-  <h1>{t('home.title')}</h1>
+<Base title={t('home.headline')} description={t('meta.home.description')}>
+  <h1>{t('home.headline')}</h1>
   <p class="prose">{t('home.lead')}</p>
-  <p class="prose">{t('home.next')}</p>
+  <p class="prose">{t('home.scope')}</p>
+  <form class="audit-form" action="/lancer" method="get">
+    <div class="field">
+      <label for="site-url">{t('home.url')}</label>
+      <input
+        id="site-url"
+        class="mono"
+        name="url"
+        type="text"
+        required
+        autocomplete="url"
+        spellcheck="false"
+        maxlength="2048"
+        aria-describedby="url-hint"
+      />
+      <p id="url-hint" class="hint">{t('home.url.hint')}</p>
+    </div>
+    <button class="button button-primary" type="submit">{t('home.submit')}</button>
+  </form>
+  <p class="prose hint">{t('home.account')}</p>
 </Base>

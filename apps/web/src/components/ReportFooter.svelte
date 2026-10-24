@@ -8,9 +8,18 @@ interface Props {
   methodVersion: string;
   fingerprint: string;
   verifyHref: string;
+  /** `id` quand l’empreinte du manifeste n’existe pas encore. */
+  fingerprintKind?: 'hash' | 'id';
 }
 
-let { url, at, methodVersion, fingerprint, verifyHref }: Props = $props();
+let {
+  url,
+  at,
+  methodVersion,
+  fingerprint,
+  verifyHref,
+  fingerprintKind = 'hash',
+}: Props = $props();
 const stamp = $derived(formatReportStamp(at));
 </script>
 
@@ -20,7 +29,11 @@ const stamp = $derived(formatReportStamp(at));
     <time datetime={at.toISOString()}>{stamp}</time>
   </p>
   <p>{t('footer.method', { version: methodVersion })}</p>
-  <p class="fingerprint">{t('footer.hash', { hash: fingerprint })}</p>
+  <p class="fingerprint">
+    {fingerprintKind === 'id'
+      ? t('footer.id', { id: fingerprint })
+      : t('footer.hash', { hash: fingerprint })}
+  </p>
   <p>
     <a class="button button-secondary" href={verifyHref}>{t('footer.verify')}</a>
   </p>

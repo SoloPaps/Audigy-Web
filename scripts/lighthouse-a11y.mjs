@@ -12,6 +12,10 @@ const pages = [
   `http://${host}:${port}/?theme=dark`,
   `http://${host}:${port}/dev/composants?theme=light`,
   `http://${host}:${port}/dev/composants?theme=dark`,
+  `http://${host}:${port}/connexion?theme=light`,
+  `http://${host}:${port}/connexion?theme=dark`,
+  `http://${host}:${port}/sites?theme=light`,
+  `http://${host}:${port}/sites?theme=dark`,
 ];
 
 function waitForPort(timeoutMs) {

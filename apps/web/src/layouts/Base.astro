@@ -31,9 +31,14 @@ const initialTheme =
     <header class="site-header">
       <a class="skip" href="#contenu">{t('skip.content')}</a>
       <a class="brand" href="/">{t('brand.name')}</a>
+      <nav class="site-nav" aria-label={t('nav.main')}>
+        <a href="/sites">{t('nav.sites')}</a>
+        <a href="/connexion">{t('nav.login')}</a>
+      </nav>
       <ThemeToggle initial={initialTheme} client:load />
     </header>
     <main id="contenu" class="wrap" tabindex="-1">
+      <noscript><p>{t('noscript')}</p></noscript>
       <slot />
     </main>
     <footer class="site-footer">

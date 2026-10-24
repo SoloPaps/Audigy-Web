@@ -1,0 +1,9 @@
+---
+import ReportView from '../components/ReportView.svelte';
+import { t } from '../i18n/index.js';
+import Base from '../layouts/Base.astro';
+---
+
+<Base title={t('meta.domain.title')} description={t('meta.domain.description')}>
+  <ReportView mode="domain" client:load />
+</Base>

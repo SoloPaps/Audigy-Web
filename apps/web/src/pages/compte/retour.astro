@@ -1,0 +1,10 @@
+---
+import AuthCallback from '../../components/AuthCallback.svelte';
+import { t } from '../../i18n/index.js';
+import Base from '../../layouts/Base.astro';
+---
+
+<Base title={t('meta.callback.title')} description={t('meta.callback.description')}>
+  <h1>{t('login.title')}</h1>
+  <AuthCallback client:load />
+</Base>

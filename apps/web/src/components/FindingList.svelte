@@ -11,9 +11,24 @@ interface Props {
   findings: Finding[];
 }
 
+type FilterId = 'all' | 'fail' | 'warn' | 'pass';
+
 let { findings }: Props = $props();
 let copiedId = $state<string | null>(null);
+let filter = $state<FilterId>('all');
 const groups = $derived(groupFindings(findings));
+const counts = $derived({
+  all: findings.length,
+  fail: groups.priority.length,
+  warn: groups.next.length,
+  pass: groups.good.length,
+});
+const filters: { id: FilterId; label: string }[] = [
+  { id: 'all', label: t('report.filter.all') },
+  { id: 'fail', label: t('report.filter.fail') },
+  { id: 'warn', label: t('report.filter.warn') },
+  { id: 'pass', label: t('report.filter.pass') },
+];
 
 async function copyCode(finding: Finding): Promise<void> {
   if (!finding.code) return;
@@ -58,20 +73,40 @@ async function copyCode(finding: Finding): Promise<void> {
   {/each}
 {/snippet}
 
+<div class="filters" role="group" aria-label={t('report.filter.label')}>
+  {#each filters as item (item.id)}
+    <button
+      type="button"
+      class="filter"
+      aria-pressed={filter === item.id}
+      onclick={() => {
+        filter = item.id;
+      }}
+    >
+      {item.label}
+      <span class="count">{counts[item.id]}</span>
+    </button>
+  {/each}
+</div>
+
 <div class="groups">
-  {#if groups.priority.length > 0}
-    <section class="group">
-      <h3>{t('group.priority')}</h3>
-      {@render rows(groups.priority)}
-    </section>
+  {#if filter === 'all' || filter === 'fail'}
+    {#if groups.priority.length > 0}
+      <section class="group">
+        <h3>{t('group.priority')}</h3>
+        {@render rows(groups.priority)}
+      </section>
+    {/if}
   {/if}
-  {#if groups.next.length > 0}
-    <section class="group">
-      <h3>{t('group.next')}</h3>
-      {@render rows(groups.next)}
-    </section>
+  {#if filter === 'all' || filter === 'warn'}
+    {#if groups.next.length > 0}
+      <section class="group">
+        <h3>{t('group.next')}</h3>
+        {@render rows(groups.next)}
+      </section>
+    {/if}
   {/if}
-  {#if groups.good.length > 0}
+  {#if filter === 'all' && groups.good.length > 0}
     <details class="good-group">
       <summary>
         <h3>{t('group.good')}</h3>
@@ -79,9 +114,50 @@ async function copyCode(finding: Finding): Promise<void> {
       {@render rows(groups.good)}
     </details>
   {/if}
+  {#if filter === 'pass' && groups.good.length > 0}
+    <section class="group">
+      <h3>{t('group.good')}</h3>
+      {@render rows(groups.good)}
+    </section>
+  {/if}
+  {#if counts[filter] === 0}
+    <p>{t('report.filter.empty')}</p>
+  {/if}
 </div>
 
 <style>
+  .filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin-bottom: var(--space-4);
+  }
+
+  .filter {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    min-height: var(--touch-min);
+    padding-inline: var(--space-3);
+    border: var(--border) solid var(--line);
+    border-radius: var(--radius-pill);
+    background: var(--surface);
+    color: var(--ink);
+    font: 400 var(--text-sm) / var(--leading-title) var(--font-text);
+    cursor: pointer;
+  }
+
+  .filter[aria-pressed='true'] {
+    border-color: var(--accent);
+    background: var(--paper);
+    font-weight: 600;
+  }
+
+  .count {
+    color: var(--ink-2);
+    font-variant-numeric: tabular-nums;
+  }
+
   .group + .group,
   .good-group {
     margin-top: var(--space-6);

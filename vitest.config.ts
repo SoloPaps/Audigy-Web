@@ -6,6 +6,7 @@ export default defineConfig({
     include: [
       'scripts/**/*.test.ts',
       'apps/web/src/i18n/**/*.test.ts',
+      'apps/web/src/lib/**/*.test.ts',
       'packages/**/*.test.ts',
     ],
     testTimeout: 30_000,

@@ -4,6 +4,7 @@ export interface CategoryItem {
   technical: string;
   detail: string;
   score: number | null;
+  href?: string;
 }
 
 /** Moyenne des domaines notés. Les domaines sans score sont exclus. */

@@ -3,6 +3,7 @@
   "include": [
     ".astro/types.d.ts",
     "src/**/*.ts",
+    "src/**/*.d.ts",
     "src/**/*.svelte",
     "src/**/*.astro"
   ],

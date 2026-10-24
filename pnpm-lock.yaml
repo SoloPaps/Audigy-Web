@@ -48,6 +48,15 @@ importers:
       '@astrojs/svelte':
         specifier: ^9.1.1
         version: 9.1.1(@types/node@22.20.5)(astro@7.4.2(@types/node@22.20.5)(esbuild@0.28.2)(tsx@4.23.15)(yaml@2.9.1))(esbuild@0.28.2)(svelte@5.57.2)(tsx@4.23.15)(typescript@6.0.3)(yaml@2.9.1)
+      '@audigy/db':
+        specifier: workspace:*
+        version: link:../../packages/db
+      '@audigy/engine':
+        specifier: workspace:*
+        version: link:../../packages/engine
+      '@supabase/supabase-js':
+        specifier: ^2.118.0
+        version: 2.118.0(@opentelemetry/api@1.10.0)
       astro:
         specifier: ^7.4.2
         version: 7.4.2(@types/node@22.20.5)(esbuild@0.28.2)(tsx@4.23.15)(yaml@2.9.1)
