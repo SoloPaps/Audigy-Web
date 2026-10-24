@@ -19,7 +19,9 @@ supabase start
 pnpm lab
 ```
 
-`pnpm lab` écrit `.netlify/audigy-lab.json` (AC de test et ports). Si `.env` manque, il le crée avec les clés du Supabase local et `AUDIGY_LAB`. Les valeurs ne sont jamais affichées. `.env` et `.netlify/` sont ignorés par Git.
+`pnpm lab` écrit `.netlify/audigy-lab.json` (AC de test et ports). Si `.env` manque, il le crée avec les clés du Supabase local et `AUDIGY_LAB`. Il écrit aussi `apps/web/.env` avec seulement `SUPABASE_URL` et `SUPABASE_ANON_KEY` (publiques). La clé service n'y est pas. Les valeurs ne sont jamais affichées.
+
+`.env`, `apps/web/.env` et `.netlify/` sont ignorés par Git. Les secrets restent sur votre machine : ne commitez jamais ces fichiers, ni une copie remplie. `.env.example` ne contient que les noms. Si `.env` existait déjà, relancez `pnpm lab` : il met à jour `apps/web/.env` sans afficher les clés.
 
 ```bash
 # 3. Fonctions + site statique sur http://localhost:8888
@@ -27,7 +29,7 @@ pnpm build
 netlify dev --offline --filter @audigy/web
 ```
 
-`--filter @audigy/web` évite la question du monorepo. `pnpm build` produit le site et le bundle des fonctions (`netlify/dist/functions`). Après une modification d'une fonction ou d'un paquet : `pnpm build:functions`, puis relancer `netlify dev`.
+`--filter @audigy/web` évite la question du monorepo. `pnpm build` produit le site et le bundle des fonctions (`netlify/dist/functions`). Il charge d'abord le `.env` de la racine (sans afficher les valeurs) et le transmet à Astro, qui fige `SUPABASE_URL` et `SUPABASE_ANON_KEY` dans le site statique. Le lien magique a alors de quoi joindre le Supabase local. Relancez `pnpm build` si ces clés changent. Sous Windows, le même script lance `pnpm` via le shell du système, sans modifier le PATH. Après une modification d'une fonction ou d'un paquet : `pnpm build:functions`, puis relancer `netlify dev`.
 
 Puis, dans un quatrième terminal :
 
