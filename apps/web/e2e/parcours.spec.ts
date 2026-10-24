@@ -354,11 +354,12 @@ test('parcours accueil, connexion, progression, rapport et sites', async ({
   await waitForIslands(page);
   await expect(page.getByText('Aucun site pour le moment.')).toBeVisible();
   await page.getByLabel('Adresse du site').fill('notes.exemple.fr');
-  await page.getByRole('button', { name: 'Ajouter le site' }).click();
+  await page.getByRole('button', { name: 'Ajouter un site' }).click();
   await expect(page.getByText('Le site a été ajouté.')).toBeVisible();
   await expect(
-    page.getByRole('link', { name: /Lancer l’audit notes\.exemple\.fr/ }),
+    page.getByRole('link', { name: /Lancer un audit/ }),
   ).toBeVisible();
+  await expect(page.getByText('notes.exemple.fr').first()).toBeVisible();
   await expectNoViolations(page);
 });
 

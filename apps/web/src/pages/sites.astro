@@ -5,7 +5,9 @@ import Base from '../layouts/Base.astro';
 ---
 
 <Base title={t('meta.sites.title')} description={t('meta.sites.description')}>
-  <h1>{t('sites.title')}</h1>
-  <p class="prose">{t('sites.lead')}</p>
-  <SitesPanel client:load />
+  <div class="reading">
+    <h1>{t('sites.title')}</h1>
+    <p class="prose">{t('sites.lead')}</p>
+    <SitesPanel client:load />
+  </div>
 </Base>

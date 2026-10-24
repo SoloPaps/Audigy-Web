@@ -1,6 +1,6 @@
 <script lang="ts">
 import { onMount } from 'svelte';
-import { t } from '../i18n/index.js';
+import { formatDate, t } from '../i18n/index.js';
 import {
   browserClient,
   currentSession,
@@ -12,9 +12,12 @@ import {
   type PlacesState,
   parsePlacesState,
 } from '../lib/places-api.js';
+import { latestAuditBySite, type SiteMark } from '../lib/site-tiles.js';
 import { InvalidSiteUrl, normalizeSiteUrl } from '../lib/site-url.js';
 import ReputationPanel from './ReputationPanel.svelte';
+import ScoreGauge from './ScoreGauge.svelte';
 import SiteShare from './SiteShare.svelte';
+import StatusMark from './StatusMark.svelte';
 
 interface SiteRow {
   id: string;
@@ -27,6 +30,7 @@ interface SiteRow {
 }
 
 let rows = $state<SiteRow[]>([]);
+let marks = $state<Map<string, SiteMark>>(new Map());
 let loading = $state(true);
 let needLogin = $state(false);
 let error = $state('');
@@ -68,6 +72,17 @@ async function load(): Promise<void> {
     publicSlug: row.public_slug,
     exposeSecurity: row.expose_security,
   }));
+  if (rows.length === 0) {
+    marks = new Map();
+    return;
+  }
+  const ids = rows.map((site) => site.id);
+  const audits = await supabase
+    .from('audits')
+    .select('id, site_id, status, global_score, finished_at, created_at')
+    .in('site_id', ids)
+    .order('finished_at', { ascending: false, nullsFirst: false });
+  marks = latestAuditBySite(Array.isArray(audits.data) ? audits.data : []);
 }
 
 onMount(() => {
@@ -168,31 +183,50 @@ async function onSignOut(): Promise<void> {
   {#if rows.length === 0}
     <p>{t('sites.empty')}</p>
   {:else}
-    <ul class="site-list">
+    <ul class="site-list stagger">
       {#each rows as site (site.id)}
-        <li class="site-row">
-          <div>
-            <p>{site.label}</p>
-            <p class="kicker">{site.url}</p>
-          </div>
-          <div class="site-actions">
-            <a href={`/lancer?site=${encodeURIComponent(site.id)}`}>
-              {t('sites.audit')}
-              <span class="visually-hidden">{site.label}</span>
+        {@const mark = marks.get(site.id)}
+        <li>
+          {#if mark}
+            <a
+              class="site-tile lift glass glass-module"
+              href={`/rapport?id=${encodeURIComponent(mark.auditId)}`}
+            >
+              <div class="glass-plate">
+                <span>{site.label}</span>
+                <span class="kicker">{site.url}</span>
+                <span>{formatDate(new Date(mark.at))}</span>
+                <ScoreGauge domain={site.label} score={mark.score} size="mini" />
+              </div>
             </a>
+          {:else}
+            <a
+              class="site-tile lift glass glass-module"
+              href={`/lancer?site=${encodeURIComponent(site.id)}`}
+            >
+              <div class="glass-plate">
+                <span>{site.label}</span>
+                <span class="kicker">{site.url}</span>
+                <StatusMark level="untested" />
+                <span>{t('level.untested')}</span>
+                <span>{t('sites.audit')}</span>
+              </div>
+            </a>
+          {/if}
+          <div class="site-extra">
             <a href={`/verifier?site=${encodeURIComponent(site.id)}`}>
               {t('sites.verify')}
               <span class="visually-hidden">{site.label}</span>
             </a>
+            {#if places?.enabled}
+              <ReputationPanel
+                siteId={site.id}
+                token={accessToken}
+                place={placeFor(site.id)}
+              />
+            {/if}
+            <SiteShare {site} />
           </div>
-          {#if places?.enabled}
-            <ReputationPanel
-              siteId={site.id}
-              token={accessToken}
-              place={placeFor(site.id)}
-            />
-          {/if}
-          <SiteShare {site} />
         </li>
       {/each}
     </ul>
@@ -228,3 +262,26 @@ async function onSignOut(): Promise<void> {
     </button>
   </p>
 {/if}
+
+<style>
+  .site-tile {
+    display: flex;
+    margin-bottom: var(--space-3);
+    color: var(--ink);
+    text-decoration: none;
+  }
+
+  .site-tile .glass-plate {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    width: 100%;
+  }
+
+  .site-extra {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    margin-bottom: var(--space-5);
+  }
+</style>
