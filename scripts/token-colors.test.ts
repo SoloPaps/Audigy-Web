@@ -4,6 +4,11 @@ import { describe, expect, it } from 'vitest';
 
 const ROOT = path.resolve('apps/web');
 const TOKEN_FILE = path.normalize('apps/web/src/styles/tokens.css');
+const ARC_FILE = 'apps/web/src/styles/arc.css';
+
+function repoPath(relative: string): string {
+  return relative.replaceAll('\\', '/');
+}
 
 const ALLOWED_HEX = new Set(
   [
@@ -152,7 +157,7 @@ describe('couleurs des CSS', () => {
             const sizes = [...line.matchAll(/(\d+)px\b/g)].map((match) =>
               Number(match[1]),
             );
-            const arcShell = relative === 'apps/web/src/styles/arc.css';
+            const arcShell = repoPath(relative) === ARC_FILE;
             const specPx = new Set([12, 24, 260, 420, 520, 640]);
             if (!(arcShell && sizes.every((size) => specPx.has(size)))) {
               violations.push(`${relative}:${index + 1} ${line.trim()}`);
@@ -184,5 +189,11 @@ describe('couleurs des CSS', () => {
       }
     }
     expect(violations).toEqual([]);
+  });
+
+  it('reconnaît arc.css quel que soit le séparateur', () => {
+    expect(repoPath('apps/web/src/styles/arc.css')).toBe(ARC_FILE);
+    expect(repoPath('apps\\web\\src\\styles\\arc.css')).toBe(ARC_FILE);
+    expect(repoPath('apps/web/src/styles/tokens.css')).not.toBe(ARC_FILE);
   });
 });
