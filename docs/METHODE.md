@@ -287,3 +287,28 @@ Ce qui est lu : les en-têtes `Server`, `X-Powered-By`, `X-AspNet-Version`, `X-A
 | securite.technologies | 1 | Aucun en-tête n’annonce de numéro de version. | Un en-tête annonce une version. | — |
 | securite.cve_scripts | 2 | Aucune faille connue dans OSV pour les versions comparées. | Failles connues, toutes modérées, faibles ou sans gravité. | Une faille grave ou critique, ou une faille du catalogue KEV. Rien à comparer : Non applicable. |
 | securite.cve_logiciels | 2 | Aucune faille connue pour les versions comparées. | Failles modérées, ou paquet de distribution. | Une faille grave ou critique, ou du catalogue KEV, hors paquet de distribution. Hébergeur géré, outil ou version inconnue : Non applicable. |
+
+## 15. Vie privée
+
+Sept tests passifs, version 2026.1. Quatre lisent le rapport du navigateur d’audit, déposé une seule fois dans `ctx.shared` sous la clé `browser`. Le schéma est `BrowserAuditResult` (version 1, zod) : traces sans valeur, requêtes, plateformes détectées et intitulés des boutons au premier niveau. Le navigateur ne clique pas. Si le rapport indique une interaction, ou s’il manque ou est illisible, le test est Non testé. Sans navigateur, ces quatre tests ne partent pas.
+
+Les trois autres lisent l’accueil, puis au plus deux pages liées du même périmètre. Le fichier robots est respecté pour AudigyBot. Une page hors portée n’est pas demandée.
+
+La liste de traceurs vient de DuckDuckGo Tracker Radar, fichier `domain_summary.json`, commit `a54ee0ccc2a90192123341f4842d2884d1832dc3`. Licence vérifiée le 24 octobre 2026 : CC BY-NC-SA 4.0. Seuls les noms de domaine valides sont gardés (`packages/engine/data/trackers/`). Un hôte compte s’il est dans la liste ou si un de ses parents y est. Le bandeau reconnu (tarteaucitron, Axeptio, Didomi, Cookiebot, OneTrust) n’est pas compté comme traceur.
+
+Un script ou une police est tiers s’il ne partage pas le site de la page. `www` est ignoré. Les suffixes de plateforme (`github.io`, `netlify.app`, et quelques autres) gardent le nom juste devant. Ce n’est pas la liste publique complète des suffixes.
+
+Les mentions et la confidentialité se reconnaissent au texte du lien ou au chemin (`mentions-legales`, `confidentialite`, `privacy`, et les formes voisines). Une page compte si elle a au moins 40 caractères de texte. L’éditeur, l’hébergeur et le contact sont cherchés par des mots (« éditeur », « hébergeur », « hébergé ») et par une adresse, un téléphone, `mailto:` ou `tel:`.
+
+Le constat décrit ce qui est observé. Il ne qualifie pas une infraction.
+
+| Identifiant | Poids | Réussi | À améliorer | Problème |
+|---|---|---|---|---|
+| vie_privee.traceurs | 3 | Aucun traceur de la liste avant un choix. | — | Au moins un traceur de la liste. |
+| vie_privee.cmp | 2 | Une bannière est présente, ou aucun traceur de la liste. | — | Des traceurs de la liste, sans bannière. |
+| vie_privee.refus | 3 | « Tout refuser » est au premier niveau. Rien à refuser : Non applicable. | — | Le refus manque, ou il n’est pas au premier niveau. |
+| vie_privee.tiers | 2 | Scripts et polices du même site. | Seulement des polices d’un autre site. | Au moins un script d’un autre site. |
+| vie_privee.mentions | 2 | Page liée, avec du texte. | — | Introuvable, ou sans texte. |
+| vie_privee.confidentialite | 2 | Page liée, avec du texte. | — | Introuvable, ou sans texte. |
+| vie_privee.elements | 1 | Éditeur, hébergeur et contact. | Une ou deux de ces informations manquent. | Aucune des trois. |
+

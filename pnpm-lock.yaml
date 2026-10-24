@@ -91,6 +91,9 @@ importers:
 
   packages/engine:
     dependencies:
+      '@audigy/browser-runner':
+        specifier: workspace:*
+        version: link:../browser-runner
       '@audigy/net':
         specifier: workspace:*
         version: link:../net

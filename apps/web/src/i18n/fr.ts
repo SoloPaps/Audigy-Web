@@ -930,6 +930,77 @@ export const fr = {
   'rgesn.9.6': 'Les modèles d’entraînement sont-ils compressés ?',
   'rgesn.9.7':
     'L’inférence est-elle réglée pour limiter les ressources utilisées ?',
+  'vie_privee.untested_runner':
+    'Nous n’avons pas pu tester : le navigateur d’audit n’a pas tourné.',
+  'vie_privee.untested_runner_invalid':
+    'Nous n’avons pas pu tester : le résultat du navigateur est inutilisable.',
+  'vie_privee.untested_interaction':
+    'Nous n’avons pas pu tester l’état d’avant le choix. Le navigateur a déjà cliqué.',
+  'vie_privee.untested_home':
+    'Nous n’avons pas pu tester : l’accueil n’a pas répondu.',
+  'vie_privee.untested_home_status':
+    'Nous n’avons pas pu tester : l’accueil a répondu {status}.',
+  'vie_privee.untested_not_html':
+    'Nous n’avons pas pu tester : l’accueil n’est pas une page HTML.',
+  'vie_privee.untested_robots':
+    'Nous n’avons pas pu tester : le fichier robots bloque cette page.',
+  'vie_privee.untested_robots_down':
+    'Nous n’avons pas pu tester : le fichier robots n’a pas répondu.',
+  'vie_privee.untested_robots_status':
+    'Nous n’avons pas pu tester : le fichier robots a répondu {status}.',
+  'vie_privee.untested_budget':
+    'Nous n’avons pas pu tester : le budget de requêtes est atteint.',
+  'vie_privee.untested_down':
+    'Nous n’avons pas pu tester : la page légale n’a pas répondu.',
+  'vie_privee.untested_page_status':
+    'Nous n’avons pas pu tester : une page légale a répondu {status}.',
+  'vie_privee.untested_page':
+    'Nous n’avons pas pu tester : la page légale n’est pas un texte lisible.',
+  'vie_privee.traceurs.pass':
+    'Aucun traceur connu n’est contacté avant un choix.',
+  'vie_privee.traceurs.fail_one':
+    'Un traceur connu est contacté avant un choix. Le visiteur n’a pas encore décidé.',
+  'vie_privee.traceurs.fail_many':
+    '{count} traceurs connus sont contactés avant un choix. Le visiteur n’a pas encore décidé.',
+  'vie_privee.cmp.pass': 'Une bannière de choix est présente sur la page.',
+  'vie_privee.cmp.pass_none':
+    'Aucun traceur connu n’apparaît. Une bannière de choix n’est pas exigée.',
+  'vie_privee.cmp.fail':
+    'Des traceurs partent sans bannière de choix. Le visiteur ne peut pas décider.',
+  'vie_privee.refus.pass':
+    'Le refus est proposé au premier niveau, à côté de l’acceptation.',
+  'vie_privee.refus.na':
+    'Rien à refuser : aucun traceur connu, et pas de bannière.',
+  'vie_privee.refus.fail':
+    'Le refus n’est pas au premier niveau. Refuser demande plus d’étapes qu’accepter.',
+  'vie_privee.refus.fail_absent':
+    'Aucune bannière ne propose de tout refuser. Le visiteur ne peut pas s’opposer simplement.',
+  'vie_privee.tiers.pass': 'Les scripts et les polices viennent de votre site.',
+  'vie_privee.tiers.fail_scripts_one':
+    'Un script vient d’un autre site. Il peut recevoir l’adresse du visiteur.',
+  'vie_privee.tiers.fail_scripts_many':
+    '{count} scripts viennent d’un autre site. Ils peuvent recevoir l’adresse du visiteur.',
+  'vie_privee.tiers.warn_fonts_one':
+    'Une police vient d’un autre site. Son chargement envoie l’adresse du visiteur.',
+  'vie_privee.tiers.warn_fonts_many':
+    '{count} polices viennent d’un autre site. Leur chargement envoie l’adresse du visiteur.',
+  'vie_privee.mentions.pass':
+    'La page des mentions légales est présente et contient du texte.',
+  'vie_privee.mentions.fail_missing':
+    'La page des mentions légales est introuvable depuis l’accueil.',
+  'vie_privee.mentions.fail_empty':
+    'La page des mentions légales ne contient pas de texte lisible.',
+  'vie_privee.confidentialite.pass':
+    'La page de confidentialité est présente et contient du texte.',
+  'vie_privee.confidentialite.fail_missing':
+    'La page de confidentialité est introuvable depuis l’accueil.',
+  'vie_privee.confidentialite.fail_empty':
+    'La page de confidentialité ne contient pas de texte lisible.',
+  'vie_privee.elements.pass':
+    'Les pages légales indiquent l’éditeur, l’hébergeur et un contact.',
+  'vie_privee.elements.warn': 'Il manque {missing} sur les pages légales.',
+  'vie_privee.elements.fail':
+    'Les pages légales n’indiquent ni l’éditeur, ni l’hébergeur, ni un contact.',
 } as const satisfies Record<string, string>;
 
 export type MessageKey = keyof typeof fr;
