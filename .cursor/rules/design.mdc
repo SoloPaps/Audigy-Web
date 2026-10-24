@@ -4,9 +4,9 @@ globs: apps/web/**/*.astro,apps/web/**/*.svelte,apps/web/**/*.css,apps/web/src/i
 alwaysApply: false
 ---
 - `docs/DESIGN.md` fait foi. Lire seulement la section utile.
-- Uniquement les tokens de `apps/web/src/styles/tokens.css` (couleurs, espacements 4px, rayons 4/8/12).
-- Statut = forme + libellé + couleur. Jamais rouge/vert seuls.
-- Polices auto-hébergées : Atkinson Hyperlegible Next, Source Serif 4 (H1–H3), JetBrains Mono. Zéro requête tierce.
-- Interdits §2 : dégradés, glass, violet, emoji, hero centré, 3 cartes identiques, MAJUSCULES.
-- Ton : vouvoiement, ≤ 20 mots/phrase, constat → conséquence → action.
-- Avant merge : checklist §9 + axe 0 violation.
+- Uniquement les tokens de `apps/web/src/styles/tokens.css` (couleurs, espacements 4px, rayons 4/8/12/16).
+- Statut = forme + libellé + couleur. Jamais rouge/vert seuls. Le pêche ne code aucun score.
+- Polices auto-hébergées : Atkinson Hyperlegible Next (texte, interface, scores, titres légaux), Outfit (H1 de page hors pages légales), JetBrains Mono (URL et valeurs techniques). Zéro requête tierce.
+- Interdits : violet de marque, texte en dégradé, emoji, hero centré générique, 3 cartes identiques, capitales criées, shimmer. Verre, blobs pastel et ombre flottante : seulement dans les bornes de DESIGN.md.
+- Ton : vouvoiement, ≤ 20 mots/phrase, constat puis conséquence puis action.
+- Avant merge : checklist §9 + axe 0 violation. `prefers-reduced-motion` coupe le mouvement.

@@ -9,7 +9,7 @@ import { readdir, readFile, stat, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 
-export const HOME_MAX_BYTES = 500_000;
+export const HOME_MAX_BYTES = 700_000;
 export const FONT_MAX_BYTES = 400 * 1024;
 
 export const COMMON_HEADERS = {

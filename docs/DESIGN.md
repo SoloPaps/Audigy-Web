@@ -10,9 +10,10 @@ Règles de design pour l'agent de code. Public : des particuliers non technicien
 6. **Vérifiable.** Date, URL auditée, version de la méthode et lien du rapport sont toujours visibles.
 
 ## 2. Motifs interdits (signes d'« AI slop »)
-- Dégradés violet/indigo→bleu/rose, texte en dégradé, blobs flous, halos et box-shadows colorées.
-- Violet/indigo Tailwind comme couleur principale (#6366F1, #8B5CF6, #A855F7).
-- Glassmorphism (`backdrop-blur` + `bg-white/10`), effet shimmer argenté.
+- Dégradés violet/indigo vers bleu/rose, et texte en dégradé. Le dégradé de fond Arc Soft est autorisé : `#FAF8F4` vers `#D7E7F2` en clair, `#15181C` vers `#1A2830` en sombre, linéaire, du haut vers le bas, fixe.
+- Violet ou indigo comme couleur de marque, de lien, de bouton ou de score (`#6366F1`, `#8B5CF6`, `#A855F7`). Le lilas `#E3D4F0` n’existe que comme blob.
+- Verre hors bornes. Le verre autorisé a une enveloppe `rgba(255, 255, 255, 0.64)` en clair et `rgba(29, 33, 38, 0.72)` en sombre, un flou de 20px, une bordure blanche à 30 % (18 % en sombre) et une plaque opaque derrière le texte. Pas de shimmer argenté.
+- Blobs autres que le pétrole `#9FCFCB`, la pêche `#F3C7B4` et le lilas `#E3D4F0`, aux tailles et positions de la spec Arc Soft. Pas de halo coloré.
 - Emojis utilisés comme icônes ou puces (✨🚀⚡🎯). Icône Lucide dans un carré arrondi en dégradé.
 - Inter, Geist, Space Grotesk, Instrument Serif, Poppins ; italique serif sur un seul mot du titre.
 - Hero centré type « badge pilule + H1 72px + 2 CTA » ; « Boostez / Propulsez / Sublimez votre site », « en toute simplicité », « nouvelle génération ».
@@ -20,13 +21,13 @@ Règles de design pour l'agent de code. Public : des particuliers non technicien
 - Faux témoignages, avatars générés, logos « Ils nous font confiance » sans relation réelle.
 - Liseré coloré à gauche ou en haut des cartes. `rounded-2xl` partout. La même ombre sur toutes les cartes.
 - Mode sombre permanent `#0a0a0a` + un seul accent néon ; texte gris peu contrasté.
-- Fade-up au scroll sur chaque élément ; animations inline ; non-respect de `prefers-reduced-motion`.
+- Fade-up au scroll sur chaque élément. Le mouvement autorisé est celui de la spec Arc Soft (survol 200 ms, entrée 280 ms, jauge ≤ 400 ms, page ≤ 450 ms, blobs 32 s), toujours coupé par `prefers-reduced-motion`.
 - Thème shadcn/Tailwind par défaut non modifié (le problème vient des tokens par défaut, pas de la librairie).
 - Titres et labels en MAJUSCULES ; lorem ipsum ou texte de remplissage ; « 1, 2, 3 étapes » décoratifs.
 - **Ne pas utiliser le DSFR ni la police Marianne** : c'est interdit pour un acteur privé (risque de confusion avec un service public). S'inspirer seulement de sa rigueur et de son accessibilité.
 
 ## 3. Typographie
-- **Texte, interface et titres : Atkinson Hyperlegible Next** (SIL OFL, Braille Institute). Une seule famille sans empattement : un second caractère d’affichage fait « modèle ». Graisse 600 pour H1–H4 et les scores.
+- **Texte, interface et titres : Atkinson Hyperlegible Next** (SIL OFL, Braille Institute). Le corps, l’interface, les scores et les titres des pages légales restent en Atkinson Hyperlegible Next. Le H1 des autres pages utilise Outfit (SIL OFL, auto-hébergée, graisses 600 et 700). Sora et Manrope ne sont pas utilisées. Graisse 600 pour H1–H4 et les scores.
 - **Chiffres et code : JetBrains Mono** (OFL) pour les URL, les en-têtes HTTP et les valeurs techniques. Les scores utilisent la police de texte avec `font-variant-numeric: tabular-nums`.
 - Auto-hébergées (woff2, `font-display: swap`), sous-ensemble latin. Aucun appel à Google Fonts (vie privée et écologie).
 - Échelle en rem (base 16px) : 12 · 14 · **16 (corps)** · 18 · 22 · 28. Interligne 1,5 pour le corps, 1,2 pour les titres. Longueur de ligne ≤ 70ch.
@@ -59,8 +60,8 @@ Sombre (pas de noir pur) : `--paper` #15181C, `--surface` #1D2126, `--ink` #ECE9
 ## 5. Espacement, grille, formes
 - Échelle de 4px : 4 · 8 · 12 · 16 · 24 · 32 · 48 · 64. Rien en dehors de cette échelle.
 - Contenu max 1120px. Le rapport tient dans une colonne. Une grille de 12 colonnes (8 / 4) reste possible pour un contexte secondaire. Une seule colonne sous 768px.
-- Rayons hiérarchisés : 4px (champs, badges), 8px (boutons), 12px (panneaux). Pas de pilules sauf pour un filtre réel.
-- La profondeur vient des filets de 1px, pas des ombres ni de boîtes identiques. Une seule ombre est autorisée, pour les menus/modales : `0 4px 16px rgb(0 0 0 / .08)`.
+- Rayons hiérarchisés : 4px (champs, badges), 8px (boutons), 12px (modules intérieurs), 16px (enveloppes flottantes : barre, hero, modales). Pas de pilules sauf pour un filtre réel.
+- La profondeur vient des filets de 1px, pas des ombres ni de boîtes identiques. Une seule ombre, la même partout : `0 18px 48px rgb(27 31 36 / 0.10)` en clair, `0 18px 48px rgb(0 0 0 / 0.35)` en sombre. Elle ne change pas au survol.
 - Icônes : traits Lucide auto-hébergés (licence ISC, `apps/web/src/icons/LICENSE.txt`), 1,5px, 20px, `currentColor`, sans fond et sans requête tierce. La forme reste distincte, avec son libellé.
 
 ## 6. Composants
@@ -108,10 +109,10 @@ Sombre (pas de noir pur) : `--paper` #15181C, `--surface` #1D2126, `--ink` #ECE9
 - Formulaires : `<label>` visible, erreurs en texte reliées par `aria-describedby`, pas de placeholder utilisé comme label.
 - Résultat d'audit annoncé via `aria-live="polite"`. Zoom à 200 % et reflow à 320px sans scroll horizontal.
 - `prefers-reduced-motion` respecté partout. `lang="fr"`. Page de déclaration d'accessibilité.
-- Cohérence : Audigy note l'écologie et la vie privée, donc pas de tracker tiers, pas de police distante, page d'accueil < 500 Ko.
+- Cohérence : Audigy note l'écologie et la vie privée, donc pas de tracker tiers, pas de police distante, page d’accueil < 700 Ko gzippés pour le document, le CSS, le JS et les polices du premier écran.
 
 ## 9. Checklist avant de merger une UI
-- [ ] Aucun motif de la section 2 (dégradé, glass, emoji, violet, 3 cartes identiques, hero centré générique).
+- [ ] Aucun violet de marque, aucun texte en dégradé, aucun emoji, aucune grille de 3 cartes identiques, aucun hero centré générique, aucun shimmer. Le verre, les trois blobs pastel, l’ombre flottante et le mouvement court sont ceux de la spec Arc Soft, coupés par `prefers-reduced-motion`.
 - [ ] Uniquement des tokens : couleurs, espacements et rayons hors tokens = refus.
 - [ ] Chaque statut a une forme + un libellé en plus de la couleur ; test en niveaux de gris et avec un simulateur de daltonisme.
 - [ ] Contrastes AA vérifiés en clair et en sombre (axe DevTools / Lighthouse a11y = 100).

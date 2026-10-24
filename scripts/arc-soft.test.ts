@@ -1,5 +1,6 @@
 import { readFileSync, statSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
+import { HOME_MAX_BYTES } from './publish-policy.js';
 
 const root = process.cwd();
 
@@ -106,5 +107,21 @@ describe('coquille', () => {
     expect(css).toContain('animation-delay: 200ms');
     expect(css).toContain('var(--duration-row)');
     expect(css).not.toContain('translateY');
+  });
+});
+
+describe('plafond et charte', () => {
+  it('porte l’accueil à 700 Ko et cite Outfit dans la charte', () => {
+    expect(HOME_MAX_BYTES).toBe(700_000);
+    const design = text('docs/DESIGN.md');
+    expect(design).toContain('Outfit');
+    expect(design).toContain('700');
+    expect(design).toContain('0 18px 48px rgb(27 31 36 / 0.10)');
+    expect(design).toContain('#9FCFCB');
+    expect(design).toContain('#E3D4F0');
+    expect(design).not.toContain('Source Serif');
+    const rule = text('.cursor/rules/design.mdc');
+    expect(rule).toContain('Outfit');
+    expect(rule).not.toContain('Source Serif');
   });
 });
