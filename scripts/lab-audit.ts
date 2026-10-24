@@ -1,14 +1,28 @@
 /**
  * Audit de bout en bout sous `netlify dev`, sur le labo local.
- * `pnpm lab:audit [adresse] [origine]` : connexion du propriétaire local (lien magique
- * généré par l'admin du Supabase LOCAL), POST /api/audits deux fois de suite (double clic),
- * puis GET /api/audits/:id jusqu'à `done` ou `failed`. Aucun jeton n'est affiché.
+ * `pnpm lab:audit [adresse] [origine] [--browser]` : connexion du propriétaire local
+ * (lien magique généré par l'admin du Supabase LOCAL), POST /api/audits deux fois de
+ * suite (double clic), puis GET /api/audits/:id jusqu'à `done` ou `failed`.
+ * `--browser` : dès `partial`, lance le vrai runner (`runJob`, Chromium) sur le labo,
+ * comme le ferait `browser-audit.yml`. `netlify dev` doit tourner avec
+ * `AUDIGY_LOCAL_RUNNER=true`. Aucun jeton n'est affiché.
  */
+import {
+  BROWSER_BUDGET,
+  jobStoreFromEnv,
+  runBrowserAudit,
+  runJob,
+} from '@audigy/browser-runner';
+import { createRequestBudget } from '@audigy/net';
+import { labFromEnv, labNet } from '@audigy/orchestrator';
 import { createClient } from '@supabase/supabase-js';
+import { DEFAULT_LAB_FILE } from '../fixtures/lab.js';
 import { localSupabaseStatus } from '../packages/db/test/local.js';
 
-const url = process.argv[2] ?? 'https://bon.audigy.test/';
-const origin = process.argv[3] ?? 'http://localhost:8888';
+const withBrowser = process.argv.includes('--browser');
+const args = process.argv.slice(2).filter((arg) => arg !== '--browser');
+const url = args[0] ?? 'https://bon.audigy.test/';
+const origin = args[1] ?? 'http://localhost:8888';
 const OWNER_EMAIL = 'proprietaire@localhost';
 const TIMEOUT_MS = 5 * 60_000;
 
@@ -69,9 +83,27 @@ interface View {
   domains: { domain: string; score: number | null }[];
   findings: { status: string; checkId: string; reason: string | null }[];
 }
+async function runLocalRunner(auditId: string): Promise<void> {
+  const lab = labFromEnv(
+    { AUDIGY_LAB: process.env.AUDIGY_LAB ?? DEFAULT_LAB_FILE },
+    { requireNetlifyDev: false },
+  );
+  if (!lab) throw new Error('labo absent');
+  const fetch = labNet(lab, createRequestBudget(BROWSER_BUDGET)).fetch;
+  const summary = await runJob(auditId, {
+    store: jobStoreFromEnv({
+      SUPABASE_URL: local.apiUrl,
+      SUPABASE_SERVICE_ROLE_KEY: local.serviceRoleKey,
+    }),
+    run: (options) => runBrowserAudit({ ...options, fetch }),
+  });
+  console.log(`Runner local : ${summary.artifacts.length} artefacts déposés`);
+}
+
 const started = Date.now();
 let last = '';
 let view: View | null = null;
+let runnerStarted = false;
 while (Date.now() - started < TIMEOUT_MS) {
   const res = await fetch(`${origin}/api/audits/${a.auditId}`, { headers });
   view = (await res.json()) as View;
@@ -80,6 +112,10 @@ while (Date.now() - started < TIMEOUT_MS) {
     console.log(`Statut : ${last}`);
   }
   if (last === 'done' || last === 'failed') break;
+  if (withBrowser && last === 'partial' && !runnerStarted) {
+    runnerStarted = true;
+    await runLocalRunner(a.auditId);
+  }
   await new Promise((resolve) => setTimeout(resolve, 2000));
 }
 if (!view || (last !== 'done' && last !== 'failed')) {

@@ -37,6 +37,17 @@ pnpm lab:audit
 
 Le script ouvre une session locale (`proprietaire@localhost`, Supabase local seulement), envoie deux `POST /api/audits` simultanés (double clic), vérifie qu'un seul audit existe, puis suit `GET /api/audits/:id` jusqu'à `done`. Il affiche les statuts, les scores par domaine et chaque test « Non testé » avec sa raison.
 
+### Avec le runner navigateur
+
+Chromium installé une fois : `pnpm --filter @audigy/browser-runner exec playwright install chromium`.
+
+```bash
+AUDIGY_LOCAL_RUNNER=true netlify dev --offline --filter @audigy/web
+pnpm lab:audit https://navigateur.audigy.test/ --browser
+```
+
+Avec `AUDIGY_LOCAL_RUNNER=true`, la fonction n'appelle pas GitHub : elle attend le runner. Dès que l'audit est `partial`, le script lance le vrai runner (`runJob`, Chromium) sur le labo, comme `browser-audit.yml`. Le rapport est déposé dans le seau `artifacts`, puis fusionné : l'audit finit en `done` avec la vie privée notée.
+
 ## API
 
 | Route | Rôle |
@@ -54,8 +65,8 @@ Limites : 10 audits par jour et par compte (jour de Paris), 1 audit par hôte to
 1. `queued` : créé par `api-audits-create`, qui réveille `audit-run-background`.
 2. `running` : la fonction réserve l'audit (`FOR UPDATE SKIP LOCKED`) et lance les tests côté serveur.
 3. `partial` : résultats serveur écrits. Les tests navigateur sont « Non testé » (`reason.runner_pending`).
-4. Déclenchement du navigateur d'audit (`workflow_dispatch` de `browser-audit.yml`), attente de 10 minutes au plus.
-5. `done` : sortie du navigateur fusionnée et notée. Sans navigateur (jeton absent, refus, délai), les tests navigateur restent « Non testé » avec `reason.runner_absent`.
+4. Déclenchement du navigateur d'audit (`workflow_dispatch` de `browser-audit.yml`), attente de 10 minutes au plus. Le runner accepte un audit `queued`, `running` ou `partial`.
+5. `done` : le rapport `<id>/browser/results.json` (seau `artifacts`) est relu, vérifié (empreinte, taille, schéma), puis fusionné et noté. Sans navigateur (jeton absent, refus, délai), les tests navigateur restent « Non testé » avec `reason.runner_absent`.
 
 Un test actif ne tourne que si la propriété est vérifiée et revérifiée depuis moins de 10 minutes. Un audit bloqué en `running` ou `partial` plus de 20 minutes passe en `failed`.
 
@@ -69,7 +80,7 @@ pnpm audigy audit exemple.fr --json
 pnpm audigy audit exemple.fr --browser
 ```
 
-Audit passif uniquement, mêmes tests que la fonction, réseau via `@audigy/net`. `--browser` utilise le navigateur d'audit local s'il est installé, sinon les tests concernés sont « Non testé ». Codes de sortie : `0` fini, `1` échec, `2` usage.
+Audit passif uniquement, mêmes tests que la fonction, réseau via `@audigy/net`. `--browser` lance Chromium via `@audigy/browser-runner` (passif, aucune interaction). Sans Chromium installé, les tests concernés sont « Non testé ». Codes de sortie : `0` fini, `1` échec, `2` usage.
 
 Sur le labo, sans aucun accès extérieur :
 
@@ -79,10 +90,10 @@ AUDIGY_LAB=.netlify/audigy-lab.json pnpm audigy audit https://bon.audigy.test/
 
 N'auditez avec la CLI que des sites dont vous êtes propriétaire ou que vous êtes autorisé à observer.
 
-## `AUDIGY_LAB`
+## `AUDIGY_LAB` et `AUDIGY_LOCAL_RUNNER`
 
-Variable de développement, hors liste §9. Elle redirige les noms `*.audigy.test` vers les serveurs du labo et coupe le DNS public et les API tierces. Les fonctions ne la lisent que sous `netlify dev` (`NETLIFY_DEV=true`).
+Variables de développement, hors liste §9. `AUDIGY_LAB` redirige les noms `*.audigy.test` vers les serveurs du labo et coupe le DNS public et les API tierces. `AUDIGY_LOCAL_RUNNER=true` remplace l'appel à GitHub par l'attente d'un runner local. Les fonctions ne les lisent que sous `netlify dev` (`NETLIFY_DEV=true`), labo actif.
 
 ## Tests
 
-`pnpm test` couvre l'orchestration de bout en bout sans `netlify dev` : Supabase local, labo, handlers réels, runner simulé. Aucun appel réseau sortant.
+`pnpm test` couvre l'orchestration de bout en bout sans `netlify dev` : Supabase local, labo, handlers réels, `runJob` du runner avec un rapport de référence. La CLI est aussi testée avec le vrai Chromium sur le labo. Aucun appel réseau sortant.
