@@ -281,9 +281,9 @@ test('parcours accueil, connexion, progression, rapport et sites', async ({
   await expect(page).toHaveURL(/\/connexion/);
   await waitForIslands(page);
   await page.getByLabel('Adresse e-mail').fill('ada@exemple.fr');
-  await page.getByRole('button', { name: 'Recevoir le lien' }).click();
+  await page.getByRole('button', { name: 'Envoyer le lien' }).click();
   await expect(page.getByRole('status')).toContainText(
-    'Consultez votre messagerie',
+    'Le lien arrive dans votre boîte',
   );
 
   await page.evaluate((value) => {

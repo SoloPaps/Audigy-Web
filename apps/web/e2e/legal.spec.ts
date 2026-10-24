@@ -86,3 +86,25 @@ test('le pied de page ouvre les pages légales', async ({ page }) => {
   await expect(loggedOut.or(unconfigured)).toBeVisible();
   await expectNoViolations(page);
 });
+
+test('la connexion est une carte avec un seul envoi', async ({ page }) => {
+  await page.goto('/connexion');
+  await expect(
+    page.getByRole('heading', {
+      level: 1,
+      name: 'Recevoir un lien de connexion',
+    }),
+  ).toBeVisible();
+  await expect(page.getByLabel('Adresse e-mail')).toHaveAttribute(
+    'type',
+    'email',
+  );
+  await expect(
+    page.getByRole('button', { name: 'Envoyer le lien' }),
+  ).toBeVisible();
+  const card = page.locator('.login-card');
+  const box = await card.boundingBox();
+  expect(Math.round(box?.width ?? 0)).toBeLessThanOrEqual(480);
+  const results = await new AxeBuilder({ page }).analyze();
+  expect(results.violations).toEqual([]);
+});

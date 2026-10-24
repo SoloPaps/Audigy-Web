@@ -58,39 +58,43 @@ async function onSignOut(): Promise<void> {
 }
 </script>
 
-{#if ready}
-  <p role="status">{t('login.ready')}</p>
-  <p class="page-links">
-    <a href="/sites">{t('login.sites')}</a>
-    <a href="/compte">{t('login.account')}</a>
-    <button type="button" class="button button-secondary" onclick={onSignOut}>
-      {t('login.signout')}
-    </button>
-  </p>
-{:else}
-  <form class="audit-form" method="dialog" onsubmit={onSubmit}>
-    <div class="field">
-      <label for="email">{t('login.email')}</label>
-      <input
-        id="email"
-        name="email"
-        type="email"
-        autocomplete="email"
-        inputmode="email"
-        required
-        bind:value={email}
-        aria-describedby={error ? 'login-error' : undefined}
-        aria-invalid={error ? 'true' : undefined}
-      />
-    </div>
-    {#if error}
-      <p id="login-error" class="form-error" role="alert">{error}</p>
-    {/if}
-    {#if sent}
+<div class="login-card glass">
+  <div class="glass-plate">
+    <h1>{t('login.card.title')}</h1>
+    {#if ready}
+      <p role="status">{t('login.ready')}</p>
+      <p class="page-links">
+        <a href="/sites">{t('login.sites')}</a>
+        <a href="/compte">{t('login.account')}</a>
+        <button type="button" class="button button-secondary" onclick={onSignOut}>
+          {t('login.signout')}
+        </button>
+      </p>
+    {:else if sent}
       <p role="status">{t('login.sent')}</p>
+    {:else}
+      <form class="audit-form" method="dialog" onsubmit={onSubmit}>
+        <div class="field">
+          <label for="email">{t('login.email')}</label>
+          <input
+            id="email"
+            name="email"
+            type="email"
+            autocomplete="email"
+            inputmode="email"
+            required
+            bind:value={email}
+            aria-describedby={error ? 'login-error' : undefined}
+            aria-invalid={error ? 'true' : undefined}
+          />
+        </div>
+        {#if error}
+          <p id="login-error" class="form-error" aria-live="polite">{error}</p>
+        {/if}
+        <button class="button button-primary" type="submit">
+          {pending ? t('login.sending') : t('login.submit')}
+        </button>
+      </form>
     {/if}
-    <button class="button button-primary" type="submit">
-      {pending ? t('login.sending') : t('login.submit')}
-    </button>
-  </form>
-{/if}
+  </div>
+</div>

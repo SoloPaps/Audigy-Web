@@ -5,7 +5,8 @@ import Base from '../layouts/Base.astro';
 ---
 
 <Base title={t('meta.account.title')} description={t('meta.account.description')}>
-  <h1>{t('account.title')}</h1>
-  <p class="prose">{t('account.lead')}</p>
-  <AccountPanel client:load />
+  <div class="reading">
+    <h1>{t('account.title')}</h1>
+    <AccountPanel client:load />
+  </div>
 </Base>
