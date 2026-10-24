@@ -8,7 +8,13 @@ import { readdir, readFile } from 'node:fs/promises';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 
-const SKIP_DIRS = new Set(['node_modules', 'dist', '.astro', 'coverage']);
+const SKIP_DIRS = new Set([
+  'node_modules',
+  'dist',
+  '.astro',
+  '.netlify',
+  'coverage',
+]);
 const SOURCE_EXT = new Set([
   '.ts',
   '.tsx',

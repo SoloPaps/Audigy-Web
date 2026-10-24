@@ -4,7 +4,7 @@
  * prépare un déploiement ou une liaison Netlify.
  * Ne lit pas le reste du dépôt (la doc cite ces chaînes).
  */
-import { readdir, readFile, stat } from 'node:fs/promises';
+import { readdir, readFile } from 'node:fs/promises';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 
@@ -94,13 +94,26 @@ export async function scan(root: string): Promise<Violation[]> {
       hits.push(...violationsInText(text, rel));
     }
   }
-  try {
-    await stat(path.join(root, '.netlify', 'state.json'));
+  if (await isLinked(path.join(root, '.netlify', 'state.json'))) {
     hits.push({ file: '.netlify/state.json', rule: 'netlify-link' });
-  } catch {
-    // Pas de liaison locale.
   }
   return hits;
+}
+
+/** `netlify dev` écrit aussi ce fichier ; seul un `siteId` signe une liaison. */
+async function isLinked(file: string): Promise<boolean> {
+  let text: string;
+  try {
+    text = await readFile(file, 'utf8');
+  } catch {
+    return false;
+  }
+  try {
+    const data = JSON.parse(text) as { siteId?: unknown };
+    return data.siteId !== undefined;
+  } catch {
+    return true;
+  }
 }
 
 const entry = process.argv[1];

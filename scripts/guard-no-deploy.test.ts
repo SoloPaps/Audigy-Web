@@ -68,6 +68,19 @@ describe('guard-no-deploy', () => {
     });
   });
 
+  it('signale un state.json lié, pas celui de netlify dev', async () => {
+    await withFixture(async (dir) => {
+      await mkdir(path.join(dir, '.netlify'));
+      const state = path.join(dir, '.netlify', 'state.json');
+      await writeFile(state, '{"dbConnectionString":"postgres://localhost"}');
+      expect(await scan(dir)).toEqual([]);
+      await writeFile(state, '{"siteId":"abc"}');
+      expect(await scan(dir)).toEqual([
+        { file: '.netlify/state.json', rule: 'netlify-link' },
+      ]);
+    });
+  });
+
   it('accepte un workflow, un toml de dev et des scripts sans déploiement', async () => {
     await withFixture(async (dir) => {
       const workflow = path.join(dir, '.github', 'workflows');
