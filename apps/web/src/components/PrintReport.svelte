@@ -155,7 +155,7 @@ function onPrint(event: MouseEvent): void {
   <h2>{t('section.categories')}</h2>
   <CategoryList {items} />
   <h2>{t('section.findings')}</h2>
-  <FindingList findings={shown} url={payload.audit.site.url} />
+  <FindingList findings={shown} />
   <h2>{t('section.verify')}</h2>
   <dl class="proof">
     <dt>{t('print.id')}</dt>

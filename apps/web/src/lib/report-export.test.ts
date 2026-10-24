@@ -2,7 +2,6 @@ import { describe, expect, it } from 'vitest';
 import { formatDateTime } from '../i18n/format.js';
 import { t } from '../i18n/index.js';
 import {
-  correctionPrompt,
   type ExportReport,
   markdownFilename,
   presentFinding,
@@ -128,41 +127,8 @@ describe('markdown', () => {
 });
 
 describe('prompt de correction', () => {
-  it('reprend le correctif déjà montré et les trois consignes', () => {
-    const text = correctionPrompt({
-      url: 'https://exemple.fr',
-      title: 'Forcer l’adresse chiffrée',
-      statement: 'Sans chiffrement, le réseau peut lire les échanges.',
-      limit: null,
-      steps: ['Activez le certificat.'],
-      code: 'Strict-Transport-Security: max-age=1',
-    });
-    expect(text).toBe(
-      [
-        'Adresse : https://exemple.fr',
-        'Titre : Forcer l’adresse chiffrée',
-        'Constat : Sans chiffrement, le réseau peut lire les échanges.',
-        'Limite : Aucune limite signalée.',
-        'Étape : Activez le certificat.',
-        'Correctif : Strict-Transport-Security: max-age=1',
-        'Proposez des étapes que le propriétaire peut faire.',
-        'N’inventez pas de note.',
-        'Ne proposez pas de test sur le site.',
-      ].join('\n'),
-    );
-  });
-
-  it('écrit la limite quand elle diffère du constat', () => {
-    const text = correctionPrompt({
-      url: 'https://exemple.fr',
-      title: 'Hébergeur',
-      statement: 'L’annuaire indique un hébergeur à électricité renouvelable.',
-      limit: 'Cela ne couvre pas toute la chaîne d’hébergement.',
-      steps: ['Vérifiez l’hébergeur.'],
-    });
-    expect(text).toContain(
-      'Limite : Cela ne couvre pas toute la chaîne d’hébergement.',
-    );
-    expect(text).not.toContain('Aucune limite signalée.');
+  it('n’est plus livré : le brief le remplace', async () => {
+    const mod = await import('./report-export.js');
+    expect(mod).not.toHaveProperty('correctionPrompt');
   });
 });

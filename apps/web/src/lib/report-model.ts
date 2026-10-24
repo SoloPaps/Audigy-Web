@@ -1,5 +1,6 @@
 import { t } from '../i18n/index.js';
 import type { ApiDomain, ApiFinding, AuditPayload } from './audit-api.js';
+import type { BriefSource } from './brief.js';
 import type { CategoryItem } from './categories.js';
 import {
   domainPlain,
@@ -217,5 +218,59 @@ export function reportFindings(
     const finding = toFinding(row, fix);
     finding.id = `${row.checkId}-${index}`;
     return [finding];
+  });
+}
+
+export type CatalogStatus = 'pass' | 'warn' | 'fail' | 'untested' | 'na';
+
+export interface ReportRow extends Finding {
+  checkId: string;
+  catalogStatus: CatalogStatus;
+  proof: string;
+  impactText: string | null;
+  sources: BriefSource[];
+}
+
+function catalogStatusOf(
+  raw: string,
+  status: Finding['status'],
+): CatalogStatus {
+  if (raw === 'na') return 'na';
+  if (
+    raw === 'pass' ||
+    raw === 'warn' ||
+    raw === 'fail' ||
+    raw === 'untested'
+  ) {
+    return raw;
+  }
+  return status;
+}
+
+export function reportRows(
+  payload: AuditPayload,
+  fixes: ReadonlyMap<string, FixView>,
+  domain?: string,
+): ReportRow[] {
+  return payload.findings.flatMap((row, index) => {
+    if (domain === undefined && row.domain === 'reputation') return [];
+    if (domain !== undefined && row.domain !== domain) return [];
+    const fix = row.fixKey ? fixes.get(row.fixKey) : undefined;
+    const finding = toFinding(row, fix);
+    finding.id = `${row.checkId}-${index}`;
+    const sources: BriefSource[] = [];
+    if (fix?.sourceHref && fix.sourceLabel) {
+      sources.push({ label: fix.sourceLabel, url: fix.sourceHref });
+    }
+    return [
+      {
+        ...finding,
+        checkId: row.checkId,
+        catalogStatus: catalogStatusOf(row.status, finding.status),
+        proof: finding.why,
+        impactText: finding.limit?.trim() ? finding.limit : null,
+        sources,
+      },
+    ];
   });
 }

@@ -1,26 +1,171 @@
 <script lang="ts">
+import { tick } from 'svelte';
+import { t as briefT } from '../i18n/brief-fr.js';
 import { t } from '../i18n/index.js';
+import {
+  type BriefDocument,
+  type BriefFinding,
+  renderBrief,
+  type TerminalMode,
+} from '../lib/brief.js';
+import {
+  barState,
+  failsOf,
+  generatedLive,
+  selectionLabel,
+} from '../lib/brief-bar.js';
+import {
+  briefFileBody,
+  briefFilename,
+  downloadTextFile,
+} from '../lib/brief-file.js';
 import {
   type Finding,
   groupFindings,
   levelForStatus,
 } from '../lib/findings.js';
-import { correctionPrompt } from '../lib/report-export.js';
+import { methodeCatalog } from '../lib/methode-load.js';
+import type { ReportRow } from '../lib/report-model.js';
 import EmptyState from './EmptyState.svelte';
 import StatusMark from './StatusMark.svelte';
 
+interface BriefContext {
+  url: string;
+  at: Date | null;
+  stack: string | null;
+}
+
 interface Props {
-  findings: Finding[];
-  url?: string;
+  findings: Finding[] | ReportRow[];
+  brief?: BriefContext | null;
 }
 
 type FilterId = 'all' | 'fail' | 'warn' | 'pass';
-type CopyState = 'copied' | 'failed';
 
-let { findings, url = '' }: Props = $props();
+let { findings, brief = null }: Props = $props();
 let copiedId = $state<string | null>(null);
-let promptState = $state<Record<string, CopyState>>({});
 let filter = $state<FilterId>('all');
+let checked = $state<Record<string, boolean>>({});
+let terminal = $state<Record<string, TerminalMode>>({});
+let briefText = $state<string | null>(null);
+let panelOpen = $state(false);
+let toast = $state('');
+let live = $state('');
+
+function asRow(item: Finding | ReportRow): ReportRow {
+  if ('catalogStatus' in item) return item;
+  return {
+    ...item,
+    checkId: item.id,
+    catalogStatus: item.status,
+    proof: item.why,
+    impactText: item.limit?.trim() ? item.limit : null,
+    sources: [],
+  };
+}
+
+const briefRows = $derived(findings.map(asRow));
+const countsBrief = $derived({
+  failCount: briefRows.filter((row) => row.catalogStatus === 'fail').length,
+  warnCount: briefRows.filter((row) => row.catalogStatus === 'warn').length,
+  passCount: briefRows.filter((row) => row.catalogStatus === 'pass').length,
+  selectedCount: briefRows.filter((row) => checked[row.id]).length,
+});
+const bar = $derived(brief ? barState(countsBrief) : null);
+
+function modeOf(id: string): TerminalMode {
+  return terminal[id] ?? 'rien';
+}
+
+function toBriefFinding(row: ReportRow, mode: TerminalMode): BriefFinding {
+  return {
+    id: row.id,
+    checkId: row.checkId,
+    title: row.title,
+    statusLabel: t(
+      row.catalogStatus === 'warn' ? 'status.warn' : 'status.fail',
+    ),
+    proof: row.proof,
+    impact: row.impactText,
+    terminal: mode,
+  };
+}
+
+function auditAt(value: Date | string | null | undefined): Date | null {
+  if (value instanceof Date)
+    return Number.isNaN(value.getTime()) ? null : value;
+  if (typeof value !== 'string' || value.trim() === '') return null;
+  const date = new Date(value);
+  return Number.isNaN(date.getTime()) ? null : date;
+}
+
+function documentFrom(
+  items: readonly ReportRow[],
+  includeTerminal: boolean,
+): BriefDocument {
+  const sources = new Map(items.map((row) => [row.checkId, row.sources]));
+  return {
+    url: brief?.url ?? '',
+    at: auditAt(brief?.at),
+    stack: brief?.stack ?? null,
+    findings: items.map((row) =>
+      toBriefFinding(row, includeTerminal ? modeOf(row.id) : 'rien'),
+    ),
+    catalog: methodeCatalog(),
+    sources,
+    includeTerminal,
+  };
+}
+
+function ordered(ids: readonly string[]): ReportRow[] {
+  const wanted = new Set(ids);
+  const grouped = groupFindings(briefRows);
+  const warn = grouped.next.filter(
+    (row) => asRow(row).catalogStatus === 'warn',
+  );
+  return [...grouped.priority, ...warn]
+    .map(asRow)
+    .filter((row) => wanted.has(row.id));
+}
+
+async function publish(text: string, count: number): Promise<void> {
+  briefText = text;
+  panelOpen = true;
+  live = '';
+  await tick();
+  live = generatedLive(count);
+}
+
+async function generate(): Promise<void> {
+  const ids = briefRows.filter((row) => checked[row.id]).map((row) => row.id);
+  const items = ordered(ids);
+  if (items.length === 0 || !brief) return;
+  await publish(renderBrief(documentFrom(items, true)), items.length);
+}
+
+async function allFails(): Promise<void> {
+  if (!brief) return;
+  const items = ordered(failsOf(briefRows));
+  if (items.length === 0) return;
+  await publish(renderBrief(documentFrom(items, false)), items.length);
+}
+
+async function copyBrief(): Promise<void> {
+  if (!briefText) return;
+  try {
+    await navigator.clipboard.writeText(briefText);
+    toast = briefT('brief.copied');
+  } catch {
+    toast = briefT('brief.copyFail');
+  }
+}
+
+function saveBrief(): void {
+  if (!briefText || !brief) return;
+  const at = auditAt(brief.at) ?? new Date();
+  downloadTextFile(briefFilename(brief.url, at), briefFileBody(briefText));
+}
+
 const groups = $derived(groupFindings(findings));
 const counts = $derived({
   all: findings.length,
@@ -44,31 +189,46 @@ async function copyCode(finding: Finding): Promise<void> {
     copiedId = null;
   }
 }
-
-function promptText(finding: Finding): string {
-  return correctionPrompt({
-    url,
-    title: finding.title,
-    statement: finding.why,
-    limit: finding.limit ?? null,
-    steps: finding.steps,
-    code: finding.code,
-  });
-}
-
-async function copyPrompt(finding: Finding): Promise<void> {
-  try {
-    await navigator.clipboard.writeText(promptText(finding));
-    promptState = { ...promptState, [finding.id]: 'copied' };
-  } catch {
-    promptState = { ...promptState, [finding.id]: 'failed' };
-  }
-}
 </script>
 
 {#snippet rows(items: Finding[])}
   {#each items as finding (finding.id)}
     <article class="finding" id={`finding-${finding.id}`}>
+      {#if brief && (asRow(finding).catalogStatus === 'fail' || asRow(finding).catalogStatus === 'warn')}
+        <div class="brief-choice">
+          <label>
+            <input
+              type="checkbox"
+              bind:checked={
+                () => checked[finding.id] ?? false,
+                (value) => {
+                  checked = { ...checked, [finding.id]: value };
+                }
+              }
+            />
+            <span class="visually-hidden">{briefT('brief.include', { title: finding.title })}</span>
+          </label>
+          <div role="radiogroup" aria-label={briefT('brief.terminal.group', { title: finding.title })}>
+            <label>
+              <input type="radio" name={`terminal-${finding.id}`} value="rien" checked={modeOf(finding.id) === 'rien'} onclick={() => { terminal = { ...terminal, [finding.id]: 'rien' }; }} />
+              <span aria-hidden="true">{briefT('brief.terminal.rien')}</span>
+              <span class="visually-hidden">{briefT('brief.terminal.rien.long')}</span>
+            </label>
+            <label>
+              <input type="radio" name={`terminal-${finding.id}`} value="verif" checked={modeOf(finding.id) === 'verif'} onclick={() => { terminal = { ...terminal, [finding.id]: 'verif' }; }} />
+              <span aria-hidden="true">{briefT('brief.terminal.verif')}</span>
+              <span class="visually-hidden">{briefT('brief.terminal.verif.long')}</span>
+            </label>
+            <label>
+              <input type="radio" name={`terminal-${finding.id}`} value="fix" checked={modeOf(finding.id) === 'fix'} onclick={() => { terminal = { ...terminal, [finding.id]: 'fix' }; }} />
+              <span aria-hidden="true">{briefT('brief.terminal.fix')}</span>
+              <span class="visually-hidden">{briefT('brief.terminal.fix.long')}</span>
+            </label>
+          </div>
+        </div>
+      {:else if brief && (asRow(finding).catalogStatus === 'untested' || asRow(finding).catalogStatus === 'na')}
+        <p class="hint">{briefT('brief.untested')}</p>
+      {/if}
       <div class="finding-row">
         <StatusMark level={levelForStatus(finding.status)} />
         <div class="finding-copy">
@@ -95,17 +255,6 @@ async function copyPrompt(finding: Finding): Promise<void> {
             <li>{step}</li>
           {/each}
         </ol>
-        <div class="prompt no-print">
-          <textarea readonly rows="8" aria-label={t('prompt.label')}>{promptText(finding)}</textarea>
-          <button type="button" class="button button-secondary" onclick={() => copyPrompt(finding)}>
-            {t('prompt.copy')}
-          </button>
-          {#if promptState[finding.id] === 'copied'}
-            <p role="status">{t('prompt.copied')}</p>
-          {:else if promptState[finding.id] === 'failed'}
-            <p role="status">{t('prompt.failed')}</p>
-          {/if}
-        </div>
         {#if finding.code}
           <pre><code>{finding.code}</code></pre>
           <button type="button" class="button button-secondary" onclick={() => copyCode(finding)}>
@@ -182,6 +331,45 @@ async function copyPrompt(finding: Finding): Promise<void> {
     <EmptyState message={t('report.filter.empty')} />
   {/if}
 </div>
+
+{#if brief && bar?.allClear}
+  <p class="hint">{briefT('brief.none')}</p>
+{/if}
+{#if brief && bar?.visible}
+  <div class="brief-bar">
+    <p>{selectionLabel(countsBrief.selectedCount)}</p>
+    <button
+      type="button"
+      class="button button-secondary"
+      disabled={!bar.failsEnabled}
+      onclick={allFails}
+    >{briefT('brief.allFails')}</button>
+    <button
+      type="button"
+      class={panelOpen && briefText ? 'button button-secondary' : 'button button-primary'}
+      disabled={!bar.generateEnabled}
+      onclick={generate}
+    >{briefT('brief.generate')}</button>
+    {#if bar.hint}
+      <p class="hint">{briefT('brief.generate.hint')}</p>
+    {/if}
+  </div>
+{/if}
+{#if brief && panelOpen && briefText}
+  <section class="brief-panel">
+    <p role="status">{live}</p>
+    <textarea class="brief-text" rows="14" readonly aria-label={briefT('brief.panel')} value={briefText}></textarea>
+    <button type="button" class="button button-primary" onclick={copyBrief}>{briefT('brief.copy')}</button>
+    <button type="button" class="button button-secondary" onclick={generate}>{briefT('brief.regenerate')}</button>
+    <button type="button" class="link-action" onclick={saveBrief}>{briefT('brief.download')}</button>
+    <button type="button" class="button button-secondary" onclick={() => { panelOpen = false; }}>{briefT('brief.collapse')}</button>
+    {#if toast}
+      <p class="hint" role="status">{toast}</p>
+    {/if}
+  </section>
+{:else if brief && briefText}
+  <button type="button" class="button button-secondary" onclick={() => { panelOpen = true; }}>{briefT('brief.show')}</button>
+{/if}
 
 <style>
   .filters {
@@ -309,14 +497,6 @@ async function copyPrompt(finding: Finding): Promise<void> {
     resize: vertical;
   }
 
-  .prompt {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: var(--space-2);
-    margin-top: var(--space-3);
-  }
-
   details + details {
     margin-top: var(--space-2);
   }
@@ -328,6 +508,48 @@ async function copyPrompt(finding: Finding): Promise<void> {
 
     .effort {
       grid-column: 2;
+    }
+  }
+
+  .brief-bar,
+  .brief-panel,
+  .brief-choice {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    align-items: center;
+    max-width: 100%;
+  }
+
+  .brief-panel {
+    margin-top: var(--space-4);
+  }
+
+  .brief-text {
+    width: 100%;
+    overflow: auto;
+    resize: vertical;
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    line-height: var(--leading-body);
+    color: var(--ink);
+    background: var(--surface);
+    border: var(--border) solid var(--line);
+    border-radius: var(--radius-sm);
+    padding: var(--space-3);
+  }
+
+  .brief-choice input {
+    min-width: var(--touch-min);
+    min-height: var(--touch-min);
+  }
+
+  @media (max-width: 320px) {
+    .brief-bar,
+    .brief-panel,
+    .brief-choice {
+      flex-direction: column;
+      align-items: stretch;
     }
   }
 </style>

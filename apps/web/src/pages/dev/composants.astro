@@ -57,7 +57,11 @@ const url = 'https://exemple.fr';
     <CategoryList items={categories} />
 
     <h2 id="corrections">{t('section.findings')}</h2>
-    <FindingList findings={findings} client:load />
+    <FindingList
+      findings={findings}
+      brief={{ url, at: auditedAt, stack: null }}
+      client:load
+    />
 
     <h2>{t('section.table')}</h2>
     <HistoryPanel

@@ -4,6 +4,7 @@ import {
   categoryItems,
   type FixView,
   reportFindings,
+  reportRows,
   reputationAside,
   scoredDomainCount,
 } from './report-model.js';
@@ -175,6 +176,12 @@ describe('rapport', () => {
     expect(plain?.limit).toBe(
       'Cela ne couvre pas toute la chaîne d’hébergement.',
     );
+    const hostedRows = reportRows(
+      { ...payload, findings: [hosted] },
+      new Map(),
+    );
+    expect(hostedRows[0]?.impactText).toBe(plain?.limit);
+    expect(hostedRows[0]?.proof).toBe(plain?.why);
     const withFix = reportFindings(
       {
         ...payload,
@@ -205,6 +212,32 @@ describe('rapport', () => {
     expect(withFix[0]?.limit).toContain('PageSpeed');
     expect(withFix[0]?.limit).not.toContain('psi');
     expect(JSON.stringify(withFix[0])).not.toMatch(/clé/u);
+  });
+
+  it('garde le non applicable pour le brief, hors du score affiché', () => {
+    const fixes = new Map([['securite.https', fix]]);
+    const rows = reportRows(payload, fixes);
+    expect(rows.map((item) => item.checkId)).toEqual([
+      'securite.https',
+      'vie_privee.traceurs',
+      'seo.hors',
+    ]);
+    expect(rows.map((item) => item.catalogStatus)).toEqual([
+      'fail',
+      'untested',
+      'na',
+    ]);
+    expect(rows[0]?.sources).toEqual([
+      { label: 'MDN', url: 'https://developer.mozilla.org/fr/' },
+    ]);
+    expect(rows[0]?.proof).toBe(rows[0]?.why);
+    expect(rows[0]?.impactText).toBeNull();
+    expect(rows[2]?.status).toBe('untested');
+    expect(
+      reportFindings(payload, fixes).some((item) =>
+        item.id.includes('seo.hors'),
+      ),
+    ).toBe(false);
   });
 
   it('sans OAuth, le constat propose le lien Search Console', () => {
