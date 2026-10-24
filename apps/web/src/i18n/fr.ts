@@ -565,6 +565,75 @@ export const fr = {
     'L’annonce des rapports de chiffrement est illisible.',
   'dns_email.tls_rpt.na_nomail':
     'Sans courrier entrant, ces rapports ne s’appliquent pas.',
+  'qualite.na_robots':
+    'Le fichier robots interdit cette adresse. Ce contrôle ne s’applique pas.',
+  'qualite.untested_robots':
+    'Nous n’avons pas pu tester : le fichier robots a répondu {status}.',
+  'qualite.untested_robots_down':
+    'Nous n’avons pas pu tester : le fichier robots n’a pas répondu.',
+  'qualite.untested_status':
+    'Nous n’avons pas pu tester : la page a répondu {status}.',
+  'qualite.untested_down':
+    'Nous n’avons pas pu tester : la page n’a pas répondu.',
+  'qualite.na_not_html':
+    'La page n’est pas au format HTML. Ce contrôle ne s’applique pas.',
+  'qualite.na_scope':
+    'La page demandée quitte la zone auditée. La suite n’est pas lue.',
+  'qualite.untested_budget':
+    'Nous n’avons pas pu tester : le budget de requêtes est atteint.',
+  'qualite.liens.pass': 'Les liens vérifiés répondent.',
+  'qualite.liens.fail_internal_one':
+    '1 lien interne ne répond pas. La page citée est inaccessible.',
+  'qualite.liens.fail_internal_many':
+    '{count} liens internes ne répondent pas. Ces pages sont inaccessibles.',
+  'qualite.liens.fail_external_one':
+    '1 lien vers un autre site est introuvable.',
+  'qualite.liens.fail_external_many':
+    '{count} liens vers d’autres sites sont introuvables.',
+  'qualite.liens.warn_temp_one':
+    '1 lien externe a eu une erreur temporaire. Ce n’est pas un lien mort.',
+  'qualite.liens.warn_temp_many':
+    '{count} liens externes ont eu une erreur temporaire. Ce n’est pas un lien mort.',
+  'qualite.liens.warn_uncertain_one':
+    '1 lien externe n’a pas répondu clairement. Ce n’est pas un lien mort.',
+  'qualite.liens.warn_uncertain_many':
+    '{count} liens externes n’ont pas répondu clairement. Ce n’est pas un lien mort.',
+  'qualite.html.pass':
+    'Le HTML des pages lues respecte les règles essentielles.',
+  'qualite.html.fail_one':
+    '1 page a du HTML invalide. Un navigateur peut mal l’afficher.',
+  'qualite.html.fail_many':
+    '{count} pages ont du HTML invalide. Un navigateur peut mal les afficher.',
+  'qualite.images_poids.pass': 'Les images mesurées restent sous 200 Ko.',
+  'qualite.images_poids.fail_one':
+    '1 image dépasse 200 Ko. Elle ralentit l’affichage.',
+  'qualite.images_poids.fail_many':
+    '{count} images dépassent 200 Ko. Elles ralentissent l’affichage.',
+  'qualite.images_poids.warn_unknown_one':
+    'La taille d’une image n’est pas indiquée. Son poids n’est pas vérifié.',
+  'qualite.images_poids.warn_unknown_many':
+    'La taille de {count} images n’est pas indiquée. Leur poids n’est pas vérifié.',
+  'qualite.images_poids.na': 'Aucune image n’est à mesurer sur les pages lues.',
+  'qualite.images_dimensions.pass':
+    'Chaque image indique sa largeur et sa hauteur.',
+  'qualite.images_dimensions.warn_one':
+    '1 image n’a pas ses dimensions. La page peut bouger au chargement.',
+  'qualite.images_dimensions.warn_many':
+    '{count} images n’ont pas leurs dimensions. La page peut bouger au chargement.',
+  'qualite.images_dimensions.fail':
+    'Aucune image n’a de largeur ni de hauteur. La page peut bouger au chargement.',
+  'qualite.images_dimensions.na':
+    'Aucune image n’est affichée sur les pages lues.',
+  'qualite.images_format.pass':
+    'Les images proposent un format moderne, WebP ou AVIF.',
+  'qualite.images_format.warn_one':
+    '1 image reste dans un ancien format. Elle pèse plus que nécessaire.',
+  'qualite.images_format.warn_many':
+    '{count} images restent dans un ancien format. Elles pèsent plus que nécessaire.',
+  'qualite.images_format.fail':
+    'Aucune image n’utilise un format moderne. Elles pèsent plus que nécessaire.',
+  'qualite.images_format.na':
+    'Aucune image bitmap n’est affichée. Ce contrôle ne s’applique pas.',
   'ecologie.missing_key':
     'Nous n’avons pas pu tester : la mesure de la page n’est pas configurée.',
   'ecologie.psi_quota':

@@ -22,6 +22,8 @@
  * - `ECOLOGIE_CHECKS` : EcoIndex, CO2.js (SWD v4), annuaire Green Web, sous-ensemble
  *   RGESN. Le poids et les requêtes viennent du même artefact PSI. Les chiffres sont
  *   des estimations. `parseRgesnResponses` valide le questionnaire (pas d’interface).
+ * - `QUALITE_CHECKS` : parcours borné (50 pages, robots, portée), liens internes
+ *   et externes, HTML essentiel, images (poids, dimensions, format).
  * - `googleApiKey`, `withGoogleApi` : clé `GOOGLE_API_KEY` et client `@audigy/net`.
  * - `withExternalApi` : même client sans clé, pour l’annuaire Green Web.
  */
@@ -74,6 +76,7 @@ export {
   PSI_SHARED_KEY,
   type PsiBundle,
 } from '../checks/performance/index.js';
+export { QUALITE_CHECKS } from '../checks/qualite/index.js';
 export { SECURITE_CHECKS } from '../checks/securite/index.js';
 export { createSeoChecks, SEO_CHECKS } from '../checks/seo/index.js';
 export { type AuditReport, runAudit } from './audit.js';
