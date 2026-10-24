@@ -17,13 +17,23 @@
     "test:ui": "pnpm --filter @audigy/web run test:ui",
     "test:a11y": "node scripts/lighthouse-a11y.mjs",
     "fixtures": "node fixtures/server.ts",
+    "lab": "tsx fixtures/lab.ts",
+    "lab:audit": "tsx scripts/lab-audit.ts",
+    "audigy": "tsx packages/cli/src/bin.ts",
     "build": "node scripts/build.mjs",
+    "build:functions": "node scripts/build-functions.ts",
     "check": "pnpm guard && pnpm lint && pnpm copy-lint && pnpm typecheck && pnpm test && pnpm build && pnpm test:ui && pnpm test:a11y"
+  },
+  "dependencies": {
+    "@audigy/orchestrator": "workspace:*"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.6.2",
+    "@supabase/supabase-js": "^2.118.0",
     "@types/node": "^22.20.5",
+    "esbuild": "^0.28.2",
     "lighthouse": "^13.5.0",
+    "tsx": "^4.23.15",
     "typescript": "^7.0.2",
     "vitest": "^5.0.5"
   }
