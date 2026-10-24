@@ -25,7 +25,11 @@
  * - `QUALITE_CHECKS` : parcours borné (50 pages, robots, portée), liens internes
  *   et externes, HTML essentiel, images (poids, dimensions, format).
  * - `googleApiKey`, `withGoogleApi` : clé `GOOGLE_API_KEY` et client `@audigy/net`.
- * - `withExternalApi` : même client sans clé, pour l’annuaire Green Web.
+ * - `withExternalApi` : même client sans clé, pour Green Web, OSV, NVD et KEV.
+ * - `TECHNOLOGIES_CHECKS`, `createTechnologiesChecks` : technologies (en-têtes `Server`,
+ *   `X-Powered-By`, balise generator, signatures retire.js Apache-2.0 sur les scripts
+ *   chargés), failles OSV (bibliothèques) et NVD (logiciels), croisées avec le catalogue
+ *   KEV. Version inconnue : aucune alerte. Cache jour UTC. `nvdApiKey` lit `NVD_API_KEY`.
  */
 
 export { DKIM_SELECTORS, DNS_EMAIL_CHECKS } from '../checks/dns_email/index.js';
@@ -78,9 +82,17 @@ export {
 } from '../checks/performance/index.js';
 export { QUALITE_CHECKS } from '../checks/qualite/index.js';
 export { SECURITE_CHECKS } from '../checks/securite/index.js';
+export {
+  CVE_TIMEOUT_MS,
+  createTechnologiesChecks,
+  TECHNOLOGIES_CHECKS,
+  TECHNOLOGIES_TIMEOUT_MS,
+  type TechnologiesCheckOptions,
+} from '../checks/securite/technologies/index.js';
+export { SIGNATURES as RETIRE_SIGNATURES } from '../checks/securite/technologies/retire.js';
 export { createSeoChecks, SEO_CHECKS } from '../checks/seo/index.js';
 export { type AuditReport, runAudit } from './audit.js';
-export { withExternalApi } from './external.js';
+export { nvdApiKey, withExternalApi } from './external.js';
 export {
   FIX_VARIANTS,
   FixParseError,

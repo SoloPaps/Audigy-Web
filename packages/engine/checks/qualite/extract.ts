@@ -14,7 +14,7 @@ export interface Extracted {
   images: ImageFact[];
 }
 
-interface Tag {
+export interface Tag {
   name: string;
   end: number;
   selfClosing: boolean;
@@ -219,7 +219,7 @@ function readClose(src: string, start: number): { name: string; end: number } {
   return { name, end: end === -1 ? src.length : end + 1 };
 }
 
-function readTag(src: string, start: number): Tag | null {
+export function readTag(src: string, start: number): Tag | null {
   let index = start + 1;
   const nameStart = index;
   while (index < src.length && /[A-Za-z0-9:-]/.test(src[index] ?? '')) {

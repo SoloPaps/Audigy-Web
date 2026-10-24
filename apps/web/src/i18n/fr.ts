@@ -273,6 +273,66 @@ export const fr = {
     'Le fichier de contact annonce une autre adresse que celle qui répond.',
   'securite.security_txt.untested_status':
     'Nous n’avons pas pu tester : le fichier de contact a répondu {status}.',
+  'securite.technologies.pass':
+    'Technologies repérées : {liste}. Aucun en-tête n’annonce de numéro de version.',
+  'securite.technologies.pass_aucune':
+    'Ni le serveur ni la page n’annoncent de technologie connue.',
+  'securite.technologies.warn':
+    'Les en-têtes annoncent des versions : {liste}. Cela aide à cibler une faille connue. Masquez ces numéros.',
+  'securite.technologies.untested':
+    'Nous n’avons pas pu lire la page pour repérer ses technologies.',
+  'securite.cve_scripts.fail_kev':
+    'Version possiblement vulnérable : {liste}. Failles connues : {count}, dont une exploitée selon la CISA. Mettez à jour sans attendre.',
+  'securite.cve_scripts.fail':
+    'Version possiblement vulnérable : {liste}. Failles connues : {count}, dont au moins une grave. Mettez ces scripts à jour.',
+  'securite.cve_scripts.warn':
+    'Version possiblement vulnérable : {liste}. Failles connues : {count}, de gravité modérée. Prévoyez une mise à jour.',
+  'securite.cve_scripts.pass':
+    'Scripts reconnus : {liste}. OSV ne connaît aucune faille pour ces versions.',
+  'securite.cve_scripts.pass_partiel':
+    'Scripts reconnus : {liste}. OSV ne connaît aucune faille pour ces versions. Scripts non vérifiés : {count}.',
+  'securite.cve_scripts.na_aucun':
+    'Aucune bibliothèque connue n’a été repérée dans les scripts de la page.',
+  'securite.cve_scripts.na_version':
+    'Bibliothèques repérées sans version comparable : {liste}. Sans version sûre, nous ne signalons aucune faille.',
+  'securite.cve_scripts.untested_page':
+    'Nous n’avons pas pu lire la page, ni donc ses scripts.',
+  'securite.cve_scripts.untested_scripts':
+    'Nous n’avons pas pu lire tous les scripts de la page. Aucune bibliothèque n’a pu être comparée.',
+  'securite.cve_scripts.untested_source':
+    'Nous n’avons pas pu interroger la base de failles OSV.',
+  'securite.cve_scripts.quota':
+    'La base de failles OSV limite les demandes. Nous n’avons pas pu tester ces scripts.',
+  'securite.cve_scripts.missing_api':
+    'Nous n’avons pas pu tester : la connexion aux bases de failles n’est pas configurée.',
+  'securite.cve_logiciels.fail_kev':
+    'Version possiblement vulnérable : {liste}. Failles connues : {count}, dont une exploitée selon la CISA. Mettez à jour sans attendre.',
+  'securite.cve_logiciels.fail':
+    'Version possiblement vulnérable : {liste}. Failles connues : {count}, dont au moins une grave. Mettez ces logiciels à jour.',
+  'securite.cve_logiciels.warn':
+    'Version possiblement vulnérable : {liste}. Failles connues : {count}, de gravité modérée. Prévoyez une mise à jour.',
+  'securite.cve_logiciels.warn_distribution':
+    'Version possiblement vulnérable : {liste}. Votre distribution corrige parfois sans changer ce numéro. Vérifiez ses mises à jour.',
+  'securite.cve_logiciels.pass':
+    'Logiciels reconnus : {liste}. Aucune faille publiée pour ces versions.',
+  'securite.cve_logiciels.pass_partiel':
+    'Logiciels reconnus : {liste}. Aucune faille publiée pour ces versions. Logiciels non vérifiés : {count}.',
+  'securite.cve_logiciels.na_aucun':
+    'Aucun logiciel serveur n’est annoncé par le site.',
+  'securite.cve_logiciels.na_version':
+    'Logiciels repérés : {liste}. Sans version complète ni base fiable, nous ne signalons aucune faille.',
+  'securite.cve_logiciels.na_outil':
+    'Le site est construit avec {liste}. Cet outil ne tourne pas sur le site publié.',
+  'securite.cve_logiciels.na_hebergeur':
+    'Le serveur est géré par {liste}. L’hébergeur applique lui-même ses correctifs.',
+  'securite.cve_logiciels.untested_page':
+    'Nous n’avons pas pu lire la page pour repérer ses logiciels.',
+  'securite.cve_logiciels.untested_source':
+    'Nous n’avons pas pu interroger les bases de failles NVD et OSV.',
+  'securite.cve_logiciels.quota':
+    'Une base de failles limite les demandes. Nous n’avons pas pu tester ces logiciels.',
+  'securite.cve_logiciels.missing_api':
+    'Nous n’avons pas pu tester : la connexion aux bases de failles n’est pas configurée.',
   'performance.lighthouse.pass':
     'La vitesse mesurée est bonne : {mobile} sur 100 au téléphone, {desktop} sur 100 sur ordinateur.',
   'performance.lighthouse.warn':
