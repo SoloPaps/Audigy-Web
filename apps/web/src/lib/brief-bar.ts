@@ -1,4 +1,4 @@
-import { t } from '../i18n/index.js';
+import { t } from '../i18n/brief-fr.js';
 
 export type CatalogStatus = 'pass' | 'warn' | 'fail' | 'untested' | 'na';
 

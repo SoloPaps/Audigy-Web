@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { failureCount, lintText } from '../../../../scripts/copy-lint.js';
-import { fr } from './fr.js';
+import { briefFr as fr } from './brief-fr.js';
 
 const KEYS = [
   'brief.role.fix',

@@ -1,5 +1,6 @@
 <script lang="ts">
 import { tick } from 'svelte';
+import { t as briefT } from '../i18n/brief-fr.js';
 import { t } from '../i18n/index.js';
 import {
   type BriefDocument,
@@ -153,9 +154,9 @@ async function copyBrief(): Promise<void> {
   if (!briefText) return;
   try {
     await navigator.clipboard.writeText(briefText);
-    toast = t('brief.copied');
+    toast = briefT('brief.copied');
   } catch {
-    toast = t('brief.copyFail');
+    toast = briefT('brief.copyFail');
   }
 }
 
@@ -205,28 +206,28 @@ async function copyCode(finding: Finding): Promise<void> {
                 }
               }
             />
-            <span class="visually-hidden">{t('brief.include', { title: finding.title })}</span>
+            <span class="visually-hidden">{briefT('brief.include', { title: finding.title })}</span>
           </label>
-          <div role="radiogroup" aria-label={t('brief.terminal.group', { title: finding.title })}>
+          <div role="radiogroup" aria-label={briefT('brief.terminal.group', { title: finding.title })}>
             <label>
               <input type="radio" name={`terminal-${finding.id}`} value="rien" checked={modeOf(finding.id) === 'rien'} onclick={() => { terminal = { ...terminal, [finding.id]: 'rien' }; }} />
-              <span aria-hidden="true">{t('brief.terminal.rien')}</span>
-              <span class="visually-hidden">{t('brief.terminal.rien.long')}</span>
+              <span aria-hidden="true">{briefT('brief.terminal.rien')}</span>
+              <span class="visually-hidden">{briefT('brief.terminal.rien.long')}</span>
             </label>
             <label>
               <input type="radio" name={`terminal-${finding.id}`} value="verif" checked={modeOf(finding.id) === 'verif'} onclick={() => { terminal = { ...terminal, [finding.id]: 'verif' }; }} />
-              <span aria-hidden="true">{t('brief.terminal.verif')}</span>
-              <span class="visually-hidden">{t('brief.terminal.verif.long')}</span>
+              <span aria-hidden="true">{briefT('brief.terminal.verif')}</span>
+              <span class="visually-hidden">{briefT('brief.terminal.verif.long')}</span>
             </label>
             <label>
               <input type="radio" name={`terminal-${finding.id}`} value="fix" checked={modeOf(finding.id) === 'fix'} onclick={() => { terminal = { ...terminal, [finding.id]: 'fix' }; }} />
-              <span aria-hidden="true">{t('brief.terminal.fix')}</span>
-              <span class="visually-hidden">{t('brief.terminal.fix.long')}</span>
+              <span aria-hidden="true">{briefT('brief.terminal.fix')}</span>
+              <span class="visually-hidden">{briefT('brief.terminal.fix.long')}</span>
             </label>
           </div>
         </div>
       {:else if brief && (asRow(finding).catalogStatus === 'untested' || asRow(finding).catalogStatus === 'na')}
-        <p class="hint">{t('brief.untested')}</p>
+        <p class="hint">{briefT('brief.untested')}</p>
       {/if}
       <div class="finding-row">
         <StatusMark level={levelForStatus(finding.status)} />
@@ -332,7 +333,7 @@ async function copyCode(finding: Finding): Promise<void> {
 </div>
 
 {#if brief && bar?.allClear}
-  <p class="hint">{t('brief.none')}</p>
+  <p class="hint">{briefT('brief.none')}</p>
 {/if}
 {#if brief && bar?.visible}
   <div class="brief-bar">
@@ -342,32 +343,32 @@ async function copyCode(finding: Finding): Promise<void> {
       class="button button-secondary"
       disabled={!bar.failsEnabled}
       onclick={allFails}
-    >{t('brief.allFails')}</button>
+    >{briefT('brief.allFails')}</button>
     <button
       type="button"
       class={panelOpen && briefText ? 'button button-secondary' : 'button button-primary'}
       disabled={!bar.generateEnabled}
       onclick={generate}
-    >{t('brief.generate')}</button>
+    >{briefT('brief.generate')}</button>
     {#if bar.hint}
-      <p class="hint">{t('brief.generate.hint')}</p>
+      <p class="hint">{briefT('brief.generate.hint')}</p>
     {/if}
   </div>
 {/if}
 {#if brief && panelOpen && briefText}
   <section class="brief-panel">
     <p role="status">{live}</p>
-    <textarea class="brief-text" rows="14" readonly aria-label={t('brief.panel')} value={briefText}></textarea>
-    <button type="button" class="button button-primary" onclick={copyBrief}>{t('brief.copy')}</button>
-    <button type="button" class="button button-secondary" onclick={generate}>{t('brief.regenerate')}</button>
-    <button type="button" class="link-action" onclick={saveBrief}>{t('brief.download')}</button>
-    <button type="button" class="button button-secondary" onclick={() => { panelOpen = false; }}>{t('brief.collapse')}</button>
+    <textarea class="brief-text" rows="14" readonly aria-label={briefT('brief.panel')} value={briefText}></textarea>
+    <button type="button" class="button button-primary" onclick={copyBrief}>{briefT('brief.copy')}</button>
+    <button type="button" class="button button-secondary" onclick={generate}>{briefT('brief.regenerate')}</button>
+    <button type="button" class="link-action" onclick={saveBrief}>{briefT('brief.download')}</button>
+    <button type="button" class="button button-secondary" onclick={() => { panelOpen = false; }}>{briefT('brief.collapse')}</button>
     {#if toast}
       <p class="hint" role="status">{toast}</p>
     {/if}
   </section>
 {:else if brief && briefText}
-  <button type="button" class="button button-secondary" onclick={() => { panelOpen = true; }}>{t('brief.show')}</button>
+  <button type="button" class="button button-secondary" onclick={() => { panelOpen = true; }}>{briefT('brief.show')}</button>
 {/if}
 
 <style>
@@ -507,6 +508,48 @@ async function copyCode(finding: Finding): Promise<void> {
 
     .effort {
       grid-column: 2;
+    }
+  }
+
+  .brief-bar,
+  .brief-panel,
+  .brief-choice {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    align-items: center;
+    max-width: 100%;
+  }
+
+  .brief-panel {
+    margin-top: var(--space-4);
+  }
+
+  .brief-text {
+    width: 100%;
+    overflow: auto;
+    resize: vertical;
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    line-height: var(--leading-body);
+    color: var(--ink);
+    background: var(--surface);
+    border: var(--border) solid var(--line);
+    border-radius: var(--radius-sm);
+    padding: var(--space-3);
+  }
+
+  .brief-choice input {
+    min-width: var(--touch-min);
+    min-height: var(--touch-min);
+  }
+
+  @media (max-width: 320px) {
+    .brief-bar,
+    .brief-panel,
+    .brief-choice {
+      flex-direction: column;
+      align-items: stretch;
     }
   }
 </style>

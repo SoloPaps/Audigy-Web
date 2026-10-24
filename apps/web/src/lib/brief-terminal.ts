@@ -1,4 +1,4 @@
-import { t } from '../i18n/index.js';
+import { t } from '../i18n/brief-fr.js';
 import type { BriefFinding } from './brief.js';
 
 export type TerminalKind = 'headers' | 'cert' | 'dns' | 'lighthouse' | 'none';

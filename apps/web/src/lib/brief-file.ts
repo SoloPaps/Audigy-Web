@@ -1,4 +1,4 @@
-import { t } from '../i18n/index.js';
+import { t } from '../i18n/brief-fr.js';
 import { exportHost, parisCivilDay, saveTextFile } from './report-export.js';
 
 export { exportHost, parisCivilDay };

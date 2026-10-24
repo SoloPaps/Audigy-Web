@@ -1,5 +1,5 @@
+import { t } from '../i18n/brief-fr.js';
 import { formatDateTime } from '../i18n/format.js';
-import { t } from '../i18n/index.js';
 import { renderTerminal } from './brief-terminal.js';
 import type { MethodeEntry } from './methode-catalog.js';
 import { asParams } from './translate.js';
