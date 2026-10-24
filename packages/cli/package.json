@@ -2,5 +2,17 @@
   "name": "@audigy/cli",
   "version": "0.0.0",
   "private": true,
-  "type": "module"
+  "type": "module",
+  "bin": {
+    "audigy": "./src/bin.ts"
+  },
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "dependencies": {
+    "@audigy/browser-runner": "workspace:*",
+    "@audigy/engine": "workspace:*",
+    "@audigy/orchestrator": "workspace:*",
+    "@audigy/web": "workspace:*"
+  }
 }
