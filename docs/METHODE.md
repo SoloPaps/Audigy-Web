@@ -27,6 +27,8 @@ Le test n'est pas compté, et la raison est affichée (« Nous n'avons pas pu te
 - délai dépassé (30 s par défaut, propre à chaque test sinon) ;
 - erreur pendant le test, ou résultat inutilisable.
 
+Les tests qui demandent un navigateur (accessibilité, vie privée, poids réel de la page) passent par un navigateur d'audit séparé. Pendant son travail, l'audit est « partiel ». Audigy l'attend au plus 10 minutes. S'il ne répond pas, ces tests sont « Non testé », avec la raison, et l'audit se termine.
+
 Un test passif fait seulement ce que ferait un visiteur ou un moteur de recherche. Un test actif (chemins non liés, énumération TLS, crawl étendu) exige un site vérifié.
 
 ## 3. Score d'un domaine

@@ -1,5 +1,8 @@
 import { execFileSync } from 'node:child_process';
+import { open, rm, stat } from 'node:fs/promises';
 import { createConnection } from 'node:net';
+import { tmpdir } from 'node:os';
+import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 /** Racine du dépôt (packages/db/test → ../../..). */
@@ -74,6 +77,32 @@ export async function ensureLocalSupabase(): Promise<void> {
     '-x',
     'realtime,imgproxy,postgres-meta,studio,edge-runtime,logflare,vector,supavisor',
   ]);
+}
+
+const LOCK_FILE = path.join(tmpdir(), 'audigy-supabase-test.lock');
+const LOCK_STALE_MS = 15 * 60_000;
+
+/**
+ * Verrou entre fichiers de test (Vitest les lance en parallèle) : un test qui
+ * réinitialise la base ne doit pas tourner pendant un autre qui l'utilise.
+ */
+export async function lockLocalDatabase(): Promise<() => Promise<void>> {
+  for (;;) {
+    try {
+      const handle = await open(LOCK_FILE, 'wx');
+      await handle.writeFile(String(process.pid));
+      await handle.close();
+      return () => rm(LOCK_FILE, { force: true });
+    } catch (error) {
+      if ((error as { code?: string }).code !== 'EEXIST') throw error;
+      const info = await stat(LOCK_FILE).catch(() => null);
+      if (info && Date.now() - info.mtimeMs > LOCK_STALE_MS) {
+        await rm(LOCK_FILE, { force: true });
+        continue;
+      }
+      await new Promise((resolve) => setTimeout(resolve, 250));
+    }
+  }
 }
 
 /** Rejoue les migrations sur une base vide (drop + apply + seed). */

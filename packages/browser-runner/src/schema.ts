@@ -6,6 +6,11 @@ export const BROWSER_RESULT_VERSION = 1;
 /** Clé de `ctx.shared` sous laquelle le moteur range la sortie du runner. */
 export const BROWSER_SHARED_KEY = 'browser';
 
+/** Chemin du rapport dans le seau privé `artifacts`, relu par l'orchestration. */
+export function browserResultsPath(auditId: string): string {
+  return `${auditId}/browser/results.json`;
+}
+
 export const VIEWPORTS = ['desktop', 'mobile'] as const;
 export type Viewport = (typeof VIEWPORTS)[number];
 

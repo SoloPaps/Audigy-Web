@@ -226,6 +226,7 @@ export type Database = {
           measured: NonNullable<Json>;
           message_key: string;
           params: NonNullable<Json>;
+          reason: string | null;
           score: number | null;
           severity: number;
           status: string;
@@ -242,6 +243,7 @@ export type Database = {
           measured?: NonNullable<Json>;
           message_key: string;
           params?: NonNullable<Json>;
+          reason?: string | null;
           score?: number | null;
           severity: number;
           status: string;
@@ -257,6 +259,7 @@ export type Database = {
           measured?: NonNullable<Json>;
           message_key?: string;
           params?: NonNullable<Json>;
+          reason?: string | null;
           score?: number | null;
           severity?: number;
           status?: string;
@@ -677,6 +680,7 @@ export type Database = {
           isSetofReturn: true;
         };
       };
+      fail_stale_audits: { Args: { p_older_than: string }; Returns: number };
       list_my_oauth_connections: {
         Args: Record<PropertyKey, never>;
         Returns: {
@@ -697,6 +701,35 @@ export type Database = {
           tsa_gen_time: string;
           visibility: string;
         }[];
+      };
+      request_audit: {
+        Args: {
+          p_engine_version: string;
+          p_host_interval?: string;
+          p_method_version: string;
+          p_mode: string;
+          p_site_id: string;
+          p_trigger: string;
+          p_user_daily_limit?: number;
+          p_user_id: string;
+        };
+        Returns: {
+          audit_id: string;
+          outcome: string;
+          retry_after_seconds: number;
+        }[];
+      };
+      write_audit_results: {
+        Args: {
+          p_audit_id: string;
+          p_coverage: number;
+          p_domain_scores: Json;
+          p_error: string;
+          p_findings: Json;
+          p_global_score: number;
+          p_status: string;
+        };
+        Returns: undefined;
       };
     };
     Enums: {

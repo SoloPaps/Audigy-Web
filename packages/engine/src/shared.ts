@@ -1,5 +1,8 @@
 import type { SharedArtifacts } from './types.js';
 
+/** Sortie du runner navigateur dans `ctx.shared`, lue par les checks `needs: ['browser']`. */
+export const BROWSER_SHARED_KEY = 'browser';
+
 /** Mémorise la promesse par clé : un artefact n'est chargé qu'une fois, même en concurrence. */
 export function createSharedArtifacts(): SharedArtifacts {
   const cache = new Map<string, Promise<unknown>>();

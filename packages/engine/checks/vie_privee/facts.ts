@@ -1,7 +1,7 @@
 import {
   BROWSER_SHARED_KEY,
   BrowserAuditResultSchema,
-} from '@audigy/browser-runner';
+} from '@audigy/browser-runner/schema';
 import { isNetError, type SafeResponse } from '@audigy/net';
 import type { CheckContext } from '../../src/types.js';
 import { AUDIGY_AGENT } from '../qualite/limits.js';

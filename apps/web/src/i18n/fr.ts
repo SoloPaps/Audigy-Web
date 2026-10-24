@@ -155,6 +155,47 @@ export const fr = {
     'Nous n’avons pas pu tester : une erreur est survenue pendant le test.',
   'reason.invalid_result':
     'Nous n’avons pas pu tester : le résultat obtenu est inutilisable.',
+  'reason.runner_pending':
+    'Le navigateur d’audit n’a pas encore fini. Ce résultat arrive bientôt.',
+  'reason.runner_absent':
+    'Nous n’avons pas pu tester : le navigateur d’audit n’a pas tourné.',
+  'reason.browser_skipped':
+    'Nous n’avons pas pu tester : le navigateur d’audit n’a pas été lancé.',
+  'api.error.method_not_allowed': 'Cette action n’est pas possible ici.',
+  'api.error.unauthorized': 'Connectez-vous pour lancer ou lire un audit.',
+  'api.error.invalid_input': 'La demande est incomplète. Vérifiez l’adresse.',
+  'api.error.invalid_url':
+    'Cette adresse ne convient pas. Exemple : https://exemple.fr',
+  'api.error.site_not_found': 'Ce site ne figure pas dans votre liste.',
+  'api.error.audit_not_found': 'Cet audit est introuvable.',
+  'api.error.unverified':
+    'Ce test demande un site vérifié. Vérifiez votre site, puis relancez.',
+  'api.error.user_limit':
+    'Vous avez lancé 10 audits aujourd’hui. Réessayez demain.',
+  'api.error.host_limit':
+    'Ce site a été audité il y a moins de 15 minutes. Réessayez plus tard.',
+  'api.error.internal':
+    'Le service ne répond pas pour le moment. Réessayez dans quelques minutes.',
+  'cli.usage': 'Utilisation : audigy audit <adresse> [--json] [--browser]',
+  'cli.error.command': 'Commande inconnue.',
+  'cli.error.url': 'Adresse invalide. Exemple : https://exemple.fr',
+  'cli.error.failed': 'L’audit n’a pas pu aboutir.',
+  'cli.title': 'Audit de {url}',
+  'cli.versions': 'Méthode {method}, moteur {engine}.',
+  'cli.global':
+    'Score global : {score} sur 100, {level}. Domaines notés : {scored} sur 8.',
+  'cli.global_untested':
+    'Score global : non testé. Aucun domaine n’a assez de tests.',
+  'cli.domains': 'Domaines',
+  'cli.domain': '{domain} : {score} sur 100, {level}',
+  'cli.domain_untested': '{domain} : non testé',
+  'cli.priorities': 'Corrections prioritaires',
+  'cli.priorities_none': 'Aucune correction prioritaire.',
+  'cli.untested': 'Non testé ({count})',
+  'cli.browser.skipped':
+    'Le navigateur d’audit n’a pas été lancé. Ajoutez --browser pour le lancer.',
+  'cli.browser.absent':
+    'Le navigateur d’audit est absent. Ses tests restent non testés.',
   'securite.https.pass_redirect':
     'Les pages s’ouvrent en adresse chiffrée, et l’ancienne adresse y renvoie.',
   'securite.https.pass_no_http':

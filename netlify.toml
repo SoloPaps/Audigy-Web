@@ -10,8 +10,10 @@
   framework = "#static"
 
 [functions]
-  directory = "netlify/functions"
-  node_bundler = "esbuild"
+  # Sources : netlify/functions. Bundle complet : pnpm build:functions.
+  directory = "netlify/dist/functions"
+  # Fiches de correction lues à l'exécution (effort des corrections).
+  included_files = ["packages/engine/fixes/fr/*.md"]
 
 [[headers]]
   for = "/*"

@@ -5,7 +5,8 @@ import type { BrowserAuditOptions, BrowserAuditOutput } from './run.js';
 
 export const AuditIdSchema = z.uuid();
 
-const OPEN_STATUSES = new Set(['queued', 'running']);
+/** `partial` : résultats serveur déjà écrits, l'orchestration attend ce runner. */
+const OPEN_STATUSES = new Set(['queued', 'running', 'partial']);
 const BUCKET = 'artifacts';
 
 export interface JobAudit {

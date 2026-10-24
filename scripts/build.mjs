@@ -89,6 +89,7 @@ async function pruneUnreferenced(root) {
 }
 
 await run('pnpm', ['--filter', '@audigy/web', 'build']);
+await run('node', ['scripts/build-functions.ts']);
 await rm(path.join(dist, 'dev'), { recursive: true, force: true });
 
 let leaked = true;

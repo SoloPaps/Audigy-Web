@@ -3,6 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
+  "exports": {
+    "./i18n": "./src/i18n/index.ts"
+  },
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",

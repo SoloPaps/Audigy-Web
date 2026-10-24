@@ -6,6 +6,7 @@
     "packages/**/*.d.ts",
     "fixtures/**/*.ts",
     "scripts/**/*.ts",
+    "netlify/**/*.ts",
     "vitest.config.ts"
   ],
   "exclude": ["node_modules", "dist", "**/dist", "**/.astro"]
