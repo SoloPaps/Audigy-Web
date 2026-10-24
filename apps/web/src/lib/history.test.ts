@@ -132,7 +132,7 @@ describe('tableau', () => {
 describe('libellés d’axe', () => {
   const at = (iso: string) => Date.parse(iso) / 1000;
 
-  it('garde le jour quand chaque point tombe un jour de Paris différent', () => {
+  it('garde le jour quand les points changent de jour de Paris', () => {
     expect(
       axisLabels([
         at('2026-03-03T08:00:00.000Z'),
@@ -141,23 +141,37 @@ describe('libellés d’axe', () => {
     ).toEqual(['3 mars', '23 oct.']);
   });
 
-  it('ajoute l’heure quand deux points partagent le jour de Paris', () => {
+  it('passe en heures quand tous les points sont le même jour de Paris', () => {
     expect(
       axisLabels([
         at('2026-10-23T22:30:00.000Z'),
         at('2026-10-24T12:32:00.000Z'),
       ]),
-    ).toEqual(['24 oct. 00:30', '24 oct. 14:32']);
+    ).toEqual(['0 h 30', '14 h 32']);
   });
 
-  it('ajoute l’heure seulement aux jours partagés', () => {
+  it('affiche les heures piles demandées par la spec', () => {
+    expect(
+      axisLabels([
+        at('2026-10-23T07:00:00.000Z'),
+        at('2026-10-23T12:00:00.000Z'),
+        at('2026-10-23T16:00:00.000Z'),
+      ]),
+    ).toEqual(['9 h', '14 h', '18 h']);
+  });
+
+  it('affiche l’heure d’un point isolé, pas la date', () => {
+    expect(axisLabels([at('2026-10-23T12:00:00.000Z')])).toEqual(['14 h']);
+  });
+
+  it('reste en dates courtes dès que deux jours de Paris sont visibles', () => {
     expect(
       axisLabels([
         at('2026-10-22T10:00:00.000Z'),
         at('2026-10-23T22:30:00.000Z'),
         at('2026-10-24T12:32:00.000Z'),
       ]),
-    ).toEqual(['22 oct.', '24 oct. 00:30', '24 oct. 14:32']);
+    ).toEqual(['22 oct.', '24 oct.', '24 oct.']);
   });
 
   it('sépare minuit à Paris même si l’instant UTC est le même jour', () => {
@@ -175,7 +189,7 @@ describe('libellés d’axe', () => {
         at('2026-03-28T23:30:00.000Z'),
         at('2026-03-29T12:00:00.000Z'),
       ]),
-    ).toEqual(['29 mars 00:30', '29 mars 14:00']);
+    ).toEqual(['0 h 30', '14 h']);
   });
 });
 

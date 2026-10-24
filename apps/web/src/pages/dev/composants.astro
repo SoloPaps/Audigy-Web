@@ -20,7 +20,10 @@ import Base from '../../layouts/Base.astro';
 import { topActions } from '../../lib/findings.js';
 import { verdictCopy } from '../../lib/verdict.js';
 
-const categories = demoCategories();
+const categories = demoCategories().map((item) => ({
+  ...item,
+  href: `#domaine-${item.id}`,
+}));
 const findings = demoFindings();
 const global = demoGlobalScore();
 const verdict = verdictCopy(global, findings);
@@ -30,7 +33,7 @@ const url = 'https://exemple.fr';
 ---
 
 <Base title={t('meta.demo.title')} description={t('meta.demo.description')} robots="noindex">
-  <article>
+  <article class="reading">
     <header class="verdict">
       <ScoreGauge domain={t('domain.global')} score={global} size="hero" />
       <div class="verdict-copy">

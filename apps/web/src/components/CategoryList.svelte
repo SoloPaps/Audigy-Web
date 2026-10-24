@@ -1,7 +1,7 @@
 <script lang="ts">
 import { t } from '../i18n/index.js';
 import type { CategoryItem } from '../lib/categories.js';
-import { gaugeLabel, levelForScore } from '../lib/score.js';
+import { gaugeLabel, type Level, levelForScore } from '../lib/score.js';
 import StatusMark from './StatusMark.svelte';
 
 interface Props {
@@ -11,26 +11,34 @@ interface Props {
 let { items }: Props = $props();
 </script>
 
-<ul class="domains">
+{#snippet body(item: CategoryItem, level: Level)}
+  <div class="domain-copy">
+    <p class="domain-title">
+      <span class="domain-plain">{item.label}</span>
+      <span class="domain-tech">{item.technical}</span>
+    </p>
+    <p class="domain-detail">{item.detail}</p>
+  </div>
+  <div class="domain-score">
+    <span class="domain-num">{item.score === null ? t('score.empty') : item.score}</span>
+    <StatusMark {level} />
+  </div>
+  <span class="visually-hidden">{gaugeLabel(item.label, item.score)}</span>
+{/snippet}
+
+<ul class="domains stagger">
   {#each items as item (item.id)}
     {@const level = levelForScore(item.score)}
-    <li class="domain">
-      <div class="domain-copy">
-        <p class="domain-title">
-          {#if item.href}
-            <a class="domain-plain" href={item.href}>{item.label}</a>
-          {:else}
-            <span class="domain-plain">{item.label}</span>
-          {/if}
-          <span class="domain-tech">{item.technical}</span>
-        </p>
-        <p class="domain-detail">{item.detail}</p>
-      </div>
-      <div class="domain-score">
-        <span class="domain-num">{item.score === null ? t('score.empty') : item.score}</span>
-        <StatusMark {level} />
-      </div>
-      <span class="visually-hidden">{gaugeLabel(item.label, item.score)}</span>
+    <li>
+      {#if item.href}
+        <a class="domain lift" href={item.href}>
+          {@render body(item, level)}
+        </a>
+      {:else}
+        <div class="domain">
+          {@render body(item, level)}
+        </div>
+      {/if}
     </li>
   {/each}
 </ul>
@@ -64,9 +72,14 @@ let { items }: Props = $props();
     font-weight: 600;
   }
 
-  a.domain-plain {
-    text-decoration-thickness: var(--border);
-    text-underline-offset: 0.2em;
+  a.domain {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  a.domain:focus-visible {
+    outline: var(--focus-width) solid var(--focus);
+    outline-offset: var(--focus-width);
   }
 
   .domain-tech {

@@ -52,6 +52,21 @@ async function waitForIslands(page: Page): Promise<void> {
 }
 
 async function expectNoViolations(page: Page): Promise<void> {
+  await page.evaluate(async () => {
+    const view = globalThis as unknown as {
+      document: {
+        getAnimations: () => Array<{
+          effect: { getTiming: () => { iterations: number } } | null;
+          finished: Promise<unknown>;
+        }>;
+      };
+    };
+    const pending = view.document.getAnimations().filter((item) => {
+      const iterations = item.effect?.getTiming().iterations ?? 1;
+      return Number.isFinite(iterations);
+    });
+    await Promise.all(pending.map((item) => item.finished));
+  });
   const results = await new AxeBuilder({ page }).analyze();
   expect(
     results.violations,
@@ -283,8 +298,12 @@ test('parcours accueil, connexion, progression, rapport et sites', async ({
   await expect(page).toHaveURL(/\/progression/, { timeout: 15_000 });
 
   const status = page.getByRole('status');
-  await expect(status).toContainText(/file|lit/);
-  await expect(status).toContainText('terminé', { timeout: 15_000 });
+  await expect(status).toContainText('Analyse en cours');
+  await expect(
+    page.getByRole('link', { name: 'Revenir à l’accueil' }),
+  ).toBeVisible();
+  await expect(page.locator('[aria-modal="true"]')).toHaveCount(0);
+  await expect(status).toContainText('Rapport prêt', { timeout: 15_000 });
   await page.getByRole('link', { name: 'Voir le rapport' }).click();
   await expect(page).toHaveURL(/\/rapport/);
   await expect(

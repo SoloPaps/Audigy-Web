@@ -4,6 +4,21 @@ import { expect, test } from '@playwright/test';
 async function expectNoViolations(
   page: import('@playwright/test').Page,
 ): Promise<void> {
+  await page.evaluate(async () => {
+    const view = globalThis as unknown as {
+      document: {
+        getAnimations: () => Array<{
+          effect: { getTiming: () => { iterations: number } } | null;
+          finished: Promise<unknown>;
+        }>;
+      };
+    };
+    const pending = view.document.getAnimations().filter((item) => {
+      const iterations = item.effect?.getTiming().iterations ?? 1;
+      return Number.isFinite(iterations);
+    });
+    await Promise.all(pending.map((item) => item.finished));
+  });
   const results = await new AxeBuilder({ page }).analyze();
   expect(
     results.violations,
@@ -369,6 +384,18 @@ test('le chiffre reste dans le cercle à 390 px', async ({ page }) => {
     };
   });
   expect(widths.scrollWidth).toBeLessThanOrEqual(widths.clientWidth);
+});
+
+test('la ligne de domaine est un seul lien dans une colonne', async ({
+  page,
+}) => {
+  await page.goto('/dev/composants');
+  const row = page.getByRole('link', { name: /Visibilité sur Google/ });
+  await expect(row).toBeVisible();
+  const nested = await row.locator('a').count();
+  expect(nested).toBe(0);
+  const box = await page.locator('.reading').boundingBox();
+  expect(Math.round(box?.width ?? 0)).toBeLessThanOrEqual(720);
 });
 
 test('la jauge et la liste annoncent la note', async ({ page }) => {
