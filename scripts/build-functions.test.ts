@@ -38,6 +38,9 @@ describe('fonctions Netlify', () => {
       'api-verifications-create',
       'audit-run-background',
       'digest-weekly',
+      'oauth-google-callback',
+      'oauth-google-revoke',
+      'oauth-google-start',
       'schedule-tick',
       'verification-recheck-background',
     ]);
@@ -69,6 +72,18 @@ describe('fonctions Netlify', () => {
     });
     expect((await load('digest-weekly')).config).toEqual({
       schedule: '0 6,7 * * 1',
+    });
+    expect((await load('oauth-google-start')).config).toEqual({
+      path: '/api/oauth/google/start',
+      method: 'POST',
+    });
+    expect((await load('oauth-google-callback')).config).toEqual({
+      path: '/api/oauth/google/callback',
+      method: 'GET',
+    });
+    expect((await load('oauth-google-revoke')).config).toEqual({
+      path: '/api/oauth/google/revoke',
+      method: 'POST',
     });
   });
 

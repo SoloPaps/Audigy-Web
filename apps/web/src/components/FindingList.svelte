@@ -49,6 +49,9 @@ async function copyCode(finding: Finding): Promise<void> {
         <div class="finding-copy">
           <h4>{finding.title}</h4>
           <p class="why">{finding.why}</p>
+          {#if finding.actionHref && finding.actionLabel}
+            <p><a href={finding.actionHref}>{finding.actionLabel}</a></p>
+          {/if}
         </div>
         <p class="effort">{finding.effort}</p>
       </div>

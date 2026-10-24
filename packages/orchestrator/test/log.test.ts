@@ -38,6 +38,14 @@ describe('journal', () => {
     expect(out.match(/\[masqué\]/g)?.length).toBe(7);
   });
 
+  it('masque un jeton Google de rafraîchissement et d’accès', () => {
+    const refresh = '1//0refresh-token-sentinel';
+    const access = 'ya29.access-token-sentinel';
+    const out = redact(`${refresh} ${access}`, []);
+    expect(out).not.toContain('refresh-token-sentinel');
+    expect(out).not.toContain('access-token-sentinel');
+  });
+
   it('écrit une ligne JSON masquée', () => {
     const lines: string[] = [];
     const log = createLogger({

@@ -17,6 +17,7 @@ export type ApiError =
   | 'verification_not_found'
   | 'user_limit'
   | 'host_limit'
+  | 'oauth_unconfigured'
   | 'internal';
 
 function json(

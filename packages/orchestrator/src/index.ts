@@ -15,10 +15,14 @@
  *   et `POST /api/verifications/check`. Le client ne peut pas se marquer vérifié.
  * - `handleRecheck` : relecture quotidienne signée (`verification-recheck-background`).
  *   Elle n’est pas dans le cron.
+ *   Pas de planification dans `netlify.toml` (PART-22).
  * - `handleSchedule` : `schedule-tick` (cron 15 min, ≤ 30 s). Sonde HEAD, file
  *   les audits dus, alertes, agrège `uptime_daily` et purge le brut de 30 jours.
  * - `handleDigest` : `digest-weekly`, lundi 8 h Paris (cron 6 h et 7 h UTC).
  * - `handleUnsubscribe` : désabonnement en un clic (`List-Unsubscribe`).
+ * - `handleOauthStart`, `handleOauthCallback`, `handleOauthRevoke` : OAuth Google
+ *   (PKCE, `state`, accès hors ligne). Le jeton est chiffré (AES-256-GCM) et
+ *   n’est jamais renvoyé. La révocation supprime la ligne.
  * - `decideRecheck`, `confirmClaimedAudit` : refus si la preuve a plus de 10 min,
  *   si la portée ne correspond pas, ou si elle a disparu (`expired` + alerte).
  * - `processNextAudit(deps)` : claim → checks côté fonction → `partial` → runner
@@ -60,6 +64,7 @@ export {
   type DispatchResult,
   LOCAL_RUNNER_ENV_NAME,
 } from './dispatch.js';
+export { gscForAudit, loadSearchConsole } from './gsc-port.js';
 export {
   type ApiDeps,
   type ApiError,
@@ -91,6 +96,14 @@ export {
   secretsFromEnv,
 } from './log.js';
 export { handleUnsubscribe, type UnsubscribeDeps } from './mail.js';
+export {
+  handleOauthCallback,
+  handleOauthRevoke,
+  handleOauthStart,
+  type OauthDeps,
+  type OauthTokenRows,
+  oauthDepsFromEnv,
+} from './oauth-google.js';
 export {
   type AuditSummary,
   assemble,
@@ -149,6 +162,12 @@ export {
   type SiteInput,
   targetOf,
 } from './target.js';
+export {
+  bufferToBytea,
+  byteaToBuffer,
+  createOauthCrypto,
+  parseTokenKey,
+} from './token-box.js';
 export {
   createTrigger,
   RUN_FUNCTION_PATH,

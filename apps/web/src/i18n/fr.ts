@@ -33,6 +33,9 @@ export const fr = {
   'meta.login.description': 'Recevez un lien pour ouvrir votre compte.',
   'meta.sites.title': 'Vos sites — Audigy',
   'meta.sites.description': 'Les sites que vous suivez avec Audigy.',
+  'meta.gsc.title': 'Search Console — Audigy',
+  'meta.gsc.description':
+    'Reliez Search Console pour voir l’indexation de votre site.',
   'meta.launch.title': 'Lancement de l’audit — Audigy',
   'meta.launch.description': 'Audigy prépare l’audit de l’adresse indiquée.',
   'meta.progress.title': 'Audit en cours — Audigy',
@@ -83,6 +86,19 @@ export const fr = {
   'sites.need_login': 'Connectez-vous pour voir vos sites.',
   'sites.error': 'La liste des sites ne s’affiche pas. Réessayez.',
   'sites.signout': 'Se déconnecter',
+  'gsc.connect': 'Connecter Search Console',
+  'gsc.page.title': 'Search Console',
+  'gsc.page.lead':
+    'Reliez Google pour voir si vos pages sont indexées. Lecture seule.',
+  'gsc.page.connected': 'Search Console est relié à votre compte.',
+  'gsc.page.revoke': 'Retirer l’accès',
+  'gsc.page.revoking': 'Retrait de l’accès.',
+  'gsc.page.revoked': 'L’accès Search Console est retiré.',
+  'gsc.page.saved': 'Search Console est relié.',
+  'gsc.page.error': 'La connexion n’a pas abouti. Vous pouvez réessayer.',
+  'gsc.page.missing': 'La connexion Search Console n’est pas configurée ici.',
+  'gsc.page.loading': 'Chargement de la connexion.',
+  'gsc.page.need_login': 'Connectez-vous pour relier Search Console.',
   'sites.verify': 'Prouver que le site est à vous',
   'meta.verify.title': 'Vérifier un site — Audigy',
   'meta.verify.description':
@@ -475,6 +491,8 @@ export const fr = {
     'Ce site a été audité il y a moins de 15 minutes. Réessayez plus tard.',
   'api.error.internal':
     'Le service ne répond pas pour le moment. Réessayez dans quelques minutes.',
+  'api.error.oauth_unconfigured':
+    'La connexion Search Console n’est pas configurée.',
   'cli.usage': 'Utilisation : audigy audit <adresse> [--json] [--browser]',
   'cli.error.command': 'Commande inconnue.',
   'cli.error.url': 'Adresse invalide. Exemple : https://exemple.fr',
@@ -873,6 +891,32 @@ export const fr = {
     'Une donnée structurée est illisible. Les moteurs l’ignorent.',
   'seo.jsonld.fail_type':
     'Une donnée structurée n’a pas de type. Les moteurs l’ignorent.',
+  'seo.gsc.untested_connect': 'Nous n’avons pas pu tester l’indexation Google.',
+  'seo.gsc.untested_property':
+    'Ce site ne correspond à aucune propriété Search Console.',
+  'seo.gsc.untested_quota':
+    'Nous n’avons pas pu tester : le quota Search Console est atteint.',
+  'seo.gsc.untested_auth': 'La connexion Search Console a expiré.',
+  'seo.gsc.untested_error':
+    'Nous n’avons pas pu tester : Search Console n’a pas répondu.',
+  'seo.gsc_sitemaps.pass':
+    'Les plans envoyés à Google ne signalent pas d’erreur.',
+  'seo.gsc_sitemaps.warn_none': 'Aucun plan de site n’est envoyé à Google.',
+  'seo.gsc_sitemaps.warn_pending':
+    'Les plans envoyés à Google sont encore en attente.',
+  'seo.gsc_sitemaps.warn_warnings':
+    'Google signale des avertissements sur vos plans de site.',
+  'seo.gsc_sitemaps.fail': 'Google signale des erreurs dans vos plans de site.',
+  'seo.gsc_inspection.pass': 'Google a indexé la page d’accueil.',
+  'seo.gsc_inspection.warn':
+    'Google connaît la page d’accueil, sans l’indexer pleinement.',
+  'seo.gsc_inspection.fail': 'Google n’indexe pas la page d’accueil.',
+  'seo.gsc_indexed.pass': 'Google a indexé la plupart des pages annoncées.',
+  'seo.gsc_indexed.warn_partial':
+    'Une partie des pages annoncées n’est pas encore indexée.',
+  'seo.gsc_indexed.warn_none':
+    'Aucune page n’est annoncée dans les plans envoyés.',
+  'seo.gsc_indexed.fail': 'Aucune des pages annoncées n’est indexée.',
   'dns_email.na_github':
     'Ce nom est sur github.io. Le courrier et le DNS du domaine ne se règlent pas ici.',
   'dns_email.na_address':
