@@ -6,7 +6,7 @@ import StatusMark from './StatusMark.svelte';
 interface Props {
   domain: string;
   score: number | null;
-  size?: 'hero' | 'compact';
+  size?: 'hero' | 'compact' | 'mini';
 }
 
 let { domain, score, size = 'compact' }: Props = $props();
@@ -58,6 +58,10 @@ const scoreAttr = $derived(score === null ? 'none' : String(score));
   .gauge[data-size='hero'] {
     width: var(--gauge-hero);
     view-transition-name: audigy-gauge;
+  }
+
+  .gauge[data-size='mini'] {
+    width: var(--gauge-mini);
   }
 
   .gauge-figure {

@@ -38,6 +38,25 @@ describe('t', () => {
     expect(() => t('measure.lcp', params)).toThrow(/duree/);
   });
 
+  it('pose les phrases Arc Soft du compte et de la connexion', () => {
+    expect(t('login.card.title')).toBe('Recevoir un lien de connexion');
+    expect(t('login.submit')).toBe('Envoyer le lien');
+    expect(t('login.sent')).toBe(
+      'Le lien arrive dans votre boîte. Il expire tout seul.',
+    );
+    expect(t('account.export.hint')).toBe(
+      'Le fichier contient vos sites, vos rapports et l’historique.',
+    );
+    expect(
+      t('account.terms.when', { date: '23 oct. 2026', version: '1' }),
+    ).toBe('Acceptées le 23 oct. 2026, version 1.');
+    expect(t('account.delete.confirm')).toBe(
+      'Cette action efface vos sites, vos rapports et vos fichiers. Elle est définitive.',
+    );
+    expect(t('account.delete.cancel')).toBe('Annuler');
+    expect(t('account.delete.forever')).toBe('Supprimer définitivement');
+  });
+
   it('couvre chaque clé du dictionnaire', () => {
     for (const key of Object.keys(fr) as MessageKey[]) {
       expect(fr[key].length).toBeGreaterThan(0);

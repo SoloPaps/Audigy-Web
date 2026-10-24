@@ -5,7 +5,5 @@ import Base from '../layouts/Base.astro';
 ---
 
 <Base title={t('meta.login.title')} description={t('meta.login.description')}>
-  <h1>{t('login.title')}</h1>
-  <p class="prose">{t('login.lead')}</p>
   <LoginForm client:load />
 </Base>
