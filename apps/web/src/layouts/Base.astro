@@ -9,9 +9,10 @@ interface Props {
   title: string;
   description: string;
   robots?: string;
+  print?: boolean;
 }
 
-const { title, description, robots } = Astro.props;
+const { title, description, robots, print = false } = Astro.props;
 const themeParam = Astro.url.searchParams.get('theme');
 const initialTheme =
   themeParam === 'light' || themeParam === 'dark' ? themeParam : 'system';
@@ -28,7 +29,7 @@ const initialTheme =
     <script is:inline src="/theme-init.js"></script>
   </head>
   <body>
-    <header class="site-header">
+    <header class:list={['site-header', { 'print-hide': print }]}>
       <a class="skip" href="#contenu">{t('skip.content')}</a>
       <a class="brand" href="/">{t('brand.name')}</a>
       <nav class="site-nav" aria-label={t('nav.main')}>
@@ -41,7 +42,7 @@ const initialTheme =
       <noscript><p>{t('noscript')}</p></noscript>
       <slot />
     </main>
-    <footer class="site-footer">
+    <footer class:list={['site-footer', { 'print-hide': print }]}>
       <p>{t('footer.note')}</p>
     </footer>
   </body>

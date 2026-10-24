@@ -169,6 +169,9 @@ onMount(() => {
     />
   {/if}
 
+  <p class="no-print">
+    <a href={`/rapport/${payload.audit.id}/imprimer`}>{t('print.link')}</a>
+  </p>
   <h2 id="verification">{t('section.verify')}</h2>
   <p class="prose">{t('verify.lead')}</p>
   <p class="prose">{t('verify.pending')}</p>

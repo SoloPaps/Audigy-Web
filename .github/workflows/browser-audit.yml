@@ -9,6 +9,11 @@ on:
         description: Identifiant (uuid) de l'audit à compléter
         required: true
         type: string
+      warc:
+        description: Archive WARC de la page d'accueil (rapport probant)
+        required: false
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -56,4 +61,5 @@ jobs:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
           APP_BASE_URL: ${{ vars.APP_BASE_URL }}
+          WARC: ${{ inputs.warc }}
         run: pnpm --filter @audigy/browser-runner run job "$AUDIT_ID"

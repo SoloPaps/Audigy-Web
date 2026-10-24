@@ -66,6 +66,8 @@ export const ScreenshotSchema = z.strictObject({
   height: z.number().int().positive(),
   bytes,
   sha256,
+  /** Heure de la capture, fuseau stocké en UTC. */
+  capturedAt: isoDate,
 });
 export type Screenshot = z.infer<typeof ScreenshotSchema>;
 
@@ -187,6 +189,7 @@ export const StepErrorSchema = z.strictObject({
     'storage',
     'eco',
     'screenshot',
+    'warc',
   ]),
   viewport: z.enum(VIEWPORTS),
   message: z.string().max(300),

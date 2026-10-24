@@ -1,6 +1,12 @@
 import { createHash } from 'node:crypto';
 import { createServiceClient } from '@audigy/db';
+import {
+  assertArtifactSize,
+  buildManifest,
+  manifestFile,
+} from '@audigy/evidence';
 import { z } from 'zod';
+import { renderPrintHtml } from './print-html.js';
 import type { BrowserAuditOptions, BrowserAuditOutput } from './run.js';
 
 export const AuditIdSchema = z.uuid();
@@ -16,7 +22,7 @@ export interface JobAudit {
 
 export interface JobArtifact {
   auditId: string;
-  kind: 'json' | 'screenshot';
+  kind: 'json' | 'screenshot' | 'pdf' | 'warc';
   /** Chemin dans le seau privé `artifacts` : `<auditId>/browser/<fichier>`. */
   path: string;
   data: Buffer;
@@ -49,12 +55,20 @@ export interface JobOptions {
   store: JobStore;
   run: (options: BrowserAuditOptions) => Promise<BrowserAuditOutput>;
   botUrl?: string;
+  /** WARC de la page d’accueil, seulement si le rapport probant est demandé. */
+  warc?: boolean;
+  /** Origine publique d’Audigy, pour l’adresse de vérification du PDF. */
+  verifyOrigin?: string;
+  /** `page.pdf()` de la vue à imprimer. Absent : pas de PDF. */
+  renderPdf?: (html: string) => Promise<Buffer>;
 }
 
 export interface JobSummary {
   auditId: string;
   artifacts: string[];
   errors: number;
+  /** Empreinte du rapport : SHA-256 du manifeste canonique. */
+  manifestSha256: string;
 }
 
 /**
@@ -75,28 +89,79 @@ export async function runJob(
   if (!OPEN_STATUSES.has(audit.status))
     throw new JobError('AUDIT_CLOSED', `Audit déjà clos (${audit.status})`);
 
-  const { result, screenshots } = await options.run({
+  const { result, screenshots, warc } = await options.run({
     url: audit.url,
     ...(options.botUrl ? { botUrl: options.botUrl } : {}),
+    ...(options.warc ? { warc: true } : {}),
   });
+  const resultsBytes = Buffer.from(JSON.stringify(result));
   const files: JobArtifact[] = [
+    artifact(id, 'json', 'results.json', resultsBytes, 'application/json'),
+  ];
+  for (const shot of screenshots) {
+    assertArtifactSize('screenshot', shot.data.length);
+    files.push(artifact(id, 'screenshot', shot.file, shot.data, 'image/webp'));
+  }
+  if (warc) {
+    assertArtifactSize('warc', warc.data.length);
+    files.push(artifact(id, 'warc', warc.file, warc.data, 'application/warc'));
+  }
+  if (options.renderPdf) {
+    const pdf = await options.renderPdf(
+      await renderPrintHtml({
+        auditId: id,
+        targetUrl: result.target.finalUrl ?? result.target.url,
+        observedAt: new Date(result.finishedAt),
+        resultsSha256: createHash('sha256').update(resultsBytes).digest('hex'),
+        verifyUrl: verifyUrl(options.verifyOrigin, id),
+        captures: [result.loads.desktop, result.loads.mobile].flatMap((load) =>
+          load?.screenshot
+            ? [
+                {
+                  viewport: load.screenshot.viewport,
+                  capturedAt: new Date(load.screenshot.capturedAt),
+                },
+              ]
+            : [],
+        ),
+      }),
+    );
+    assertArtifactSize('pdf', pdf.length);
+    files.push(artifact(id, 'pdf', 'rapport.pdf', pdf, 'application/pdf'));
+  }
+  const built = buildManifest({
+    results: resultsBytes,
+    files: files
+      .filter((file) => !file.path.endsWith('/results.json'))
+      .map((file) => manifestFile(fileName(file.path), file.data)),
+  });
+  files.push(
     artifact(
       id,
       'json',
-      'results.json',
-      Buffer.from(JSON.stringify(result)),
+      'manifest.json',
+      Buffer.from(built.bytes),
       'application/json',
     ),
-    ...screenshots.map((shot) =>
-      artifact(id, 'screenshot', shot.file, shot.data, 'image/webp'),
-    ),
-  ];
+  );
   for (const file of files) await options.store.saveArtifact(file);
   return {
     auditId: id,
-    artifacts: files.map((f) => f.path),
+    artifacts: files.map((file) => file.path),
     errors: result.errors.length,
+    manifestSha256: built.sha256,
   };
+}
+
+function verifyUrl(origin: string | undefined, auditId: string): string {
+  const base = (
+    origin && origin.trim() !== '' ? origin : 'https://audigy.local'
+  ).replace(/\/+$/u, '');
+  return `${base}/verifier/${auditId}`;
+}
+
+function fileName(path: string): string {
+  return path.slice(path.lastIndexOf('/') + 1);
 }
 
 function artifact(
