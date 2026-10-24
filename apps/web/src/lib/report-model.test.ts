@@ -4,6 +4,7 @@ import {
   categoryItems,
   type FixView,
   reportFindings,
+  reputationAside,
   scoredDomainCount,
 } from './report-model.js';
 
@@ -148,5 +149,47 @@ describe('rapport', () => {
     expect(finding?.actionLabel).toBe('Connecter Search Console');
     expect(finding?.actionHref).toBe('/search-console');
     expect(JSON.stringify(finding)).not.toContain('refresh');
+  });
+
+  it('affiche les avis à part et les masque s’ils sont absents', () => {
+    expect(reputationAside(payload)).toBeNull();
+    const withAvis = {
+      ...payload,
+      domains: [
+        ...payload.domains,
+        { domain: 'reputation', score: 92, coverage: 1, level: 'good' },
+      ],
+      findings: [
+        ...payload.findings,
+        {
+          domain: 'reputation',
+          checkId: 'reputation.avis',
+          status: 'pass',
+          severity: 1,
+          impact: 2,
+          score: 0.92,
+          measured: {
+            rating: 4.6,
+            reviewCount: 12,
+            placeName: 'Cabinet des Tilleuls',
+          },
+          messageKey: 'reputation.avis.pass',
+          params: {},
+          fixKey: null,
+          effortMinutes: null,
+          reason: null,
+        },
+      ],
+    };
+    expect(categoryItems(withAvis.domains, withAvis.audit.id)).toHaveLength(8);
+    expect(reputationAside(withAvis)).toMatchObject({
+      score: 92,
+      rating: 4.6,
+      reviewCount: 12,
+      name: 'Cabinet des Tilleuls',
+    });
+    expect(
+      reportFindings(withAvis, new Map()).map((item) => item.id),
+    ).not.toContain('reputation.avis-3');
   });
 });

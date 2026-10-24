@@ -88,12 +88,13 @@ function client(
 }
 
 describe('createExternalApi', () => {
-  it('n’autorise que PSI, CrUX, Search Console, Green Web, OSV, NVD et KEV par défaut', () => {
+  it('n’autorise que PSI, CrUX, Search Console, Places, Green Web, OSV, NVD et KEV par défaut', () => {
     expect([...EXTERNAL_API_HOSTS]).toEqual([
       'www.googleapis.com',
       'chromeuxreport.googleapis.com',
       'oauth2.googleapis.com',
       'searchconsole.googleapis.com',
+      'places.googleapis.com',
       GREEN_WEB_HOST,
       'api.osv.dev',
       'services.nvd.nist.gov',

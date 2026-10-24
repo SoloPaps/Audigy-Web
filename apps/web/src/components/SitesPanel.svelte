@@ -7,7 +7,13 @@ import {
   signOut,
 } from '../lib/browser-session.js';
 import { loginHref } from '../lib/nav.js';
+import {
+  type PlaceSummary,
+  type PlacesState,
+  parsePlacesState,
+} from '../lib/places-api.js';
 import { InvalidSiteUrl, normalizeSiteUrl } from '../lib/site-url.js';
+import ReputationPanel from './ReputationPanel.svelte';
 
 interface SiteRow {
   id: string;
@@ -24,6 +30,8 @@ let notice = $state('');
 let url = $state('');
 let pending = $state(false);
 let userId = '';
+let accessToken = $state('');
+let places = $state<PlacesState | null>(null);
 
 async function load(): Promise<void> {
   const session = await currentSession();
@@ -34,6 +42,8 @@ async function load(): Promise<void> {
     return;
   }
   userId = session.user.id;
+  accessToken = session.access_token;
+  places = await loadPlaces(session.access_token);
   const { data, error: readError } = await supabase
     .from('sites')
     .select('id, url, label, host')
@@ -56,6 +66,25 @@ async function load(): Promise<void> {
 onMount(() => {
   void load();
 });
+
+async function loadPlaces(token: string): Promise<PlacesState | null> {
+  try {
+    const response = await fetch('/api/places', {
+      headers: {
+        authorization: `Bearer ${token}`,
+        accept: 'application/json',
+      },
+    });
+    if (!response.ok) return null;
+    return parsePlacesState(await response.json());
+  } catch {
+    return null;
+  }
+}
+
+function placeFor(siteId: string): PlaceSummary | null {
+  return places?.places.find((item) => item.siteId === siteId) ?? null;
+}
 
 async function onSubmit(event: SubmitEvent): Promise<void> {
   event.preventDefault();
@@ -138,6 +167,13 @@ async function onSignOut(): Promise<void> {
               <span class="visually-hidden">{site.label}</span>
             </a>
           </div>
+          {#if places?.enabled}
+            <ReputationPanel
+              siteId={site.id}
+              token={accessToken}
+              place={placeFor(site.id)}
+            />
+          {/if}
         </li>
       {/each}
     </ul>

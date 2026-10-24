@@ -27,12 +27,16 @@ export const KEV_HOST = 'www.cisa.gov';
 export const GOOGLE_OAUTH_HOST = 'oauth2.googleapis.com';
 export const SEARCH_CONSOLE_HOST = 'searchconsole.googleapis.com';
 
-/** Hôtes des API tierces utilisées en passif (PSI, CrUX, Search Console, Green Web, OSV, NVD, KEV). */
+/** Avis Google (Places API New). Jamais appelée depuis le navigateur. */
+export const PLACES_HOST = 'places.googleapis.com';
+
+/** Hôtes des API tierces utilisées en passif (PSI, CrUX, Search Console, Places, Green Web, OSV, NVD, KEV). */
 export const EXTERNAL_API_HOSTS = [
   'www.googleapis.com',
   'chromeuxreport.googleapis.com',
   GOOGLE_OAUTH_HOST,
   SEARCH_CONSOLE_HOST,
+  PLACES_HOST,
   GREEN_WEB_HOST,
   OSV_HOST,
   NVD_HOST,

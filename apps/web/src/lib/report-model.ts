@@ -93,6 +93,9 @@ export function domainLevel(row: ApiDomain | undefined): Level {
   return levelForScore(row.score);
 }
 
+/** Réputation et disponibilité restent hors des 8 domaines du score global. */
+const ASIDE_DOMAINS = new Set(['reputation', 'disponibilite']);
+
 export function categoryItems(
   domains: readonly ApiDomain[],
   auditId: string,
@@ -100,7 +103,9 @@ export function categoryItems(
   const byId = new Map(domains.map((row) => [row.domain, row]));
   const ids = [...REPORT_DOMAINS] as string[];
   for (const row of domains) {
-    if (!ids.includes(row.domain)) ids.push(row.domain);
+    if (!ids.includes(row.domain) && !ASIDE_DOMAINS.has(row.domain)) {
+      ids.push(row.domain);
+    }
   }
   return ids.map((id) => {
     const row = byId.get(id);
@@ -125,6 +130,54 @@ export function scoredDomainCount(items: readonly CategoryItem[]): number {
   ).length;
 }
 
+export interface ReputationAside {
+  score: number | null;
+  rating: number | null;
+  reviewCount: number | null;
+  name: string | null;
+  level: Level;
+}
+
+/** `null` quand l’audit n’a pas de domaine avis : la section reste masquée. */
+export function reputationAside(payload: AuditPayload): ReputationAside | null {
+  const row = payload.domains.find((item) => item.domain === 'reputation');
+  if (!row) return null;
+  const finding = payload.findings.find(
+    (item) => item.checkId === 'reputation.avis',
+  );
+  const measured = asRecord(finding?.measured);
+  return {
+    score: row.score,
+    rating: asFinite(measured?.rating),
+    reviewCount: asCount(measured?.reviewCount),
+    name: asName(measured?.placeName),
+    level: domainLevel(row),
+  };
+}
+
+function asRecord(value: unknown): Record<string, unknown> | null {
+  if (typeof value !== 'object' || value === null || Array.isArray(value)) {
+    return null;
+  }
+  return value as Record<string, unknown>;
+}
+
+function asFinite(value: unknown): number | null {
+  return typeof value === 'number' && Number.isFinite(value) ? value : null;
+}
+
+function asCount(value: unknown): number | null {
+  const number = asFinite(value);
+  if (number === null || number < 0) return null;
+  return Math.round(number);
+}
+
+function asName(value: unknown): string | null {
+  if (typeof value !== 'string') return null;
+  const name = value.trim();
+  return name === '' ? null : name.slice(0, 200);
+}
+
 export function reportFindings(
   payload: AuditPayload,
   fixes: ReadonlyMap<string, FixView>,
@@ -132,6 +185,7 @@ export function reportFindings(
 ): Finding[] {
   return payload.findings.flatMap((row, index) => {
     if (row.status === 'na') return [];
+    if (domain === undefined && row.domain === 'reputation') return [];
     if (domain !== undefined && row.domain !== domain) return [];
     const fix = row.fixKey ? fixes.get(row.fixKey) : undefined;
     const finding = toFinding(row, fix);

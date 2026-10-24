@@ -331,3 +331,15 @@ Un code 200 ne suffit pas. Beaucoup de sites renvoient la page d’accueil pour 
 | securite.listing | 2 | Aucun dossier sondé n’affiche sa liste. | — | Un dossier affiche sa liste. |
 | securite.tls | 2 | TLS 1.2 ou TLS 1.3, sans TLS 1.0 ni TLS 1.1, et TLS 1.3 est proposé. | Seulement TLS 1.2. | TLS 1.0 ou TLS 1.1 est accepté. |
 
+## 17. Réputation
+
+Un seul test, version 2026.1. Il ne part que si une clé Places est configurée sur le serveur. Sans cette clé, le domaine n’est pas noté et la section est masquée. Le navigateur ne contacte pas Google : il passe par Audigy.
+
+La personne cherche un lieu, puis confirme la fiche. L’audit lit ensuite la note moyenne et le nombre d’avis. Le texte des avis n’est ni demandé ni stocké. La réponse est gardée sept jours.
+
+Le score du domaine est l’arrondi de note / 5 × 100. Une note de 4,0 donne 80. Il est affiché à part et ne compte pas dans le score global. Sans lieu confirmé, sans note, ou avec zéro avis, le domaine est Non testé.
+
+| Identifiant | Poids | Réussi | À améliorer | Problème |
+|---|---|---|---|---|
+| reputation.avis | 3 | Note d’au moins 4,0 sur 5, avec au moins un avis. | Note de 2,5 à 3,9. | Note inférieure à 2,5. |
+

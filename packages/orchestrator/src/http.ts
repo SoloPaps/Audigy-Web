@@ -18,6 +18,9 @@ export type ApiError =
   | 'user_limit'
   | 'host_limit'
   | 'oauth_unconfigured'
+  | 'places_disabled'
+  | 'places_absent'
+  | 'places_limit'
   | 'internal';
 
 function json(

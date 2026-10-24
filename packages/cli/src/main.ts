@@ -110,7 +110,9 @@ export async function runCli(
         ? { budget: { perHostIntervalMs: deps.perHostIntervalMs } }
         : {}),
     });
-    const { server, browser } = splitChecks(deps.checks ?? defaultChecks());
+    const { server, browser } = splitChecks(
+      deps.checks ?? defaultChecks(io.env),
+    );
     const serverOutcomes = await runServerPhase(server, ctx, { available });
 
     let state: BrowserState = 'none';

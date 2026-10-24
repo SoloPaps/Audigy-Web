@@ -2,6 +2,7 @@ import {
   ACTIVE_SECURITE_CHECKS,
   type Check,
   createRegistry,
+  createReputationChecks,
   createSharedArtifacts,
   DEFAULT_AVAILABLE,
   DNS_EMAIL_CHECKS,
@@ -9,6 +10,8 @@ import {
   googleApiKey,
   type Need,
   PERFORMANCE_CHECKS,
+  type PlacesCache,
+  placesApiKey,
   QUALITE_CHECKS,
   type RunContext,
   SECURITE_CHECKS,
@@ -28,9 +31,15 @@ import {
 } from '@audigy/net';
 import { type LabConfig, labNet } from './lab.js';
 
-/** Tous les checks enregistrés (PART-06 à 14), dont les checks navigateur de la vie privée. */
-export function defaultChecks(): Check[] {
-  return createRegistry([
+/**
+ * Checks enregistrés. Sans `PLACES_API_KEY`, Réputation n’est pas dans la liste :
+ * la section reste masquée.
+ */
+export function defaultChecks(
+  env: NodeJS.ProcessEnv = process.env,
+  placesCache?: PlacesCache,
+): Check[] {
+  const checks: Check[] = [
     ...SECURITE_CHECKS,
     ...ACTIVE_SECURITE_CHECKS,
     ...TECHNOLOGIES_CHECKS,
@@ -40,7 +49,16 @@ export function defaultChecks(): Check[] {
     ...ECOLOGIE_CHECKS,
     ...QUALITE_CHECKS,
     ...VIE_PRIVEE_CHECKS,
-  ]).list();
+  ];
+  if (placesApiKey(env)) {
+    checks.push(
+      ...createReputationChecks({
+        apiKey: () => placesApiKey(env),
+        ...(placesCache ? { cache: placesCache } : {}),
+      }),
+    );
+  }
+  return createRegistry(checks).list();
 }
 
 export interface AuditContextOptions {
@@ -96,5 +114,6 @@ export function createAuditContext(options: AuditContextOptions): AuditContext {
   // `gsc` reste proposé : sans jeton, le check dit de relier Search Console.
   const available: Need[] = [...DEFAULT_AVAILABLE, 'gsc'];
   if (googleApiKey(env)) available.push('psi', 'crux');
+  if (placesApiKey(env)) available.push('places');
   return { ctx: options.lab ? ctx : withExternalApi(ctx), available };
 }

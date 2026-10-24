@@ -24,7 +24,7 @@ afterAll(async () => {
 async function load(name: string) {
   return (await import(pathToFileURL(path.join(out, `${name}.mjs`)).href)) as {
     default: Handler;
-    config?: { path: string; method: string };
+    config?: { path: string; method: string | string[] };
   };
 }
 
@@ -33,6 +33,7 @@ describe('fonctions Netlify', () => {
     expect(names.sort()).toEqual([
       'api-audits-create',
       'api-audits-get',
+      'api-places',
       'api-verifications-check',
       'api-verifications-create',
       'audit-run-background',
@@ -48,6 +49,10 @@ describe('fonctions Netlify', () => {
     expect((await load('api-audits-get')).config).toEqual({
       path: '/api/audits/:id',
       method: 'GET',
+    });
+    expect((await load('api-places')).config).toEqual({
+      path: '/api/places',
+      method: ['GET', 'POST'],
     });
     expect((await load('audit-run-background')).config).toBeUndefined();
     expect((await load('api-verifications-create')).config).toEqual({

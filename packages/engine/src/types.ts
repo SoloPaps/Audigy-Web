@@ -9,7 +9,7 @@ import type { SearchConsolePort } from './gsc.js';
 
 export const METHOD_VERSION = '2026.1';
 /** Version du moteur stockée sur chaque audit (`engine_version`). Suit `package.json`. */
-export const ENGINE_VERSION = '0.19.0';
+export const ENGINE_VERSION = '0.20.0';
 
 export const DOMAINS = [
   'performance',
@@ -85,6 +85,11 @@ export interface CheckContext {
   now(): Date;
   /** Interrompu quand le délai du check est dépassé. */
   signal: AbortSignal;
+  /**
+   * Lieu confirmé pour les avis. `null` : l’utilisateur n’a pas choisi.
+   * Absent : la section n’est pas active.
+   */
+  confirmedPlaceId?: string | null;
 }
 
 /** Contexte fourni au runner ; le runner ajoute `signal` pour chaque check. */
