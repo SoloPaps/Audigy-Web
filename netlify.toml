@@ -35,3 +35,18 @@
   from = "/verifier/*"
   to = "/verifier/00000000-0000-4000-8000-000000000019/index.html"
   status = 200
+
+[[redirects]]
+  from = "/score/*"
+  to = "/score/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/partage/*"
+  to = "/partage/index.html"
+  status = 200
+
+[[headers]]
+  for = "/partage/*"
+  [headers.values]
+    X-Robots-Tag = "noindex"

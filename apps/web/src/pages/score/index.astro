@@ -1,0 +1,9 @@
+---
+import PublicScore from '../../components/PublicScore.svelte';
+import { t } from '../../i18n/index.js';
+import Base from '../../layouts/Base.astro';
+---
+
+<Base title={t('meta.score.title')} description={t('meta.score.description')}>
+  <PublicScore mode="public" client:load />
+</Base>

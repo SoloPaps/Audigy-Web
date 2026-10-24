@@ -515,6 +515,7 @@ export type Database = {
           deleted_at: string | null;
           host: string;
           hosting: string;
+          expose_security: boolean;
           id: string;
           is_public: boolean;
           label: string;
@@ -527,6 +528,7 @@ export type Database = {
         ComputedFields: never;
         Insert: {
           deleted_at?: string | null;
+          expose_security?: boolean;
           host: string;
           hosting: string;
           id?: string;
@@ -540,6 +542,7 @@ export type Database = {
         };
         Update: {
           deleted_at?: string | null;
+          expose_security?: boolean;
           host?: string;
           hosting?: string;
           id?: string;
@@ -695,6 +698,22 @@ export type Database = {
           scope: string;
         }[];
       };
+      read_public_score: {
+        Args: { p_slug: string };
+        Returns: {
+          audit_id: string | null;
+          coverage: number | null;
+          domains: Json;
+          expose_security: boolean;
+          finished_at: string | null;
+          global_score: number | null;
+          method_version: string | null;
+          report_id: string | null;
+          security_details: Json;
+          site_label: string;
+          site_url: string;
+        }[];
+      };
       read_report_by_share_token: {
         Args: { p_token: string };
         Returns: {
@@ -706,6 +725,22 @@ export type Database = {
           tsa: string;
           tsa_gen_time: string;
           visibility: string;
+        }[];
+      };
+      read_shared_score: {
+        Args: { p_token: string };
+        Returns: {
+          audit_id: string | null;
+          coverage: number | null;
+          domains: Json;
+          expose_security: boolean;
+          finished_at: string | null;
+          global_score: number | null;
+          method_version: string | null;
+          report_id: string | null;
+          security_details: Json;
+          site_label: string;
+          site_url: string;
         }[];
       };
       request_audit: {

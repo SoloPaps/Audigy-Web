@@ -8,12 +8,16 @@ import {
 } from '../lib/browser-session.js';
 import { loginHref } from '../lib/nav.js';
 import { InvalidSiteUrl, normalizeSiteUrl } from '../lib/site-url.js';
+import SiteShare from './SiteShare.svelte';
 
 interface SiteRow {
   id: string;
   url: string;
   label: string;
   host: string;
+  isPublic: boolean;
+  publicSlug: string | null;
+  exposeSecurity: boolean;
 }
 
 let rows = $state<SiteRow[]>([]);
@@ -36,7 +40,7 @@ async function load(): Promise<void> {
   userId = session.user.id;
   const { data, error: readError } = await supabase
     .from('sites')
-    .select('id, url, label, host')
+    .select('id, url, label, host, is_public, public_slug, expose_security')
     .eq('owner_id', userId)
     .is('deleted_at', null)
     .order('label', { ascending: true });
@@ -50,6 +54,9 @@ async function load(): Promise<void> {
     url: row.url,
     label: row.label,
     host: row.host,
+    isPublic: row.is_public,
+    publicSlug: row.public_slug,
+    exposeSecurity: row.expose_security,
   }));
 }
 
@@ -89,7 +96,7 @@ async function onSubmit(event: SubmitEvent): Promise<void> {
       label: draft.label,
       hosting: draft.hosting,
     })
-    .select('id, url, label, host')
+    .select('id, url, label, host, is_public, public_slug, expose_security')
     .single();
   pending = false;
   if (writeError || !data) {
@@ -99,7 +106,18 @@ async function onSubmit(event: SubmitEvent): Promise<void> {
   }
   url = '';
   notice = t('sites.added');
-  rows = [...rows, data].sort((a, b) => a.label.localeCompare(b.label, 'fr'));
+  rows = [
+    ...rows,
+    {
+      id: data.id,
+      url: data.url,
+      label: data.label,
+      host: data.host,
+      isPublic: data.is_public,
+      publicSlug: data.public_slug,
+      exposeSecurity: data.expose_security,
+    },
+  ].sort((a, b) => a.label.localeCompare(b.label, 'fr'));
 }
 
 async function onSignOut(): Promise<void> {
@@ -138,6 +156,7 @@ async function onSignOut(): Promise<void> {
               <span class="visually-hidden">{site.label}</span>
             </a>
           </div>
+          <SiteShare {site} />
         </li>
       {/each}
     </ul>

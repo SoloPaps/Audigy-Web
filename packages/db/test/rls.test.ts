@@ -4,7 +4,9 @@ import {
   claimNextAudit,
   createServiceClient,
   createUserClient,
+  readPublicScore,
   readReportByShareToken,
+  readSharedScore,
   requestMagicLink,
 } from '../src/index.js';
 import {
@@ -530,6 +532,126 @@ describe('RLS Supabase local', () => {
     `,
     );
     expect(objects).toHaveLength(0);
+  });
+
+  it('masque le détail sécurité et révoque le lien tout de suite', async () => {
+    const auditId = 'bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbb20';
+    const secret = 'secret-header-value';
+    await admin`
+      insert into public.audits (
+        id, site_id, trigger, mode, status, method_version, engine_version,
+        global_score, coverage, started_at, finished_at
+      ) values (
+        ${auditId}::uuid, ${B_PUBLIC}::uuid, 'manual', 'passive', 'done',
+        '2026.1', 'test', 72, 1, now(), now()
+      )
+    `;
+    await admin`
+      insert into public.domain_scores (audit_id, domain, score, coverage, level)
+      values
+        (${auditId}::uuid, 'securite', 40, 1, 'problem'),
+        (${auditId}::uuid, 'performance', 80, 1, 'good')
+    `;
+    await admin`
+      insert into public.findings (
+        audit_id, domain, check_id, status, severity, impact, score,
+        measured, message_key
+      ) values (
+        ${auditId}::uuid, 'securite', 'securite.hsts', 'fail', 4, 3, 0,
+        ${JSON.stringify({ header: secret })}::jsonb, 'finding.securite.hsts'
+      )
+    `;
+
+    const hidden = await asUser(
+      null,
+      (tx) => tx<{ body: string; details: string }[]>`
+        select
+          row_to_json(x)::text as body,
+          x.security_details::text as details
+        from public.read_public_score('public-b1') as x
+      `,
+    );
+    expect(hidden).toHaveLength(1);
+    expect(hidden[0]?.details).toBe('[]');
+    expect(hidden[0]?.body).not.toContain(secret);
+    expect(hidden[0]?.body).not.toContain('securite.hsts');
+    expect(hidden[0]?.body).toContain('72');
+
+    const anon = createUserClient({
+      url: local.apiUrl,
+      anonKey: local.anonKey,
+    });
+    const viaClient = await readPublicScore(anon, 'public-b1');
+    expect(viaClient?.global_score).toBe(72);
+    expect(JSON.stringify(viaClient)).not.toContain(secret);
+    expect(JSON.stringify(viaClient?.security_details)).toBe('[]');
+
+    await asUser(
+      B,
+      (tx) => tx`
+        update public.sites
+        set expose_security = true
+        where id = ${B_PUBLIC}::uuid
+      `,
+    );
+    const shown = await asUser(
+      null,
+      (tx) => tx<{ body: string; details: string }[]>`
+        select
+          row_to_json(x)::text as body,
+          x.security_details::text as details
+        from public.read_public_score('public-b1') as x
+      `,
+    );
+    expect(shown[0]?.details).toContain('securite.hsts');
+    expect(shown[0]?.body).not.toContain(secret);
+    expect(shown[0]?.body).not.toContain('measured');
+
+    await admin`
+      update public.sites
+      set expose_security = false
+      where id = ${B_PUBLIC}::uuid
+    `;
+
+    await admin`
+      insert into public.reports (audit_id, visibility, manifest_sha256)
+      values (${auditId}::uuid, 'link', ${SHA})
+    `;
+    const [created] = await admin<{ share_token: string; id: string }[]>`
+      select id::text as id, share_token
+      from public.reports
+      where audit_id = ${auditId}::uuid and visibility = 'link' and revoked_at is null
+    `;
+    if (!created) throw new Error('lien absent');
+    const token = created.share_token;
+    expect(token).toMatch(/^[0-9a-f]{32}$/);
+
+    const open = await readSharedScore(anon, token);
+    expect(open?.audit_id).toBe(auditId);
+    expect(JSON.stringify(open)).not.toContain(secret);
+
+    await asUser(
+      B,
+      (tx) => tx`
+        update public.reports
+        set revoked_at = now()
+        where id = ${created.id}::uuid
+      `,
+    );
+    const closed = await asUser(
+      null,
+      (tx) => tx`
+        select audit_id from public.read_shared_score(${token})
+      `,
+    );
+    expect(closed).toHaveLength(0);
+    expect(await readSharedScore(anon, token)).toBeNull();
+
+    const gone = await asUser(
+      null,
+      (tx) => tx`select site_label from public.read_public_score('public-b2')`,
+    );
+    expect(gone).toHaveLength(0);
   });
 
   it("le jeton OAuth n'est pas lisible", async () => {
