@@ -1,7 +1,9 @@
 ---
+import { EXEMPLE_DOSSIER_ID } from '@audigy/evidence/browser';
 import CategoryList from '../../components/CategoryList.svelte';
 import FindingList from '../../components/FindingList.svelte';
 import HistoryPanel from '../../components/HistoryPanel.svelte';
+import PreuveMentions from '../../components/PreuveMentions.svelte';
 import ReportFooter from '../../components/ReportFooter.svelte';
 import ScoreGauge from '../../components/ScoreGauge.svelte';
 import {
@@ -65,12 +67,13 @@ const url = 'https://exemple.fr';
 
     <h2 id="verification">{t('section.verify')}</h2>
     <p class="prose">{t('verify.lead')}</p>
+    <PreuveMentions />
     <ReportFooter
       url={url}
       at={auditedAt}
       methodVersion="2026.1"
       fingerprint="0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
-      verifyHref="#verification"
+      verifyHref={`/verifier/${EXEMPLE_DOSSIER_ID}`}
     />
 
     <h2>{t('section.gauges')}</h2>

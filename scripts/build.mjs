@@ -78,6 +78,15 @@ async function pruneUnreferenced(root) {
         queue.push(target);
     }
   }
+  for (const file of files) {
+    const rel = path.relative(root, file);
+    if (
+      rel.startsWith(`preuves${path.sep}`) ||
+      rel.startsWith(`.well-known${path.sep}`)
+    ) {
+      keep.add(path.resolve(file));
+    }
+  }
   const removed = [];
   for (const file of files) {
     const resolved = path.resolve(file);
@@ -107,6 +116,11 @@ if (leaked) {
 
 await pruneUnreferenced(dist);
 await access(path.join(dist, 'index.html'));
+await access(path.join(dist, '.well-known', 'audigy-signing-key'));
+const preuves = await readdir(path.join(dist, 'preuves'));
+if (!preuves.some((name) => name.endsWith('.json'))) {
+  throw new Error('dossier de preuve absent du build');
+}
 
 let stillThere = true;
 try {
