@@ -59,21 +59,32 @@ export function parseRobots(text: string): RobotsFile {
 }
 
 /**
- * Le chemin est-il autorisé pour Googlebot ?
+ * Le chemin est-il autorisé pour ce robot ?
  * Le groupe le plus précis l’emporte. À longueur égale, Allow l’emporte.
+ * Le jeton suit la règle Google : le nom du robot commence par le groupe.
  */
-export function googlebotAllowed(file: RobotsFile, url: URL): boolean {
+export function crawlerAllowed(
+  file: RobotsFile,
+  url: URL,
+  crawler: string,
+): boolean {
+  const name = crawler.trim().toLowerCase();
+  const scoreOf = (agent: string): number => {
+    if (agent === '*') return 0;
+    if (name.startsWith(agent)) return agent.length;
+    return -1;
+  };
   let best = -1;
   for (const group of file.groups) {
     for (const agent of group.agents) {
-      const score = agentScore(agent);
+      const score = scoreOf(agent);
       if (score > best) best = score;
     }
   }
   if (best < 0) return true;
   const rules: RobotRule[] = [];
   for (const group of file.groups) {
-    if (group.agents.some((agent) => agentScore(agent) === best)) {
+    if (group.agents.some((agent) => scoreOf(agent) === best)) {
       rules.push(...group.rules);
     }
   }
@@ -91,6 +102,11 @@ export function googlebotAllowed(file: RobotsFile, url: URL): boolean {
     }
   }
   return winner ? winner.allow : true;
+}
+
+/** Le chemin est-il autorisé pour Googlebot ? */
+export function googlebotAllowed(file: RobotsFile, url: URL): boolean {
+  return crawlerAllowed(file, url, CRAWLER);
 }
 
 export function ruleMatches(pattern: string, path: string): boolean {
@@ -138,12 +154,6 @@ export function publicHttpUrl(value: string, base?: URL): URL | null {
   } catch {
     return null;
   }
-}
-
-function agentScore(agent: string): number {
-  if (agent === '*') return 0;
-  if (CRAWLER.startsWith(agent)) return agent.length;
-  return -1;
 }
 
 function escapeRegex(ch: string): string {

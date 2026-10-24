@@ -160,3 +160,25 @@ DNSSEC est le drapeau AD du résolveur sur la question SOA. MTA-STS lit l’enre
 | dns_email.mx | 2 | Au moins un serveur, ou un MX nul seul de priorité 0. | Aucun MX. | MX illisible, ou MX nul mélangé à d’autres serveurs. |
 | dns_email.spf | 3 | Une seule annonce lisible, au plus 10 consultations, terminée par `-all`. | `~all`, `?all`, pas de `all`, mécanisme `ptr`, ou macro non suivie. | Absente, en double, illisible, `+all`, boucle, trop de consultations, ou pas de `-all` alors que le nom n’envoie pas de courrier. |
 | dns_email.tls_rpt | 1 | TXT `v=TLSRPTv1` avec un `rua`. Sans courrier : Non applicable. | Enregistrement absent. | Enregistrement illisible ou en double. |
+
+## 12. Qualité technique
+
+Cinq tests passifs, version 2026.1. Ils lisent les pages publiques liées, comme un visiteur. Le parcours reste dans la portée demandée. Un audit sur un chemin ne sort pas de ce chemin.
+
+Le fichier robots est lu à la racine du domaine, y compris quand l’audit porte sur un chemin. Le robot annoncé est AudigyBot. S’il n’a pas de groupe, la règle générale s’applique. Une adresse interdite n’est pas demandée. Si ce fichier ne répond pas, les tests sont Non testé.
+
+Au plus 50 pages sont lues. Une page est une adresse de dossier, une adresse sans extension, ou un document `.html`, `.htm` ou `.xhtml`. Les autres fichiers du même site sont ensuite vérifiés comme des liens, sans être parcourus. Les liens vers un autre site sont sondés ensuite, sans télécharger le fichier, 30 au plus. Le rythme est d’une requête par seconde et par hôte. Le budget passif de 50 requêtes n’est jamais dépassé : le parcours s’arrête, et seuls les éléments déjà lus sont notés.
+
+Un lien interne est un problème s’il ne finit pas entre 200 et 299. Un lien externe introuvable, par exemple 404 ou 410, est un problème. Une erreur temporaire est À améliorer, et non un problème : 408, 425, 429, 500, 502, 503, 504, un délai dépassé, ou une panne réseau. Une réponse 401, 403, 405 ou 501 est aussi À améliorer : le robot n’a pas obtenu une réponse claire. S’il y a à la fois un lien mort et une erreur temporaire, le statut est Problème.
+
+Le HTML des pages lues est jugé avec html-validate, sur les règles essentielles seulement : `close-attr`, `close-order`, `doctype-html`, `element-permitted-content`, `element-permitted-occurrences`, `element-permitted-order`, `element-permitted-parent`, `element-required-ancestor`, `element-required-content`, `missing-doctype`, `no-dup-attr`, `no-raw-characters`, `unrecognized-char-ref`, `void-content`. L’accessibilité et le style ne sont pas notés ici.
+
+Une image au-dessus de 200 Ko est un problème. La taille vient de l’en-tête de longueur, sans télécharger le fichier. Sans taille, le test est À améliorer. Si aucune taille n’a pu être demandée parce que le budget est atteint, il est Non testé. L’absence de largeur et de hauteur sur une partie des images est À améliorer. Si aucune image n’a les deux, c’est un problème. Un format moderne est WebP ou AVIF, dans l’adresse, dans `srcset`, ou dans une source de `picture`. Un SVG ne compte pas comme un ancien format. Le type renvoyé par le serveur peut reconnaître un format moderne que l’adresse ne montrait pas.
+
+| Identifiant | Poids | Réussi | À améliorer | Problème |
+|---|---|---|---|---|
+| qualite.liens | 3 | Les liens vérifiés répondent. | Seulement des erreurs temporaires ou incertaines, sur des liens externes. | Un lien interne ne répond pas, ou un lien externe est introuvable. |
+| qualite.html | 2 | Aucune page lue n’enfreint les règles essentielles. | — | Au moins une page lue a un HTML invalide. |
+| qualite.images_poids | 2 | Chaque image mesurée fait au plus 200 Ko. | Une taille n’est pas indiquée. | Au moins une image dépasse 200 Ko. Aucune image : Non applicable. |
+| qualite.images_dimensions | 1 | Chaque image a une largeur et une hauteur. | Une partie des images n’a pas les deux. | Aucune image n’a les deux. Aucune image : Non applicable. |
+| qualite.images_format | 1 | Chaque image bitmap propose WebP ou AVIF. | Une partie seulement. | Aucune image bitmap n’est en format moderne. SVG seul : Non applicable. |
