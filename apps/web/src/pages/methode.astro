@@ -1,0 +1,69 @@
+---
+import { t } from '../i18n/index.js';
+import Base from '../layouts/Base.astro';
+---
+
+<Base title={t('meta.method.title')} description={t('meta.method.description')}>
+  <h1>{t('footer.method.nav')}</h1>
+  <p class="prose">{t('method.lead')}</p>
+  <p class="prose">{t('method.version')}</p>
+  <p class="prose">{t('method.change')}</p>
+  <p class="prose">{t('method.recorded')}</p>
+
+  <h2>{t('method.status.title')}</h2>
+  <p class="prose">{t('method.status.body')}</p>
+  <ul class="prose-list">
+    <li>{t('method.pass')}</li>
+    <li>{t('method.warn')}</li>
+    <li>{t('method.fail')}</li>
+    <li>{t('method.untested')}</li>
+    <li>{t('method.na')}</li>
+  </ul>
+  <p class="prose">{t('method.partial')}</p>
+  <p class="prose">{t('method.weight')}</p>
+  <p class="prose">{t('method.lighthouse')}</p>
+
+  <h2>{t('method.skip.title')}</h2>
+  <p class="prose">{t('method.skip.lead')}</p>
+  <ul class="prose-list">
+    <li>{t('method.skip.active')}</li>
+    <li>{t('method.skip.source')}</li>
+    <li>{t('method.skip.timeout')}</li>
+    <li>{t('method.skip.error')}</li>
+  </ul>
+  <p class="prose">{t('method.passive')}</p>
+  <p class="prose">{t('method.active')}</p>
+  <p class="prose">
+    {t('method.penal')}
+    <a href="/cgu">{t('method.penal.link')}</a>
+  </p>
+
+  <h2>{t('method.domain.title')}</h2>
+  <p class="prose">{t('method.domain.formula')}</p>
+  <p class="prose">{t('method.coverage')}</p>
+  <p class="prose">{t('method.coverage.low')}</p>
+  <p class="prose">{t('method.coverage.why')}</p>
+
+  <h2>{t('method.global.title')}</h2>
+  <p class="prose">{t('method.global.body')}</p>
+  <p class="prose">{t('method.global.eight')}</p>
+  <p class="prose">{t('method.global.aside')}</p>
+  <p class="prose">{t('method.global.empty')}</p>
+
+  <h2>{t('method.level.title')}</h2>
+  <ul class="prose-list">
+    <li>{t('method.level.good')}</li>
+    <li>{t('method.level.improve')}</li>
+    <li>{t('method.level.problem')}</li>
+    <li>{t('method.level.none')}</li>
+  </ul>
+
+  <h2>{t('method.order.title')}</h2>
+  <p class="prose">{t('method.order.body')}</p>
+  <p class="prose">{t('method.order.tie')}</p>
+
+  <h2>{t('method.repro.title')}</h2>
+  <p class="prose">{t('method.repro.body')}</p>
+  <p class="prose">{t('method.proof')}</p>
+  <p class="prose"><a href="/verifier">{t('method.proof.link')}</a></p>
+</Base>

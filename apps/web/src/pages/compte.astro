@@ -1,0 +1,11 @@
+---
+import AccountPanel from '../components/AccountPanel.svelte';
+import { t } from '../i18n/index.js';
+import Base from '../layouts/Base.astro';
+---
+
+<Base title={t('meta.account.title')} description={t('meta.account.description')}>
+  <h1>{t('account.title')}</h1>
+  <p class="prose">{t('account.lead')}</p>
+  <AccountPanel client:load />
+</Base>

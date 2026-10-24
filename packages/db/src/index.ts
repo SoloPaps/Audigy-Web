@@ -20,6 +20,7 @@
  * - `readSharedScore(client, token)` : scores d'un lien encore ouvert.
  * - `dbEnvFrom(env)` : exige `SUPABASE_URL`, `SUPABASE_ANON_KEY`,
  *   `SUPABASE_SERVICE_ROLE_KEY`. Aucune valeur dans le dépôt.
+ * - `TERMS_VERSION` : version des CGU acceptée dans `terms_acceptances`.
  */
 export {
   type AuditResultsInput,
@@ -44,6 +45,7 @@ export {
   writeAuditResults,
 } from './client.js';
 export type { Database, Json } from './database.types.js';
+export { TERMS_VERSION } from './terms.js';
 export {
   ARTIFACT_KINDS,
   type ArtifactKind,

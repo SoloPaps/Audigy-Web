@@ -1,0 +1,48 @@
+---
+import { TERMS_VERSION } from '@audigy/db';
+import { t } from '../i18n/index.js';
+import Base from '../layouts/Base.astro';
+
+const email = t('legal.email');
+---
+
+<Base title={t('meta.terms.title')} description={t('meta.terms.description')}>
+  <h1>{t('terms.title')}</h1>
+  <p class="prose">{t('terms.version.label', { version: TERMS_VERSION })}</p>
+  <p class="prose">{t('terms.date')}</p>
+  <p class="prose">{t('legal.review')}</p>
+
+  <h2>{t('terms.free.title')}</h2>
+  <p class="prose">{t('terms.free.body')}</p>
+  <p class="prose">{t('terms.free.limit')}</p>
+
+  <h2>{t('terms.owner.title')}</h2>
+  <p class="prose">{t('terms.owner.declare')}</p>
+  <p class="prose">{t('terms.owner.active')}</p>
+  <p class="prose">{t('terms.owner.law')}</p>
+  <p class="prose">{t('terms.owner.article')}</p>
+  <p class="prose">{t('terms.owner.passive')}</p>
+
+  <h2>{t('terms.proof.title')}</h2>
+  <p class="prose">{t('terms.proof.bailiff')}</p>
+  <p class="prose">{t('terms.proof.value')}</p>
+  <p class="prose">{t('terms.proof.date')}</p>
+  <p class="prose">{t('terms.proof.eidas')}</p>
+  <p class="prose">{t('terms.proof.article')}</p>
+  <p class="prose">{t('terms.proof.presumption')}</p>
+
+  <h2>{t('terms.accept.title')}</h2>
+  <p class="prose">{t('terms.accept.body')}</p>
+  <p class="prose">{t('terms.accept.new')}</p>
+
+  <h2>{t('terms.account.title')}</h2>
+  <p class="prose">{t('terms.account.export')}</p>
+  <p class="prose">{t('terms.account.delete')}</p>
+  <p class="prose"><a href="/compte">{t('nav.account')}</a></p>
+
+  <h2>{t('terms.law.title')}</h2>
+  <p class="prose">{t('terms.law.body')}</p>
+  <p class="prose">
+    <a href={`mailto:${email}`}>{email}</a>
+  </p>
+</Base>

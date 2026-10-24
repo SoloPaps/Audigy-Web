@@ -57,6 +57,7 @@ describe('fonctions Netlify', () => {
     expect(names.sort()).toEqual([
       'api-audits-create',
       'api-audits-get',
+      'api-compte',
       'api-places',
       'api-unsubscribe',
       'api-verifications-check',
@@ -76,6 +77,10 @@ describe('fonctions Netlify', () => {
     expect((await load('api-audits-get')).config).toEqual({
       path: '/api/audits/:id',
       method: 'GET',
+    });
+    expect((await load('api-compte')).config).toEqual({
+      path: '/api/compte/:action',
+      method: ['GET', 'POST'],
     });
     expect((await load('api-places')).config).toEqual({
       path: '/api/places',

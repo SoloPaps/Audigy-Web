@@ -34,6 +34,7 @@ const initialTheme =
       <a class="brand" href="/">{t('brand.name')}</a>
       <nav class="site-nav" aria-label={t('nav.main')}>
         <a href="/sites">{t('nav.sites')}</a>
+        <a href="/compte">{t('nav.account')}</a>
         <a href="/connexion">{t('nav.login')}</a>
       </nav>
       <ThemeToggle initial={initialTheme} client:load />
@@ -44,6 +45,13 @@ const initialTheme =
     </main>
     <footer class:list={['site-footer', { 'print-hide': print }]}>
       <p>{t('footer.note')}</p>
+      <nav class="footer-nav" aria-label={t('footer.legal')}>
+        <a href="/mentions-legales">{t('footer.mentions')}</a>
+        <a href="/confidentialite">{t('footer.privacy')}</a>
+        <a href="/cgu">{t('footer.terms')}</a>
+        <a href="/accessibilite">{t('footer.a11y')}</a>
+        <a href="/methode">{t('footer.method.nav')}</a>
+      </nav>
     </footer>
   </body>
 </html>

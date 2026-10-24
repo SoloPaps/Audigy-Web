@@ -1,0 +1,55 @@
+---
+import { t } from '../i18n/index.js';
+import Base from '../layouts/Base.astro';
+
+const email = t('legal.email');
+---
+
+<Base title={t('meta.privacy.title')} description={t('meta.privacy.description')}>
+  <h1>{t('privacy.title')}</h1>
+  <p class="prose">{t('terms.date')}</p>
+  <p class="prose">{t('legal.review')}</p>
+
+  <h2>{t('privacy.who.title')}</h2>
+  <p class="prose">{t('privacy.who.body')}</p>
+  <p class="prose">
+    {t('privacy.who.contact')}
+    <a href={`mailto:${email}`}>{email}</a>
+  </p>
+
+  <h2>{t('privacy.what.title')}</h2>
+  <p class="prose">{t('privacy.what.account')}</p>
+  <p class="prose">{t('privacy.what.sites')}</p>
+  <p class="prose">{t('privacy.what.google')}</p>
+  <p class="prose">{t('privacy.what.logs')}</p>
+
+  <h2>{t('privacy.why.title')}</h2>
+  <p class="prose">{t('privacy.why.body')}</p>
+  <p class="prose">{t('privacy.why.basis')}</p>
+
+  <h2>{t('privacy.how.title')}</h2>
+  <p class="prose">{t('privacy.how.eu')}</p>
+  <p class="prose">{t('privacy.how.us')}</p>
+  <p class="prose">{t('privacy.how.mail')}</p>
+  <p class="prose">{t('privacy.how.google')}</p>
+  <p class="prose">{t('privacy.how.github')}</p>
+  <p class="prose">{t('privacy.how.none')}</p>
+  <p class="prose">{t('privacy.cookies')}</p>
+
+  <h2>{t('privacy.keep.title')}</h2>
+  <p class="prose">{t('privacy.keep.results')}</p>
+  <p class="prose">{t('privacy.keep.files')}</p>
+  <p class="prose">{t('privacy.keep.warc')}</p>
+  <p class="prose">{t('privacy.keep.account')}</p>
+
+  <h2>{t('privacy.rights.title')}</h2>
+  <p class="prose">{t('privacy.rights.export')}</p>
+  <p class="prose">{t('privacy.rights.delete')}</p>
+  <p class="prose">
+    {t('privacy.rights.mail')}
+    <a href={`mailto:${email}`}>{email}</a>
+  </p>
+  <p class="prose">{t('privacy.rights.cnil')}</p>
+  <p class="prose">{t('privacy.share')}</p>
+  <p class="prose"><a href="/compte">{t('account.title')}</a></p>
+</Base>

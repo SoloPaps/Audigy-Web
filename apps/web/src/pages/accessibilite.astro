@@ -1,0 +1,22 @@
+---
+import { t } from '../i18n/index.js';
+import Base from '../layouts/Base.astro';
+
+const email = t('legal.email');
+---
+
+<Base title={t('meta.a11y.title')} description={t('meta.a11y.description')}>
+  <h1>{t('a11y.title')}</h1>
+  <p class="prose">{t('terms.date')}</p>
+  <p class="prose">{t('legal.review')}</p>
+  <p class="prose">{t('a11y.state')}</p>
+  <p class="prose">{t('a11y.goal')}</p>
+  <p class="prose">{t('a11y.wcag')}</p>
+  <p class="prose">{t('a11y.honest')}</p>
+  <p class="prose">{t('a11y.tech')}</p>
+  <p class="prose">{t('a11y.limits')}</p>
+  <p class="prose">
+    {t('a11y.contact')}
+    <a href={`mailto:${email}`}>{email}</a>
+  </p>
+</Base>

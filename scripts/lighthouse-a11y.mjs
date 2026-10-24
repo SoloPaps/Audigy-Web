@@ -28,6 +28,14 @@ const pages = [
   `http://${host}:${port}/score/exemple-score/?theme=dark`,
   `http://${host}:${port}/partage/${'ab'.repeat(16)}/?theme=light`,
   `http://${host}:${port}/partage/${'ab'.repeat(16)}/?theme=dark`,
+  `http://${host}:${port}/cgu?theme=light`,
+  `http://${host}:${port}/cgu?theme=dark`,
+  `http://${host}:${port}/confidentialite?theme=light`,
+  `http://${host}:${port}/mentions-legales?theme=light`,
+  `http://${host}:${port}/accessibilite?theme=light`,
+  `http://${host}:${port}/methode?theme=light`,
+  `http://${host}:${port}/compte?theme=light`,
+  `http://${host}:${port}/compte?theme=dark`,
 ];
 
 function waitForPort(timeoutMs) {
