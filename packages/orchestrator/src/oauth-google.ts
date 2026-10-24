@@ -25,7 +25,16 @@ import {
 } from './token-box.js';
 
 const COOKIE = 'audigy_gsc';
+const COOKIE_PATH = '/';
+/** Ancien chemin : à effacer pour qu’il ne masque pas le cookie `Path=/`. */
+const LEGACY_COOKIE_PATH = '/api/oauth/google';
 const MAX_AGE = 600;
+/**
+ * Les codes Google actuels ont la forme `4/0A…` (slash).
+ * RFC 6749 n’autorise que les caractères non réservés : ce filtre les rejetait
+ * avant l’échange, sans journal.
+ */
+const AUTH_CODE = /^[A-Za-z0-9\-._~+/=]{16,512}$/;
 const USER_ID =
   /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
@@ -167,7 +176,10 @@ export async function handleOauthStart(
     exp: deps.now() + MAX_AGE * 1000,
   };
   const config = configForRequest(ready.config, req);
-  const cookie = seal(ready.crypto, pending, config);
+  const cookies = [
+    seal(ready.crypto, pending, config),
+    clearCookie(config, LEGACY_COOKIE_PATH),
+  ];
   const url = new URL('https://accounts.google.com/o/oauth2/v2/auth');
   url.searchParams.set('client_id', config.clientId);
   url.searchParams.set('redirect_uri', config.redirectUri);
@@ -178,7 +190,7 @@ export async function handleOauthStart(
   url.searchParams.set('state', state);
   url.searchParams.set('access_type', 'offline');
   url.searchParams.set('prompt', 'consent');
-  return json(200, { authorizeUrl: url.href }, { 'set-cookie': cookie });
+  return json(200, { authorizeUrl: url.href }, cookies);
 }
 
 /** Échange le code, chiffre le jeton de rafraîchissement, redirige sans le renvoyer. */
@@ -196,26 +208,44 @@ export async function handleOauthCallback(
   if (url.searchParams.get('error')) return back(config, 'erreur');
   const code = url.searchParams.get('code') ?? '';
   const state = url.searchParams.get('state') ?? '';
-  if (!/^[\w\-._~]{16,512}$/.test(code)) return back(config, 'erreur');
-  const pending = open(
-    ready.crypto,
-    readCookie(req.headers.get('cookie'), COOKIE),
-  );
-  if (
-    !pending ||
-    pending.exp < deps.now() ||
-    !sameSecret(pending.state, state)
-  ) {
+  if (!AUTH_CODE.test(code)) {
+    deps.logger.warn('oauth_google_callback_rejected', {
+      reason: 'invalid_code',
+    });
     return back(config, 'erreur');
   }
+  const matched = matchPending(
+    ready.crypto,
+    readCookies(req.headers.get('cookie'), COOKIE),
+    state,
+    deps.now(),
+  );
+  if (!matched.pending) {
+    deps.logger.warn('oauth_google_state_rejected', {
+      hasCookie: matched.hasCookie,
+      hasPending: matched.hasPending,
+      expired: matched.expired,
+      stateMismatch: matched.stateMismatch,
+    });
+    return back(config, 'erreur');
+  }
+  const pending = matched.pending;
   try {
     const tokens = await ready.google.exchange({
       code,
       verifier: pending.verifier,
       redirectUri: config.redirectUri,
     });
-    if (!tokens.refreshToken) return back(config, 'erreur');
+    if (!tokens.refreshToken) {
+      deps.logger.warn('oauth_google_callback_failed', {
+        code: 'no_refresh_token',
+      });
+      return back(config, 'erreur');
+    }
     if (!tokens.scope.split(/[\s,]+/).includes(GOOGLE_WEBMASTERS_SCOPE)) {
+      deps.logger.warn('oauth_google_callback_failed', {
+        code: 'scope_missing',
+      });
       return back(config, 'erreur');
     }
     await deps.rows.save(
@@ -285,27 +315,73 @@ function seal(
   config: OauthConfig,
 ): string {
   const blob = crypto.encrypt(JSON.stringify(pending)).toString('base64url');
+  return cookieHeader(blob, config, COOKIE_PATH, MAX_AGE);
+}
+
+function clearCookie(config: OauthConfig, path: string): string {
+  return cookieHeader('', config, path, 0);
+}
+
+function cookieHeader(
+  value: string,
+  config: OauthConfig,
+  path: string,
+  maxAge: number,
+): string {
   const parts = [
-    `${COOKIE}=${blob}`,
+    `${COOKIE}=${value}`,
     'HttpOnly',
     'SameSite=Lax',
-    'Path=/api/oauth/google',
-    `Max-Age=${MAX_AGE}`,
+    `Path=${path}`,
+    `Max-Age=${maxAge}`,
   ];
   if (config.secureCookie) parts.push('Secure');
   return parts.join('; ');
 }
 
-function clearCookie(config: OauthConfig): string {
-  const parts = [
-    `${COOKIE}=`,
-    'HttpOnly',
-    'SameSite=Lax',
-    'Path=/api/oauth/google',
-    'Max-Age=0',
-  ];
-  if (config.secureCookie) parts.push('Secure');
-  return parts.join('; ');
+/** Accepte le cookie dont le state correspond, même si un ancien chemin est encore envoyé. */
+function matchPending(
+  crypto: OauthCrypto,
+  raws: readonly string[],
+  state: string,
+  now: number,
+): {
+  pending: z.infer<typeof pendingSchema> | null;
+  hasCookie: boolean;
+  hasPending: boolean;
+  expired: boolean;
+  stateMismatch: boolean;
+} {
+  let hasPending = false;
+  let expired = false;
+  let stateMismatch = false;
+  for (const raw of raws) {
+    const pending = open(crypto, raw);
+    if (!pending) continue;
+    hasPending = true;
+    if (pending.exp < now) {
+      expired = true;
+      continue;
+    }
+    if (!sameSecret(pending.state, state)) {
+      stateMismatch = true;
+      continue;
+    }
+    return {
+      pending,
+      hasCookie: true,
+      hasPending: true,
+      expired: false,
+      stateMismatch: false,
+    };
+  }
+  return {
+    pending: null,
+    hasCookie: raws.length > 0,
+    hasPending,
+    expired,
+    stateMismatch,
+  };
 }
 
 function open(
@@ -322,15 +398,17 @@ function open(
   }
 }
 
-function readCookie(header: string | null, name: string): string | null {
-  if (!header) return null;
+function readCookies(header: string | null, name: string): string[] {
+  if (!header) return [];
+  const values: string[] = [];
   for (const part of header.split(';')) {
     const eq = part.indexOf('=');
     if (eq === -1) continue;
     if (part.slice(0, eq).trim() !== name) continue;
-    return part.slice(eq + 1).trim();
+    const value = part.slice(eq + 1).trim();
+    if (value) values.push(value);
   }
-  return null;
+  return values;
 }
 
 /**
@@ -428,29 +506,22 @@ function appOrigin(value: string | undefined): URL | null {
 function back(config: OauthConfig, etat: 'ok' | 'erreur'): Response {
   const url = new URL('/search-console', config.origin);
   url.searchParams.set('etat', etat);
-  return new Response(null, {
-    status: 302,
-    headers: {
-      location: url.href,
-      'cache-control': 'no-store',
-      'set-cookie': clearCookie(config),
-    },
+  const headers = new Headers({
+    location: url.href,
+    'cache-control': 'no-store',
   });
+  headers.append('set-cookie', clearCookie(config, COOKIE_PATH));
+  headers.append('set-cookie', clearCookie(config, LEGACY_COOKIE_PATH));
+  return new Response(null, { status: 302, headers });
 }
 
-function json(
-  status: number,
-  body: unknown,
-  headers: Record<string, string> = {},
-): Response {
-  return new Response(JSON.stringify(body), {
-    status,
-    headers: {
-      'content-type': 'application/json; charset=utf-8',
-      'cache-control': 'no-store',
-      ...headers,
-    },
+function json(status: number, body: unknown, cookies: string[] = []): Response {
+  const headers = new Headers({
+    'content-type': 'application/json; charset=utf-8',
+    'cache-control': 'no-store',
   });
+  for (const cookie of cookies) headers.append('set-cookie', cookie);
+  return new Response(JSON.stringify(body), { status, headers });
 }
 
 async function userIdOf(
