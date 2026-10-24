@@ -17,6 +17,7 @@ import {
 import { verdictCopy } from '../lib/verdict.js';
 import CategoryList from './CategoryList.svelte';
 import FindingList from './FindingList.svelte';
+import PreuveMentions from './PreuveMentions.svelte';
 import ScoreGauge from './ScoreGauge.svelte';
 
 let phase = $state<'loading' | 'message' | 'ready'>('loading');
@@ -28,7 +29,9 @@ let auditId = '';
 
 const proof = $derived(proofFromPayload(payload));
 const items = $derived(
-  payload ? categoryItems(payload.domains, payload.audit.id) : [],
+  payload
+    ? categoryItems(payload.domains, payload.audit.id, payload.findings)
+    : [],
 );
 const shown = $derived.by(() => {
   if (!payload) return [];
@@ -117,14 +120,14 @@ async function load(): Promise<void> {
   <p role="status">{message}</p>
   {#if needLogin}
     <p>
-      <a href={loginHref(`${location.pathname}${location.search}`)}>{t('nav.login')}</a>
+      <a class="link-action" href={loginHref(`${location.pathname}${location.search}`)}>{t('nav.login')}</a>
     </p>
   {:else}
-    <p><a href="/sites">{t('nav.sites')}</a></p>
+    <p><a class="link-action" href="/sites">{t('nav.sites')}</a></p>
   {/if}
 {:else if payload}
   <p class="no-print">
-    <a href={`/rapport?id=${encodeURIComponent(payload.audit.id)}`}>{t('report.back')}</a>
+    <a class="link-action" href={`/rapport?id=${encodeURIComponent(payload.audit.id)}`}>{t('report.back')}</a>
   </p>
   <header class="verdict">
     <ScoreGauge domain={t('domain.global')} score={global} size="hero" />
@@ -164,6 +167,7 @@ async function load(): Promise<void> {
       <li>{line}</li>
     {/each}
   </ul>
+  <PreuveMentions />
 {/if}
 
 <style>

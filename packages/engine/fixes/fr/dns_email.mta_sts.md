@@ -1,5 +1,5 @@
 ---
-title: Exiger le chiffrement du courrier
+title: Courrier : exiger le chiffrement
 why: Sans cette règle, le chiffrement du courrier peut être retiré en route.
 effortMinutes: 30
 sources:

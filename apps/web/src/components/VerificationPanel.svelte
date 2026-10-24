@@ -185,16 +185,16 @@ async function onCopy(value: string): Promise<void> {
 {:else if needLogin}
   <p role="status">{t('verify.need_login')}</p>
   <p>
-    <a href={loginHref(`${location.pathname}${location.search}`)}>
+    <a class="link-action" href={loginHref(`${location.pathname}${location.search}`)}>
       {t('nav.login')}
     </a>
   </p>
 {:else if missing}
   <p role="status">{t('verify.missing')}</p>
-  <p><a href="/sites">{t('verify.back')}</a></p>
+  <p><a class="link-action" href="/sites">{t('verify.back')}</a></p>
 {:else if notFound || !site}
   <p role="status">{t('verify.not_found')}</p>
-  <p><a href="/sites">{t('verify.back')}</a></p>
+  <p><a class="link-action" href="/sites">{t('verify.back')}</a></p>
 {:else}
   <p class="kicker">{site.label}</p>
   <p>{site.url}</p>
@@ -272,6 +272,6 @@ async function onCopy(value: string): Promise<void> {
     </button>
   {/if}
   <p class="page-links">
-    <a href="/sites">{t('verify.back')}</a>
+    <a class="link-action" href="/sites">{t('verify.back')}</a>
   </p>
 {/if}

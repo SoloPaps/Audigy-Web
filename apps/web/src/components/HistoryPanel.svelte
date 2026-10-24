@@ -11,6 +11,7 @@ import {
   GLOBAL_SERIES,
   type HistoryPoint,
   type HistorySeries,
+  historyCurveHelp,
   historySummary,
   historyTable,
   MAX_SERIES,
@@ -63,6 +64,9 @@ const active = $derived(
 );
 const summary = $derived(
   historySummary(points, active[0]?.id ?? GLOBAL_SERIES),
+);
+const curveHelp = $derived(
+  historyCurveHelp(points, active[0]?.id ?? GLOBAL_SERIES),
 );
 const table = $derived(historyTable(points, active));
 const older = $derived(audits.find((audit) => audit.id === olderId));
@@ -312,6 +316,9 @@ $effect(() => {
 </script>
 
 <p class="summary">{summary}</p>
+{#if curveHelp}
+  <p class="hint">{curveHelp}</p>
+{/if}
 
 {#if series.length > 0}
   <fieldset class="series">
@@ -415,7 +422,7 @@ $effect(() => {
         <ul class="issues">
           {#each diff.added as item (item.id)}
             <li>
-              <a href={item.href}>{item.title}</a>
+              <a class="link-inline" href={item.href}>{item.title}</a>
               <StatusMark level={levelForStatus(item.status)} />
             </li>
           {/each}
@@ -428,7 +435,7 @@ $effect(() => {
         <ul class="issues">
           {#each diff.fixed as item (item.id)}
             <li>
-              <a href={item.href}>{item.title}</a>
+              <a class="link-inline" href={item.href}>{item.title}</a>
               <StatusMark level={levelForStatus(item.status)} />
             </li>
           {/each}
@@ -531,6 +538,8 @@ $effect(() => {
     height: var(--touch-min);
     translate: -50% -50%;
     border-radius: var(--radius-pill);
+    color: inherit;
+    text-decoration: none;
   }
 
   .legend {

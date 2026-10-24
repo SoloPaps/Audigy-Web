@@ -1,5 +1,5 @@
 ---
-title: Choisir qui peut créer un certificat
+title: Nom de domaine : choisir qui crée un certificat
 why: Sans liste, n’importe quel organisme peut créer un certificat pour ce nom.
 effortMinutes: 10
 sources:

@@ -2,7 +2,7 @@ import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import QRCode from 'qrcode';
-import { formatDate, t } from '../../../apps/web/src/i18n/index.js';
+import { formatDateTime, t } from '../../../apps/web/src/i18n/index.js';
 
 const FONT_DIR = fileURLToPath(
   new URL('../../../apps/web/src/fonts/', import.meta.url),
@@ -98,17 +98,7 @@ dt { font-weight: 600; }
 }
 
 function stamp(date: Date): string {
-  const time = new Intl.DateTimeFormat('fr-FR', {
-    timeZone: 'Europe/Paris',
-    hour: '2-digit',
-    minute: '2-digit',
-    hourCycle: 'h23',
-  })
-    .format(date)
-    .replace(/[\u202f\u00a0]/g, ' ')
-    .replace(/\s+/g, ' ')
-    .trim();
-  return `${formatDate(date).replace(/[\u202f\u00a0]/g, ' ')}, ${time}`;
+  return formatDateTime(date);
 }
 
 function fontFaces(): string {

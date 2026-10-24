@@ -151,7 +151,7 @@ async function onDelete(): Promise<void> {
   <p role="status">{t('login.unconfigured')}</p>
 {:else if ready && !loggedIn}
   <p>{t('account.out')}</p>
-  <p><a href={loginHref('/compte')}>{t('account.login')}</a></p>
+  <p><a class="link-action" href={loginHref('/compte')}>{t('account.login')}</a></p>
   {#if status}
     <p role="status">{status}</p>
   {/if}
@@ -173,14 +173,14 @@ async function onDelete(): Promise<void> {
             version,
           })}
         </p>
-        <a href="/cgu">{t('account.terms.link')}</a>
+        <a class="link-inline" href="/cgu">{t('account.terms.link')}</a>
       {:else}
         <p>
           {accepted
             ? t('account.terms.ok', { version })
             : t('account.terms.missing', { version })}
         </p>
-        <a href="/cgu">{t('account.terms.link')}</a>
+        <a class="link-inline" href="/cgu">{t('account.terms.link')}</a>
         {#if !accepted}
           <form class="audit-form" method="dialog" onsubmit={onAccept}>
             <div class="field">

@@ -61,11 +61,12 @@ async function onSignOut(): Promise<void> {
 <div class="login-card glass">
   <div class="glass-plate">
     <h1>{t('login.card.title')}</h1>
+    <p class="prose">{t('login.lead')}</p>
     {#if ready}
       <p role="status">{t('login.ready')}</p>
       <p class="page-links">
-        <a href="/sites">{t('login.sites')}</a>
-        <a href="/compte">{t('login.account')}</a>
+        <a class="link-action" href="/sites">{t('login.sites')}</a>
+        <a class="link-action" href="/compte">{t('login.account')}</a>
         <button type="button" class="button button-secondary" onclick={onSignOut}>
           {t('login.signout')}
         </button>

@@ -26,6 +26,7 @@ const {
   still = false,
 } = Astro.props;
 const canonical = Astro.url.pathname || '/';
+const here = canonical.length > 1 ? canonical.replace(/\/$/u, '') : canonical;
 const themeParam = Astro.url.searchParams.get('theme');
 const initialTheme =
   themeParam === 'light' || themeParam === 'dark' ? themeParam : 'system';
@@ -54,7 +55,11 @@ const initialTheme =
     <header class:list={['site-bar', { 'print-hide': print }]}>
       <div class="glass bar-glass">
         <div class="glass-plate bar-plate">
-          <a class="brand" href="/">{t('brand.name')}</a>
+          <a
+            class="brand link-nav"
+            href="/"
+            aria-current={here === '/' ? 'page' : undefined}
+          >{t('brand.name')}</a>
           <SiteBar pathname={Astro.url.pathname} client:load />
           <ThemeToggle initial={initialTheme} client:load />
         </div>
@@ -66,11 +71,11 @@ const initialTheme =
     </main>
     <footer class:list={['site-footer', { 'print-hide': print }]}>
       <nav class="footer-nav" aria-label={t('footer.legal')}>
-        <a href="/methode">{t('footer.method.nav')}</a>
-        <a href="/cgu">{t('footer.terms')}</a>
-        <a href="/confidentialite">{t('footer.privacy')}</a>
-        <a href="/mentions-legales">{t('footer.mentions')}</a>
-        <a href="/accessibilite">{t('footer.a11y')}</a>
+        <a class="link-footer" href="/methode">{t('footer.method.nav')}</a>
+        <a class="link-footer" href="/cgu">{t('footer.terms')}</a>
+        <a class="link-footer" href="/confidentialite">{t('footer.privacy')}</a>
+        <a class="link-footer" href="/mentions-legales">{t('footer.mentions')}</a>
+        <a class="link-footer" href="/accessibilite">{t('footer.a11y')}</a>
       </nav>
     </footer>
   </body>

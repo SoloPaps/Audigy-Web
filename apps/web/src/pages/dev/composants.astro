@@ -45,7 +45,7 @@ const url = 'https://exemple.fr';
           {
             actions.map((item) => (
               <li>
-                <a href={`#finding-${item.id}`}>{item.title}</a>
+                <a class="link-inline" href={`#finding-${item.id}`}>{item.title}</a>
               </li>
             ))
           }
@@ -69,7 +69,12 @@ const url = 'https://exemple.fr';
     />
 
     <h2 id="verification">{t('section.verify')}</h2>
-    <p class="prose">{t('verify.lead')}</p>
+    <details>
+      <summary>{t('verify.how')}</summary>
+      <p class="prose">{t('verify.lead')}</p>
+      <p class="prose">{t('verify.pending')}</p>
+      <p class="prose">{t('verify.id')}</p>
+    </details>
     <PreuveMentions />
     <ReportFooter
       url={url}

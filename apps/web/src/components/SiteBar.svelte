@@ -50,12 +50,12 @@ onMount(() => {
     {t('nav.menu')}
   </button>
   <div id="nav-panel" class:open>
-    <a href="/methode" aria-current={current('/methode')}>{t('nav.method')}</a>
+    <a class="link-nav" href="/methode" aria-current={current('/methode')}>{t('nav.method')}</a>
     {#if loggedIn}
-      <a href="/sites" aria-current={current('/sites')}>{t('nav.sites')}</a>
-      <a href="/compte" aria-current={current('/compte')}>{t('nav.account')}</a>
+      <a class="link-nav" href="/sites" aria-current={current('/sites')}>{t('nav.sites')}</a>
+      <a class="link-nav" href="/compte" aria-current={current('/compte')}>{t('nav.account')}</a>
     {:else}
-      <a href="/connexion" aria-current={current('/connexion')}>{t('nav.login')}</a>
+      <a class="link-nav" href="/connexion" aria-current={current('/connexion')}>{t('nav.login')}</a>
     {/if}
   </div>
 </nav>
@@ -64,12 +64,6 @@ onMount(() => {
   nav { position: relative; }
   #nav-panel { display: flex; flex-wrap: wrap; gap: var(--space-4); }
   .menu-button { display: none; }
-  a[aria-current='page'] {
-    color: var(--accent);
-    text-decoration: underline;
-    text-decoration-thickness: var(--focus-width);
-    text-underline-offset: var(--space-1);
-  }
   @media (max-width: 768px) {
     .menu-button { display: inline-flex; }
     #nav-panel { display: none; }

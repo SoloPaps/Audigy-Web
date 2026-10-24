@@ -15,7 +15,7 @@ let { message }: Props = $props();
     <div class="bar"></div>
     <div class="bar"></div>
     <div class="bar"></div>
-    <p><a href="/">{t('progress.home')}</a></p>
+    <p><a class="link-action" href="/">{t('progress.home')}</a></p>
   </div>
 </div>
 

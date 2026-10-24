@@ -105,6 +105,28 @@ describe('rapport', () => {
     );
     expect(scoredDomainCount(items)).toBe(2);
     expect(items[0]?.href).toContain('domaine=performance');
+    expect(items[0]?.causes).toBeUndefined();
+  });
+
+  it('explique un domaine sans note sur le rapport du propriétaire', () => {
+    const items = categoryItems(
+      [
+        ...payload.domains,
+        { domain: 'vie_privee', score: null, coverage: 0.2, level: 'untested' },
+      ],
+      payload.audit.id,
+      payload.findings,
+    );
+    const row = items.find((item) => item.id === 'vie_privee');
+    expect(row?.detail).toBe('Nous n’avons pas pu vérifier la vie privée.');
+    expect(row?.coverageNote).toBe(
+      'Moins de la moitié des tests ont abouti. Ce domaine n’a pas de note.',
+    );
+    expect(row?.causes?.primary?.text).toBe(
+      'Le navigateur d’audit n’a pas tourné.',
+    );
+    expect(row?.causes?.closing).toBe('Ce n’est pas une note du site.');
+    expect(JSON.stringify(row)).not.toMatch(/reason\.|clé/);
   });
 
   it('relie la fiche, écarte le non applicable et filtre un domaine', () => {

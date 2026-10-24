@@ -1,3 +1,15 @@
+export interface CauseLine {
+  text: string;
+  searchConsole: boolean;
+}
+
+/** Causes internes d’un domaine sans note. Rapport du propriétaire seulement. */
+export interface UntestedCauses {
+  primary: CauseLine | null;
+  others: CauseLine[];
+  closing: string;
+}
+
 export interface CategoryItem {
   id: string;
   label: string;
@@ -5,6 +17,10 @@ export interface CategoryItem {
   detail: string;
   score: number | null;
   href?: string;
+  /** Phrase déjà fournie quand la couverture est sous 50 %. */
+  coverageNote?: string | null;
+  /** Absent du score public : pas de cause interne. */
+  causes?: UntestedCauses;
 }
 
 /** Moyenne des domaines notés. Les domaines sans score sont exclus. */

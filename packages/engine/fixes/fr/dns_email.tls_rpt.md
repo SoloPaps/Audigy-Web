@@ -1,5 +1,5 @@
 ---
-title: Recevoir les échecs de chiffrement
+title: Courrier : recevoir les échecs de chiffrement
 why: Sans rapport, vous ne voyez pas les échecs de chiffrement du courrier.
 effortMinutes: 15
 sources:

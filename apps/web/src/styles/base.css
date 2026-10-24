@@ -137,7 +137,74 @@ p {
 }
 
 a {
+  color: inherit;
+}
+
+a:visited {
+  color: inherit;
+}
+
+.link-inline,
+.link-inline:visited {
   color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: var(--focus-width);
+}
+
+.link-nav,
+.link-nav:visited {
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.link-nav[aria-current="page"],
+.link-nav[aria-current="page"]:visited {
+  color: var(--accent);
+  text-decoration: underline;
+  text-decoration-thickness: var(--focus-width);
+  text-underline-offset: var(--focus-width);
+}
+
+.link-footer,
+.link-footer:visited {
+  color: var(--ink-2);
+  font-size: var(--text-sm);
+  text-decoration: none;
+}
+
+.link-footer:hover,
+.link-footer:focus-visible {
+  text-decoration: underline;
+}
+
+.link-action,
+.link-action:visited {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--touch-min);
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: var(--focus-width);
+}
+
+.button:visited {
+  color: var(--ink);
+}
+
+.button-primary:visited {
+  color: var(--on-accent);
+}
+
+.button-secondary:visited {
+  color: var(--on-peach);
+}
+
+.button-bordered:visited {
+  color: var(--ink);
+}
+
+.skip:visited {
+  color: var(--on-accent);
 }
 
 .site-footer {
@@ -358,6 +425,19 @@ a {
   .print-hide,
   .no-print {
     display: none;
+  }
+
+  details.preuve-mentions > summary {
+    display: none;
+  }
+
+  details.preuve-mentions::details-content {
+    content-visibility: visible;
+    display: block;
+  }
+
+  details.preuve-mentions:not([open]) > :not(summary) {
+    display: block;
   }
 }
 

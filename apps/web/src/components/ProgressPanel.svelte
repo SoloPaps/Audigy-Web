@@ -76,15 +76,15 @@ onMount(() => {
   </p>
   {#if payload && (payload.audit.status === 'done' || payload.audit.status === 'partial')}
     <p>
-      <a href={`/rapport?id=${encodeURIComponent(payload.audit.id)}`}>{t('progress.report')}</a>
+      <a class="link-action" href={`/rapport?id=${encodeURIComponent(payload.audit.id)}`}>{t('progress.report')}</a>
     </p>
   {/if}
   {#if payload?.audit.status === 'failed'}
     <p>
-      <a href={`/lancer?site=${encodeURIComponent(payload.audit.site.id)}`}>{t('progress.retry')}</a>
+      <a class="link-action" href={`/lancer?site=${encodeURIComponent(payload.audit.site.id)}`}>{t('progress.retry')}</a>
     </p>
   {/if}
   {#if stopped && !payload}
-    <p><a href="/sites">{t('nav.sites')}</a></p>
+    <p><a class="link-action" href="/sites">{t('nav.sites')}</a></p>
   {/if}
 {/if}

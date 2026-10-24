@@ -221,7 +221,7 @@ function download(): void {
     <p class="hint">{t('sites.security.hint')}</p>
     {#if publicHref}
       <p>
-        <a href={publicHref}>{publicHref}</a>
+        <a class="link-inline" href={publicHref}>{publicHref}</a>
       </p>
     {/if}
     {#if shareHref}

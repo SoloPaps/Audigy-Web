@@ -38,11 +38,11 @@ const email = t('legal.email');
   <h2>{t('terms.account.title')}</h2>
   <p class="prose">{t('terms.account.export')}</p>
   <p class="prose">{t('terms.account.delete')}</p>
-  <p class="prose"><a href="/compte">{t('nav.account')}</a></p>
+  <p class="prose"><a class="link-inline" href="/compte">{t('nav.account')}</a></p>
 
   <h2>{t('terms.law.title')}</h2>
   <p class="prose">{t('terms.law.body')}</p>
   <p class="prose">
-    <a href={`mailto:${email}`}>{email}</a>
+    <a class="link-inline" href={`mailto:${email}`}>{email}</a>
   </p>
 </Base>
