@@ -8,7 +8,7 @@ import type {
 
 export const METHOD_VERSION = '2026.1';
 /** Version du moteur stockée sur chaque audit (`engine_version`). Suit `package.json`. */
-export const ENGINE_VERSION = '0.15.0';
+export const ENGINE_VERSION = '0.18.0';
 
 export const DOMAINS = [
   'performance',

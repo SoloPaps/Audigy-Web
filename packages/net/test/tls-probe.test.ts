@@ -177,6 +177,24 @@ describe('probeTls', () => {
     });
   });
 
+  it('demande une version précise pour un appel', async () => {
+    const port = await startServer({
+      key: certs.leafKey,
+      cert: certs.leafCert,
+      minVersion: 'TLSv1.2',
+      maxVersion: 'TLSv1.2',
+    });
+    const { probe } = probeFor(port);
+    await expect(
+      probe('audigy.test', { minVersion: 'TLSv1.3', maxVersion: 'TLSv1.3' }),
+    ).rejects.toMatchObject({ code: 'TLS_HANDSHAKE_FAILED' });
+    const ok = await probe('audigy.test', {
+      minVersion: 'TLSv1.2',
+      maxVersion: 'TLSv1.2',
+    });
+    expect(ok.protocol).toBe('TLSv1.2');
+  });
+
   it('délai dépassé', async () => {
     const probe = createTlsProbe({
       timeoutMs: 100,

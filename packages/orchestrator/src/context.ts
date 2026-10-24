@@ -1,4 +1,5 @@
 import {
+  ACTIVE_SECURITE_CHECKS,
   type Check,
   createRegistry,
   createSharedArtifacts,
@@ -22,6 +23,7 @@ import {
   createRequestBudget,
   createSafeFetch,
   createTlsProbe,
+  DEFAULT_MAX_REQUESTS,
   type RequestBudgetOptions,
 } from '@audigy/net';
 import { type LabConfig, labNet } from './lab.js';
@@ -30,6 +32,7 @@ import { type LabConfig, labNet } from './lab.js';
 export function defaultChecks(): Check[] {
   return createRegistry([
     ...SECURITE_CHECKS,
+    ...ACTIVE_SECURITE_CHECKS,
     ...TECHNOLOGIES_CHECKS,
     ...PERFORMANCE_CHECKS,
     ...SEO_CHECKS,
@@ -57,10 +60,23 @@ export interface AuditContext {
   available: Need[];
 }
 
+/**
+ * Sondes actives (fichiers, dossiers) en plus du plafond passif.
+ * Le parcours passif reste borné par ses propres limites de pages.
+ */
+export const ACTIVE_EXTRA_REQUESTS = 100;
+
 /** Contexte d'un audit : un budget, un `safeFetch` (IP épinglées) et des artefacts partagés. */
 export function createAuditContext(options: AuditContextOptions): AuditContext {
   const env = options.env ?? process.env;
-  const budget = createRequestBudget(options.budget);
+  const budget = createRequestBudget({
+    ...options.budget,
+    maxRequests:
+      options.budget?.maxRequests ??
+      (options.verified
+        ? DEFAULT_MAX_REQUESTS + ACTIVE_EXTRA_REQUESTS
+        : DEFAULT_MAX_REQUESTS),
+  });
   const botUrl = env.APP_BASE_URL?.trim() || undefined;
   const base: RunContext['net'] = options.lab
     ? labNet(options.lab, budget)

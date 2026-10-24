@@ -78,6 +78,80 @@ export const fr = {
   'sites.need_login': 'Connectez-vous pour voir vos sites.',
   'sites.error': 'La liste des sites ne s’affiche pas. Réessayez.',
   'sites.signout': 'Se déconnecter',
+  'sites.verify': 'Prouver que le site est à vous',
+  'meta.verify.title': 'Vérifier un site — Audigy',
+  'meta.verify.description':
+    'Prouvez que le site est à vous avant les tests approfondis.',
+  'verify.title': 'Prouver que le site est à vous',
+  'verify.intro': 'Les tests approfondis partent seulement après cette preuve.',
+  'verify.consent': 'Sans votre accord, ces tests peuvent être interdits.',
+  'verify.legal_law':
+    'L’article 323-1 du code pénal vise l’accès non autorisé.',
+  'verify.need_login': 'Connectez-vous pour vérifier un site.',
+  'verify.missing': 'Choisissez un site dans votre liste.',
+  'verify.loading': 'Chargement de la vérification.',
+  'verify.error': 'La vérification n’a pas abouti. Réessayez.',
+  'verify.not_found': 'Ce site ne figure pas dans votre liste.',
+  'verify.method': 'Méthode de preuve',
+  'verify.method.dns': 'Enregistrement du nom de domaine',
+  'verify.method.file': 'Fichier sur le site',
+  'verify.method.meta': 'Balise dans la page',
+  'verify.create': 'Créer le code',
+  'verify.creating': 'Création du code.',
+  'verify.check': 'Vérifier le site',
+  'verify.checking': 'Vérification en cours.',
+  'verify.copy': 'Copier le code',
+  'verify.copied': 'Le code est copié.',
+  'verify.copy_failed': 'Sélectionnez le code et copiez-le à la main.',
+  'verify.status.pending':
+    'Le code n’est pas encore visible. Placez-le, puis réessayez.',
+  'verify.verified': 'Le site est vérifié. Les tests approfondis sont ouverts.',
+  'verify.failed': 'La preuve n’a pas été trouvée.',
+  'verify.expired': 'La preuve a disparu. Les tests approfondis sont arrêtés.',
+  'verify.token': 'Code à publier',
+  'verify.back': 'Retour aux sites',
+  'verify.record_name': 'Nom',
+  'verify.record_value': 'Valeur',
+  'verify.file_url': 'Adresse du fichier',
+  'verify.meta_tag': 'Balise à ajouter',
+  'verify.guide.netlify.title': 'Chez Netlify, dans le DNS',
+  'verify.guide.registrar.title': 'Chez le service qui gère le nom',
+  'verify.guide.github.title': 'Sur GitHub Pages',
+  'verify.guide.file.title': 'Fichier à la racine publiée',
+  'verify.guide.meta.title': 'Balise dans la page',
+  'verify.github.dns':
+    'Un nom github.io ne se règle pas ici. Utilisez le fichier, ou un domaine à vous.',
+  'verify.guide.netlify.1':
+    'Ouvrez le site dans Netlify, puis la page du domaine.',
+  'verify.guide.netlify.2':
+    'Ouvrez le DNS Netlify et ajoutez un enregistrement.',
+  'verify.guide.netlify.3':
+    'Le type est TXT. Copiez le nom et la valeur ci-dessous.',
+  'verify.guide.netlify.4': 'Enregistrez. Attendez quelques minutes.',
+  'verify.guide.netlify.5': 'Revenez ici et lancez la vérification.',
+  'verify.guide.registrar.1': 'Connectez-vous chez le service qui gère le nom.',
+  'verify.guide.registrar.2': 'Ouvrez la zone DNS de ce domaine.',
+  'verify.guide.registrar.3': 'Ajoutez un enregistrement de type TXT.',
+  'verify.guide.registrar.4': 'Copiez le nom et la valeur indiqués ici.',
+  'verify.guide.registrar.5': 'Attendez quelques minutes, puis vérifiez.',
+  'verify.guide.github.1': 'Ouvrez le dépôt, sur la branche qui est publiée.',
+  'verify.guide.github.2': 'Créez le fichier à la racine du site publié.',
+  'verify.guide.github.3':
+    'Le fichier contient seulement le code, sans balise autour.',
+  'verify.guide.github.4':
+    'Ne le mettez pas dans un dossier qui commence par un point.',
+  'verify.guide.github.5':
+    'Ces dossiers sont ignorés, sauf avec le fichier .nojekyll.',
+  'verify.guide.github.6': 'Publiez le site, puis lancez la vérification ici.',
+  'verify.guide.file.1': 'Créez le fichier à l’adresse indiquée.',
+  'verify.guide.file.2': 'Collez seulement le code, sans autre texte.',
+  'verify.guide.file.3': 'Publiez cette version du site.',
+  'verify.guide.file.4': 'Revenez ici et lancez la vérification.',
+  'verify.guide.meta.1': 'Ouvrez le modèle HTML de la page du site.',
+  'verify.guide.meta.2': 'Dans l’en-tête, ajoutez la balise indiquée.',
+  'verify.guide.meta.3':
+    'Le code doit être dans le HTML reçu, pas ajouté par un script.',
+  'verify.guide.meta.4': 'Publiez, puis lancez la vérification.',
   'progress.title': 'Avancement de l’audit',
   'progress.loading': 'Chargement de l’avancement.',
   'progress.queued': 'L’audit est en file. Il démarre bientôt.',
@@ -334,6 +408,7 @@ export const fr = {
   'api.error.audit_not_found': 'Cet audit est introuvable.',
   'api.error.unverified':
     'Ce test demande un site vérifié. Vérifiez votre site, puis relancez.',
+  'api.error.verification_not_found': 'Cette vérification est introuvable.',
   'api.error.user_limit':
     'Vous avez lancé 10 audits aujourd’hui. Réessayez demain.',
   'api.error.host_limit':
@@ -360,6 +435,23 @@ export const fr = {
     'Le navigateur d’audit n’a pas été lancé. Ajoutez --browser pour le lancer.',
   'cli.browser.absent':
     'Le navigateur d’audit est absent. Ses tests restent non testés.',
+  'securite.fichiers.pass': 'Aucun fichier sensible connu n’est lisible.',
+  'securite.fichiers.fail':
+    'Un fichier sensible est lisible par tout le monde.',
+  'securite.fichiers.fail_many':
+    '{count} fichiers sensibles sont lisibles par tout le monde.',
+  'securite.fichiers.untested':
+    'Nous n’avons pas pu tester les fichiers sensibles.',
+  'securite.listing.pass': 'Aucun dossier ne liste son contenu.',
+  'securite.listing.fail': 'Un dossier affiche la liste de ses fichiers.',
+  'securite.listing.untested':
+    'Nous n’avons pas pu tester la liste des dossiers.',
+  'securite.tls.pass':
+    'Le site propose TLS 1.2 ou TLS 1.3, sans version plus ancienne.',
+  'securite.tls.warn': 'Le site ne propose pas TLS 1.3. Il reste en TLS 1.2.',
+  'securite.tls.fail': 'Le site accepte encore TLS 1.0 ou TLS 1.1.',
+  'securite.tls.untested':
+    'Nous n’avons pas pu tester les versions de chiffrement.',
   'securite.https.pass_redirect':
     'Les pages s’ouvrent en adresse chiffrée, et l’ancienne adresse y renvoie.',
   'securite.https.pass_no_http':

@@ -14,6 +14,7 @@ export type ApiError =
   | 'site_not_found'
   | 'audit_not_found'
   | 'unverified'
+  | 'verification_not_found'
   | 'user_limit'
   | 'host_limit'
   | 'internal';

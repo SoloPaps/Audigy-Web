@@ -29,11 +29,14 @@ async function load(name: string) {
 }
 
 describe('fonctions Netlify', () => {
-  it('trois fonctions, routes déclarées, background sans route', async () => {
+  it('routes publiques et fonctions de fond sans route', async () => {
     expect(names.sort()).toEqual([
       'api-audits-create',
       'api-audits-get',
+      'api-verifications-check',
+      'api-verifications-create',
       'audit-run-background',
+      'verification-recheck-background',
     ]);
     expect((await load('api-audits-create')).config).toEqual({
       path: '/api/audits',
@@ -44,6 +47,17 @@ describe('fonctions Netlify', () => {
       method: 'GET',
     });
     expect((await load('audit-run-background')).config).toBeUndefined();
+    expect((await load('api-verifications-create')).config).toEqual({
+      path: '/api/verifications',
+      method: 'POST',
+    });
+    expect((await load('api-verifications-check')).config).toEqual({
+      path: '/api/verifications/check',
+      method: 'POST',
+    });
+    expect(
+      (await load('verification-recheck-background')).config,
+    ).toBeUndefined();
   });
 
   it('bundle autonome : aucun import de paquet du monorepo', async () => {

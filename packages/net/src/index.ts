@@ -84,6 +84,7 @@ export {
   type TlsCertificateInfo,
   type TlsChainEntry,
   type TlsProbe,
+  type TlsProbeCall,
   type TlsProbeOptions,
   type TlsProbeResult,
 } from './tls-probe.js';

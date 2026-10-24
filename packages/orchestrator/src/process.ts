@@ -37,6 +37,13 @@ export interface AuditStore {
   claimNext(): Promise<ClaimedAudit | null>;
   /** Vérification de propriété `verified` revérifiée il y a moins de 10 min. */
   isVerifiedFresh(siteId: string): Promise<boolean>;
+  /** Journal `audit_log`. Absent des anciens tests. */
+  appendAudit?(entry: {
+    actor: string | null;
+    action: string;
+    target: string | null;
+    details: Record<string, string | number | boolean | null>;
+  }): Promise<void>;
   writeResults(input: AuditResultsInput): Promise<void>;
   /** Sortie validée du runner navigateur, ou `null` si elle n'est pas encore là. */
   readRunnerOutput(auditId: string): Promise<unknown | null>;
@@ -48,6 +55,12 @@ export interface ProcessDeps {
   checks: readonly Check[];
   fixes: ReadonlyMap<string, FixSheet>;
   context(target: Target, verified: boolean): AuditContext;
+  /**
+   * Relit la preuve avant un audit actif. Absent : repli sur `isVerifiedFresh`.
+   */
+  confirmActive?(
+    audit: ClaimedAudit,
+  ): Promise<{ allowed: boolean; actor: string | null }>;
   logger: Logger;
   now?: () => number;
   sleep?: (ms: number) => Promise<void>;
@@ -106,13 +119,36 @@ export async function processNextAudit(
 
   let summary: AuditSummary | null = null;
   try {
-    const verified =
-      audit.mode === 'active' &&
-      (await deps.store.isVerifiedFresh(audit.siteId));
+    let verified = false;
+    let actor: string | null = null;
+    if (audit.mode === 'active') {
+      if (deps.confirmActive) {
+        const decision = await deps.confirmActive(audit);
+        verified = decision.allowed;
+        actor = decision.actor;
+      } else {
+        verified = await deps.store.isVerifiedFresh(audit.siteId);
+      }
+    }
     const { ctx, available } = deps.context(targetOf(audit.site), verified);
     const { server, browser } = splitChecks(deps.checks);
 
     const serverOutcomes = await runServerPhase(server, ctx, { available });
+    if (audit.mode === 'active' && deps.store.appendAudit) {
+      for (const outcome of serverOutcomes) {
+        if (outcome.mode !== 'active') continue;
+        await deps.store.appendAudit({
+          actor,
+          action: 'active.check',
+          target: audit.siteId,
+          details: {
+            auditId: audit.id,
+            checkId: outcome.checkId,
+            status: outcome.result.status,
+          },
+        });
+      }
+    }
     summary = assemble(
       [
         ...serverOutcomes,

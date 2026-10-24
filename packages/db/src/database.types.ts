@@ -464,6 +464,7 @@ export type Database = {
       };
       site_verifications: {
         Row: {
+          created_at: string;
           evidence: NonNullable<Json>;
           id: string;
           last_checked_at: string | null;
@@ -475,6 +476,7 @@ export type Database = {
         };
         ComputedFields: never;
         Insert: {
+          created_at?: string;
           evidence?: NonNullable<Json>;
           id?: string;
           last_checked_at?: string | null;
@@ -485,6 +487,7 @@ export type Database = {
           verified_at?: string | null;
         };
         Update: {
+          created_at?: string;
           evidence?: NonNullable<Json>;
           id?: string;
           last_checked_at?: string | null;

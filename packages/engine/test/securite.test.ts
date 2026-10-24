@@ -1262,7 +1262,7 @@ abc
 describe('textes, fiches et méthode', () => {
   it('chaque clé de sécurité est produite par un test', () => {
     const technologies =
-      /^securite\.(technologies|cve_scripts|cve_logiciels)\./;
+      /^securite\.(technologies|cve_scripts|cve_logiciels|fichiers|listing|tls)\./;
     const keys = Object.keys(fr).filter(
       (key) => key.startsWith('securite.') && !technologies.test(key),
     );

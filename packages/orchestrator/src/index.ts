@@ -11,6 +11,12 @@
  * - `handleGet(req, deps, id)` : `GET /api/audits/:id`, lecture sous RLS.
  * - `handleRun(req, deps)` : `audit-run-background`, réveil signé (`x-audigy-trigger`,
  *   HMAC de `SUPABASE_SERVICE_ROLE_KEY`), puis `processNextAudit`.
+ * - `handleCreateVerification`, `handleCheckVerification` : `POST /api/verifications`
+ *   et `POST /api/verifications/check`. Le client ne peut pas se marquer vérifié.
+ * - `handleRecheck` : relecture quotidienne signée (`verification-recheck-background`).
+ *   Pas de planification dans `netlify.toml` (PART-22).
+ * - `decideRecheck`, `confirmClaimedAudit` : refus si la preuve a plus de 10 min,
+ *   si la portée ne correspond pas, ou si elle a disparu (`expired` + alerte).
  * - `processNextAudit(deps)` : claim → checks côté fonction → `partial` → runner
  *   navigateur (GitHub `browser-audit.yml`) → attente ≤ 10 min → fusion → `done`.
  *   Le runner (`@audigy/browser-runner`, `runJob`) dépose `<id>/browser/results.json`
@@ -32,6 +38,16 @@ export {
   defaultChecks,
 } from './context.js';
 export { type CreateDeps, type CreateResult, createAudit } from './create.js';
+export {
+  type AuditEvent,
+  activeCheckEvent,
+  applyProbe,
+  checkEvent,
+  createEvent,
+  decideRecheck,
+  type ProbeApply,
+  type RecheckDecision,
+} from './decide.js';
 export {
   BROWSER_WORKFLOW,
   createGithubDispatcher,
@@ -120,3 +136,22 @@ export {
   TRIGGER_HEADER,
   verifyTrigger,
 } from './trigger.js';
+export {
+  appendAuditLog,
+  claimedOwnership,
+  confirmClaimedAudit,
+  recheckDepsFromEnv,
+  recheckDueVerifications,
+  recheckNet,
+  verificationDepsFromEnv,
+} from './verify-db.js';
+export {
+  handleCheckVerification,
+  handleCreateVerification,
+  handleRecheck,
+  type OwnedSite,
+  type OwnedVerification,
+  type RecheckDeps,
+  type VerificationDeps,
+  type VerificationPatch,
+} from './verify-http.js';
