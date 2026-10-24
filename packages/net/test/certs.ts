@@ -11,8 +11,16 @@ export interface TestCerts {
   selfCert: string;
 }
 
-/** Génère une AC de test, un certificat feuille signé (SAN audigy.test) et un autosigné. */
-export function generateTestCerts(): TestCerts {
+/**
+ * Génère une AC de test, un certificat feuille signé et un autosigné.
+ * Par défaut : SAN audigy.test et www.audigy.test, 30 jours.
+ */
+export function generateTestCerts(
+  options: { names?: readonly string[]; days?: number } = {},
+): TestCerts {
+  const names = options.names ?? ['audigy.test', 'www.audigy.test'];
+  const days = String(options.days ?? 30);
+  const first = names[0] ?? 'audigy.test';
   const dir = mkdtempSync(join(tmpdir(), 'audigy-net-'));
   const p = (f: string) => join(dir, f);
   const ssl = (...args: string[]) =>
@@ -28,7 +36,7 @@ export function generateTestCerts(): TestCerts {
       '-out',
       p('ca.crt'),
       '-days',
-      '30',
+      days,
       '-subj',
       '/CN=Audigy Test CA',
       '-addext',
@@ -44,11 +52,11 @@ export function generateTestCerts(): TestCerts {
       '-out',
       p('leaf.csr'),
       '-subj',
-      '/CN=audigy.test',
+      `/CN=${first}`,
     );
     writeFileSync(
       p('leaf.ext'),
-      'subjectAltName=DNS:audigy.test,DNS:www.audigy.test\n',
+      `subjectAltName=${names.map((name) => `DNS:${name}`).join(',')}\n`,
     );
     ssl(
       'x509',
@@ -62,7 +70,7 @@ export function generateTestCerts(): TestCerts {
       '-set_serial',
       '2',
       '-days',
-      '30',
+      days,
       '-extfile',
       p('leaf.ext'),
       '-out',
@@ -77,7 +85,7 @@ export function generateTestCerts(): TestCerts {
       '-out',
       p('self.crt'),
       '-days',
-      '30',
+      days,
       '-subj',
       '/CN=audigy.test',
       '-addext',

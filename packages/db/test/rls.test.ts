@@ -11,6 +11,7 @@ import {
   ensureLocalSupabase,
   type LocalSupabase,
   localSupabaseStatus,
+  lockLocalDatabase,
   resetLocalDatabase,
 } from './local.js';
 
@@ -27,6 +28,7 @@ const SHA = 'ab'.repeat(32);
 let admin: Sql;
 let local: LocalSupabase;
 let linkToken = '';
+let unlock: (() => Promise<void>) | undefined;
 
 async function insertUser(id: string, email: string): Promise<void> {
   await admin`
@@ -89,6 +91,7 @@ async function expectDenied(
 describe('RLS Supabase local', () => {
   beforeAll(async () => {
     await ensureLocalSupabase();
+    unlock = await lockLocalDatabase();
     resetLocalDatabase();
     resetLocalDatabase();
     local = localSupabaseStatus();
@@ -205,6 +208,7 @@ describe('RLS Supabase local', () => {
 
   afterAll(async () => {
     await admin?.end();
+    await unlock?.();
   });
 
   it('isole toutes les tables publiques par RLS', async () => {

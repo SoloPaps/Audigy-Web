@@ -5,6 +5,7 @@
  */
 import { readFile } from 'node:fs/promises';
 import http from 'node:http';
+import https from 'node:https';
 import type { AddressInfo } from 'node:net';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -29,9 +30,17 @@ export interface FixtureServer {
   close(): Promise<void>;
 }
 
+export interface FixtureServerOptions {
+  /** Sert en HTTPS avec ce certificat (labo local). */
+  tls?: { key: string; cert: string };
+  /** Répond 301 vers cette origine au lieu de servir les fichiers. */
+  redirectTo?: string;
+}
+
 export async function startFixtureServer(
   site: FixtureSite,
   port = 0,
+  options: FixtureServerOptions = {},
 ): Promise<FixtureServer> {
   if (!FIXTURE_SITES.includes(site)) throw new Error(`Site inconnu : ${site}`);
   const root = path.join(SITES_DIR, site);
@@ -40,9 +49,14 @@ export async function startFixtureServer(
   ) as Record<string, string>;
   const requests: string[] = [];
 
-  const server = http.createServer(async (req, res) => {
+  const handler: http.RequestListener = async (req, res) => {
     const pathname = new URL(req.url ?? '/', 'http://fixture').pathname;
     requests.push(pathname);
+    if (options.redirectTo) {
+      res.writeHead(301, { Location: `${options.redirectTo}${pathname}` });
+      res.end();
+      return;
+    }
     for (const [name, value] of Object.entries(extraHeaders))
       res.setHeader(name, value);
 
@@ -71,7 +85,10 @@ export async function startFixtureServer(
       res.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' });
       res.end(req.method === 'HEAD' ? undefined : 'Introuvable');
     }
-  });
+  };
+  const server = options.tls
+    ? https.createServer(options.tls, handler)
+    : http.createServer(handler);
 
   await new Promise<void>((resolve, reject) => {
     server.once('error', reject);
@@ -80,7 +97,7 @@ export async function startFixtureServer(
   const actual = (server.address() as AddressInfo).port;
   return {
     port: actual,
-    origin: `http://127.0.0.1:${actual}`,
+    origin: `${options.tls ? 'https' : 'http'}://127.0.0.1:${actual}`,
     requests,
     close: () =>
       new Promise<void>((resolve, reject) =>
