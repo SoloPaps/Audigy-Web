@@ -1,0 +1,77 @@
+{
+  "lighthouseResult": {
+    "lighthouseVersion": "12.6.1",
+    "categories": {
+      "performance": { "score": 0.9 },
+      "accessibility": { "score": 0.8 },
+      "best-practices": { "score": 1 },
+      "seo": { "score": 0.9 }
+    },
+    "audits": {
+      "total-byte-weight": {
+        "score": 1,
+        "numericValue": 107178
+      },
+      "uses-long-cache-ttl": { "score": 1, "numericValue": 0 },
+      "uses-text-compression": { "score": 1, "numericValue": 0 },
+      "dom-size": {
+        "numericValue": 999,
+        "details": {
+          "items": [
+            {
+              "statistic": "Total DOM Elements",
+              "value": { "type": "numeric", "value": 201 }
+            }
+          ]
+        }
+      },
+      "network-requests": {
+        "details": {
+          "items": [
+            {
+              "url": "https://exemple.test/",
+              "resourceType": "Document",
+              "mimeType": "text/html",
+              "transferSize": 50000
+            },
+            {
+              "url": "data:image/png;base64,aaaa",
+              "resourceType": "Image",
+              "mimeType": "image/png"
+            },
+            {
+              "url": "https://cdn.test/app.js",
+              "resourceType": "Script",
+              "mimeType": "application/javascript",
+              "transferSize": 40000
+            },
+            {
+              "url": "https://cdn.test/app.css",
+              "resourceType": "Stylesheet",
+              "mimeType": "text/css",
+              "transferSize": 10000
+            },
+            {
+              "url": "https://cdn.test/photo.webp",
+              "resourceType": "Image",
+              "mimeType": "image/webp",
+              "transferSize": 5000
+            },
+            {
+              "url": "https://cdn.test/photo.jpg",
+              "resourceType": "Image",
+              "mimeType": "image/jpeg",
+              "transferSize": 2000
+            },
+            {
+              "url": "https://cdn.test/font.woff2",
+              "resourceType": "Font",
+              "mimeType": "font/woff2",
+              "transferSize": 1000
+            }
+          ]
+        }
+      }
+    }
+  }
+}

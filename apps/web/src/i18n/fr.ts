@@ -565,6 +565,242 @@ export const fr = {
     'L’annonce des rapports de chiffrement est illisible.',
   'dns_email.tls_rpt.na_nomail':
     'Sans courrier entrant, ces rapports ne s’appliquent pas.',
+  'ecologie.missing_key':
+    'Nous n’avons pas pu tester : la mesure de la page n’est pas configurée.',
+  'ecologie.psi_quota':
+    'Nous n’avons pas pu tester : le quota de mesure de la page est atteint.',
+  'ecologie.psi_error':
+    'Nous n’avons pas pu tester : la mesure de la page a échoué.',
+  'ecologie.missing_api':
+    'Nous n’avons pas pu tester : la source d’annuaire n’est pas branchée.',
+  'ecologie.quota':
+    'Nous n’avons pas pu tester : le quota de l’annuaire est atteint.',
+  'ecologie.error':
+    'Nous n’avons pas pu tester : l’annuaire des hébergeurs n’a pas répondu.',
+  'ecologie.ecoindex.pass':
+    'Estimation : la page obtient {score} sur 100, lettre {lettre}. Ce chiffre repose sur une formule publique, pas sur une mesure exacte.',
+  'ecologie.ecoindex.warn':
+    'Estimation : la page obtient {score} sur 100, lettre {lettre}, un résultat moyen. Ce chiffre repose sur une formule publique, pas sur une mesure exacte.',
+  'ecologie.ecoindex.fail':
+    'Estimation : la page obtient {score} sur 100, lettre {lettre}, un résultat faible. Ce chiffre repose sur une formule publique, pas sur une mesure exacte.',
+  'ecologie.ecoindex.pass_une':
+    'Estimation : {score} sur 100, lettre {lettre}, d’après une seule mesure. Ce chiffre repose sur une formule publique, pas sur une mesure exacte.',
+  'ecologie.ecoindex.warn_une':
+    'Estimation : {score} sur 100, lettre {lettre}, un résultat moyen sur une seule mesure. Ce chiffre repose sur une formule publique, pas sur une mesure exacte.',
+  'ecologie.ecoindex.fail_une':
+    'Estimation : {score} sur 100, lettre {lettre}, un résultat faible sur une seule mesure. Ce chiffre repose sur une formule publique, pas sur une mesure exacte.',
+  'ecologie.ecoindex.incomplete':
+    'Nous n’avons pas pu estimer l’EcoIndex : il manque {manque}. Sans ces mesures, l’estimation serait trompeuse.',
+  'ecologie.co2.pass':
+    'Estimation : environ {grammes} grammes de CO2 par visite, lettre {lettre}. Le modèle SWD décrit une visite moyenne, pas une mesure exacte.',
+  'ecologie.co2.warn':
+    'Estimation : environ {grammes} grammes de CO2 par visite, lettre {lettre}, au-dessus des pages légères. Le modèle SWD décrit une visite moyenne, pas une mesure exacte.',
+  'ecologie.co2.fail':
+    'Estimation : environ {grammes} grammes de CO2 par visite, lettre {lettre}, au-dessus de la médiane. Le modèle SWD décrit une visite moyenne, pas une mesure exacte.',
+  'ecologie.co2.pass_vert':
+    'Estimation : environ {grammes} grammes de CO2 par visite, lettre {lettre}, hébergeur listé comme vert. Le modèle SWD décrit une visite moyenne, pas une mesure exacte.',
+  'ecologie.co2.warn_vert':
+    'Estimation : environ {grammes} grammes de CO2 par visite, lettre {lettre}, hébergeur listé comme vert. Le modèle SWD décrit une visite moyenne, pas une mesure exacte.',
+  'ecologie.co2.fail_vert':
+    'Estimation : environ {grammes} grammes de CO2 par visite, lettre {lettre}, hébergeur listé comme vert. Le modèle SWD décrit une visite moyenne, pas une mesure exacte.',
+  'ecologie.co2.pass_inconnu':
+    'Estimation : environ {grammes} grammes de CO2 par visite, lettre {lettre}. L’hébergeur n’a pas pu être confirmé. Le modèle SWD décrit une visite moyenne, pas une mesure exacte.',
+  'ecologie.co2.warn_inconnu':
+    'Estimation : environ {grammes} grammes de CO2 par visite, lettre {lettre}, au-dessus des pages légères. L’hébergeur n’a pas pu être confirmé. Le modèle SWD décrit une visite moyenne, pas une mesure exacte.',
+  'ecologie.co2.fail_inconnu':
+    'Estimation : environ {grammes} grammes de CO2 par visite, lettre {lettre}, au-dessus de la médiane. L’hébergeur n’a pas pu être confirmé. Le modèle SWD décrit une visite moyenne, pas une mesure exacte.',
+  'ecologie.co2.incomplete':
+    'Nous n’avons pas pu estimer le CO2 : le poids de la page manque. Sans ce poids, l’estimation serait trompeuse.',
+  'ecologie.hebergeur.pass':
+    'L’annuaire indique {nom} parmi les hébergeurs à électricité renouvelable. Cela ne couvre pas toute la chaîne d’hébergement.',
+  'ecologie.hebergeur.pass_anonyme':
+    'L’annuaire indique un hébergeur à électricité renouvelable. Cela ne couvre pas toute la chaîne d’hébergement.',
+  'ecologie.hebergeur.fail':
+    'L’annuaire ne liste pas cet hébergeur comme alimenté en électricité renouvelable. Cela ne couvre pas toute la chaîne d’hébergement.',
+  'ecologie.hebergeur.ip':
+    'Nous n’avons pas pu tester : l’annuaire attend un nom de domaine, pas une adresse de machine.',
+  'ecologie.rgesn_budget.pass':
+    'Cette page pèse {poids} et envoie {requetes} requêtes, sous les repères. Le référentiel demande aussi un objectif écrit, invisible ici.',
+  'ecologie.rgesn_budget.warn':
+    'Cette page pèse {poids} et envoie {requetes} requêtes. Le repère visé est 1 Mo et 30 requêtes.',
+  'ecologie.rgesn_budget.fail':
+    'Cette page pèse {poids} et envoie {requetes} requêtes. C’est au-dessus de 2 Mo ou de 100 requêtes.',
+  'ecologie.rgesn_budget.warn_poids':
+    'Cette page pèse {poids}. Le nombre de requêtes n’a pas été mesuré.',
+  'ecologie.rgesn_budget.fail_poids':
+    'Cette page pèse {poids}, au-dessus du repère. Les requêtes n’ont pas été mesurées.',
+  'ecologie.rgesn_budget.warn_requetes':
+    'Cette page fait {requetes} requêtes. Le poids n’a pas été mesuré.',
+  'ecologie.rgesn_budget.fail_requetes':
+    'Cette page fait {requetes} requêtes, au-dessus du repère. Le poids n’a pas été mesuré.',
+  'ecologie.rgesn_budget.incomplete':
+    'Nous n’avons pas pu tester le budget de la page : le poids et les requêtes manquent.',
+  'ecologie.rgesn_cache.pass':
+    'Sur cette page, les fichiers déjà vus peuvent rester en mémoire. Cela ne prouve pas une stratégie écrite pour tout le service.',
+  'ecologie.rgesn_cache.warn':
+    'Sur cette page, certains fichiers sont rechargés trop souvent. Cela ne prouve pas une stratégie écrite pour tout le service.',
+  'ecologie.rgesn_cache.fail':
+    'Sur cette page, les fichiers sont rechargés presque à chaque visite. Cela ne prouve pas une stratégie écrite pour tout le service.',
+  'ecologie.rgesn_cache.na':
+    'Cette mesure de cache ne s’applique pas à cette page.',
+  'ecologie.rgesn_compression.pass':
+    'Sur cette page, les textes sont compressés avant l’envoi. Cela ne prouve pas une stratégie écrite pour tout le service.',
+  'ecologie.rgesn_compression.warn':
+    'Sur cette page, une partie des textes n’est pas compressée. Cela ne prouve pas une stratégie écrite pour tout le service.',
+  'ecologie.rgesn_compression.fail':
+    'Sur cette page, les textes ne sont pas compressés. Cela ne prouve pas une stratégie écrite pour tout le service.',
+  'ecologie.rgesn_compression.na':
+    'Cette mesure de compression ne s’applique pas à cette page.',
+  'ecologie.rgesn_polices.pass':
+    'Les polices téléchargées restent dans la limite : {fichiers} fichiers, {poids}. Le nombre de familles distinctes n’est pas visible.',
+  'ecologie.rgesn_polices.pass_sans_poids':
+    'Les polices téléchargées restent dans la limite : {fichiers} fichiers. Le poids de ces polices n’a pas été mesuré.',
+  'ecologie.rgesn_polices.pass_aucune':
+    'Aucune police n’est téléchargée pour cette page.',
+  'ecologie.rgesn_polices.warn':
+    'Les polices sont nombreuses : {fichiers} fichiers, {poids}. Visez deux polices, ou 400 Ko.',
+  'ecologie.rgesn_polices.warn_sans_poids':
+    'Les polices sont nombreuses : {fichiers} fichiers. Le poids n’a pas été mesuré.',
+  'ecologie.rgesn_polices.fail':
+    'Les polices dépassent la limite : {fichiers} fichiers, {poids}. Visez deux polices, ou 400 Ko.',
+  'ecologie.rgesn_polices.incomplete':
+    'Nous n’avons pas pu compter les polices téléchargées sur cette page.',
+  'ecologie.rgesn_images.pass':
+    'Sur cette page, {part} des images matricielles utilisent un format léger. Le sujet de chaque image n’est pas jugé.',
+  'ecologie.rgesn_images.warn':
+    'Sur cette page, seulement {part} des images matricielles utilisent un format léger. Le sujet de chaque image n’est pas jugé.',
+  'ecologie.rgesn_images.fail':
+    'Sur cette page, {part} des images matricielles utilisent un format léger. Le sujet de chaque image n’est pas jugé.',
+  'ecologie.rgesn_images.na':
+    'Aucune image matricielle n’est à juger sur cette page.',
+  'ecologie.rgesn_images.incomplete':
+    'Nous n’avons pas pu lire le format des images de cette page.',
+  'rgesn.intro':
+    'Ces questions complètent les mesures automatiques. Répondez pour votre service.',
+  'rgesn.theme.strategie': 'Stratégie',
+  'rgesn.theme.specifications': 'Spécifications',
+  'rgesn.theme.architecture': 'Architecture',
+  'rgesn.theme.ux': 'Interface',
+  'rgesn.theme.contenus': 'Contenus',
+  'rgesn.theme.frontend': 'Interface technique',
+  'rgesn.theme.backend': 'Serveur',
+  'rgesn.theme.hebergement': 'Hébergement',
+  'rgesn.theme.algorithmie': 'Calculs avancés',
+  'rgesn.answer.oui': 'Oui',
+  'rgesn.answer.partiel': 'En partie',
+  'rgesn.answer.non': 'Non',
+  'rgesn.answer.na': 'Sans objet',
+  'rgesn.1.1': 'Avez-vous évalué l’utilité du service face à ses impacts ?',
+  'rgesn.1.2': 'Avez-vous décrit les personnes visées et leurs besoins réels ?',
+  'rgesn.1.3': 'Un référent en écoconception est-il nommé pour ce service ?',
+  'rgesn.1.4': 'Revoyez-vous régulièrement le respect de votre démarche ?',
+  'rgesn.1.5': 'Vous êtes-vous fixé des objectifs de réduction d’impact ?',
+  'rgesn.1.6': 'La collecte de données est-elle limitée au besoin du service ?',
+  'rgesn.1.7': 'Le chiffrement est-il proportionné aux besoins du service ?',
+  'rgesn.1.8': 'Avez-vous publié une partie du service en code ouvert ?',
+  'rgesn.1.9':
+    'Le service repose-t-il sur des standards ouverts et interopérables ?',
+  'rgesn.1.10':
+    'Les échanges avec le matériel passent-ils par des API ouvertes ?',
+  'rgesn.2.1':
+    'Avez-vous listé les appareils qui peuvent utiliser le service ?',
+  'rgesn.2.2': 'Le service fonctionne-t-il encore sur d’anciens appareils ?',
+  'rgesn.2.3': 'Le service reste-t-il utilisable avec une connexion lente ?',
+  'rgesn.2.4':
+    'Le service fonctionne-t-il sur d’anciens systèmes et navigateurs ?',
+  'rgesn.2.5':
+    'L’affichage s’adapte-t-il au téléphone, à la tablette et à l’ordinateur ?',
+  'rgesn.2.6': 'La conception et le code visent-ils à réduire les impacts ?',
+  'rgesn.2.7': 'Avez-vous prévu la maintenance et l’arrêt du service ?',
+  'rgesn.2.8': 'Vos fournisseurs s’engagent-ils à réduire leurs impacts ?',
+  'rgesn.2.9':
+    'Avez-vous pesé l’impact des composants d’interface prêts à l’emploi ?',
+  'rgesn.2.10':
+    'Avez-vous pesé l’impact des services tiers avant de les choisir ?',
+  'rgesn.3.1':
+    'L’architecture est-elle conçue pour limiter ses propres impacts ?',
+  'rgesn.3.2': 'Les ressources s’adaptent-elles à l’usage réel du service ?',
+  'rgesn.3.3': 'Le service peut-il suivre l’évolution des protocoles ?',
+  'rgesn.3.4':
+    'Les corrections sont-elles fournies pendant toute la durée prévue ?',
+  'rgesn.3.5':
+    'Peut-on installer une correction sans une évolution du produit ?',
+  'rgesn.3.6': 'Les mises à jour n’envoient-elles que ce qui a changé ?',
+  'rgesn.3.7':
+    'Les environnements de test sont-ils utilisés seulement si besoin ?',
+  'rgesn.4.1': 'Les vidéos, sons et animations restent-ils arrêtés au départ ?',
+  'rgesn.4.2': 'Le service évite-t-il le défilement de contenu sans fin ?',
+  'rgesn.4.3': 'Chaque parcours principal est-il court et direct ?',
+  'rgesn.4.4': 'La personne peut-elle choisir d’activer un service tiers ?',
+  'rgesn.4.5':
+    'Utilisez-vous surtout les composants déjà fournis par la plateforme ?',
+  'rgesn.4.6': 'Vidéos, sons et animations portent-ils une information utile ?',
+  'rgesn.4.7': 'Choisissez-vous le média le plus léger qui répond au besoin ?',
+  'rgesn.4.8': 'Le nombre de polices téléchargées est-il limité ?',
+  'rgesn.4.9': 'La saisie évite-t-elle des requêtes serveur à chaque frappe ?',
+  'rgesn.4.10':
+    'Le format attendu est-il indiqué avant l’envoi du formulaire ?',
+  'rgesn.4.11':
+    'Le poids et le format des fichiers sont-ils annoncés avant l’envoi ?',
+  'rgesn.4.12': 'Prévenez-vous quand une fonction a un impact important ?',
+  'rgesn.4.13': 'Les notifications sont-elles rares et désactivables ?',
+  'rgesn.4.14':
+    'L’interface évite-t-elle les procédés qui poussent à l’usage ?',
+  'rgesn.4.15':
+    'La personne peut-elle suivre et réduire l’impact de son usage ?',
+  'rgesn.5.1': 'Chaque image utilise-t-elle un format adapté à son contenu ?',
+  'rgesn.5.2': 'La compression de chaque image est-elle adaptée à son usage ?',
+  'rgesn.5.3': 'Chaque vidéo a-t-elle une définition adaptée à son affichage ?',
+  'rgesn.5.4': 'La compression de chaque vidéo est-elle efficace ?',
+  'rgesn.5.5': 'Les vidéos proposent-elles une écoute sans l’image ?',
+  'rgesn.5.6': 'La compression audio est-elle adaptée à l’écoute ?',
+  'rgesn.5.7': 'Chaque document utilise-t-il un format adapté à son usage ?',
+  'rgesn.5.8': 'Les contenus périmés sont-ils archivés ou supprimés ?',
+  'rgesn.6.1':
+    'Un poids maximum et un nombre de requêtes sont-ils fixés par écran ?',
+  'rgesn.6.2':
+    'Les contenus que vous contrôlez sont-ils mis en cache côté visiteur ?',
+  'rgesn.6.3': 'Les textes que vous contrôlez sont-ils compressés à l’envoi ?',
+  'rgesn.6.4': 'Les images ont-elles des dimensions proches de l’affichage ?',
+  'rgesn.6.5': 'Évitez-vous de charger des ressources non utilisées ?',
+  'rgesn.6.6':
+    'Les capteurs du terminal ne sont-ils activés que si nécessaire ?',
+  'rgesn.6.7': 'Vos fichiers statiques partent-ils d’un seul nom de domaine ?',
+  'rgesn.7.1':
+    'Un cache serveur existe-t-il pour les données les plus demandées ?',
+  'rgesn.7.2':
+    'Les données ont-elles une durée de conservation, puis une suppression ?',
+  'rgesn.7.3':
+    'Un traitement en cours est-il signalé, pour éviter un double envoi ?',
+  'rgesn.7.4':
+    'Si une chaîne de blocs est utilisée, son consensus est-il sobre ?',
+  'rgesn.8.1':
+    'L’hébergeur a-t-il une démarche publiée de réduction d’impact ?',
+  'rgesn.8.2':
+    'L’hébergeur a-t-il une politique durable pour ses équipements ?',
+  'rgesn.8.3': 'Le PUE de l’hébergement est-il publié et bas ?',
+  'rgesn.8.4':
+    'La consommation d’eau de l’hébergement est-elle suivie et limitée ?',
+  'rgesn.8.5':
+    'L’électricité de l’hébergement est-elle documentée et surtout renouvelable ?',
+  'rgesn.8.6':
+    'L’hébergement est-il situé là où l’électricité est peu carbonée ?',
+  'rgesn.8.7': 'La chaleur des serveurs est-elle récupérée ou bien maîtrisée ?',
+  'rgesn.8.8': 'Les données peu lues sont-elles séparées des données actives ?',
+  'rgesn.8.9': 'Les copies de données sont-elles limitées au strict besoin ?',
+  'rgesn.8.10':
+    'Les traitements différés évitent-ils les pics de consommation ?',
+  'rgesn.9.1':
+    'L’entraînement d’un modèle est-il vraiment nécessaire au service ?',
+  'rgesn.9.2':
+    'La phase d’apprentissage est-elle proportionnée à l’usage réel ?',
+  'rgesn.9.3': 'Avez-vous limité la quantité d’entraînement nécessaire ?',
+  'rgesn.9.4':
+    'Les données d’apprentissage sont-elles réduites au strict besoin ?',
+  'rgesn.9.5': 'Les réentraînements sont-ils espacés selon le besoin réel ?',
+  'rgesn.9.6': 'Les modèles d’entraînement sont-ils compressés ?',
+  'rgesn.9.7':
+    'L’inférence est-elle réglée pour limiter les ressources utilisées ?',
 } as const satisfies Record<string, string>;
 
 export type MessageKey = keyof typeof fr;

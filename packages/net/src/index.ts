@@ -16,8 +16,8 @@
  * - `createTlsProbe(options?) → probeTls(hôte)` : connexion TLS au port 443 (IP publique
  *   épinglée) ; protocole, suite, validité de la chaîne, SAN, expiration (selon `now`).
  * - `createExternalApi(options?) → api.request({ method, url, body?, timeoutMs?, signal? })` :
- *   HTTPS vers une liste fermée d’API (PSI, CrUX). POST permis, délai 120 s, pas de
- *   redirection, IP publique épinglée. Ne sert pas à joindre le site audité.
+ *   HTTPS vers une liste fermée d’API (PSI, CrUX, Green Web). POST permis, délai 120 s,
+ *   pas de redirection, IP publique épinglée. Ne sert pas à joindre le site audité.
  * - `blockedReason(ip)`, `isPublicAddress(ip)`, `parseIpv4Loose(hôte)`, `validateTargetUrl(url)`.
  *
  * Toute erreur est une `NetError` avec un `code` stable (`BLOCKED_ADDRESS`, `BLOCKED_PORT`,
@@ -51,6 +51,7 @@ export {
   type ExternalApiOptions,
   type ExternalRequest,
   type ExternalResponse,
+  GREEN_WEB_HOST,
 } from './external-api.js';
 export {
   blockedReason,

@@ -13,10 +13,14 @@ import {
   systemResolve,
 } from './target.js';
 
-/** Hôtes des API Google utilisées en passif (PSI et CrUX). */
+/** Hôte de l’annuaire Green Web Foundation (greencheck v3). */
+export const GREEN_WEB_HOST = 'api.thegreenwebfoundation.org';
+
+/** Hôtes des API tierces utilisées en passif (PSI, CrUX, Green Web). */
 export const EXTERNAL_API_HOSTS = [
   'www.googleapis.com',
   'chromeuxreport.googleapis.com',
+  GREEN_WEB_HOST,
 ] as const;
 
 export const DEFAULT_EXTERNAL_TIMEOUT_MS = 120_000;
@@ -47,7 +51,7 @@ export interface ExternalApiOptions {
   dial?: Dial;
   /** Réservé aux tests : autorités supplémentaires. */
   ca?: string[];
-  /** Hôtes autorisés. Défaut : PSI et CrUX. */
+  /** Hôtes autorisés. Défaut : PSI, CrUX et Green Web. */
   allow?: readonly string[];
   maxBytes?: number;
   botUrl?: string;

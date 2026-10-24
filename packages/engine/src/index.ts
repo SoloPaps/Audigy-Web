@@ -19,10 +19,53 @@
  *   (adresse puis origine), stockés dans `ctx.shared` (`psi`, `crux`).
  * - `SEO_CHECKS` : référencement. Lighthouse SEO lit le lot `psi` de PART-07.
  *   `robots.txt` et le plan du site sont hors portée quand l’audit est un chemin.
+ * - `ECOLOGIE_CHECKS` : EcoIndex, CO2.js (SWD v4), annuaire Green Web, sous-ensemble
+ *   RGESN. Le poids et les requêtes viennent du même artefact PSI. Les chiffres sont
+ *   des estimations. `parseRgesnResponses` valide le questionnaire (pas d’interface).
  * - `googleApiKey`, `withGoogleApi` : clé `GOOGLE_API_KEY` et client `@audigy/net`.
+ * - `withExternalApi` : même client sans clé, pour l’annuaire Green Web.
  */
 
 export { DKIM_SELECTORS, DNS_EMAIL_CHECKS } from '../checks/dns_email/index.js';
+export {
+  CO2_LIBRARY,
+  CO2_MODEL,
+  CO2_VERSION,
+  type Co2Rating,
+  estimateVisit,
+  type VisitEstimate,
+} from '../checks/ecologie/co2.js';
+export {
+  computeEcoIndex,
+  ECOINDEX_BYTES_PER_KB,
+  ECOINDEX_GRADES,
+  ECOINDEX_QUANTILE_TABLE,
+  type EcoGrade,
+  type EcoIndexInput,
+  type EcoIndexValue,
+  gradeOf,
+  sizeKbFromBytes,
+} from '../checks/ecologie/ecoindex.js';
+export {
+  createEcologieChecks,
+  ECOLOGIE_CHECKS,
+  type EcologieCheckOptions,
+} from '../checks/ecologie/index.js';
+export {
+  parseRgesnResponses,
+  RGESN_ANSWERS,
+  RGESN_QUESTIONS,
+  RGESN_THEMES,
+  RGESN_VERSION,
+  type RgesnAnswer,
+  type RgesnProgress,
+  type RgesnQuestion,
+  type RgesnResponse,
+  RgesnSchemaError,
+  type RgesnTheme,
+  rgesnProgress,
+  rgesnQuestion,
+} from '../checks/ecologie/questionnaire.js';
 export {
   CRUX_SHARED_KEY,
   type CruxBundle,
@@ -34,6 +77,7 @@ export {
 export { SECURITE_CHECKS } from '../checks/securite/index.js';
 export { createSeoChecks, SEO_CHECKS } from '../checks/seo/index.js';
 export { type AuditReport, runAudit } from './audit.js';
+export { withExternalApi } from './external.js';
 export {
   FIX_VARIANTS,
   FixParseError,

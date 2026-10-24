@@ -33,11 +33,27 @@ export interface PsiAudit {
   numericValue: number | null;
 }
 
+/**
+ * Faits de la page lus dans le même rapport Lighthouse.
+ * Compteurs seulement : les adresses des ressources ne sont pas conservées.
+ */
+export interface PsiPageFacts {
+  bytes: number | null;
+  requests: number | null;
+  domElements: number | null;
+  fontFiles: number | null;
+  fontBytes: number | null;
+  rasterImages: number | null;
+  efficientImages: number | null;
+}
+
 export interface PsiStrategyResult {
   strategy: 'mobile' | 'desktop';
   categories: Record<PsiCategory, number | null>;
   audits: Record<LighthouseAuditId, PsiAudit>;
   lighthouseVersion: string | null;
+  /** Absent sur un objet construit à la main. Le parseur le remplit toujours. */
+  page?: PsiPageFacts;
 }
 
 export interface PsiOk {
