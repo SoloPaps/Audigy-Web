@@ -41,7 +41,7 @@ onMount(() => {
 <nav aria-label={t('nav.main')}>
   <button
     bind:this={menuButton}
-    class="button menu-button"
+    class="button menu-button link-nav"
     type="button"
     aria-expanded={open}
     aria-controls="nav-panel"

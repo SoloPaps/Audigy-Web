@@ -234,6 +234,10 @@ body {
 }
 
 @media screen and (max-width: 480px) {
+  html {
+    scroll-padding-top: calc(var(--scroll-pad) + var(--space-4));
+  }
+
   .bar-plate {
     gap: var(--space-2);
     padding-inline: var(--space-3);

@@ -13,7 +13,6 @@ import {
   loadPublicScore,
   loadSharedScore,
   type PublicScoreView,
-  type SecurityDetail,
   scoreBadgeSvg,
 } from '../lib/public-score.js';
 import {
@@ -22,9 +21,9 @@ import {
   saveTextFile,
 } from '../lib/report-export.js';
 import { type Level, levelForScore } from '../lib/score.js';
-import { translate } from '../lib/translate.js';
 import { publicCoverageNote } from '../lib/untested-cause.js';
 import CategoryList from './CategoryList.svelte';
+import EmptyState from './EmptyState.svelte';
 import PreuveMentions from './PreuveMentions.svelte';
 import ReportFooter from './ReportFooter.svelte';
 import ScoreGauge from './ScoreGauge.svelte';
@@ -76,10 +75,6 @@ function categoryItems(score: PublicScoreView): CategoryItem[] {
   });
 }
 
-function securityLine(detail: SecurityDetail): string {
-  return translate(detail.messageKey) ?? t('score.security.generic');
-}
-
 function segment(): string {
   const parts = location.pathname.split('/').filter(Boolean);
   return decodeURIComponent(parts[1] ?? '');
@@ -102,20 +97,11 @@ function downloadMarkdown(event: MouseEvent): void {
         score: item.score,
         detail: item.detail,
         coverageNote: item.coverageNote,
-        causes: item.causes
-          ? {
-              primary: item.causes.primary?.text ?? null,
-              others: item.causes.others.map((line) => line.text),
-              closing: item.causes.closing,
-            }
-          : null,
+        causes: null,
       })),
       findings: [],
       securityHeading: t('score.security.title'),
-      securityLines:
-        view.securityDetails.length === 0
-          ? [t('score.security.hidden')]
-          : view.securityDetails.map((detail) => securityLine(detail)),
+      securityLines: [t('score.security.hidden')],
     }),
   );
 }
@@ -153,74 +139,93 @@ onMount(() => {
 });
 </script>
 
+<div class="reading">
 {#if phase === 'loading'}
-  <h1>{t('meta.score.title')}</h1>
-  <p role="status">{t('score.public.loading')}</p>
-{:else if phase === 'missing' || !view}
-  <h1>{mode === 'share' ? t('meta.share.title') : t('meta.score.title')}</h1>
-  <p role="status">
-    {failure ||
-      (mode === 'share' ? t('share.missing') : t('score.public.missing'))}
-  </p>
-{:else}
-  <header class="verdict">
-    <ScoreGauge domain={t('domain.global')} score={view.globalScore} size="hero" />
-    <div>
-      <p class="kicker">{view.url}</p>
-      <h1>{t(HEAD[levelForScore(view.globalScore)])}</h1>
-      <p class="detail">{t('score.public.lead')}</p>
-      <p class="hint">
-        {t('report.coverage', { scored, total: REPORT_DOMAINS.length })}
-      </p>
+  <section class="glass glass-module">
+    <div class="glass-plate">
+      <h1>{t('meta.score.title')}</h1>
+      <p role="status">{t('score.public.loading')}</p>
     </div>
-  </header>
+  </section>
+{:else if failure}
+  <section class="glass glass-module">
+    <div class="glass-plate">
+      <h1>{mode === 'share' ? t('meta.share.title') : t('meta.score.title')}</h1>
+      <p role="status">{failure}</p>
+    </div>
+  </section>
+{:else if phase === 'missing' || !view}
+  <EmptyState
+    title={mode === 'share' ? t('meta.share.title') : t('meta.score.title')}
+    message={mode === 'share' ? t('share.missing') : t('score.public.missing')}
+  />
+{:else}
+  <section class="glass glass-module">
+    <div class="glass-plate">
+      <header class="verdict">
+        <ScoreGauge domain={t('domain.global')} score={view.globalScore} size="hero" />
+        <div>
+          <p class="kicker">{view.url}</p>
+          <h1>{t(HEAD[levelForScore(view.globalScore)])}</h1>
+          <p class="detail">{t('score.public.lead')}</p>
+          <p class="hint">
+            {t('report.coverage', { scored, total: REPORT_DOMAINS.length })}
+          </p>
+        </div>
+      </header>
+    </div>
+  </section>
 
   {#if view.domains.length === 0}
-    <p>{t('score.public.empty')}</p>
+    <EmptyState message={t('score.public.empty')} />
   {:else}
-    <h2>{t('section.categories')}</h2>
-    <CategoryList {items} />
+    <section class="glass glass-module">
+      <div class="glass-plate">
+        <h2>{t('section.categories')}</h2>
+        <CategoryList {items} />
+      </div>
+    </section>
   {/if}
 
-  <h2>{t('score.security.title')}</h2>
-  {#if view.securityDetails.length === 0}
-    <p>{t('score.security.hidden')}</p>
-  {:else}
-    <ul class="steps">
-      {#each view.securityDetails as detail (detail.checkId)}
-        <li>{securityLine(detail)}</li>
-      {/each}
-    </ul>
-  {/if}
-
-  <p class="export-links">
-    <button type="button" class="button button-secondary" onclick={download}>
-      {t('sites.badge')}
-    </button>
-    <a
-      class="link-action"
-      href={location.pathname}
-      download={markdownFilename(view.url, stamp ?? new Date())}
-      onclick={downloadMarkdown}
-    >{t('export.markdown')}</a>
-  </p>
-  <p class="hint">{t('sites.badge.hint')}</p>
+  <section class="glass glass-module">
+    <div class="glass-plate">
+      <h2>{t('score.security.title')}</h2>
+      <p>{t('score.security.hidden')}</p>
+      <p class="export-links">
+        <button type="button" class="button button-secondary" onclick={download}>
+          {t('sites.badge')}
+        </button>
+        <a
+          class="link-action"
+          href={location.pathname}
+          download={markdownFilename(view.url, stamp ?? new Date())}
+          onclick={downloadMarkdown}
+        >{t('export.markdown')}</a>
+      </p>
+      <p class="hint">{t('sites.badge.hint')}</p>
+    </div>
+  </section>
 
   {#if stamp && view.methodVersion && view.auditId}
-    <h2 id="verification">{t('section.verify')}</h2>
-    <PreuveMentions />
-    <ReportFooter
-      url={view.url}
-      at={stamp}
-      methodVersion={view.methodVersion}
-      fingerprint={view.auditId}
-      fingerprintKind="id"
-      verifyHref={`/verifier/${view.auditId}`}
-    />
+    <section class="glass glass-module">
+      <div class="glass-plate">
+        <h2 id="verification">{t('section.verify')}</h2>
+        <PreuveMentions />
+        <ReportFooter
+          url={view.url}
+          at={stamp}
+          methodVersion={view.methodVersion}
+          fingerprint={view.auditId}
+          fingerprintKind="id"
+          verifyHref={`/verifier/${view.auditId}`}
+        />
+      </div>
+    </section>
   {:else}
-    <p>{t('score.public.empty')}</p>
+    <EmptyState message={t('score.public.empty')} />
   {/if}
 {/if}
+</div>
 
 <style>
   .verdict {

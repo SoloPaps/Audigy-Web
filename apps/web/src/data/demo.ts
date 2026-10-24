@@ -216,7 +216,7 @@ export function demoHistorySeries(): HistorySeries[] {
 }
 
 export function demoHistoryInitial(): string[] {
-  return ['global', 'performance', 'securite'];
+  return ['global'];
 }
 
 export function demoHistoryPoints(): HistoryPoint[] {

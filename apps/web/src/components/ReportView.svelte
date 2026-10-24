@@ -33,6 +33,7 @@ import { explainUntested } from '../lib/untested-cause.js';
 import { verdictCopy } from '../lib/verdict.js';
 import AuditOverlay from './AuditOverlay.svelte';
 import CategoryList from './CategoryList.svelte';
+import EmptyState from './EmptyState.svelte';
 import FindingList from './FindingList.svelte';
 import HistoryPanel from './HistoryPanel.svelte';
 import PreuveMentions from './PreuveMentions.svelte';
@@ -51,6 +52,7 @@ let message = $state(t('report.loading'));
 let payload = $state<AuditPayload | null>(null);
 let domainId = $state('');
 let history = $state<HistoryView | null>(null);
+let historyReady = $state(false);
 
 const items = $derived(
   payload
@@ -164,11 +166,16 @@ onMount(() => {
     }
     payload = result.payload;
     phase = 'ready';
-    const loaded = await loadSiteHistory(
-      result.payload.audit.site.id,
-      result.payload.audit.site.hosting,
-    );
-    if (!cancelled) history = loaded;
+    if (mode === 'report') {
+      const loaded = await loadSiteHistory(
+        result.payload.audit.site.id,
+        result.payload.audit.site.hosting,
+      );
+      if (!cancelled) {
+        history = loaded;
+        historyReady = true;
+      }
+    }
   }
 });
 </script>
@@ -277,16 +284,20 @@ onMount(() => {
       </div>
     </section>
 
-    {#if mode === 'report' && history}
+    {#if mode === 'report' && historyReady}
       <section class="glass glass-module">
         <div class="glass-plate">
           <h2>{t('section.table')}</h2>
-          <HistoryPanel
-            series={history.series}
-            points={history.points}
-            audits={history.snapshots}
-            initialSeries={[GLOBAL_SERIES]}
-          />
+          {#if history && history.points.length > 0}
+            <HistoryPanel
+              series={history.series}
+              points={history.points}
+              audits={history.snapshots}
+              initialSeries={[GLOBAL_SERIES]}
+            />
+          {:else}
+            <EmptyState message={t('history.summary.empty')} />
+          {/if}
         </div>
       </section>
     {/if}
