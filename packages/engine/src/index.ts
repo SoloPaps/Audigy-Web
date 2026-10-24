@@ -25,6 +25,7 @@
  *   (adresse puis origine), stockés dans `ctx.shared` (`psi`, `crux`).
  * - `SEO_CHECKS` : référencement. Lighthouse SEO lit le lot `psi` de PART-07.
  *   `robots.txt` et le plan du site sont hors portée quand l’audit est un chemin.
+ *   Search Console (`needs: ['gsc']`) lit `ctx.net.gsc`. Sans jeton : Non testé.
  * - `ECOLOGIE_CHECKS` : EcoIndex, CO2.js (SWD v4), annuaire Green Web, sous-ensemble
  *   RGESN. Le poids et les requêtes viennent du même artefact PSI. Les chiffres sont
  *   des estimations. `parseRgesnResponses` valide le questionnaire (pas d’interface).
@@ -103,6 +104,7 @@ export {
   type TechnologiesCheckOptions,
 } from '../checks/securite/technologies/index.js';
 export { SIGNATURES as RETIRE_SIGNATURES } from '../checks/securite/technologies/retire.js';
+export { type GscPropertyRef, matchProperty } from '../checks/seo/gsc-match.js';
 export { createSeoChecks, SEO_CHECKS } from '../checks/seo/index.js';
 export { BROWSER_KEY, VIE_PRIVEE_CHECKS } from '../checks/vie_privee/index.js';
 export { TRACKER_LIST } from '../checks/vie_privee/trackers.js';
@@ -120,6 +122,15 @@ export {
   variantFor,
 } from './fixes.js';
 export { googleApiKey, withGoogleApi } from './google-api.js';
+export type {
+  GscFailure,
+  GscInspectResult,
+  GscListResult,
+  GscSitemapEntry,
+  GscSnapshot,
+  GscVerdict,
+  SearchConsolePort,
+} from './gsc.js';
 export {
   activeAllowed,
   buildChallenge,

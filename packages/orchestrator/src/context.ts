@@ -93,7 +93,8 @@ export function createAuditContext(options: AuditContextOptions): AuditContext {
     budget,
     now: options.now ?? (() => new Date()),
   };
-  const available: Need[] = [...DEFAULT_AVAILABLE];
+  // `gsc` reste proposé : sans jeton, le check dit de relier Search Console.
+  const available: Need[] = [...DEFAULT_AVAILABLE, 'gsc'];
   if (googleApiKey(env)) available.push('psi', 'crux');
   return { ctx: options.lab ? ctx : withExternalApi(ctx), available };
 }

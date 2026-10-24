@@ -116,7 +116,7 @@ Une clé absente ou une réponse 429 donne Non testé, avec la raison. Une erreu
 
 ## 10. Référencement
 
-Neuf tests passifs, version 2026.1. La note Lighthouse de référencement est celle déjà demandée avec la performance (catégories mobile et ordinateur, dans `ctx.shared`). Elle n’entraîne pas un second appel. Le score retenu est le plus faible des deux, avec les mêmes seuils : 80, puis 50. S’il manque une des deux mesures et que le score disponible vaut au moins 80, le statut devient À améliorer. Sans lot, sans clé, sur un quota ou sur une erreur, le test est Non testé.
+Douze tests passifs, version 2026.1. La note Lighthouse de référencement est celle déjà demandée avec la performance (catégories mobile et ordinateur, dans `ctx.shared`). Elle n’entraîne pas un second appel. Le score retenu est le plus faible des deux, avec les mêmes seuils : 80, puis 50. S’il manque une des deux mesures et que le score disponible vaut au moins 80, le statut devient À améliorer. Sans lot, sans clé, sur un quota ou sur une erreur, le test est Non testé.
 
 Les autres tests lisent la page demandée, puis `robots.txt` et le plan du site à la racine du domaine. Quand l’audit porte sur un chemin (un site publié dans un sous-dossier), ces deux fichiers sont à la racine, hors de la portée : ils sont Non applicable, sans requête. Un moteur ne lit le fichier robots qu’à cette racine.
 
@@ -125,6 +125,8 @@ Le plan annoncé dans `robots.txt` est lu en premier. Sinon, `/sitemap.xml`. Au 
 Le titre se compte en caractères : de 15 à 60. La description : de 50 à 160. Ce ne sont pas des largeurs d’affichage. L’absence de description est À améliorer. L’absence de titre est un Problème. Si le titre et la description répètent le même texte, c’est un doublon.
 
 `noindex`, dans la page ou dans l’en-tête `X-Robots-Tag`, est un Problème pour Googlebot et pour la consigne sans nom. `none` compte comme `noindex`. Une autre langue absente est Non applicable : un site en une seule langue n’a rien à déclarer. Une donnée structurée absente est À améliorer. Le type doit être dans une liste de base (WebSite, LocalBusiness, Article, Product, Organization, Person, FAQPage, BreadcrumbList, Event, et les types voisins). Un type hors liste est À améliorer. Un fichier illisible est un Problème.
+
+Search Console est facultatif, en lecture seule. Sans connexion, les trois tests d’indexation sont Non testé, avec un lien pour relier le compte. La propriété retenue est le préfixe d’adresse le plus long, sinon `sc-domain:` du domaine ou d’un parent. Un compte sans propriété correspondante laisse ces tests Non testés. Un plan sans erreur est Réussi. L’absence de plan, des avertissements ou une attente sont À améliorer. Une erreur signalée est un Problème. La page d’accueil indexée est Réussi. Une page connue mais incomplète est À améliorer. Un refus d’indexation est un Problème. Le résumé compare les pages annoncées et celles indexées. Au moins huit sur dix est Réussi. Moins, ou aucune annonce, est À améliorer. Aucune page indexée alors que le plan en annonce est un Problème.
 
 | Identifiant | Poids | Réussi | À améliorer | Problème |
 |---|---|---|---|---|
@@ -137,6 +139,9 @@ Le titre se compte en caractères : de 15 à 60. La description : de 50 à 160. 
 | seo.description | 1 | Une seule description, de 50 à 160 caractères, différente du titre. | Absente, trop courte, trop longue, identique au titre, ou répétée. | — |
 | seo.hreflang | 1 | Chaque langue a une adresse complète, sans conflit, et la page se cite. | Adresse relative, ou la page ne se cite pas. Aucune langue : Non applicable. | Code invalide, adresse inutilisable, ou la même langue vise deux adresses. |
 | seo.jsonld | 1 | Au moins un bloc lisible, et chaque type est dans la liste de base. | Bloc absent, ou type hors liste. | Bloc illisible, ou type manquant. |
+| seo.gsc_indexed | 1 | Au moins huit pages annoncées sur dix sont indexées. | Moins de huit sur dix, ou aucune page annoncée. | Des pages sont annoncées et aucune n’est indexée. Sans connexion : Non testé. |
+| seo.gsc_inspection | 2 | Google a indexé la page d’accueil. | La page est connue, sans indexation complète. | Google refuse d’indexer la page d’accueil. Sans connexion : Non testé. |
+| seo.gsc_sitemaps | 2 | Au moins un plan est envoyé, sans erreur. | Aucun plan, des avertissements, ou des plans encore en attente. | Un plan envoyé contient des erreurs. Sans connexion : Non testé. |
 
 ## 11. DNS et e-mail
 

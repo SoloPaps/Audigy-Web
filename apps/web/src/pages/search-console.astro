@@ -1,0 +1,11 @@
+---
+import SearchConsolePanel from '../components/SearchConsolePanel.svelte';
+import { t } from '../i18n/index.js';
+import Base from '../layouts/Base.astro';
+---
+
+<Base title={t('meta.gsc.title')} description={t('meta.gsc.description')}>
+  <h1>{t('gsc.page.title')}</h1>
+  <p class="prose">{t('gsc.page.lead')}</p>
+  <SearchConsolePanel client:load />
+</Base>

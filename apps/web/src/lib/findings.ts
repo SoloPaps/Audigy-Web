@@ -15,6 +15,8 @@ export interface Finding {
   code?: string;
   sourceLabel?: string;
   sourceHref?: string;
+  actionLabel?: string;
+  actionHref?: string;
 }
 
 export function levelForStatus(status: FindingStatus): Level {

@@ -36,6 +36,9 @@ describe('fonctions Netlify', () => {
       'api-verifications-check',
       'api-verifications-create',
       'audit-run-background',
+      'oauth-google-callback',
+      'oauth-google-revoke',
+      'oauth-google-start',
       'verification-recheck-background',
     ]);
     expect((await load('api-audits-create')).config).toEqual({
@@ -58,6 +61,18 @@ describe('fonctions Netlify', () => {
     expect(
       (await load('verification-recheck-background')).config,
     ).toBeUndefined();
+    expect((await load('oauth-google-start')).config).toEqual({
+      path: '/api/oauth/google/start',
+      method: 'POST',
+    });
+    expect((await load('oauth-google-callback')).config).toEqual({
+      path: '/api/oauth/google/callback',
+      method: 'GET',
+    });
+    expect((await load('oauth-google-revoke')).config).toEqual({
+      path: '/api/oauth/google/revoke',
+      method: 'POST',
+    });
   });
 
   it('bundle autonome : aucun import de paquet du monorepo', async () => {

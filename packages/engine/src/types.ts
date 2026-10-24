@@ -5,10 +5,11 @@ import type {
   SafeFetch,
   TlsProbe,
 } from '@audigy/net';
+import type { SearchConsolePort } from './gsc.js';
 
 export const METHOD_VERSION = '2026.1';
 /** Version du moteur stockée sur chaque audit (`engine_version`). Suit `package.json`. */
-export const ENGINE_VERSION = '0.18.0';
+export const ENGINE_VERSION = '0.19.0';
 
 export const DOMAINS = [
   'performance',
@@ -76,6 +77,8 @@ export interface CheckContext {
     tls: TlsProbe;
     /** API tierces (PSI, CrUX). Absent tant que la clé n’est pas posée. */
     api?: ExternalApi;
+    /** Search Console. Absent sans jeton OAuth déchiffré pour cet audit. */
+    gsc?: SearchConsolePort;
   };
   shared: SharedArtifacts;
   budget: RequestBudget;

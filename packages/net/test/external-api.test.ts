@@ -88,10 +88,12 @@ function client(
 }
 
 describe('createExternalApi', () => {
-  it('n’autorise que PSI, CrUX, Green Web, OSV, NVD et KEV par défaut', () => {
+  it('n’autorise que PSI, CrUX, Search Console, Green Web, OSV, NVD et KEV par défaut', () => {
     expect([...EXTERNAL_API_HOSTS]).toEqual([
       'www.googleapis.com',
       'chromeuxreport.googleapis.com',
+      'oauth2.googleapis.com',
+      'searchconsole.googleapis.com',
       GREEN_WEB_HOST,
       'api.osv.dev',
       'services.nvd.nist.gov',
@@ -293,5 +295,35 @@ describe('createExternalApi', () => {
     expect(JSON.stringify(error)).not.toContain(SECRET);
     const cause = (error as { cause?: unknown }).cause;
     expect(String(cause)).not.toContain(SECRET);
+  });
+
+  it('pose Authorization sans le recopier, et refuse le même nom dans headers', async () => {
+    seen.length = 0;
+    const api = client();
+    const bearer = 'Bearer jeton-test-gsc';
+    const got = await api.request({
+      method: 'POST',
+      url: new URL('https://audigy.test/token'),
+      body: 'grant_type=refresh_token',
+      contentType: 'application/x-www-form-urlencoded',
+      authorization: bearer,
+      timeoutMs: 1000,
+    });
+    expect(got.status).toBe(200);
+    expect(seen[0]?.headers.authorization).toBe(bearer);
+    expect(seen[0]?.headers['content-type']).toBe(
+      'application/x-www-form-urlencoded',
+    );
+    expect(seen[0]?.body).toBe('grant_type=refresh_token');
+    const error = await api
+      .request({
+        method: 'GET',
+        url: new URL('https://audigy.test/nvd'),
+        headers: { authorization: bearer },
+        timeoutMs: 1000,
+      })
+      .catch((caught: unknown) => caught);
+    expect(error).toMatchObject({ code: 'BLOCKED_HEADER' });
+    expect(JSON.stringify(error)).not.toContain('jeton-test-gsc');
   });
 });

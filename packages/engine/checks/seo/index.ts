@@ -4,6 +4,7 @@ import { type DayCache, memoryDayCache } from '../performance/cache.js';
 import { PERFORMANCE_CHECK_TIMEOUT_MS } from '../performance/types.js';
 import { canonicalCheck } from './canonical.js';
 import { descriptionCheck } from './description.js';
+import { GSC_CHECKS } from './gsc.js';
 import { hreflangCheck } from './hreflang.js';
 import { jsonldCheck } from './jsonld.js';
 import { createLighthouseCheck } from './lighthouse.js';
@@ -24,6 +25,7 @@ export function createSeoChecks(options: SeoCheckOptions = {}): Check[] {
   return [
     canonicalCheck,
     descriptionCheck,
+    ...GSC_CHECKS,
     hreflangCheck,
     jsonldCheck,
     createLighthouseCheck(apiKey, cache, PERFORMANCE_CHECK_TIMEOUT_MS),

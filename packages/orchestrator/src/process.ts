@@ -54,7 +54,11 @@ export interface ProcessDeps {
   dispatcher: Dispatcher;
   checks: readonly Check[];
   fixes: ReadonlyMap<string, FixSheet>;
-  context(target: Target, verified: boolean): AuditContext;
+  context(
+    target: Target,
+    verified: boolean,
+    audit?: ClaimedAudit,
+  ): AuditContext | Promise<AuditContext>;
   /**
    * Relit la preuve avant un audit actif. Absent : repli sur `isVerifiedFresh`.
    */
@@ -130,7 +134,11 @@ export async function processNextAudit(
         verified = await deps.store.isVerifiedFresh(audit.siteId);
       }
     }
-    const { ctx, available } = deps.context(targetOf(audit.site), verified);
+    const { ctx, available } = await deps.context(
+      targetOf(audit.site),
+      verified,
+      audit,
+    );
     const { server, browser } = splitChecks(deps.checks);
 
     const serverOutcomes = await runServerPhase(server, ctx, { available });

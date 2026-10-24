@@ -23,10 +23,16 @@ export const NVD_HOST = 'services.nvd.nist.gov';
 /** Catalogue CISA des failles exploitées (KEV). */
 export const KEV_HOST = 'www.cisa.gov';
 
-/** Hôtes des API tierces utilisées en passif (PSI, CrUX, Green Web, OSV, NVD, KEV). */
+/** Jeton OAuth Google et URL Inspection (Search Console). */
+export const GOOGLE_OAUTH_HOST = 'oauth2.googleapis.com';
+export const SEARCH_CONSOLE_HOST = 'searchconsole.googleapis.com';
+
+/** Hôtes des API tierces utilisées en passif (PSI, CrUX, Search Console, Green Web, OSV, NVD, KEV). */
 export const EXTERNAL_API_HOSTS = [
   'www.googleapis.com',
   'chromeuxreport.googleapis.com',
+  GOOGLE_OAUTH_HOST,
+  SEARCH_CONSOLE_HOST,
   GREEN_WEB_HOST,
   OSV_HOST,
   NVD_HOST,
@@ -58,6 +64,13 @@ export interface ExternalRequest {
   method: 'GET' | 'POST';
   url: URL;
   body?: string;
+  /** `application/json` par défaut dès qu’un corps est posé. */
+  contentType?: 'application/json' | 'application/x-www-form-urlencoded';
+  /**
+   * Jeton `Bearer …`, posé par le client. Jamais accepté via `headers`,
+   * jamais recopié dans une erreur.
+   */
+  authorization?: string;
   /** En-têtes en plus (ex. `apiKey` de NVD). Jamais recopiés dans une erreur. */
   headers?: Readonly<Record<string, string>>;
   timeoutMs?: number;
@@ -124,6 +137,8 @@ export function createExternalApi(
         throw new NetError('BLOCKED_METHOD', 'Méthode refusée');
       }
       const extra = extraHeaders(input.headers);
+      const authorization = bearerHeader(input.authorization);
+      const requestType = input.contentType ?? 'application/json';
       const timeoutMs = input.timeoutMs ?? DEFAULT_EXTERNAL_TIMEOUT_MS;
       if (!(Number.isFinite(timeoutMs) && timeoutMs > 0)) {
         throw new NetError('TIMEOUT', 'Délai invalide');
@@ -146,6 +161,8 @@ export function createExternalApi(
           ip,
           input.method,
           input.body,
+          requestType,
+          authorization,
           extra,
           ua,
           dial,
@@ -169,11 +186,21 @@ export function createExternalApi(
   };
 }
 
+function bearerHeader(value: string | undefined): string | undefined {
+  if (value === undefined) return undefined;
+  if (!/^Bearer [\x21-\x7e]{1,4096}$/.test(value)) {
+    throw new NetError('BLOCKED_HEADER', 'En-tête refusé');
+  }
+  return value;
+}
+
 function send(
   url: URL,
   ip: string,
   method: 'GET' | 'POST',
   body: string | undefined,
+  contentType: string,
+  authorization: string | undefined,
   extra: Record<string, string>,
   ua: string,
   dial: Dial,
@@ -191,8 +218,12 @@ function send(
     'accept-language': 'fr,en;q=0.5',
     connection: 'close',
   };
+  if (authorization) headers.authorization = authorization;
   if (body !== undefined) {
-    headers['content-type'] = 'application/json; charset=utf-8';
+    headers['content-type'] =
+      contentType === 'application/x-www-form-urlencoded'
+        ? 'application/x-www-form-urlencoded'
+        : 'application/json; charset=utf-8';
     headers['content-length'] = String(Buffer.byteLength(body));
   }
   const request = https.request({
