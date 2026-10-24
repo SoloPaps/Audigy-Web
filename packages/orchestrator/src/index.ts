@@ -14,7 +14,12 @@
  * - `handleCreateVerification`, `handleCheckVerification` : `POST /api/verifications`
  *   et `POST /api/verifications/check`. Le client ne peut pas se marquer vérifié.
  * - `handleRecheck` : relecture quotidienne signée (`verification-recheck-background`).
+ *   Elle n’est pas dans le cron.
  *   Pas de planification dans `netlify.toml` (PART-22).
+ * - `handleSchedule` : `schedule-tick` (cron 15 min, ≤ 30 s). Sonde HEAD, file
+ *   les audits dus, alertes, agrège `uptime_daily` et purge le brut de 30 jours.
+ * - `handleDigest` : `digest-weekly`, lundi 8 h Paris (cron 6 h et 7 h UTC).
+ * - `handleUnsubscribe` : désabonnement en un clic (`List-Unsubscribe`).
  * - `handleOauthStart`, `handleOauthCallback`, `handleOauthRevoke` : OAuth Google
  *   (PKCE, `state`, accès hors ligne). Le jeton est chiffré (AES-256-GCM) et
  *   n’est jamais renvoyé. La révocation supprime la ligne.
@@ -90,6 +95,7 @@ export {
   SECRET_ENV_NAMES,
   secretsFromEnv,
 } from './log.js';
+export { handleUnsubscribe, type UnsubscribeDeps } from './mail.js';
 export {
   handleOauthCallback,
   handleOauthRevoke,
@@ -122,6 +128,21 @@ export {
   RUNNER_WAIT_MS,
   STALE_AFTER_MINUTES,
 } from './process.js';
+export {
+  type DigestDeps,
+  handleDigest,
+  handleSchedule,
+  isMondayEightParis,
+  type ScheduleDeps,
+  type TickResult,
+} from './schedule.js';
+export {
+  digestDepsFromEnv,
+  parseDigest,
+  parseRoster,
+  scheduleDepsFromEnv,
+  unsubscribeDepsFromEnv,
+} from './schedule-db.js';
 export {
   apiDepsFromEnv,
   fixesFromDisk,

@@ -345,6 +345,7 @@ export type Database = {
           created_at: string;
           display_name: string;
           id: string;
+          email_opt_out: boolean;
           locale: string;
           weekly_digest: boolean;
         };
@@ -352,6 +353,7 @@ export type Database = {
         Insert: {
           created_at?: string;
           display_name?: string;
+          email_opt_out?: boolean;
           id: string;
           locale?: string;
           weekly_digest?: boolean;
@@ -359,6 +361,7 @@ export type Database = {
         Update: {
           created_at?: string;
           display_name?: string;
+          email_opt_out?: boolean;
           id?: string;
           locale?: string;
           weekly_digest?: boolean;
@@ -733,6 +736,14 @@ export type Database = {
           p_status: string;
         };
         Returns: undefined;
+      };
+      schedule_roster: {
+        Args: { p_now: string };
+        Returns: Json;
+      };
+      digest_roster: {
+        Args: { p_now: string };
+        Returns: Json;
       };
     };
     Enums: {
