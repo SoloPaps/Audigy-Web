@@ -1,12 +1,15 @@
 import { parseArgs } from 'node:util';
 import type { Check, FixSheet, RunContext } from '@audigy/engine';
+import { createRequestBudget } from '@audigy/net';
 import {
   assemble,
   browserPlaceholders,
   createAuditContext,
   defaultChecks,
   InvalidSiteUrl,
+  type LabConfig,
   labFromEnv,
+  labNet,
   normalizeSiteUrl,
   ORCHESTRATION_REASONS,
   runBrowserPhase,
@@ -19,10 +22,13 @@ import { t } from '@audigy/web/i18n';
 import { type BrowserState, renderText } from './text.js';
 
 /**
- * Runner navigateur local (PART-13) : `runBrowserAudit({ url })` renvoie la sortie lue
- * par les checks `needs: ['browser']`. Absent tant que le paquet ne l'exporte pas.
+ * Runner navigateur local : renvoie le rapport lu par les checks `needs: ['browser']`.
+ * `lab` : connexions redirigées vers le labo, comme pour les checks serveur.
  */
-export type BrowserRunner = (input: { url: string }) => Promise<unknown>;
+export type BrowserRunner = (input: {
+  url: string;
+  lab: LabConfig | null;
+}) => Promise<unknown>;
 
 export interface CliIo {
   stdout(line: string): void;
@@ -40,14 +46,18 @@ export interface CliDeps {
   perHostIntervalMs?: number;
 }
 
-async function defaultBrowserRunner(): Promise<BrowserRunner | null> {
-  const mod = (await import('@audigy/browser-runner')) as Record<
-    string,
-    unknown
-  >;
-  return typeof mod.runBrowserAudit === 'function'
-    ? (mod.runBrowserAudit as BrowserRunner)
-    : null;
+/** Chromium via `@audigy/browser-runner` (Playwright chargé seulement avec `--browser`). */
+async function defaultBrowserRunner(): Promise<BrowserRunner> {
+  const { BROWSER_BUDGET, runBrowserAudit } = await import(
+    '@audigy/browser-runner'
+  );
+  return async ({ url, lab }) => {
+    const fetch = lab
+      ? labNet(lab, createRequestBudget(BROWSER_BUDGET)).fetch
+      : undefined;
+    const output = await runBrowserAudit({ url, ...(fetch ? { fetch } : {}) });
+    return output.result;
+  };
 }
 
 /** `audigy audit <url> [--json] [--browser]`. Code de sortie : 0 fini, 1 échec, 2 usage. */
@@ -110,14 +120,12 @@ export async function runCli(
     );
     if (browser.length > 0) state = 'skipped';
     if (browser.length > 0 && parsed.values.browser) {
-      const runner = await (deps.loadBrowserRunner ?? defaultBrowserRunner)();
       let data: unknown = null;
-      if (runner) {
-        try {
-          data = await runner({ url: target.url.href });
-        } catch {
-          data = null;
-        }
+      try {
+        const runner = await (deps.loadBrowserRunner ?? defaultBrowserRunner)();
+        if (runner) data = await runner({ url: target.url.href, lab });
+      } catch {
+        data = null;
       }
       if (data === null || data === undefined) {
         state = 'absent';

@@ -5,6 +5,7 @@ import {
   BROWSER_SHARED_KEY,
   type Check,
   SECURITE_CHECKS,
+  VIE_PRIVEE_CHECKS,
 } from '@audigy/engine';
 import { t } from '@audigy/web/i18n';
 import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest';
@@ -132,7 +133,10 @@ describe('audigy audit', () => {
         loadBrowserRunner: async () => runner,
       },
     );
-    expect(runner).toHaveBeenCalledWith({ url: 'https://bon.audigy.test/' });
+    expect(runner).toHaveBeenCalledWith({
+      url: 'https://bon.audigy.test/',
+      lab: lab.config,
+    });
     const report = JSON.parse(out.join('\n'));
     expect(report.browser).toBe('merged');
     expect(
@@ -141,6 +145,26 @@ describe('audigy audit', () => {
       ).result.status,
     ).toBe('pass');
   });
+
+  it('--browser avec Chromium sur le labo : vie privée notée', async () => {
+    const { code, out } = await cli(
+      ['audit', lab.url('navigateur'), '--browser', '--json'],
+      { checks: VIE_PRIVEE_CHECKS },
+    );
+    expect(code).toBe(0);
+    const report = JSON.parse(out.join('\n'));
+    expect(report.browser).toBe('merged');
+    const browserIds = VIE_PRIVEE_CHECKS.filter((c) =>
+      c.needs.includes('browser'),
+    ).map((c) => c.id);
+    for (const id of browserIds) {
+      const finding = report.findings.find(
+        (f: { checkId: string }) => f.checkId === id,
+      );
+      expect(finding.result.status).not.toBe('untested');
+    }
+    expect(lab.servers.navigateur.https.requests.length).toBeGreaterThan(0);
+  }, 120_000);
 
   it('runner en erreur : runner absent', async () => {
     const { out } = await cli(

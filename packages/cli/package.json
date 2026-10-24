@@ -12,6 +12,7 @@
   "dependencies": {
     "@audigy/browser-runner": "workspace:*",
     "@audigy/engine": "workspace:*",
+    "@audigy/net": "workspace:*",
     "@audigy/orchestrator": "workspace:*",
     "@audigy/web": "workspace:*"
   }
