@@ -208,7 +208,6 @@ async function onSignOut(): Promise<void> {
                 <span>{site.label}</span>
                 <span class="kicker">{site.url}</span>
                 <StatusMark level="untested" />
-                <span>{t('level.untested')}</span>
                 <span>{t('sites.audit')}</span>
               </div>
             </a>
