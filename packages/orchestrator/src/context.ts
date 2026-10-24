@@ -1,4 +1,5 @@
 import {
+  ACCESSIBILITE_CHECKS,
   ACTIVE_SECURITE_CHECKS,
   type Check,
   createRegistry,
@@ -45,6 +46,7 @@ export function defaultChecks(
     ...TECHNOLOGIES_CHECKS,
     ...PERFORMANCE_CHECKS,
     ...SEO_CHECKS,
+    ...ACCESSIBILITE_CHECKS,
     ...DNS_EMAIL_CHECKS,
     ...ECOLOGIE_CHECKS,
     ...QUALITE_CHECKS,

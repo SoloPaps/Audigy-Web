@@ -23,6 +23,8 @@
  * - `DNS_EMAIL_CHECKS` : MX, SPF, DMARC, DKIM, CAA, DNSSEC, MTA-STS, TLS-RPT (PART-09).
  * - `PERFORMANCE_CHECKS` : laboratoire PSI (mobile + ordinateur) et terrain CrUX
  *   (adresse puis origine), stockés dans `ctx.shared` (`psi`, `crux`).
+ * - `ACCESSIBILITE_CHECKS` : accès. Lighthouse lit `categories.accessibility`
+ *   dans le lot `psi` de PART-07. Sans clé : Non testé (`missing_key`), sans appel.
  * - `SEO_CHECKS` : référencement. Lighthouse SEO lit le lot `psi` de PART-07.
  *   `robots.txt` et le plan du site sont hors portée quand l’audit est un chemin.
  *   Search Console (`needs: ['gsc']`) lit `ctx.net.gsc`. Sans jeton : Non testé.
@@ -46,6 +48,11 @@
  *   Sans ce rapport, les checks navigateur sont « Non testé ».
  */
 
+export {
+  ACCESSIBILITE_CHECKS,
+  type AccessibiliteCheckOptions,
+  createAccessibiliteChecks,
+} from '../checks/accessibilite/index.js';
 export { DKIM_SELECTORS, DNS_EMAIL_CHECKS } from '../checks/dns_email/index.js';
 export {
   CO2_LIBRARY,
