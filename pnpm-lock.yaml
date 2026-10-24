@@ -12,6 +12,12 @@ importers:
         specifier: workspace:*
         version: link:packages/orchestrator
     devDependencies:
+      '@audigy/browser-runner':
+        specifier: workspace:*
+        version: link:packages/browser-runner
+      '@audigy/net':
+        specifier: workspace:*
+        version: link:packages/net
       '@biomejs/biome':
         specifier: ^2.6.2
         version: 2.6.2
@@ -95,6 +101,9 @@ importers:
       '@audigy/engine':
         specifier: workspace:*
         version: link:../engine
+      '@audigy/net':
+        specifier: workspace:*
+        version: link:../net
       '@audigy/orchestrator':
         specifier: workspace:*
         version: link:../orchestrator
@@ -136,6 +145,9 @@ importers:
 
   packages/orchestrator:
     dependencies:
+      '@audigy/browser-runner':
+        specifier: workspace:*
+        version: link:../browser-runner
       '@audigy/db':
         specifier: workspace:*
         version: link:../db

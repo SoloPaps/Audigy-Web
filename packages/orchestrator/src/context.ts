@@ -14,6 +14,7 @@ import {
   SEO_CHECKS,
   type Target,
   TECHNOLOGIES_CHECKS,
+  VIE_PRIVEE_CHECKS,
   withExternalApi,
 } from '@audigy/engine';
 import {
@@ -25,7 +26,7 @@ import {
 } from '@audigy/net';
 import { type LabConfig, labNet } from './lab.js';
 
-/** Tous les checks enregistrés à ce jour (PART-06 à 12). Les checks navigateur s'y ajouteront. */
+/** Tous les checks enregistrés (PART-06 à 14), dont les checks navigateur de la vie privée. */
 export function defaultChecks(): Check[] {
   return createRegistry([
     ...SECURITE_CHECKS,
@@ -35,6 +36,7 @@ export function defaultChecks(): Check[] {
     ...DNS_EMAIL_CHECKS,
     ...ECOLOGIE_CHECKS,
     ...QUALITE_CHECKS,
+    ...VIE_PRIVEE_CHECKS,
   ]).list();
 }
 

@@ -7,6 +7,7 @@
     ".": "./src/index.ts"
   },
   "dependencies": {
+    "@audigy/browser-runner": "workspace:*",
     "@audigy/db": "workspace:*",
     "@audigy/engine": "workspace:*",
     "@audigy/net": "workspace:*",

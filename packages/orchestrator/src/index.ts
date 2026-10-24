@@ -13,12 +13,17 @@
  *   HMAC de `SUPABASE_SERVICE_ROLE_KEY`), puis `processNextAudit`.
  * - `processNextAudit(deps)` : claim → checks côté fonction → `partial` → runner
  *   navigateur (GitHub `browser-audit.yml`) → attente ≤ 10 min → fusion → `done`.
+ *   Le runner (`@audigy/browser-runner`, `runJob`) dépose `<id>/browser/results.json`
+ *   dans le seau `artifacts` ; relu, vérifié (sha256, taille, schéma) puis rangé dans
+ *   `ctx.shared` (`browser`) pour les checks `needs: ['browser']` (vie privée).
  *   Runner absent : checks navigateur `untested`, raison `reason.runner_absent`.
  * - `createAuditContext`, `defaultChecks` : réseau `@audigy/net` réel, ou labo local.
  * - `normalizeSiteUrl` : adresse saisie → site (`https`, portée, hébergeur).
  * - `createLogger`, `redact` : journal JSON sans secret ni donnée personnelle.
  * - `apiDepsFromEnv`, `runDepsFromEnv` : dépendances depuis les noms du §9.
  * - Labo (`AUDIGY_LAB`, dev seulement) : `labFromEnv`, `labNet`. Noms `*.audigy.test`.
+ *   `AUDIGY_LOCAL_RUNNER=true` (labo sous `netlify dev`) : pas d'appel GitHub, la
+ *   fonction attend le runner lancé en local (`pnpm lab:audit --browser`).
  */
 export {
   type AuditContext,
@@ -30,8 +35,10 @@ export { type CreateDeps, type CreateResult, createAudit } from './create.js';
 export {
   BROWSER_WORKFLOW,
   createGithubDispatcher,
+  createLocalDispatcher,
   type Dispatcher,
   type DispatchResult,
+  LOCAL_RUNNER_ENV_NAME,
 } from './dispatch.js';
 export {
   type ApiDeps,
@@ -93,8 +100,6 @@ export {
   MAX_RUNNER_OUTPUT_BYTES,
   readAuditView,
   runDepsFromEnv,
-  runnerOutputPath,
-  runnerOutputSchema,
   selfOrigin,
   supabaseAuditStore,
 } from './supabase.js';

@@ -1,9 +1,10 @@
-import { createHash, randomUUID } from 'node:crypto';
-import { mkdtemp, rm, writeFile } from 'node:fs/promises';
+import { randomUUID } from 'node:crypto';
+import { mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
+import { runJob, supabaseJobStore } from '@audigy/browser-runner';
 import { createServiceClient, createUserClient } from '@audigy/db';
-import { SECURITE_CHECKS } from '@audigy/engine';
+import { SECURITE_CHECKS, VIE_PRIVEE_CHECKS } from '@audigy/engine';
 import postgres, { type Sql } from 'postgres';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import { type Lab, startLab } from '../../../fixtures/lab.js';
@@ -22,12 +23,10 @@ import {
   handleGet,
   handleRun,
   runDepsFromEnv,
-  runnerOutputPath,
   secretsFromEnv,
   signTrigger,
   TRIGGER_HEADER,
 } from '../src/index.js';
-import { browserCheck } from './helpers.js';
 
 const ORIGIN = 'http://localhost:8888';
 
@@ -112,7 +111,7 @@ async function run(dispatcher: Dispatcher): Promise<unknown> {
     dispatcher,
     fetch: async () => new Response(null, { status: 202 }),
     overrides: {
-      checks: [...SECURITE_CHECKS, browserCheck],
+      checks: [...SECURITE_CHECKS, ...VIE_PRIVEE_CHECKS],
       runnerWaitMs: 5000,
       pollMs: 250,
     },
@@ -128,8 +127,19 @@ async function run(dispatcher: Dispatcher): Promise<unknown> {
   return res.json();
 }
 
+const BROWSER_CHECK = 'vie_privee.traceurs';
+
 function browserFinding(audit: AuditView) {
-  return audit.findings.find((f) => f.checkId === 'accessibilite.fictif');
+  return audit.findings.find((f) => f.checkId === BROWSER_CHECK);
+}
+
+/** Rapport réel du runner (fixture PART-13), recalé sur l'hôte audité. */
+async function runnerReport(host: string): Promise<unknown> {
+  const raw = await readFile(
+    new URL('../../browser-runner/fixtures/clean.json', import.meta.url),
+    'utf8',
+  );
+  return JSON.parse(raw.replaceAll('exemple.test', host));
 }
 
 describe('orchestration de bout en bout (Supabase local + labo)', () => {
@@ -246,37 +256,43 @@ describe('orchestration de bout en bout (Supabase local + labo)', () => {
       url: local.apiUrl,
       serviceRoleKey: local.serviceRoleKey,
     });
+    const report = await runnerReport('mauvais.audigy.test');
+    const jobs: string[] = [];
     const runner: Dispatcher = {
       async dispatch(id) {
-        const bytes = Buffer.from(
-          JSON.stringify({ version: 1, auditId: id, data: { contrast: true } }),
-        );
-        const storagePath = runnerOutputPath(id);
-        const up = await service.storage
-          .from('artifacts')
-          .upload(storagePath, bytes, {
-            contentType: 'application/json',
-            upsert: true,
-          });
-        if (up.error) throw new Error('upload');
-        await admin`
-          insert into public.artifacts (audit_id, kind, storage_path, sha256, bytes)
-          values (${id}::uuid, 'json', ${storagePath},
-            ${createHash('sha256').update(bytes).digest('hex')}, ${bytes.length})
-        `;
+        const summary = await runJob(id, {
+          store: supabaseJobStore(service),
+          run: async ({ url }) => {
+            jobs.push(String(url));
+            return {
+              result: report as never,
+              screenshots: [
+                { file: 'capture-desktop.webp', data: Buffer.from('RIFF') },
+              ],
+            };
+          },
+        });
+        expect(summary.artifacts).toContain(`${id}/browser/results.json`);
         return { ok: true };
       },
     };
     expect(await run(runner)).toEqual({ processed: auditId });
     const body = (await (await view('a', auditId)).json()) as AuditView;
     expect(body.audit.status).toBe('done');
-    expect(browserFinding(body)).toMatchObject({
-      status: 'pass',
-      reason: null,
-    });
-    expect(body.domains.find((d) => d.domain === 'accessibilite')?.score).toBe(
-      100,
-    );
+    expect(jobs).toEqual(['https://mauvais.audigy.test']);
+    const browserIds = VIE_PRIVEE_CHECKS.filter((c) =>
+      c.needs.includes('browser'),
+    ).map((c) => c.id);
+    const merged = body.findings.filter((f) => browserIds.includes(f.checkId));
+    expect(merged).toHaveLength(browserIds.length);
+    for (const finding of merged) {
+      expect(finding.status).not.toBe('untested');
+      expect(finding.reason ?? '').not.toMatch(/^reason\.runner_/);
+    }
+    expect(browserFinding(body)).toMatchObject({ status: 'pass' });
+    expect(
+      body.domains.find((d) => d.domain === 'vie_privee')?.score,
+    ).toBeTypeOf('number');
   });
 
   it('un autre utilisateur ne lit pas l’audit', async () => {

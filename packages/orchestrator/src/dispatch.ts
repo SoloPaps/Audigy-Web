@@ -76,3 +76,16 @@ export function createGithubDispatcher(
     },
   };
 }
+
+/** Variable de dev (hors §9), lue seulement avec le labo sous `netlify dev`. */
+export const LOCAL_RUNNER_ENV_NAME = 'AUDIGY_LOCAL_RUNNER';
+
+/** Labo : le runner est lancé à la main en local ; la fonction l'attend sans appeler GitHub. */
+export function createLocalDispatcher(logger: Logger): Dispatcher {
+  return {
+    async dispatch(auditId) {
+      logger.info('runner_dispatch_local', { auditId });
+      return { ok: true };
+    },
+  };
+}

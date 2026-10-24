@@ -1,6 +1,10 @@
 import { createHash } from 'node:crypto';
 import path from 'node:path';
 import {
+  BrowserAuditResultSchema,
+  browserResultsPath,
+} from '@audigy/browser-runner/schema';
+import {
   claimNextAudit,
   createServiceClient,
   createUserClient,
@@ -13,10 +17,14 @@ import {
 import { type FixSheet, loadFixes } from '@audigy/engine';
 import { fileFixStore } from '@audigy/engine/fixes-fs';
 import type { SupabaseClient } from '@supabase/supabase-js';
-import { z } from 'zod';
 import { createAuditContext, defaultChecks } from './context.js';
 import type { CreateDeps } from './create.js';
-import { createGithubDispatcher, type Dispatcher } from './dispatch.js';
+import {
+  createGithubDispatcher,
+  createLocalDispatcher,
+  type Dispatcher,
+  LOCAL_RUNNER_ENV_NAME,
+} from './dispatch.js';
 import type { ApiDeps, AuditView, FindingView, RunDeps } from './http.js';
 import { labFromEnv } from './lab.js';
 import { errorCode, type Logger } from './log.js';
@@ -31,22 +39,9 @@ import { createTrigger } from './trigger.js';
 type Client = SupabaseClient<Database>;
 
 const ARTIFACTS_BUCKET = 'artifacts';
+
+/** Rapport du runner (`results.json`), largement sous cette taille. */
 export const MAX_RUNNER_OUTPUT_BYTES = 5 * 1024 * 1024;
-
-/**
- * Contrat du runner navigateur (PART-13) : il dépose `audits/<id>/browser.json`
- * dans le seau privé `artifacts` et une ligne `artifacts` (kind `json`, sha256, octets).
- * `data` est relu par les checks `needs: ['browser']` via `ctx.shared`.
- */
-export function runnerOutputPath(auditId: string): string {
-  return `audits/${auditId}/browser.json`;
-}
-
-export const runnerOutputSchema = z.object({
-  version: z.literal(1),
-  auditId: z.uuid(),
-  data: z.unknown(),
-});
 
 export function supabaseAuditStore(
   service: Client,
@@ -89,7 +84,7 @@ export function supabaseAuditStore(
     writeResults: (input) => writeAuditResults(service, input),
 
     async readRunnerOutput(auditId) {
-      const storagePath = runnerOutputPath(auditId);
+      const storagePath = browserResultsPath(auditId);
       const { data: rows, error } = await service
         .from('artifacts')
         .select('sha256, bytes')
@@ -112,10 +107,10 @@ export function supabaseAuditStore(
           throw new Error('runner_output_too_large');
         const sha = createHash('sha256').update(bytes).digest('hex');
         if (sha !== row.sha256) throw new Error('runner_output_hash');
-        const parsed = runnerOutputSchema.parse(
+        const parsed = BrowserAuditResultSchema.safeParse(
           JSON.parse(bytes.toString('utf8')),
         );
-        if (parsed.auditId !== auditId) throw new Error('runner_output_audit');
+        if (!parsed.success) throw new Error('runner_output_schema');
         return parsed.data;
       } catch (err) {
         logger.warn('runner_output_invalid', { auditId, code: errorCode(err) });
@@ -334,11 +329,13 @@ export function runDepsFromEnv(options: RunFromEnvOptions): RunDeps {
   const origin = selfOrigin(env, options.requestUrl);
   const dispatcher =
     options.dispatcher ??
-    createGithubDispatcher({
-      token: env.GH_DISPATCH_TOKEN,
-      logger,
-      ...(options.fetch ? { fetch: options.fetch } : {}),
-    });
+    (lab && env[LOCAL_RUNNER_ENV_NAME] === 'true'
+      ? createLocalDispatcher(logger)
+      : createGithubDispatcher({
+          token: env.GH_DISPATCH_TOKEN,
+          logger,
+          ...(options.fetch ? { fetch: options.fetch } : {}),
+        }));
   return {
     key: db.serviceRoleKey,
     logger,

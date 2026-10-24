@@ -2,6 +2,7 @@ import { describe, expect, it, vi } from 'vitest';
 import {
   BROWSER_WORKFLOW,
   createGithubDispatcher,
+  createLocalDispatcher,
   createLogger,
   createTrigger,
   RUN_FUNCTION_PATH,
@@ -107,5 +108,15 @@ describe('déclenchement du runner GitHub', () => {
     expect(failed).toEqual({ ok: false, reason: 'network' });
     expect(lines).toHaveLength(2);
     expect(lines.join('\n')).not.toContain(TOKEN);
+  });
+});
+
+describe('runner local (labo)', () => {
+  it('n’appelle pas GitHub et laisse la fonction attendre', async () => {
+    const { logger, lines } = capture();
+    expect(await createLocalDispatcher(logger).dispatch(AUDIT)).toEqual({
+      ok: true,
+    });
+    expect(lines.join('\n')).toContain('runner_dispatch_local');
   });
 });
