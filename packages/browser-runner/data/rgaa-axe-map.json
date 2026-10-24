@@ -1,0 +1,219 @@
+{
+  "rgaaVersion": "4.1.2",
+  "axeVersion": "4.14",
+  "criteriaTotal": 106,
+  "coverage": "partial",
+  "note": "Couverture partielle. Seuls les critères listés ont au moins une règle axe-core. Une règle réussie ne rend pas le critère conforme : elle teste une partie seulement, et une vérification humaine reste nécessaire. Les autres critères ne sont pas testés automatiquement.",
+  "criteria": [
+    {
+      "id": "1.1",
+      "title": "Chaque image porteuse d'information a-t-elle une alternative textuelle ?",
+      "rules": [
+        "area-alt",
+        "image-alt",
+        "input-image-alt",
+        "object-alt",
+        "role-img-alt",
+        "server-side-image-map",
+        "svg-img-alt"
+      ]
+    },
+    {
+      "id": "1.3",
+      "title": "Pour chaque image porteuse d'information ayant une alternative textuelle, cette alternative est-elle pertinente (hors cas particuliers) ?",
+      "rules": ["image-redundant-alt"]
+    },
+    {
+      "id": "2.1",
+      "title": "Chaque cadre a-t-il un titre de cadre ?",
+      "rules": ["frame-title"]
+    },
+    {
+      "id": "2.2",
+      "title": "Pour chaque cadre ayant un titre de cadre, ce titre de cadre est-il pertinent ?",
+      "rules": ["frame-title-unique"]
+    },
+    {
+      "id": "3.1",
+      "title": "Dans chaque page web, l'information ne doit pas être donnée uniquement par la couleur. Cette règle est-elle respectée ?",
+      "rules": ["link-in-text-block"]
+    },
+    {
+      "id": "3.2",
+      "title": "Dans chaque page web, le contraste entre la couleur du texte et la couleur de son arrière-plan est-il suffisamment élevé (hors cas particuliers) ?",
+      "rules": ["color-contrast"]
+    },
+    {
+      "id": "4.3",
+      "title": "Chaque média temporel synchronisé pré-enregistré a-t-il, si nécessaire, des sous-titres synchronisés (hors cas particuliers) ?",
+      "rules": ["video-caption"]
+    },
+    {
+      "id": "4.10",
+      "title": "Chaque son déclenché automatiquement est-il contrôlable par l'utilisateur ?",
+      "rules": ["no-autoplay-audio"]
+    },
+    {
+      "id": "5.6",
+      "title": "Pour chaque tableau de données, chaque en-tête de colonne et chaque en-tête de ligne sont-ils correctement déclarés ?",
+      "rules": ["empty-table-header", "th-has-data-cells"]
+    },
+    {
+      "id": "5.7",
+      "title": "Pour chaque tableau de données, la technique appropriée permettant d'associer chaque cellule avec ses en-têtes est-elle utilisée (hors cas particuliers) ?",
+      "rules": ["scope-attr-valid", "td-headers-attr"]
+    },
+    {
+      "id": "6.2",
+      "title": "Dans chaque page web, chaque lien a-t-il un intitulé ?",
+      "rules": ["link-name"]
+    },
+    {
+      "id": "7.1",
+      "title": "Chaque script est-il, si nécessaire, compatible avec les technologies d'assistance ?",
+      "rules": [
+        "aria-allowed-attr",
+        "aria-allowed-role",
+        "aria-braille-equivalent",
+        "aria-command-name",
+        "aria-conditional-attr",
+        "aria-deprecated-role",
+        "aria-dialog-name",
+        "aria-hidden-body",
+        "aria-hidden-focus",
+        "aria-input-field-name",
+        "aria-meter-name",
+        "aria-progressbar-name",
+        "aria-prohibited-attr",
+        "aria-required-attr",
+        "aria-required-children",
+        "aria-required-parent",
+        "aria-roles",
+        "aria-tab-name",
+        "aria-text",
+        "aria-toggle-field-name",
+        "aria-tooltip-name",
+        "aria-treeitem-name",
+        "aria-valid-attr",
+        "aria-valid-attr-value",
+        "button-name",
+        "nested-interactive",
+        "presentation-role-conflict",
+        "summary-name"
+      ]
+    },
+    {
+      "id": "7.3",
+      "title": "Chaque script est-il contrôlable par le clavier et par tout dispositif de pointage (hors cas particuliers) ?",
+      "rules": ["frame-focusable-content", "scrollable-region-focusable"]
+    },
+    {
+      "id": "8.2",
+      "title": "Pour chaque page web, le code source généré est-il valide selon le type de document spécifié ?",
+      "rules": ["duplicate-id-aria"]
+    },
+    {
+      "id": "8.3",
+      "title": "Dans chaque page web, la langue par défaut est-elle présente ?",
+      "rules": ["html-has-lang"]
+    },
+    {
+      "id": "8.4",
+      "title": "Pour chaque page web ayant une langue par défaut, le code de langue est-il pertinent ?",
+      "rules": ["html-lang-valid", "html-xml-lang-mismatch"]
+    },
+    {
+      "id": "8.5",
+      "title": "Chaque page web a-t-elle un titre de page ?",
+      "rules": ["document-title"]
+    },
+    {
+      "id": "8.7",
+      "title": "Dans chaque page web, chaque changement de langue est-il indiqué dans le code source (hors cas particuliers) ?",
+      "rules": ["valid-lang"]
+    },
+    {
+      "id": "9.1",
+      "title": "Dans chaque page web, l'information est-elle structurée par l'utilisation appropriée de titres ?",
+      "rules": ["empty-heading", "heading-order", "page-has-heading-one"]
+    },
+    {
+      "id": "9.2",
+      "title": "Dans chaque page web, la structure du document est-elle cohérente (hors cas particuliers) ?",
+      "rules": [
+        "landmark-banner-is-top-level",
+        "landmark-contentinfo-is-top-level",
+        "landmark-main-is-top-level",
+        "landmark-no-duplicate-banner",
+        "landmark-no-duplicate-contentinfo",
+        "landmark-no-duplicate-main",
+        "landmark-one-main",
+        "landmark-unique"
+      ]
+    },
+    {
+      "id": "9.3",
+      "title": "Dans chaque page web, chaque liste est-elle correctement structurée ?",
+      "rules": ["definition-list", "dlitem", "list", "listitem"]
+    },
+    {
+      "id": "10.4",
+      "title": "Dans chaque page web, le texte reste-t-il lisible lorsque la taille des caractères est augmentée jusqu'à 200 %, au moins (hors cas particuliers) ?",
+      "rules": ["meta-viewport", "meta-viewport-large"]
+    },
+    {
+      "id": "10.12",
+      "title": "Dans chaque page web, les propriétés d'espacement du texte peuvent-elles être redéfinies par l'utilisateur sans perte de contenu ou de fonctionnalité (hors cas particuliers) ?",
+      "rules": ["avoid-inline-spacing"]
+    },
+    {
+      "id": "11.1",
+      "title": "Chaque champ de formulaire a-t-il une étiquette ?",
+      "rules": ["label", "select-name"]
+    },
+    {
+      "id": "11.2",
+      "title": "Chaque étiquette associée à un champ de formulaire est-elle pertinente (hors cas particuliers) ?",
+      "rules": [
+        "form-field-multiple-labels",
+        "label-content-name-mismatch",
+        "label-title-only"
+      ]
+    },
+    {
+      "id": "11.9",
+      "title": "Dans chaque formulaire, l'intitulé de chaque bouton est-il pertinent (hors cas particuliers) ?",
+      "rules": ["button-name", "input-button-name"]
+    },
+    {
+      "id": "11.13",
+      "title": "La finalité d'un champ de saisie peut-elle être déduite pour faciliter le remplissage automatique des champs avec les données de l'utilisateur ?",
+      "rules": ["autocomplete-valid"]
+    },
+    {
+      "id": "12.6",
+      "title": "Les zones de regroupement de contenus présentes dans plusieurs pages web (zones d'en-tête, de navigation principale, de contenu principal, de pied de page et de moteur de recherche) peuvent-elles être atteintes ou évitées ?",
+      "rules": ["region"]
+    },
+    {
+      "id": "12.7",
+      "title": "Dans chaque page web, un lien d'évitement ou d'accès rapide à la zone de contenu principal est-il présent (hors cas particuliers) ?",
+      "rules": ["bypass", "skip-link"]
+    },
+    {
+      "id": "12.8",
+      "title": "Dans chaque page web, l'ordre de tabulation est-il cohérent ?",
+      "rules": ["tabindex"]
+    },
+    {
+      "id": "13.1",
+      "title": "Pour chaque page web, l'utilisateur a-t-il le contrôle de chaque limite de temps modifiant le contenu (hors cas particuliers) ?",
+      "rules": ["meta-refresh"]
+    },
+    {
+      "id": "13.8",
+      "title": "Pour chaque page web, chaque contenu en mouvement ou clignotant est-il contrôlable par l'utilisateur ?",
+      "rules": ["blink", "marquee"]
+    }
+  ]
+}

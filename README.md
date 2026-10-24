@@ -16,7 +16,18 @@ pnpm check
 
 Supabase reste local (Docker). Aucun projet distant. Les clés viennent de `supabase status` et ne vont pas dans git.
 
-`pnpm check` lance le garde-fou anti-déploiement, Biome, le typecheck, Vitest et le build statique (`apps/web/dist`). Ensuite, avec le CLI Netlify installé chez vous : `netlify dev` (port 8888). Aucune liaison Git, aucun déploiement.
+`pnpm check` lance le garde-fou anti-déploiement, Biome, le typecheck, Vitest et le build statique (`apps/web/dist`).
+
+Runner navigateur en local (Chromium, profil vierge, aucune interaction, mode passif) :
+
+```bash
+pnpm --filter @audigy/browser-runner exec playwright install chromium
+pnpm --filter @audigy/browser-runner run audit https://exemple.fr/
+```
+
+Résultat dans `.audigy-browser/<hôte>/` : `browser.json` et deux captures WebP. Le workflow `browser-audit.yml` (déclenché à la main, entrée `auditId`) fait la même chose et range les artefacts dans Supabase.
+
+Ensuite, avec le CLI Netlify installé chez vous : `netlify dev` (port 8888). Aucune liaison Git, aucun déploiement.
 
 - Plan et découpage en PARTS : [`docs/PLAN.md`](docs/PLAN.md)
 - Questions ouvertes : [`docs/QUESTIONS.md`](docs/QUESTIONS.md)

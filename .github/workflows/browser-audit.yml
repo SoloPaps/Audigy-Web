@@ -1,0 +1,59 @@
+name: browser-audit
+
+# Runner navigateur (PLAN §3) : déclenché par l'orchestration avec l'identifiant
+# de l'audit. Mode passif seulement. Aucun déploiement.
+on:
+  workflow_dispatch:
+    inputs:
+      auditId:
+        description: Identifiant (uuid) de l'audit à compléter
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: browser-audit-${{ inputs.auditId }}
+  cancel-in-progress: false
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      AUDIT_ID: ${{ inputs.auditId }}
+    steps:
+      - name: Valider l'identifiant
+        run: |
+          if ! [[ "$AUDIT_ID" =~ ^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$ ]]; then
+            echo "Identifiant d'audit invalide" >&2
+            exit 1
+          fi
+
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+
+      - name: Install
+        run: pnpm install --frozen-lockfile
+
+      - name: Chromium
+        run: pnpm --filter @audigy/browser-runner exec playwright install --with-deps chromium
+
+      - name: Runner
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          APP_BASE_URL: ${{ vars.APP_BASE_URL }}
+        run: pnpm --filter @audigy/browser-runner run job "$AUDIT_ID"

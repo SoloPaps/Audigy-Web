@@ -53,6 +53,7 @@ function page(init: {
     status: init.status ?? 200,
     headers,
     body: new TextEncoder().encode(body),
+    transferBytes: new TextEncoder().encode(body).length,
     ip: '93.184.216.34',
     redirects: init.redirects ?? [],
     text: () => body,
