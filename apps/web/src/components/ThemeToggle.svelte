@@ -45,8 +45,8 @@ onMount(() => {
 <label class="theme">
   <span>{t('theme.label')}</span>
   <select {value} onchange={onChange}>
-    <option value="system" selected={value === 'system'}>{t('theme.system')}</option>
-    <option value="light" selected={value === 'light'}>{t('theme.light')}</option>
-    <option value="dark" selected={value === 'dark'}>{t('theme.dark')}</option>
+    <option value="system">{t('theme.system')}</option>
+    <option value="light">{t('theme.light')}</option>
+    <option value="dark">{t('theme.dark')}</option>
   </select>
 </label>

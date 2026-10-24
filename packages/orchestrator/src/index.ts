@@ -35,7 +35,8 @@
  * - `normalizeSiteUrl` : adresse saisie → site (`https`, portée, hébergeur).
  * - `createLogger`, `redact` : journal JSON sans secret ni donnée personnelle.
  * - `handleAccount` : export JSON, acceptation versionnée des CGU, suppression
- *   du compte (données et artefacts). `TERMS_VERSION` vient de `@audigy/db`.
+ *   du compte (données et artefacts). Export et CGU : 30 par heure. Suppression :
+ *   5 par jour. Au-delà : 429. `TERMS_VERSION` vient de `@audigy/db`.
  * - `handlePlaces` : recherche et confirmation d’un lieu (Places API New).
  *   Sans `PLACES_API_KEY`, `GET` répond `{ enabled: false }` et aucun appel ne part.
  *   Le navigateur ne parle qu’à `/api/places`. Cache 7 jours en base.
@@ -45,9 +46,13 @@
  *   fonction attend le runner lancé en local (`pnpm lab:audit --browser`).
  */
 export {
+  type AccountAction,
   type AccountDeps,
   type AccountExport,
   type AccountGateway,
+  accountLimit,
+  accountRetryAfter,
+  accountWindowStart,
   deleteAccount,
   handleAccount,
   mergeArtifactPaths,

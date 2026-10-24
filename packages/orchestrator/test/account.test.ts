@@ -1,8 +1,11 @@
 import { TERMS_VERSION } from '@audigy/db';
 import { describe, expect, it } from 'vitest';
 import {
+  type AccountDeps,
   type AccountExport,
   type AccountGateway,
+  accountLimit,
+  accountWindowStart,
   deleteAccount,
   handleAccount,
   mergeArtifactPaths,
@@ -140,15 +143,18 @@ function call(
   method: string,
   body?: unknown,
   token: string | null = TOKEN,
+  takeSlot?: AccountDeps['takeSlot'],
 ) {
   const headers = new Headers();
   if (token) headers.set('authorization', `Bearer ${token}`);
   if (body !== undefined) headers.set('content-type', 'application/json');
   const init: RequestInit = { method, headers };
   if (body !== undefined) init.body = JSON.stringify(body);
+  const account: AccountDeps = { ...deps(memory) };
+  if (takeSlot) account.takeSlot = takeSlot;
   return handleAccount(
     new Request(`http://localhost${path}`, init),
-    deps(memory),
+    account,
     path.split('/').pop(),
   );
 }
@@ -201,6 +207,37 @@ describe('API compte', () => {
     expect(body.artefacts[0]?.chemin).toBe('a/file.webp');
     expect(JSON.stringify(body)).not.toContain('refresh_token');
     expect(body.connexions).toEqual([{ fournisseur: 'google' }]);
+  });
+
+  it('bloque l’export et la suppression au-delà du plafond', async () => {
+    const memory = new Memory();
+    const denied = async () => false;
+    const exported = await call(
+      memory,
+      '/api/compte/export',
+      'GET',
+      undefined,
+      TOKEN,
+      denied,
+    );
+    expect(exported.status).toBe(429);
+    expect(exported.headers.get('retry-after')).toBe('3600');
+    const removed = await call(
+      memory,
+      '/api/compte/suppression',
+      'POST',
+      { confirm: 'supprimer' },
+      TOKEN,
+      denied,
+    );
+    expect(removed.status).toBe(429);
+    expect(removed.headers.get('retry-after')).toBe('86400');
+    expect(memory.profiles.has(A)).toBe(true);
+    expect(accountLimit('export')).toBe(30);
+    expect(accountLimit('delete')).toBe(5);
+    expect(accountWindowStart('delete', new Date('2026-10-24T12:00:00Z'))).toBe(
+      '2026-10-24T00:00:00.000Z',
+    );
   });
 
   it('refuse l’export sans session', async () => {

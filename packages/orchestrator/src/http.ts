@@ -22,6 +22,7 @@ export type ApiError =
   | 'places_absent'
   | 'places_limit'
   | 'terms_version'
+  | 'account_limit'
   | 'internal';
 
 function json(

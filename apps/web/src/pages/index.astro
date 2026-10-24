@@ -1,9 +1,21 @@
 ---
 import { t } from '../i18n/index.js';
 import Base from '../layouts/Base.astro';
+
+const jsonLd = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: 'Audigy',
+  inLanguage: 'fr',
+  description: t('meta.home.description'),
+});
 ---
 
-<Base title={t('home.headline')} description={t('meta.home.description')}>
+<Base
+  title={t('home.headline')}
+  description={t('meta.home.description')}
+  jsonLd={jsonLd}
+>
   <h1>{t('home.headline')}</h1>
   <p class="prose">{t('home.lead')}</p>
   <p class="prose">{t('home.scope')}</p>

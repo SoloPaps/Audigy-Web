@@ -70,6 +70,11 @@ describe('copy-lint', () => {
         (issue) => issue.rule === 'forbidden',
       ),
     ).toBe(true);
+    expect(
+      lintText('Une nouvelle génération arrive.', 'a.ts').some(
+        (issue) => issue.rule === 'forbidden',
+      ),
+    ).toBe(true);
   });
 
   it('avertit au-delà de 20 mots sans échouer', () => {
