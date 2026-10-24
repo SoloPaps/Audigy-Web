@@ -17,6 +17,7 @@ export default defineConfig({
     timeout: 120_000,
     env: {
       ASTRO_TELEMETRY_DISABLED: '1',
+      AUDIGY_DEV_TOOLBAR: 'off',
       SUPABASE_URL: 'http://127.0.0.1:54321',
       SUPABASE_ANON_KEY: 'test-anon-key-not-a-secret',
     },

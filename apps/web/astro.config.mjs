@@ -55,6 +55,9 @@ function printRoute() {
 export default defineConfig({
   integrations: [svelte()],
   output: 'static',
+  devToolbar: {
+    enabled: process.env.AUDIGY_DEV_TOOLBAR !== 'off',
+  },
   build: {
     format: 'directory',
   },

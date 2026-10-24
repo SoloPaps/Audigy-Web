@@ -1,4 +1,5 @@
 ---
+import SiteBar from '../components/SiteBar.svelte';
 import ThemeToggle from '../components/ThemeToggle.svelte';
 import { t } from '../i18n/index.js';
 import '../styles/fonts.css';
@@ -34,33 +35,32 @@ const initialTheme =
     <script is:inline src="/theme-init.js"></script>
   </head>
   <body>
+    <a class="skip" href="#contenu">{t('skip.content')}</a>
     <div class="blobs" aria-hidden="true">
       <div class="blob blob-petrol"></div>
       <div class="blob blob-peach"></div>
       <div class="blob blob-lilac"></div>
     </div>
-    <header class:list={['site-header', { 'print-hide': print }]}>
-      <a class="skip" href="#contenu">{t('skip.content')}</a>
-      <a class="brand" href="/">{t('brand.name')}</a>
-      <nav class="site-nav" aria-label={t('nav.main')}>
-        <a href="/sites">{t('nav.sites')}</a>
-        <a href="/compte">{t('nav.account')}</a>
-        <a href="/connexion">{t('nav.login')}</a>
-      </nav>
-      <ThemeToggle initial={initialTheme} client:load />
+    <header class:list={['site-bar', { 'print-hide': print }]}>
+      <div class="glass bar-glass">
+        <div class="glass-plate bar-plate">
+          <a class="brand" href="/">{t('brand.name')}</a>
+          <SiteBar pathname={Astro.url.pathname} client:load />
+          <ThemeToggle initial={initialTheme} client:load />
+        </div>
+      </div>
     </header>
     <main id="contenu" class="wrap" tabindex="-1">
       <noscript><p>{t('noscript')}</p></noscript>
       <slot />
     </main>
     <footer class:list={['site-footer', { 'print-hide': print }]}>
-      <p>{t('footer.note')}</p>
       <nav class="footer-nav" aria-label={t('footer.legal')}>
-        <a href="/mentions-legales">{t('footer.mentions')}</a>
-        <a href="/confidentialite">{t('footer.privacy')}</a>
-        <a href="/cgu">{t('footer.terms')}</a>
-        <a href="/accessibilite">{t('footer.a11y')}</a>
         <a href="/methode">{t('footer.method.nav')}</a>
+        <a href="/cgu">{t('footer.terms')}</a>
+        <a href="/confidentialite">{t('footer.privacy')}</a>
+        <a href="/mentions-legales">{t('footer.mentions')}</a>
+        <a href="/accessibilite">{t('footer.a11y')}</a>
       </nav>
     </footer>
   </body>

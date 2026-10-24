@@ -71,9 +71,15 @@ describe('tokens Arc Soft', () => {
 
 describe('Outfit', () => {
   it('auto-héberge deux graisses latin et la licence, sans Sora ni Manrope', () => {
-    expect(statSync(`${root}/apps/web/src/fonts/outfit-latin-600-normal.woff2`).size).toBe(14140);
-    expect(statSync(`${root}/apps/web/src/fonts/outfit-latin-700-normal.woff2`).size).toBe(14060);
-    expect(text('apps/web/src/fonts/OFL-outfit.txt')).toContain('SIL Open Font License');
+    expect(
+      statSync(`${root}/apps/web/src/fonts/outfit-latin-600-normal.woff2`).size,
+    ).toBe(14140);
+    expect(
+      statSync(`${root}/apps/web/src/fonts/outfit-latin-700-normal.woff2`).size,
+    ).toBe(14060);
+    expect(text('apps/web/src/fonts/OFL-outfit.txt')).toContain(
+      'SIL Open Font License',
+    );
     const fonts = text('apps/web/src/styles/fonts.css');
     expect(fonts).toContain('font-family: "Outfit"');
     expect(fonts).toContain('font-weight: 600');
@@ -101,7 +107,9 @@ describe('coquille', () => {
     expect(css).toContain('filter: blur(var(--space-8))');
     expect(css).toContain('.blob-lilac');
     expect(css).toContain('display: none');
-    expect(css).toContain('@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)))');
+    expect(css).toContain(
+      '@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)))',
+    );
     expect(css).toContain('prefers-reduced-motion: reduce');
     expect(css).toContain('animation: none');
     expect(css).toContain('animation-delay: 200ms');
