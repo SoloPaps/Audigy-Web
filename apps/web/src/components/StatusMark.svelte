@@ -6,17 +6,29 @@ interface Props {
 }
 
 let { level }: Props = $props();
+const color = $derived(
+  level === 'good'
+    ? 'var(--score-good)'
+    : level === 'improve'
+      ? 'var(--score-improve)'
+      : level === 'problem'
+        ? 'var(--score-problem)'
+        : 'var(--score-untested)',
+);
 </script>
 
-<span class="status" data-level={level}>
+<span class="status" data-level={level} style={`color: ${color}`}>
   <svg
     aria-hidden="true"
     viewBox="0 0 24 24"
+    width="20"
+    height="20"
     fill="none"
     stroke="currentColor"
     stroke-width="1.5"
     stroke-linecap="round"
     stroke-linejoin="round"
+    style="display: block; width: var(--icon-size); height: var(--icon-size); flex: none"
   >
     {#if level === 'good'}
       <circle cx="12" cy="12" r="10" />

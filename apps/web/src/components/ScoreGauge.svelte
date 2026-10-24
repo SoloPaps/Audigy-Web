@@ -14,6 +14,22 @@ const level = $derived(levelForScore(score));
 const label = $derived(gaugeLabel(domain, score));
 const arc = gaugeArc(GAUGE.cx, GAUGE.cy, GAUGE.r);
 const scoreAttr = $derived(score === null ? 'none' : String(score));
+const frame = $derived(
+  size === 'hero'
+    ? 'var(--gauge-hero)'
+    : size === 'mini'
+      ? 'var(--gauge-mini)'
+      : 'var(--gauge-size)',
+);
+const stroke = $derived(
+  level === 'good'
+    ? 'var(--score-good)'
+    : level === 'improve'
+      ? 'var(--score-improve)'
+      : level === 'problem'
+        ? 'var(--score-problem)'
+        : 'var(--score-untested)',
+);
 </script>
 
 <div
@@ -23,27 +39,48 @@ const scoreAttr = $derived(score === null ? 'none' : String(score));
   data-level={level}
   role="img"
   aria-label={label}
-  style={`--gx: ${GAUGE.cx}; --gy: ${GAUGE.cy}; --gw: ${GAUGE.width}; --gh: ${GAUGE.height}`}
+  style={`width: ${frame}; max-width: 100%; container-type: inline-size; --gx: ${GAUGE.cx}; --gy: ${GAUGE.cy}; --gw: ${GAUGE.width}; --gh: ${GAUGE.height}`}
 >
-  <div class="gauge-figure">
+  <div class="gauge-figure" style="position: relative">
     <svg
       aria-hidden="true"
       viewBox={GAUGE.viewBox}
+      width={GAUGE.width}
+      height={GAUGE.height}
+      style="display: block; width: 100%; height: auto"
       data-cx={GAUGE.cx}
       data-cy={GAUGE.cy}
       data-r={GAUGE.r}
     >
-      <path class="gauge-track" d={arc} />
-      <path class="gauge-fill" d={arc} pathLength="100" style={`--score: ${score ?? 0}`} />
+      <path
+        class="gauge-track"
+        d={arc}
+        fill="none"
+        stroke="var(--line)"
+        stroke-width="8"
+        stroke-linecap="round"
+      />
+      <path
+        class="gauge-fill"
+        d={arc}
+        fill="none"
+        stroke={stroke}
+        stroke-width="8"
+        stroke-linecap="round"
+        pathLength="100"
+        stroke-dasharray={`${score ?? 0} 100`}
+        style={`--score: ${score ?? 0}`}
+      />
     </svg>
-    <p class="gauge-hole" aria-hidden="true">
-      <span class="score-num">{score === null ? t('score.empty') : score}</span>
-      {#if score !== null}
-        <span class="score-denom">{t('gauge.denom')}</span>
-      {/if}
+    <p
+      class="gauge-hole"
+      aria-hidden="true"
+      style="position: absolute; z-index: 1; left: calc(var(--gx) / var(--gw) * 100%); top: calc(var(--gy) / var(--gh) * 100%); display: flex; flex-direction: column; align-items: center; width: max-content; margin: 0; color: var(--ink); font-size: 20cqw; line-height: 1; text-align: center; transform: translate(-50%, -50%)"
+    >
+      <span class="score-num" style="font-variant-numeric: tabular-nums; font-weight: 600; line-height: 1; white-space: nowrap">{score === null ? t('score.empty') : score}</span>{#if score !== null}<span class="score-denom" style="margin-top: var(--space-1); color: var(--ink-2); font-size: max(var(--text-xs), 0.42em); font-variant-numeric: tabular-nums; font-weight: 400; line-height: 1.2; white-space: nowrap">{t('gauge.denom')}</span>{/if}
     </p>
   </div>
-  <div class="gauge-status" aria-hidden="true">
+  <div class="gauge-status" aria-hidden="true" style="display: flex; justify-content: center; margin-top: var(--space-2)">
     <StatusMark {level} />
   </div>
 </div>
