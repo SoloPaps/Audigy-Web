@@ -256,9 +256,25 @@ describe('liste de traceurs', () => {
     expect(notice).toContain(TRACKER_LIST.commit);
     expect(notice).toContain(TRACKER_LIST.sha256);
     const domains = readFileSync(`${DATA}domains.txt`);
-    expect(createHash('sha256').update(domains).digest('hex')).toBe(
+    // Git (`core.autocrlf`) réécrit LF en CRLF sur Windows. L’empreinte
+    // publiée est celle du fichier LF. On ne réécrit pas domains.txt.
+    const pourEmpreinte =
+      process.platform === 'win32' ? sansRetourChariot(domains) : domains;
+    expect(createHash('sha256').update(pourEmpreinte).digest('hex')).toBe(
       TRACKER_LIST.sha256,
     );
+    const lf = Uint8Array.from([0x61, 0x0a]);
+    const crlf = Uint8Array.from([0x61, 0x0d, 0x0a]);
+    const empreinteLf = createHash('sha256').update(lf).digest('hex');
+    const empreinteCrlf = createHash('sha256')
+      .update(sansRetourChariot(crlf))
+      .digest('hex');
+    expect(empreinteCrlf).toBe(empreinteLf);
+    if (process.platform !== 'win32') {
+      expect(createHash('sha256').update(crlf).digest('hex')).not.toBe(
+        createHash('sha256').update(lf).digest('hex'),
+      );
+    }
     expect(TRACKER_DOMAINS.size).toBe(45835);
     expect(matchesTracker('www.google-analytics.com')).toBe(true);
     expect(matchesTracker('fonts.gstatic.com')).toBe(true);
@@ -845,3 +861,20 @@ describe('textes, fiches et méthode', () => {
     }
   });
 });
+
+/** Retire les CR des paires CRLF. Un fichier déjà en LF est inchangé. */
+function sansRetourChariot(octets: Uint8Array): Uint8Array {
+  let retraits = 0;
+  for (let i = 0; i < octets.length - 1; i += 1) {
+    if (octets[i] === 0x0d && octets[i + 1] === 0x0a) retraits += 1;
+  }
+  if (retraits === 0) return octets;
+  const out = new Uint8Array(octets.length - retraits);
+  let n = 0;
+  for (let i = 0; i < octets.length; i += 1) {
+    if (octets[i] === 0x0d && octets[i + 1] === 0x0a) continue;
+    out[n] = octets[i] ?? 0;
+    n += 1;
+  }
+  return out;
+}

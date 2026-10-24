@@ -85,8 +85,10 @@ describe('environnement local du build', () => {
     expect(body).not.toContain('role-local-secret');
     expect(body).not.toContain('brevo-secret');
     expect(body).not.toContain('SERVICE');
-    const mode = (await stat(dest)).mode & 0o777;
-    expect(mode).toBe(0o600);
+    // NTFS ignore le mode Unix : writeFile demande 0o600, Windows rapporte 0o666.
+    if (process.platform !== 'win32') {
+      expect((await stat(dest)).mode & 0o777).toBe(0o600);
+    }
   });
 
   it('n’écrit pas apps/web/.env sans les deux clés publiques', async () => {

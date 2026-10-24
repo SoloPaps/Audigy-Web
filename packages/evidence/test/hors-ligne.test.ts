@@ -51,18 +51,28 @@ describe('jetons de fixture', () => {
       JSON.parse(await readFile(dossierPublic, 'utf8')),
     );
     expect(dossier?.empreinte).toBe(meta.empreinte);
+    const manifesteDossier = dossier?.manifeste ?? {
+      fichiers: [],
+      resultsSha256: '',
+    };
     expect(
-      verdictFichier(
-        sha256Hex(await lire('results.json')),
-        dossier?.manifeste ?? { fichiers: [], resultsSha256: '' },
-      ),
+      verdictFichier(sha256Hex(await lire('results.json')), manifesteDossier),
     ).toBe('correspond');
-    expect(
-      verdictFichier(
-        sha256Hex(await lire('rapport.pdf')),
-        dossier?.manifeste ?? { fichiers: [], resultsSha256: '' },
-      ),
-    ).toBe('correspond');
+    const pdf = await lire('rapport.pdf');
+    // rapport.pdf n’a pas d’octet NUL : Git peut le passer en CRLF sur Windows.
+    // L’empreinte du manifeste est celle des LF. Linux compare les octets bruts.
+    const pdfEmpreinte =
+      process.platform === 'win32' ? sansRetourChariot(pdf) : pdf;
+    expect(verdictFichier(sha256Hex(pdfEmpreinte), manifesteDossier)).toBe(
+      'correspond',
+    );
+    const pdfLf = sansRetourChariot(pdf);
+    expect(verdictFichier(sha256Hex(versCrlf(pdfLf)), manifesteDossier)).toBe(
+      'ne correspond pas',
+    );
+    expect(sha256Hex(sansRetourChariot(versCrlf(pdfLf)))).toBe(
+      sha256Hex(pdfLf),
+    );
     const cle = JSON.parse(await readFile(clePublique, 'utf8')) as {
       jwk?: { d?: string };
     };
@@ -87,11 +97,11 @@ describe('jetons de fixture', () => {
           'ts',
           '-verify',
           '-in',
-          path.join(fixtures, jeton.fichier),
+          cheminOpenSsl(path.join(fixtures, jeton.fichier)),
           '-digest',
           meta.empreinte,
           '-CAfile',
-          path.join(fixtures, jeton.ancre),
+          cheminOpenSsl(path.join(fixtures, jeton.ancre)),
         ],
         { encoding: 'utf8' },
       );
@@ -137,3 +147,37 @@ describe('jetons de fixture', () => {
     ).rejects.toBeInstanceOf(EvidenceError);
   });
 });
+
+/** Retire les CR des paires CRLF. Un fichier déjà en LF est inchangé. */
+function sansRetourChariot(octets: Uint8Array): Uint8Array {
+  let retraits = 0;
+  for (let i = 0; i < octets.length - 1; i += 1) {
+    if (octets[i] === 0x0d && octets[i + 1] === 0x0a) retraits += 1;
+  }
+  if (retraits === 0) return octets;
+  const out = new Uint8Array(octets.length - retraits);
+  let n = 0;
+  for (let i = 0; i < octets.length; i += 1) {
+    if (octets[i] === 0x0d && octets[i + 1] === 0x0a) continue;
+    out[n] = octets[i] ?? 0;
+    n += 1;
+  }
+  return out;
+}
+
+function versCrlf(octets: Uint8Array): Uint8Array {
+  let sauts = 0;
+  for (const octet of octets) if (octet === 0x0a) sauts += 1;
+  const out = new Uint8Array(octets.length + sauts);
+  let n = 0;
+  for (const octet of octets) {
+    if (octet === 0x0a) out[n++] = 0x0d;
+    out[n++] = octet;
+  }
+  return out;
+}
+
+/** OpenSSL MSYS avale les antislashs. Les deux formes acceptent « / ». */
+function cheminOpenSsl(fichier: string): string {
+  return fichier.replaceAll('\\', '/');
+}
