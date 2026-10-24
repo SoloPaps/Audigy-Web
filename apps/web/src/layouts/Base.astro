@@ -14,9 +14,17 @@ interface Props {
   robots?: string;
   print?: boolean;
   jsonLd?: string;
+  still?: boolean;
 }
 
-const { title, description, robots, print = false, jsonLd } = Astro.props;
+const {
+  title,
+  description,
+  robots,
+  print = false,
+  jsonLd,
+  still = false,
+} = Astro.props;
 const canonical = Astro.url.pathname || '/';
 const themeParam = Astro.url.searchParams.get('theme');
 const initialTheme =
@@ -36,7 +44,7 @@ const initialTheme =
     <ClientRouter fallback="swap" />
     <script is:inline src="/theme-init.js"></script>
   </head>
-  <body>
+  <body class:list={{ 'blobs-still': still }}>
     <a class="skip" href="#contenu">{t('skip.content')}</a>
     <div class="blobs" aria-hidden="true">
       <div class="blob blob-petrol"></div>
@@ -52,7 +60,7 @@ const initialTheme =
         </div>
       </div>
     </header>
-    <main id="contenu" class="wrap" tabindex="-1">
+    <main id="contenu" class:list={['wrap', { legal: still }]} tabindex="-1">
       <noscript><p>{t('noscript')}</p></noscript>
       <slot />
     </main>

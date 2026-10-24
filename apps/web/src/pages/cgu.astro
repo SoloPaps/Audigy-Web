@@ -6,7 +6,7 @@ import Base from '../layouts/Base.astro';
 const email = t('legal.email');
 ---
 
-<Base title={t('meta.terms.title')} description={t('meta.terms.description')}>
+<Base still title={t('meta.terms.title')} description={t('meta.terms.description')}>
   <h1>{t('terms.title')}</h1>
   <p class="prose">{t('terms.version.label', { version: TERMS_VERSION })}</p>
   <p class="prose">{t('terms.date')}</p>
