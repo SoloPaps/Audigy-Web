@@ -20,6 +20,8 @@ const pages = [
   `http://${host}:${port}/verifier?theme=dark`,
   `http://${host}:${port}/rapport/6f1c1f52-6a43-4d55-9d0c-3c2b1f6e7a10/imprimer?theme=light`,
   `http://${host}:${port}/rapport/6f1c1f52-6a43-4d55-9d0c-3c2b1f6e7a10/imprimer?theme=dark`,
+  `http://${host}:${port}/verifier/00000000-0000-4000-8000-000000000019/?theme=light`,
+  `http://${host}:${port}/verifier/00000000-0000-4000-8000-000000000019/?theme=dark`,
 ];
 
 function waitForPort(timeoutMs) {

@@ -134,7 +134,9 @@ test('impression : mentions, PDF gris, polices, plafond', async ({ page }) => {
   ).toBeVisible();
   await expect(page.getByText(/Ordinateur,/)).toBeVisible();
   await expect(page.getByText(/Téléphone,/)).toBeVisible();
-  await expect(page.getByText('Problème', { exact: true }).first()).toBeVisible();
+  await expect(
+    page.getByText('Problème', { exact: true }).first(),
+  ).toBeVisible();
   const violations = await new AxeBuilder({ page }).analyze();
   expect(violations.violations).toEqual([]);
 

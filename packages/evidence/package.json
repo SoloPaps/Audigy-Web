@@ -4,9 +4,13 @@
   "private": true,
   "type": "module",
   "exports": {
-    ".": "./src/index.ts"
+    ".": "./src/index.ts",
+    "./browser": "./src/browser.ts"
   },
   "dependencies": {
-    "canonicalize": "5.1.0"
+    "asn1js": "3.0.6",
+    "canonicalize": "2.0.0",
+    "pkijs": "3.2.5",
+    "zod": "4.6.7"
   }
 }
