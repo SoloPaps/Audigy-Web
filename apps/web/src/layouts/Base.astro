@@ -4,6 +4,7 @@ import { t } from '../i18n/index.js';
 import '../styles/fonts.css';
 import '../styles/tokens.css';
 import '../styles/base.css';
+import '../styles/arc.css';
 
 interface Props {
   title: string;
@@ -33,6 +34,11 @@ const initialTheme =
     <script is:inline src="/theme-init.js"></script>
   </head>
   <body>
+    <div class="blobs" aria-hidden="true">
+      <div class="blob blob-petrol"></div>
+      <div class="blob blob-peach"></div>
+      <div class="blob blob-lilac"></div>
+    </div>
     <header class:list={['site-header', { 'print-hide': print }]}>
       <a class="skip" href="#contenu">{t('skip.content')}</a>
       <a class="brand" href="/">{t('brand.name')}</a>

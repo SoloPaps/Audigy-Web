@@ -85,3 +85,26 @@ describe('Outfit', () => {
     expect(fonts.toLowerCase()).not.toContain('manrope');
   });
 });
+
+describe('coquille', () => {
+  const arc = () => text('apps/web/src/styles/arc.css');
+
+  it('n’écrit aucune couleur littérale et pose le verre', () => {
+    const css = arc();
+    expect(css).not.toMatch(/#[0-9a-fA-F]{3,8}/);
+    expect(css).toContain('background: var(--glass)');
+    expect(css).toContain('backdrop-filter: blur(var(--glass-blur))');
+    expect(css).toContain('-webkit-backdrop-filter: blur(var(--glass-blur))');
+    expect(css).toContain('box-shadow: var(--shadow-float)');
+    expect(css).toContain('background: var(--plate)');
+    expect(css).toContain('filter: blur(var(--space-8))');
+    expect(css).toContain('.blob-lilac');
+    expect(css).toContain('display: none');
+    expect(css).toContain('@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)))');
+    expect(css).toContain('prefers-reduced-motion: reduce');
+    expect(css).toContain('animation: none');
+    expect(css).toContain('animation-delay: 200ms');
+    expect(css).toContain('var(--duration-row)');
+    expect(css).not.toContain('translateY');
+  });
+});
