@@ -50,20 +50,30 @@ body {
 }
 
 .brand {
+  flex-shrink: 0;
   color: var(--ink);
   font-family: var(--font-text);
   font-size: var(--text-lg);
   font-weight: 600;
   line-height: var(--leading-title);
+  white-space: nowrap;
+  overflow-wrap: normal;
   text-decoration: none;
 }
 
 .theme {
   display: flex;
+  flex-shrink: 0;
   align-items: center;
   gap: var(--space-2);
   color: var(--ink-2);
   font-size: var(--text-sm);
+  white-space: nowrap;
+  overflow-wrap: normal;
+}
+
+.theme span {
+  white-space: nowrap;
 }
 
 .theme select {
@@ -147,34 +157,56 @@ a:visited {
 .link-inline,
 .link-inline:visited {
   color: var(--accent);
-  text-decoration: underline;
+  font-weight: 600;
+  text-decoration-line: underline;
+  text-decoration-thickness: var(--border);
+  text-decoration-color: var(--accent);
   text-underline-offset: var(--focus-width);
+}
+
+.link-inline:hover {
+  text-decoration-thickness: var(--focus-width);
 }
 
 .link-nav,
 .link-nav:visited {
   color: var(--ink);
+  font-weight: 600;
+  white-space: nowrap;
+  overflow-wrap: normal;
   text-decoration: none;
 }
 
-.link-nav[aria-current="page"],
-.link-nav[aria-current="page"]:visited {
+.link-nav:hover {
   color: var(--accent);
-  text-decoration: underline;
+}
+
+.link-nav[aria-current="page"],
+.link-nav[aria-current="page"]:visited,
+.link-nav[aria-current="page"]:hover {
+  color: var(--accent);
+  text-decoration-line: underline;
   text-decoration-thickness: var(--focus-width);
-  text-underline-offset: var(--focus-width);
+  text-decoration-color: var(--accent);
+  text-underline-offset: var(--space-1);
 }
 
 .link-footer,
 .link-footer:visited {
   color: var(--ink-2);
   font-size: var(--text-sm);
+  font-weight: 400;
+  white-space: nowrap;
+  overflow-wrap: normal;
   text-decoration: none;
 }
 
 .link-footer:hover,
 .link-footer:focus-visible {
-  text-decoration: underline;
+  color: var(--ink);
+  text-decoration-line: underline;
+  text-decoration-thickness: var(--border);
+  text-underline-offset: var(--focus-width);
 }
 
 .link-action,
@@ -182,9 +214,22 @@ a:visited {
   display: inline-flex;
   align-items: center;
   min-height: var(--touch-min);
+  padding-inline: var(--space-3);
+  border: var(--border) solid var(--accent);
+  border-radius: var(--radius-md);
   color: var(--accent);
-  text-decoration: underline;
+  font-weight: 600;
+  text-decoration-line: underline;
+  text-decoration-thickness: var(--focus-width);
+  text-decoration-color: var(--accent);
   text-underline-offset: var(--focus-width);
+}
+
+.link-action:hover {
+  border-color: var(--peach-border);
+  background: var(--peach-fill);
+  color: var(--on-peach);
+  text-decoration-color: var(--on-peach);
 }
 
 .button:visited {

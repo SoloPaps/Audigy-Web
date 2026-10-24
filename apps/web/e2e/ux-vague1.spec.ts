@@ -54,6 +54,37 @@ test('connexion et compte n’ont qu’un titre, avec leur accroche', async ({
   ).toBeVisible();
 });
 
+test('la barre étroite ne coupe pas la marque, le menu ni le thème', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 800 });
+  await page.goto('/compte?theme=dark');
+  const plate = page.locator('.bar-plate');
+  const labels = [
+    page.getByRole('link', { name: 'Audigy', exact: true }),
+    page.getByRole('button', { name: 'Menu' }),
+    page.locator('.theme span'),
+  ];
+  const plateBox = await plate.boundingBox();
+  expect(plateBox).not.toBeNull();
+  for (const label of labels) {
+    const lines = await label.evaluate((node) => {
+      const range = document.createRange();
+      range.selectNodeContents(node);
+      return range.getClientRects().length;
+    });
+    expect(lines).toBe(1);
+    const box = await label.boundingBox();
+    expect(box).not.toBeNull();
+    if (box && plateBox) {
+      expect(box.x).toBeGreaterThanOrEqual(plateBox.x - 1);
+      expect(box.x + box.width).toBeLessThanOrEqual(
+        plateBox.x + plateBox.width + 1,
+      );
+    }
+  }
+});
+
 test('la barre et le pied ne sont pas soulignés au repos', async ({ page }) => {
   await page.goto('/methode');
   const bar = page.getByRole('navigation', { name: 'Pages' });
@@ -82,6 +113,26 @@ test('la barre et le pied ne sont pas soulignés au repos', async ({ page }) => 
   });
   await expect(prose).toHaveClass(/link-inline/);
   expect(
+    await prose.evaluate((node) => getComputedStyle(node).fontWeight),
+  ).toBe('600');
+  expect(
     await prose.evaluate((node) => getComputedStyle(node).textDecorationLine),
   ).toContain('underline');
+
+  await page.goto('/compte');
+  const action = page.getByRole('link', { name: 'Aller à la connexion' });
+  const actionStyle = await action.evaluate((node) => {
+    const style = getComputedStyle(node);
+    return {
+      weight: style.fontWeight,
+      border: style.borderTopWidth,
+      minHeight: style.minHeight,
+    };
+  });
+  expect(actionStyle.weight).toBe('600');
+  expect(actionStyle.border).toBe('1px');
+  expect(actionStyle.minHeight).toBe('44px');
+  expect(
+    await footer.evaluate((node) => getComputedStyle(node).fontWeight),
+  ).toBe('400');
 });

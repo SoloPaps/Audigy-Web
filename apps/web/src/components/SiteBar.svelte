@@ -61,9 +61,9 @@ onMount(() => {
 </nav>
 
 <style>
-  nav { position: relative; }
+  nav { position: relative; flex-shrink: 0; }
   #nav-panel { display: flex; flex-wrap: wrap; gap: var(--space-4); }
-  .menu-button { display: none; }
+  .menu-button { display: none; white-space: nowrap; overflow-wrap: normal; }
   @media (max-width: 768px) {
     .menu-button { display: inline-flex; }
     #nav-panel { display: none; }
