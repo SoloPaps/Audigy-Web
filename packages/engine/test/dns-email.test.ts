@@ -113,6 +113,7 @@ function page(url: string, status: number, body: string): SafeResponse {
     status,
     headers: new Headers({ 'content-type': 'text/plain' }),
     body: new TextEncoder().encode(body),
+    transferBytes: new TextEncoder().encode(body).length,
     ip: '192.0.2.10',
     redirects: [],
     text: () => body,

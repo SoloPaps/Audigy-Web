@@ -1,14 +1,81 @@
-import type { BrowserAudit, CmpVendor } from '@audigy/browser-runner';
+import type { BrowserAuditResult } from '@audigy/browser-runner';
 import { trackerDomain } from './trackers.js';
 
 /** Hôtes du bandeau lui-même : les retirer du constat de traceurs. */
-const CMP_HOSTS: Record<CmpVendor, readonly string[]> = {
+const CMP_HOSTS: Record<string, readonly string[]> = {
   tarteaucitron: ['tarteaucitron.io'],
   axeptio: ['axept.io'],
   didomi: ['didomi.io', 'privacy-center.org'],
   cookiebot: ['cookiebot.com', 'cookiebot.eu'],
   onetrust: ['onetrust.com', 'cookielaw.org'],
+  sirdata: ['consentframework.com'],
+  usercentrics: ['usercentrics.eu'],
+  quantcast: ['consensu.org', 'inmobi.com'],
+  iubenda: ['iubenda.com'],
+  cookieyes: ['cookieyes.com', 'cdn-cookieyes.com'],
+  cookiefirst: ['cookiefirst.com'],
+  termly: ['termly.io'],
+  cookie_script: ['cookie-script.com'],
 };
+
+const REJECT =
+  /tout refuser|tout rejeter|reject all|refuse all|continuer sans accepter|(?:^|[^a-z])refuser(?:[^a-z]|$)/;
+
+export interface PrivacyAudit {
+  cookies: { domain: string }[];
+  requests: { url: string; host: string; resourceType: string }[];
+  cmp: {
+    present: boolean;
+    vendor: string | null;
+    rejectAllFirstLevel: boolean;
+  };
+  truncated: boolean;
+}
+
+function fold(value: string): string {
+  return value.normalize('NFD').replace(/\p{M}/gu, '').toLowerCase();
+}
+
+export function rejectsAtFirstLevel(buttons: readonly string[]): boolean {
+  return buttons.some((label) => REJECT.test(fold(label)));
+}
+
+/** Vue vie privée du rapport PART-13 (`preConsent`, requêtes, boutons). */
+export function privacyAudit(audit: BrowserAuditResult): PrivacyAudit {
+  const ids = audit.cmp.detected.map((item) => item.id);
+  const requests = [audit.loads.desktop, audit.loads.mobile]
+    .filter((load) => load !== null)
+    .flatMap((load) => load.requests)
+    .filter(
+      (request) => request.outcome === 'network' || request.outcome === 'cache',
+    )
+    .map((request) => ({
+      url: request.url,
+      host: request.host,
+      resourceType: request.resourceType,
+    }));
+  const seenHosts = new Set(requests.map((request) => request.host));
+  for (const host of audit.preConsent.thirdPartyHosts) {
+    if (seenHosts.has(host)) continue;
+    seenHosts.add(host);
+    requests.push({ url: `https://${host}/`, host, resourceType: 'other' });
+  }
+  return {
+    cookies: audit.preConsent.cookies.map((cookie) => ({
+      domain: cookie.domain,
+    })),
+    requests,
+    cmp: {
+      present: ids.length > 0 || audit.cmp.buttons.length > 0,
+      vendor: ids[0] ?? null,
+      rejectAllFirstLevel: rejectsAtFirstLevel(audit.cmp.buttons),
+    },
+    truncated:
+      audit.limits.budgetExhausted ||
+      audit.loads.desktop.eco?.truncated === true ||
+      audit.loads.mobile?.eco?.truncated === true,
+  };
+}
 
 const MULTI = new Set(['co', 'com', 'org', 'net', 'ac', 'gov', 'edu']);
 const PLATFORM_SUFFIXES = [
@@ -62,9 +129,11 @@ function siteKey(host: string): string {
   return labels.slice(-2).join('.');
 }
 
-function cmpHost(host: string, vendor: CmpVendor | null): boolean {
+function cmpHost(host: string, vendor: string | null): boolean {
   if (!vendor) return false;
-  return CMP_HOSTS[vendor].some(
+  const domains = CMP_HOSTS[vendor];
+  if (!domains) return false;
+  return domains.some(
     (domain) => host === domain || host.endsWith(`.${domain}`),
   );
 }
@@ -92,7 +161,7 @@ export function resourceKind(
 }
 
 export function trackerHits(
-  audit: BrowserAudit,
+  audit: PrivacyAudit,
   targetHost: string,
 ): TrackerHit[] {
   const seen = new Set<string>();
@@ -117,7 +186,7 @@ export function trackerHits(
 }
 
 export function thirdPartyHits(
-  audit: BrowserAudit,
+  audit: PrivacyAudit,
   targetHost: string,
 ): { scripts: string[]; fonts: string[] } {
   const scripts = new Set<string>();

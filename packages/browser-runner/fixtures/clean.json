@@ -1,19 +1,92 @@
 {
-  "schemaVersion": 1,
-  "url": "https://exemple.test/",
-  "interacted": false,
-  "cookies": [],
-  "requests": [
-    {
-      "url": "https://exemple.test/",
-      "host": "exemple.test",
-      "resourceType": "document"
+  "version": 1,
+  "mode": "passive",
+  "runner": {
+    "name": "audigy-browser",
+    "browser": "chromium",
+    "axe": "4.14.0",
+    "fetchUserAgent": "AudigyBot/1.0"
+  },
+  "target": {
+    "url": "https://exemple.test/",
+    "finalUrl": "https://exemple.test/",
+    "secure": true
+  },
+  "startedAt": "2026-10-24T08:00:00.000Z",
+  "finishedAt": "2026-10-24T08:00:05.000Z",
+  "loads": {
+    "desktop": {
+      "viewport": "desktop",
+      "width": 1920,
+      "height": 1080,
+      "userAgent": "Mozilla/5.0",
+      "status": 200,
+      "finalUrl": "https://exemple.test/",
+      "timedOut": false,
+      "error": null,
+      "requests": [
+        {
+          "url": "https://exemple.test/",
+          "method": "GET",
+          "resourceType": "document",
+          "host": "exemple.test",
+          "thirdParty": false,
+          "outcome": "network",
+          "status": 200,
+          "mimeType": null,
+          "transferBytes": 120,
+          "reason": null
+        },
+        {
+          "url": "https://exemple.test/app.js",
+          "method": "GET",
+          "resourceType": "script",
+          "host": "exemple.test",
+          "thirdParty": false,
+          "outcome": "network",
+          "status": 200,
+          "mimeType": null,
+          "transferBytes": 120,
+          "reason": null
+        }
+      ],
+      "eco": {
+        "domElements": 12,
+        "requests": 2,
+        "transferBytes": 120,
+        "truncated": false
+      },
+      "screenshot": {
+        "viewport": "desktop",
+        "file": "capture-desktop.webp",
+        "format": "webp",
+        "width": 1920,
+        "height": 1080,
+        "bytes": 3,
+        "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      }
     },
-    {
-      "url": "https://exemple.test/app.js",
-      "host": "exemple.test",
-      "resourceType": "script"
-    }
-  ],
-  "cmp": { "present": false, "vendor": null, "rejectAllFirstLevel": false }
+    "mobile": null
+  },
+  "preConsent": {
+    "cookies": [],
+    "localStorage": [],
+    "sessionStorage": [],
+    "thirdPartyHosts": [],
+    "thirdPartyRequests": 0
+  },
+  "cmp": {
+    "detected": [],
+    "tcfApi": false,
+    "buttons": []
+  },
+  "console": [],
+  "mixedContent": [],
+  "axe": null,
+  "rgaa": null,
+  "limits": {
+    "blockedRequests": 0,
+    "budgetExhausted": false
+  },
+  "errors": []
 }

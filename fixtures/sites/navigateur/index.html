@@ -1,0 +1,28 @@
+<!doctype html>
+<!-- Site de test du runner navigateur. Erreurs plantées : langue absente, image sans
+     alternative, champ sans étiquette, bouton vide, contraste faible, traces avant
+     consentement, traceur tiers, contenu mixte dynamique, erreurs console, sondes SSRF. -->
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Boutique de test</title>
+    <link rel="stylesheet" href="/style.css">
+    <script src="/tarteaucitron/tarteaucitron.js"></script>
+    <script src="https://traceur.example/tiers/traceur.js"></script>
+  </head>
+  <body>
+    <main>
+      <h1>Boutique de test</h1>
+      <img src="/photo.svg" width="120" height="80">
+      <p class="pale">Texte peu contrasté.</p>
+      <form action="/recherche">
+        <input type="text" name="nom">
+      </form>
+      <button type="button"></button>
+      <img src="http://169.254.169.254/latest/meta-data/" alt="Sonde métadonnées" width="1" height="1">
+      <img src="https://interne.example/tiers/interne.svg" alt="Sonde réseau interne" width="1" height="1">
+    </main>
+    <script src="/app.js"></script>
+  </body>
+</html>

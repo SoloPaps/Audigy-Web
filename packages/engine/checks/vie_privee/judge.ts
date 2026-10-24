@@ -1,8 +1,7 @@
-import type { BrowserAudit } from '@audigy/browser-runner';
 import type { CheckResult } from '../../src/types.js';
 import { finding } from '../securite/shared.js';
 import type { BrowserFacts, LegalFacts, PageState } from './facts.js';
-import { thirdPartyHits, trackerHits } from './hits.js';
+import { type PrivacyAudit, thirdPartyHits, trackerHits } from './hits.js';
 import { type ElementFlags, missingElements, missingLabel } from './links.js';
 
 const HOST_LIMIT = 8;
@@ -14,14 +13,14 @@ function hostsOf(hosts: readonly string[]): string[] {
 function browserGate(
   id: string,
   facts: BrowserFacts,
-): CheckResult | BrowserAudit {
+): CheckResult | PrivacyAudit {
   if (facts.kind === 'absent') {
     return finding(id, 'untested', 1, 1, 'vie_privee.untested_runner');
   }
   if (facts.kind === 'invalid') {
     return finding(id, 'untested', 1, 1, 'vie_privee.untested_runner_invalid');
   }
-  if (facts.audit.interacted) {
+  if (facts.kind === 'interacted') {
     return finding(id, 'untested', 1, 1, 'vie_privee.untested_interaction');
   }
   return facts.audit;

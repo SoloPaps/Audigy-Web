@@ -1,7 +1,10 @@
 import { createHash } from 'node:crypto';
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
-import { parseBrowserAudit } from '@audigy/browser-runner';
+import {
+  type BrowserAuditResult,
+  BrowserAuditResultSchema,
+} from '@audigy/browser-runner';
 import {
   createRequestBudget,
   type DohResolver,
@@ -57,6 +60,31 @@ function fixture(name: string): unknown {
   return JSON.parse(readFileSync(`${FIXTURES}${name}`, 'utf8')) as unknown;
 }
 
+function cloneReport(name: string): BrowserAuditResult {
+  return JSON.parse(JSON.stringify(fixture(name))) as BrowserAuditResult;
+}
+
+function addRequest(
+  report: BrowserAuditResult,
+  url: string,
+  host: string,
+  resourceType: string,
+): BrowserAuditResult {
+  report.loads.desktop.requests.push({
+    url,
+    method: 'GET',
+    resourceType,
+    host,
+    thirdParty: true,
+    outcome: 'network',
+    status: 200,
+    mimeType: null,
+    transferBytes: 80,
+    reason: null,
+  });
+  return report;
+}
+
 function response(init: {
   url: string;
   status?: number;
@@ -69,6 +97,7 @@ function response(init: {
     status: init.status ?? 200,
     headers: new Headers(init.headers),
     body: new TextEncoder().encode(body),
+    transferBytes: new TextEncoder().encode(body).length,
     ip: '93.184.216.34',
     redirects: [],
     text: () => body,
@@ -248,37 +277,28 @@ describe('schéma du runner', () => {
       'fonts.json',
       'scripts.json',
     ]) {
-      expect(parseBrowserAudit(fixture(name)), name).not.toBeNull();
+      expect(
+        BrowserAuditResultSchema.safeParse(fixture(name)).success,
+        name,
+      ).toBe(true);
     }
     const rejected = fixture('cookie-value.json');
-    expect(parseBrowserAudit(rejected)).toBeNull();
+    expect(BrowserAuditResultSchema.safeParse(rejected).success).toBe(false);
     expect(JSON.stringify(rejected)).toContain('secret-trace');
+    const wrongVersion = cloneReport('clean.json');
     expect(
-      parseBrowserAudit({
-        schemaVersion: 2,
-        url: `${ORIGIN}/`,
-        cookies: [],
-        requests: [],
-        cmp: { present: false, vendor: null, rejectAllFirstLevel: false },
-      }),
-    ).toBeNull();
+      BrowserAuditResultSchema.safeParse({ ...wrongVersion, version: 2 })
+        .success,
+    ).toBe(false);
   });
 
-  it('ramène un type de ressource inconnu à other', () => {
-    const audit = parseBrowserAudit({
-      schemaVersion: 1,
-      url: `${ORIGIN}/`,
-      cookies: [],
-      requests: [
-        {
-          url: `${ORIGIN}/ping`,
-          host: 'exemple.test',
-          resourceType: 'ping',
-        },
-      ],
-      cmp: { present: false, vendor: null, rejectAllFirstLevel: false },
-    });
-    expect(audit?.requests[0]?.resourceType).toBe('other');
+  it('conserve le type de ressource tel que le runner le nomme', () => {
+    const audit = cloneReport('clean.json');
+    const first = audit.loads.desktop.requests[0];
+    if (!first) throw new Error('requête');
+    first.resourceType = 'ping';
+    const parsed = BrowserAuditResultSchema.parse(audit);
+    expect(parsed.loads.desktop.requests[0]?.resourceType).toBe('ping');
   });
 });
 
@@ -344,13 +364,23 @@ describe('checks navigateur', () => {
     );
 
     const one = context();
-    await seed(one, {
-      schemaVersion: 1,
-      url: `${ORIGIN}/`,
-      cookies: [{ name: '_ga', domain: '.google-analytics.com' }],
-      requests: [],
-      cmp: { present: false, vendor: null, rejectAllFirstLevel: false },
-    });
+    const single = cloneReport('clean.json');
+    single.preConsent.cookies = [
+      {
+        name: '_ga',
+        domain: '.google-analytics.com',
+        path: '/',
+        thirdParty: true,
+        secure: true,
+        httpOnly: false,
+        sameSite: 'Lax',
+        expires: null,
+        lifetimeDays: null,
+        setBy: 'script',
+        valueLength: 8,
+      },
+    ];
+    await seed(one, single);
     expectResult(
       await run('vie_privee.traceurs', one),
       'fail',
@@ -412,21 +442,16 @@ describe('checks navigateur', () => {
       'warn',
       'vie_privee.tiers.warn_fonts_one',
     );
-    const base = fixture('fonts.json') as {
-      requests: { url: string; host: string; resourceType: string }[];
-    };
     const many = context();
-    await seed(many, {
-      ...base,
-      requests: [
-        ...base.requests,
-        {
-          url: 'https://fonts.cabinet-martin.test/texte.woff2',
-          host: 'fonts.cabinet-martin.test',
-          resourceType: 'font',
-        },
-      ],
-    });
+    await seed(
+      many,
+      addRequest(
+        cloneReport('fonts.json'),
+        'https://fonts.cabinet-martin.test/texte.woff2',
+        'fonts.cabinet-martin.test',
+        'font',
+      ),
+    );
     const warned = await run('vie_privee.tiers', many);
     expectResult(warned, 'warn', 'vie_privee.tiers.warn_fonts_many');
     expect(warned.params).toEqual({ count: 2 });
@@ -439,24 +464,15 @@ describe('checks navigateur', () => {
       'vie_privee.tiers.fail_scripts_one',
     );
     const several = context();
-    await seed(several, {
-      schemaVersion: 1,
-      url: `${ORIGIN}/`,
-      cookies: [],
-      requests: [
-        {
-          url: 'https://cdn.cabinet-martin.test/app.js',
-          host: 'cdn.cabinet-martin.test',
-          resourceType: 'script',
-        },
-        {
-          url: 'https://cdn.autre-cabinet.test/app.js',
-          host: 'cdn.autre-cabinet.test',
-          resourceType: 'script',
-        },
-      ],
-      cmp: { present: false, vendor: null, rejectAllFirstLevel: false },
-    });
+    await seed(
+      several,
+      addRequest(
+        cloneReport('scripts.json'),
+        'https://cdn.autre-cabinet.test/app.js',
+        'cdn.autre-cabinet.test',
+        'script',
+      ),
+    );
     const failed = await run('vie_privee.tiers', several);
     expectResult(failed, 'fail', 'vie_privee.tiers.fail_scripts_many');
     expect(failed.params).toEqual({ count: 2 });

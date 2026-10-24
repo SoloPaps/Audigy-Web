@@ -1,4 +1,7 @@
-import { type BrowserAudit, parseBrowserAudit } from '@audigy/browser-runner';
+import {
+  BROWSER_SHARED_KEY,
+  BrowserAuditResultSchema,
+} from '@audigy/browser-runner';
 import { isNetError, type SafeResponse } from '@audigy/net';
 import type { CheckContext } from '../../src/types.js';
 import { AUDIGY_AGENT } from '../qualite/limits.js';
@@ -6,6 +9,7 @@ import { inScope } from '../qualite/scope.js';
 import { loadHome } from '../securite/shared.js';
 import { crawlerAllowed, parseRobots } from '../seo/robots-parse.js';
 import { isPageHtml, loadRobots, looksLikeHtml } from '../seo/shared.js';
+import { type PrivacyAudit, privacyAudit } from './hits.js';
 import {
   classifyLink,
   type ElementFlags,
@@ -17,14 +21,19 @@ import {
 } from './links.js';
 
 /** Rapport brut déposé par l’orchestration avant les checks. */
-export const BROWSER_KEY = 'browser';
+export const BROWSER_KEY = BROWSER_SHARED_KEY;
 const BROWSER_PARSED_KEY = 'browser.parsed';
 export const PAGES_KEY = 'vie_privee.pages';
 
 export type BrowserFacts =
   | { kind: 'absent' }
   | { kind: 'invalid' }
-  | { kind: 'ok'; audit: BrowserAudit };
+  | { kind: 'interacted' }
+  | { kind: 'ok'; audit: PrivacyAudit };
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === 'object' && value !== null && !Array.isArray(value);
+}
 
 export type PageState =
   | { kind: 'missing' }
@@ -54,9 +63,14 @@ export type LegalFacts =
 export function loadBrowser(ctx: CheckContext): Promise<BrowserFacts> {
   return ctx.shared.get(BROWSER_PARSED_KEY, async () => {
     if (!ctx.shared.has(BROWSER_KEY)) return { kind: 'absent' };
-    const raw = await ctx.shared.get(BROWSER_KEY, async () => null);
-    const audit = parseBrowserAudit(raw);
-    return audit ? { kind: 'ok', audit } : { kind: 'invalid' };
+    const raw: unknown = await ctx.shared.get(
+      BROWSER_KEY,
+      async (): Promise<unknown> => null,
+    );
+    if (isRecord(raw) && raw.interacted === true) return { kind: 'interacted' };
+    const parsed = BrowserAuditResultSchema.safeParse(raw);
+    if (!parsed.success) return { kind: 'invalid' };
+    return { kind: 'ok', audit: privacyAudit(parsed.data) };
   });
 }
 

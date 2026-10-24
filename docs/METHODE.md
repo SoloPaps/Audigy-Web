@@ -290,7 +290,7 @@ Ce qui est lu : les en-têtes `Server`, `X-Powered-By`, `X-AspNet-Version`, `X-A
 
 ## 15. Vie privée
 
-Sept tests passifs, version 2026.1. Quatre lisent le rapport du navigateur d’audit, déposé une seule fois dans `ctx.shared` sous la clé `browser`. Le schéma est celui de `@audigy/browser-runner` (version 1) : adresse, traces (nom et domaine, jamais la valeur), requêtes, bannière. Le navigateur ne clique pas. S’il a cliqué, ou si le rapport manque ou est illisible, le test est Non testé. Sans navigateur, ces quatre tests ne partent pas.
+Sept tests passifs, version 2026.1. Quatre lisent le rapport du navigateur d’audit, déposé une seule fois dans `ctx.shared` sous la clé `browser`. Le schéma est `BrowserAuditResult` (version 1, zod) : traces sans valeur, requêtes, plateformes détectées et intitulés des boutons au premier niveau. Le navigateur ne clique pas. Si le rapport indique une interaction, ou s’il manque ou est illisible, le test est Non testé. Sans navigateur, ces quatre tests ne partent pas.
 
 Les trois autres lisent l’accueil, puis au plus deux pages liées du même périmètre. Le fichier robots est respecté pour AudigyBot. Une page hors portée n’est pas demandée.
 

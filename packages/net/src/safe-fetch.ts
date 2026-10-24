@@ -1,7 +1,7 @@
 import http, { type IncomingMessage } from 'node:http';
 import https from 'node:https';
 import { isIP } from 'node:net';
-import { pipeline, type Readable } from 'node:stream';
+import { pipeline, type Readable, Transform } from 'node:stream';
 import { createBrotliDecompress, createGunzip, createInflate } from 'node:zlib';
 import type { RequestBudget } from './budget.js';
 import { isNetError, NetError } from './errors.js';
@@ -49,6 +49,8 @@ export interface SafeResponse {
   status: number;
   headers: Headers;
   body: Uint8Array;
+  /** Octets du corps reçus sur le réseau, avant décompression. */
+  transferBytes: number;
   /** IP effectivement contactée pour la dernière requête. */
   ip: string;
   /** URLs intermédiaires suivies (sans l'URL finale). */
@@ -161,11 +163,11 @@ export function createSafeFetch(options: SafeFetchOptions = {}): SafeFetch {
         }
         const isHtml = /html/i.test(String(res.headers['content-type'] ?? ''));
         const limit = isHtml ? maxHtmlBytes : maxBytes;
-        const body =
+        const read =
           method === 'HEAD'
-            ? new Uint8Array(0)
+            ? { body: new Uint8Array(0), wire: 0 }
             : await readBody(res, limit, options.budget, signal);
-        return toResponse(current, res, body, ip, redirects);
+        return toResponse(current, res, read, ip, redirects);
       } catch (error) {
         throw toNetError(error, signal);
       } finally {
@@ -219,7 +221,7 @@ async function readBody(
   limit: number,
   budget: RequestBudget | undefined,
   signal: AbortSignal,
-): Promise<Uint8Array> {
+): Promise<{ body: Uint8Array; wire: number }> {
   const declared = Number(res.headers['content-length']);
   if (Number.isFinite(declared) && declared > limit) {
     res.destroy();
@@ -231,7 +233,10 @@ async function readBody(
   const onAbort = () =>
     res.destroy(signal.reason instanceof Error ? signal.reason : undefined);
   signal.addEventListener('abort', onAbort, { once: true });
-  const stream = decode(res);
+  let wire = 0;
+  const stream = decode(res, (count) => {
+    wire += count;
+  });
   const chunks: Buffer[] = [];
   let total = 0;
   try {
@@ -252,25 +257,40 @@ async function readBody(
     res.destroy();
     stream.destroy();
   }
-  return new Uint8Array(Buffer.concat(chunks));
+  return {
+    body: new Uint8Array(Buffer.concat(chunks)),
+    wire: stream === res ? total : wire,
+  };
 }
 
-function decode(res: IncomingMessage): Readable {
+function decode(
+  res: IncomingMessage,
+  onWire: (count: number) => void,
+): Readable {
   const encoding = String(res.headers['content-encoding'] ?? '')
     .trim()
     .toLowerCase();
   const noop = () => {};
+  const counter = () =>
+    new Transform({
+      transform(chunk: Buffer, _encoding, callback) {
+        onWire(chunk.length);
+        callback(null, chunk);
+      },
+    });
   if (encoding === 'gzip' || encoding === 'x-gzip')
-    return pipeline(res, createGunzip(), noop);
-  if (encoding === 'deflate') return pipeline(res, createInflate(), noop);
-  if (encoding === 'br') return pipeline(res, createBrotliDecompress(), noop);
+    return pipeline(res, counter(), createGunzip(), noop);
+  if (encoding === 'deflate')
+    return pipeline(res, counter(), createInflate(), noop);
+  if (encoding === 'br')
+    return pipeline(res, counter(), createBrotliDecompress(), noop);
   return res;
 }
 
 function toResponse(
   url: URL,
   res: IncomingMessage,
-  body: Uint8Array,
+  { body, wire }: { body: Uint8Array; wire: number },
   ip: string,
   redirects: string[],
 ): SafeResponse {
@@ -287,6 +307,7 @@ function toResponse(
     status: res.statusCode ?? 0,
     headers,
     body,
+    transferBytes: wire,
     ip,
     redirects,
     text() {

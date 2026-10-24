@@ -1,17 +1,77 @@
 /**
- * Schéma de sortie du runner (PART-13).
- * L’exécution Playwright n’est pas dans ce paquet pour l’instant :
- * les checks vie privée lisent un rapport déjà produit.
+ * @audigy/browser-runner — runner navigateur (PLAN §3, §6). Mode passif uniquement.
+ *
+ * API
+ * - `runBrowserAudit({ url, fetch?, browser?, viewports?, botUrl? })` : Chromium, profil
+ *   vierge, aucune interaction ; ordinateur (1920 × 1080, référence EcoIndex) puis
+ *   téléphone (Pixel 7). Renvoie `{ result, screenshots }` ; `result` est validé par
+ *   `BrowserAuditResultSchema` (zod).
+ *   Collecte : axe-core complet (règles actives par défaut) et correspondance RGAA
+ *   partielle, traces et stockage avant consentement, requêtes tierces, plateforme de
+ *   consentement (tarteaucitron, Axeptio, Didomi, Cookiebot, OneTrust…), erreurs
+ *   console, contenu mixte dynamique, DOM / requêtes / poids pour EcoIndex, captures WebP.
+ * - Anti-SSRF : chaque requête du navigateur est interceptée et rejouée par `safeFetch`
+ *   (`@audigy/net`) ; le navigateur ne résout aucun nom (`LAUNCH_ARGS`). GET et HEAD
+ *   seulement : un envoi reçoit une réponse vide locale et n'atteint pas le site.
+ *   WebSocket refusés. Budget `BROWSER_BUDGET` (1 req/s par hôte).
+ * - `launchBrowser()` : Chromium avec `LAUNCH_ARGS`, à partager entre plusieurs audits.
+ * - `runJob(auditId, { store, run })`, `supabaseJobStore`, `jobStoreFromEnv` : exécution
+ *   `browser-audit.yml` ; artefacts dans le seau privé `artifacts/<auditId>/browser/`.
+ * - `RGAA_AXE_MAP`, `rgaaFromAxe` (`@audigy/browser-runner/rgaa`) : données
+ *   `data/rgaa-axe-map.json`, couverture partielle déclarée.
+ * - Schéma seul, sans Playwright : `@audigy/browser-runner/schema`.
+ * - CLI : `audigy-browser audit <url>` (local) et `audigy-browser job <auditId>`.
  */
 export {
-  BROWSER_SCHEMA_VERSION,
-  type BrowserAudit,
-  type BrowserCmp,
-  type BrowserCookie,
-  type BrowserRequest,
-  CMP_VENDORS,
-  type CmpVendor,
-  parseBrowserAudit,
-  RESOURCE_TYPES,
-  type ResourceType,
-} from './schema.js';
+  CMP_SIGNATURES,
+  type CmpProbe,
+  type CmpSignature,
+  detectCmp,
+} from './cmp.js';
+export {
+  createInterceptor,
+  createResponseCache,
+  fulfillHeaders,
+  type Interceptor,
+  type InterceptorOptions,
+  MAX_RECORDS,
+  type ResponseCache,
+  type RouteLike,
+} from './intercept.js';
+export {
+  AuditIdSchema,
+  type JobArtifact,
+  type JobAudit,
+  JobError,
+  type JobErrorCode,
+  type JobOptions,
+  type JobStore,
+  type JobSummary,
+  jobStoreFromEnv,
+  runJob,
+  supabaseJobStore,
+} from './job.js';
+export {
+  collectConsole,
+  collectMixedContent,
+  normalizeCookies,
+  parseMixedContent,
+  summarizeAxe,
+} from './observe.js';
+export {
+  RGAA_AXE_MAP,
+  type RgaaMap,
+  RgaaMapSchema,
+  rgaaFromAxe,
+} from './rgaa.js';
+export {
+  BROWSER_BUDGET,
+  type BrowserAuditOptions,
+  type BrowserAuditOutput,
+  LAUNCH_ARGS,
+  launchBrowser,
+  runBrowserAudit,
+  type ScreenshotFile,
+} from './run.js';
+export * from './schema.js';
+export { cookieIsThirdParty, isThirdParty, siteOf } from './site.js';
