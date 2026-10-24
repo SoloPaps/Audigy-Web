@@ -235,6 +235,8 @@ test('la confirmation affiche la note et le score à part', async ({ page }) => 
   await expect(
     page.getByText('Ce score reste en dehors du score global.'),
   ).toBeVisible();
+  const sitesAxe = await new AxeBuilder({ page }).analyze();
+  expect(sitesAxe.violations).toEqual([]);
 
   await page.goto(`/rapport?id=${AUDIT_ID}`);
   await waitForIslands(page);
