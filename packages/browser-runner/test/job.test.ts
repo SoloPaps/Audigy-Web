@@ -8,6 +8,7 @@ import {
   supabaseJobStore,
 } from '../src/job.js';
 import type { BrowserAuditOutput } from '../src/run.js';
+import { browserResultsPath } from '../src/schema.js';
 import { sampleResult } from './sample.js';
 
 const ID = '7f1d5f8e-2c4b-4a7e-9a51-3d2c1b0a9f88';
@@ -46,10 +47,7 @@ describe('exécution par identifiant d’audit', () => {
     });
     expect(summary).toEqual({
       auditId: ID,
-      artifacts: [
-        `${ID}/browser/results.json`,
-        `${ID}/browser/capture-desktop.webp`,
-      ],
+      artifacts: [browserResultsPath(ID), `${ID}/browser/capture-desktop.webp`],
       errors: 0,
     });
     expect(saved.map((a) => [a.kind, a.contentType])).toEqual([
@@ -61,6 +59,15 @@ describe('exécution par identifiant d’audit', () => {
         createHash('sha256').update(artifact.data).digest('hex'),
       );
     expect(JSON.parse(saved[0]?.data.toString() ?? '')).toEqual(sampleResult());
+  });
+
+  it('accepte un audit partiel : l’orchestration attend ce runner', async () => {
+    const { store, saved } = memoryStore({
+      url: 'https://www.exemple.fr/',
+      status: 'partial',
+    });
+    await runJob(ID, { store, run: vi.fn(async () => output) });
+    expect(saved.map((a) => a.path)).toContain(browserResultsPath(ID));
   });
 
   it('refuse un identifiant invalide sans rien lire', async () => {
