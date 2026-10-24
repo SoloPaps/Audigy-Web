@@ -102,8 +102,19 @@ function startRequest(): Request {
   });
 }
 
-function cookieValue(header: string | null): string {
-  const raw = header?.split(';')[0] ?? '';
+function setCookies(response: Response): string[] {
+  return response.headers.getSetCookie();
+}
+
+function liveCookie(response: Response): string {
+  const live = setCookies(response).find(
+    (item) => item.startsWith('audigy_gsc=') && !item.includes('Max-Age=0'),
+  );
+  return live ?? '';
+}
+
+function cookieValue(header: string): string {
+  const raw = header.split(';')[0] ?? '';
   return raw.slice('audigy_gsc='.length);
 }
 
@@ -145,9 +156,11 @@ describe('OAuth Google', () => {
     expect(url.searchParams.get('redirect_uri')).toBe(
       'https://audigy.example/api/oauth/google/callback',
     );
-    const cookie = response.headers.get('set-cookie') ?? '';
+    const cookie = liveCookie(response);
     expect(cookie).toContain('HttpOnly');
     expect(cookie).toContain('Secure');
+    expect(cookie).toMatch(/(?:^|; )Path=\/;/);
+    expect(cookie).not.toContain('Path=/api/oauth/google');
     const pending = JSON.parse(
       deps.crypto?.decrypt(Buffer.from(cookieValue(cookie), 'base64url')) ?? '',
     ) as { state: string; verifier: string };
@@ -165,13 +178,13 @@ describe('OAuth Google', () => {
   it('enregistre le jeton chiffré et ne le renvoie pas', async () => {
     const deps = harness();
     const started = await handleOauthStart(startRequest(), deps);
-    const cookie = started.headers.get('set-cookie') ?? '';
+    const cookie = liveCookie(started);
     const pending = JSON.parse(
       deps.crypto?.decrypt(Buffer.from(cookieValue(cookie), 'base64url')) ?? '',
     ) as { state: string; verifier: string };
     const response = await handleOauthCallback(
       new Request(
-        `https://audigy.example/api/oauth/google/callback?code=code-value-0123456789&state=${pending.state}`,
+        `https://audigy.example/api/oauth/google/callback?code=4/0Acode-value-0123456789&state=${pending.state}`,
         { headers: { cookie: `audigy_gsc=${cookieValue(cookie)}` } },
       ),
       deps,
@@ -186,6 +199,9 @@ describe('OAuth Google', () => {
     expect(packed).not.toContain(REFRESH);
     expect(packed).not.toContain(ACCESS);
     expect(packed).not.toContain(SECRET);
+    expect(
+      setCookies(response).some((item) => /(?:^|; )Path=\/;/.test(item)),
+    ).toBe(true);
     const blob = deps.rows.blobs.get(USER);
     expect(blob).toBeTruthy();
     expect(blob?.includes(Buffer.from(REFRESH))).toBe(false);
@@ -214,10 +230,10 @@ describe('OAuth Google', () => {
     const started = await handleOauthStart(startRequest(), deps);
     const response = await handleOauthCallback(
       new Request(
-        'https://audigy.example/api/oauth/google/callback?code=code-value-0123456789&state=autre-state-qui-ne-correspond-pas-du-tout',
+        'https://audigy.example/api/oauth/google/callback?code=4/0Acode-value-0123456789&state=autre-state-qui-ne-correspond-pas-du-tout',
         {
           headers: {
-            cookie: `audigy_gsc=${cookieValue(started.headers.get('set-cookie'))}`,
+            cookie: `audigy_gsc=${cookieValue(liveCookie(started))}`,
           },
         },
       ),
@@ -227,6 +243,104 @@ describe('OAuth Google', () => {
     expect(response.headers.get('location')).toContain('etat=erreur');
     expect(exchanged).toBe(false);
     expect(deps.rows.blobs.size).toBe(0);
+    const line = deps.lines.find((item) =>
+      item.includes('oauth_google_state_rejected'),
+    );
+    expect(line).toBeTruthy();
+    expect(JSON.parse(line ?? '')).toMatchObject({
+      hasCookie: true,
+      hasPending: true,
+      expired: false,
+      stateMismatch: true,
+    });
+  });
+
+  it('journalise un cookie absent et n’échange pas', async () => {
+    const deps = harness();
+    let exchanged = false;
+    deps.google = {
+      async exchange() {
+        exchanged = true;
+        return {
+          accessToken: ACCESS,
+          refreshToken: REFRESH,
+          scope: GOOGLE_WEBMASTERS_SCOPE,
+          expiresIn: 1,
+        };
+      },
+      async refresh() {
+        throw new Error('unused');
+      },
+      async revoke() {},
+    };
+    const response = await handleOauthCallback(
+      new Request(
+        'https://audigy.example/api/oauth/google/callback?code=4/0Acode-value-0123456789&state=state-qui-ne-sera-pas-compare-sans-cookie',
+      ),
+      deps,
+    );
+    expect(response.status).toBe(302);
+    expect(response.headers.get('location')).toContain('etat=erreur');
+    expect(exchanged).toBe(false);
+    expect(JSON.parse(deps.lines[0] ?? '')).toMatchObject({
+      event: 'oauth_google_state_rejected',
+      hasCookie: false,
+      hasPending: false,
+    });
+  });
+
+  it('journalise un code refusé avant l’échange', async () => {
+    const deps = harness();
+    const response = await handleOauthCallback(
+      new Request(
+        'https://audigy.example/api/oauth/google/callback?code=court&state=state-inutile-pour-ce-cas-de-refus',
+      ),
+      deps,
+    );
+    expect(response.headers.get('location')).toContain('etat=erreur');
+    expect(JSON.parse(deps.lines[0] ?? '')).toMatchObject({
+      event: 'oauth_google_callback_rejected',
+      reason: 'invalid_code',
+    });
+    expect(deps.lines.join('\n')).not.toContain('court');
+  });
+
+  it('journalise l’absence de jeton de rafraîchissement', async () => {
+    const deps = harness();
+    deps.google = {
+      async exchange() {
+        return {
+          accessToken: ACCESS,
+          scope: GOOGLE_WEBMASTERS_SCOPE,
+          expiresIn: 3600,
+        };
+      },
+      async refresh() {
+        throw new Error('unused');
+      },
+      async revoke() {},
+    };
+    const started = await handleOauthStart(startRequest(), deps);
+    const pending = JSON.parse(
+      deps.crypto?.decrypt(
+        Buffer.from(cookieValue(liveCookie(started)), 'base64url'),
+      ) ?? '',
+    ) as { state: string };
+    const response = await handleOauthCallback(
+      new Request(
+        `https://audigy.example/api/oauth/google/callback?code=4/0Acode-value-0123456789&state=${pending.state}`,
+        {
+          headers: { cookie: `audigy_gsc=${cookieValue(liveCookie(started))}` },
+        },
+      ),
+      deps,
+    );
+    expect(response.headers.get('location')).toContain('etat=erreur');
+    expect(deps.rows.blobs.size).toBe(0);
+    expect(JSON.parse(deps.lines.at(-1) ?? '')).toMatchObject({
+      event: 'oauth_google_callback_failed',
+      code: 'no_refresh_token',
+    });
   });
 
   it('supprime le jeton à la révocation, même si Google échoue', async () => {
@@ -295,8 +409,15 @@ describe('OAuth Google', () => {
     expect(new URL(body.authorizeUrl).searchParams.get('redirect_uri')).toBe(
       'http://127.0.0.1:8888/api/oauth/google/callback',
     );
-    const cookie = started.headers.get('set-cookie') ?? '';
-    expect(cookie).toContain('Path=/api/oauth/google');
+    const cookie = liveCookie(started);
+    expect(cookie).toMatch(/(?:^|; )Path=\/;/);
+    expect(cookie).not.toContain('Path=/api/oauth/google');
+    expect(
+      setCookies(started).some(
+        (item) =>
+          item.includes('Path=/api/oauth/google') && item.includes('Max-Age=0'),
+      ),
+    ).toBe(true);
     expect(cookie).toContain('HttpOnly');
     expect(cookie).toContain('SameSite=Lax');
     expect(cookie).not.toContain('Secure');
