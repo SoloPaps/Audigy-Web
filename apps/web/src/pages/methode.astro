@@ -1,5 +1,4 @@
 ---
-import { METHOD_VERSION } from '@audigy/engine';
 import { t } from '../i18n/index.js';
 import Base from '../layouts/Base.astro';
 ---
@@ -7,7 +6,7 @@ import Base from '../layouts/Base.astro';
 <Base title={t('meta.method.title')} description={t('meta.method.description')}>
   <h1>{t('footer.method.nav')}</h1>
   <p class="prose">{t('method.lead')}</p>
-  <p class="prose">{t('method.version', { version: METHOD_VERSION })}</p>
+  <p class="prose">{t('method.version')}</p>
   <p class="prose">{t('method.change')}</p>
   <p class="prose">{t('method.recorded')}</p>
 

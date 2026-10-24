@@ -40,5 +40,6 @@ describe('textes légaux', () => {
     expect(fr['legal.review']).toContain('relire');
     expect(TERMS_VERSION).toBe('2026.1');
     expect(METHOD_VERSION).toBe('2026.1');
+    expect(fr['method.version']).toBe(`Méthode ${METHOD_VERSION}.`);
   });
 });

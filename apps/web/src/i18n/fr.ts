@@ -1610,7 +1610,7 @@ export const fr = {
   'a11y.tech': 'Les pages sont en HTML, en français, sans script tiers.',
   'a11y.limits': 'Le test lecteur d’écran de la jauge est prévu à la recette.',
   'method.lead': 'Cette page explique comment Audigy calcule ses notes.',
-  'method.version': 'Méthode {version}.',
+  'method.version': 'Méthode 2026.1.',
   'method.change':
     'Toute modification de pondération crée une nouvelle version.',
   'method.recorded': 'La version est enregistrée sur chaque audit.',
