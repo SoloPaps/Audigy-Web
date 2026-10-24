@@ -17,7 +17,11 @@ let { items }: Props = $props();
     <li class="domain">
       <div class="domain-copy">
         <p class="domain-title">
-          <span class="domain-plain">{item.label}</span>
+          {#if item.href}
+            <a class="domain-plain" href={item.href}>{item.label}</a>
+          {:else}
+            <span class="domain-plain">{item.label}</span>
+          {/if}
           <span class="domain-tech">{item.technical}</span>
         </p>
         <p class="domain-detail">{item.detail}</p>
@@ -58,6 +62,11 @@ let { items }: Props = $props();
 
   .domain-plain {
     font-weight: 600;
+  }
+
+  a.domain-plain {
+    text-decoration-thickness: var(--border);
+    text-underline-offset: 0.2em;
   }
 
   .domain-tech {

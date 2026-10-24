@@ -1,0 +1,10 @@
+---
+import ProgressPanel from '../components/ProgressPanel.svelte';
+import { t } from '../i18n/index.js';
+import Base from '../layouts/Base.astro';
+---
+
+<Base title={t('meta.progress.title')} description={t('meta.progress.description')}>
+  <h1>{t('progress.title')}</h1>
+  <ProgressPanel client:load />
+</Base>

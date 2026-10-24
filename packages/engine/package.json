@@ -5,6 +5,7 @@
   "type": "module",
   "exports": {
     ".": "./src/index.ts",
+    "./fixes": "./src/fixes.ts",
     "./fixes-fs": "./src/fixes-fs.ts"
   },
   "dependencies": {
