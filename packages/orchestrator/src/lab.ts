@@ -49,7 +49,28 @@ export function labFromEnv(
   if (!file) return null;
   if (options.requireNetlifyDev && env.NETLIFY_DEV !== 'true') return null;
   const full = path.resolve(options.cwd ?? process.cwd(), file);
-  return labConfigSchema.parse(JSON.parse(readFileSync(full, 'utf8')));
+  const raw = readLabFile(full);
+  if (raw === null) return null;
+  return labConfigSchema.parse(JSON.parse(raw));
+}
+
+/** Fichier absent : labo désactivé. Les autres erreurs remontent. */
+function readLabFile(full: string): string | null {
+  try {
+    return readFileSync(full, 'utf8');
+  } catch (error) {
+    if (isEnoent(error)) return null;
+    throw error;
+  }
+}
+
+function isEnoent(error: unknown): boolean {
+  return (
+    typeof error === 'object' &&
+    error !== null &&
+    'code' in error &&
+    (error as { code: unknown }).code === 'ENOENT'
+  );
 }
 
 /** Adresses publiques fictives, jamais contactées : `dial` les remplace par 127.0.0.1. */
