@@ -14,7 +14,11 @@
  * - `handleCreateVerification`, `handleCheckVerification` : `POST /api/verifications`
  *   et `POST /api/verifications/check`. Le client ne peut pas se marquer vérifié.
  * - `handleRecheck` : relecture quotidienne signée (`verification-recheck-background`).
- *   Pas de planification dans `netlify.toml` (PART-22).
+ *   Elle n’est pas dans le cron.
+ * - `handleSchedule` : `schedule-tick` (cron 15 min, ≤ 30 s). Sonde HEAD, file
+ *   les audits dus, alertes, agrège `uptime_daily` et purge le brut de 30 jours.
+ * - `handleDigest` : `digest-weekly`, lundi 8 h Paris (cron 6 h et 7 h UTC).
+ * - `handleUnsubscribe` : désabonnement en un clic (`List-Unsubscribe`).
  * - `decideRecheck`, `confirmClaimedAudit` : refus si la preuve a plus de 10 min,
  *   si la portée ne correspond pas, ou si elle a disparu (`expired` + alerte).
  * - `processNextAudit(deps)` : claim → checks côté fonction → `partial` → runner
@@ -86,6 +90,7 @@ export {
   SECRET_ENV_NAMES,
   secretsFromEnv,
 } from './log.js';
+export { handleUnsubscribe, type UnsubscribeDeps } from './mail.js';
 export {
   type AuditSummary,
   assemble,
@@ -110,6 +115,21 @@ export {
   RUNNER_WAIT_MS,
   STALE_AFTER_MINUTES,
 } from './process.js';
+export {
+  type DigestDeps,
+  handleDigest,
+  handleSchedule,
+  isMondayEightParis,
+  type ScheduleDeps,
+  type TickResult,
+} from './schedule.js';
+export {
+  digestDepsFromEnv,
+  parseDigest,
+  parseRoster,
+  scheduleDepsFromEnv,
+  unsubscribeDepsFromEnv,
+} from './schedule-db.js';
 export {
   apiDepsFromEnv,
   fixesFromDisk,
