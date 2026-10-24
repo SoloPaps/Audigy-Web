@@ -15,6 +15,12 @@
   # Fiches de correction lues à l'exécution (effort des corrections).
   included_files = ["packages/engine/fixes/fr/*.md"]
 
+# La sortie statique n’a pas une page par audit : le chemin réel reste dans le navigateur.
+[[redirects]]
+  from = "/rapport/:id/imprimer"
+  to = "/rapport/imprimer/index.html"
+  status = 200
+
 [[headers]]
   for = "/*"
   [headers.values]

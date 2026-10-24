@@ -330,6 +330,13 @@ a {
   }
 }
 
+@media print {
+  .print-hide,
+  .no-print {
+    display: none;
+  }
+}
+
 .visually-hidden {
   position: absolute;
   width: var(--border);

@@ -45,20 +45,101 @@ describe('exécution par identifiant d’audit', () => {
       url: 'https://www.exemple.fr/',
       botUrl: 'https://audigy.exemple',
     });
-    expect(summary).toEqual({
+    expect(summary).toMatchObject({
       auditId: ID,
-      artifacts: [browserResultsPath(ID), `${ID}/browser/capture-desktop.webp`],
+      artifacts: [
+        browserResultsPath(ID),
+        `${ID}/browser/capture-desktop.webp`,
+        `${ID}/browser/manifest.json`,
+      ],
       errors: 0,
     });
-    expect(saved.map((a) => [a.kind, a.contentType])).toEqual([
-      ['json', 'application/json'],
-      ['screenshot', 'image/webp'],
+    expect(summary.manifestSha256).toMatch(/^[0-9a-f]{64}$/);
+    expect(
+      saved.map((a) => [
+        a.kind,
+        a.contentType,
+        a.path.endsWith('manifest.json'),
+      ]),
+    ).toEqual([
+      ['json', 'application/json', false],
+      ['screenshot', 'image/webp', false],
+      ['json', 'application/json', true],
     ]);
     for (const artifact of saved)
       expect(artifact.sha256).toBe(
         createHash('sha256').update(artifact.data).digest('hex'),
       );
     expect(JSON.parse(saved[0]?.data.toString() ?? '')).toEqual(sampleResult());
+  });
+
+  it('hache le PDF et le WARC dans le manifeste', async () => {
+    const warc = Buffer.from('WARC/1.1\r\n');
+    const pdf = Buffer.from('%PDF-1.7\n');
+    const { store, saved } = memoryStore({
+      url: 'https://www.exemple.fr/',
+      status: 'partial',
+    });
+    const renderPdf = vi.fn(async (html: string) => {
+      expect(html).toContain(`https://audigy.exemple/verifier/${ID}`);
+      expect(html).toContain(
+        createHash('sha256')
+          .update(JSON.stringify(sampleResult()))
+          .digest('hex'),
+      );
+      expect(html).not.toContain(
+        createHash('sha256').update(pdf).digest('hex'),
+      );
+      expect(html).toContain('2026');
+      return pdf;
+    });
+    const summary = await runJob(ID, {
+      store,
+      run: async () => ({
+        ...output,
+        warc: { file: 'accueil.warc', data: warc },
+      }),
+      warc: true,
+      verifyOrigin: 'https://audigy.exemple/',
+      renderPdf,
+    });
+    expect(renderPdf).toHaveBeenCalledOnce();
+    const manifest = saved.find((file) => file.path.endsWith('manifest.json'));
+    const parsed = JSON.parse(manifest?.data.toString() ?? '') as {
+      resultsSha256: string;
+      fichiers: { fichier: string; sha256: string; octets: number }[];
+    };
+    expect(parsed.resultsSha256).toBe(
+      createHash('sha256').update(JSON.stringify(sampleResult())).digest('hex'),
+    );
+    expect(parsed.fichiers).toEqual(
+      expect.arrayContaining([
+        {
+          fichier: 'accueil.warc',
+          sha256: createHash('sha256').update(warc).digest('hex'),
+          octets: warc.length,
+        },
+        {
+          fichier: 'rapport.pdf',
+          sha256: createHash('sha256').update(pdf).digest('hex'),
+          octets: pdf.length,
+        },
+        {
+          fichier: 'capture-desktop.webp',
+          sha256: createHash('sha256')
+            .update(Buffer.from('RIFF'))
+            .digest('hex'),
+          octets: 4,
+        },
+      ]),
+    );
+    expect(summary.manifestSha256).toBe(
+      createHash('sha256')
+        .update(manifest?.data ?? '')
+        .digest('hex'),
+    );
+    expect(summary.artifacts).toContain(`${ID}/browser/rapport.pdf`);
+    expect(summary.artifacts).toContain(`${ID}/browser/accueil.warc`);
   });
 
   it('accepte un audit partiel : l’orchestration attend ce runner', async () => {

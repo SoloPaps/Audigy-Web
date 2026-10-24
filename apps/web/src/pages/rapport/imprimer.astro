@@ -1,0 +1,14 @@
+---
+import PrintReport from '../../components/PrintReport.svelte';
+import { t } from '../../i18n/index.js';
+import Base from '../../layouts/Base.astro';
+---
+
+<Base
+  title={t('meta.print.title')}
+  description={t('meta.print.description')}
+  robots="noindex"
+  print
+>
+  <PrintReport client:load />
+</Base>

@@ -90,3 +90,28 @@
     --score-untested-bg: #2a2e33;
   }
 }
+
+@media print {
+  :root,
+  :root[data-theme="dark"],
+  :root:not([data-theme="light"]) {
+    color-scheme: light;
+    --paper: #ffffff;
+    --surface: #ffffff;
+    --ink: #1b1f24;
+    --ink-2: #4a5260;
+    --line: #4a5260;
+    --accent: #1b1f24;
+    --on-accent: #ffffff;
+    --focus: #1b1f24;
+    --score-good: #1b1f24;
+    --score-good-bg: #ffffff;
+    --score-improve: #1b1f24;
+    --score-improve-bg: #ffffff;
+    --score-problem: #1b1f24;
+    --score-problem-bg: #ffffff;
+    --score-untested: #4a5260;
+    --score-untested-bg: #ffffff;
+    --shadow-overlay: none;
+  }
+}

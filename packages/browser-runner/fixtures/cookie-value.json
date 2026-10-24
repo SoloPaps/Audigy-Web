@@ -38,7 +38,8 @@
         "width": 1920,
         "height": 1080,
         "bytes": 3,
-        "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "capturedAt": "2026-10-24T08:00:05.000Z"
       }
     },
     "mobile": null

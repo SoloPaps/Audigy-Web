@@ -4,6 +4,8 @@
  * - `resultatsCanoniques` : `results.json` en JCS (RFC 8785).
  * - `construireManifeste` : {fichier, sha256, octets} + SHA-256 de `results.json`.
  *   Le SHA-256 du manifeste canonique est l’empreinte du rapport.
+ * - `buildManifest`, `manifestFile` : même manifeste, pour le runner.
+ * - `ARTIFACT_LIMITS`, `assertArtifactSize` : captures 200 Ko, PDF 1 Mo, WARC 5 Mo.
  * - `horodater` : requête RFC 3161 (nonce, `certReq`) vers 2 TSA
  *   (FreeTSA, DigiCert). L’empreinte et le nonce du jeton sont vérifiés
  *   avant acceptation. Le réseau est injecté (`post`) : les tests ne sortent pas.
@@ -30,11 +32,22 @@ export { versBase64, versHex } from './bytes.js';
 export { EvidenceError } from './errors.js';
 export { sha256Hex } from './hash.js';
 export { canonicaliser } from './jcs.js';
+export {
+  ARTIFACT_LIMITS,
+  ArtifactTooLargeError,
+  assertArtifactSize,
+  type CappedArtifact,
+  limitFor,
+} from './limits.js';
 export { creerAutoriteLocale } from './local-tsa.js';
 export {
+  buildManifest,
   construireManifeste,
+  type EvidenceManifest,
   type FichierSource,
   type ManifesteConstruit,
+  type ManifestFile,
+  manifestFile,
 } from './manifest.js';
 export {
   type Resultats,

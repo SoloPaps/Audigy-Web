@@ -266,6 +266,34 @@ export function createInterceptor(options: InterceptorOptions): Interceptor {
   };
 }
 
+/** Réponses mises en cache, sans doublon d’URL finale. */
+export function cachedResponses(cache: ResponseCache): Array<{
+  url: string;
+  status: number;
+  headers: Headers;
+  body: Uint8Array;
+}> {
+  const seen = new Set<string>();
+  const out: Array<{
+    url: string;
+    status: number;
+    headers: Headers;
+    body: Uint8Array;
+  }> = [];
+  for (const entry of cache.values()) {
+    const url = entry.response.url;
+    if (seen.has(url)) continue;
+    seen.add(url);
+    out.push({
+      url,
+      status: entry.response.status,
+      headers: entry.response.headers,
+      body: entry.response.body,
+    });
+  }
+  return out;
+}
+
 /** En-têtes rejoués au navigateur : le corps est déjà décompressé, la longueur recalculée. */
 export function fulfillHeaders(headers: Headers): Record<string, string> {
   const out: Record<string, string> = {};

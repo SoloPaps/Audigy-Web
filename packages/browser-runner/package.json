@@ -18,13 +18,18 @@
   },
   "dependencies": {
     "@audigy/db": "workspace:*",
+    "@audigy/evidence": "workspace:*",
     "@audigy/net": "workspace:*",
     "@axe-core/playwright": "^4.14.0",
     "axe-core": "^4.14.0",
     "playwright": "^1.64.1",
+    "qrcode": "1.5.4",
+    "warcio": "2.4.12",
     "zod": "^4.6.7"
   },
   "devDependencies": {
-    "@playwright/test": "^1.64.1"
+    "@playwright/test": "^1.64.1",
+    "@types/qrcode": "1.5.5",
+    "replaywebpage": "2.5.4"
   }
 }

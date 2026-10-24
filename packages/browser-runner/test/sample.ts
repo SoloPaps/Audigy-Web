@@ -38,6 +38,7 @@ export function samplePageLoad(viewport: PageLoad['viewport']): PageLoad {
       height: 1080,
       bytes: 3,
       sha256: 'a'.repeat(64),
+      capturedAt: '2026-10-24T08:00:05.000Z',
     },
   };
 }
