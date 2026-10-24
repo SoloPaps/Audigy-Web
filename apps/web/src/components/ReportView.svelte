@@ -3,6 +3,7 @@ import { onMount } from 'svelte';
 import { formatNumber } from '../i18n/format.js';
 import { t } from '../i18n/index.js';
 import { type AuditPayload, readAudit } from '../lib/audit-api.js';
+import { recognizedStack } from '../lib/brief.js';
 import { currentSession } from '../lib/browser-session.js';
 import {
   domainPlain,
@@ -24,6 +25,7 @@ import {
 import {
   categoryItems,
   reportFindings,
+  reportRows,
   reputationAside,
   scoredDomainCount,
 } from '../lib/report-model.js';
@@ -280,7 +282,18 @@ onMount(() => {
     <section class="glass glass-module">
       <div class="glass-plate">
         <h2 id="corrections">{t('section.findings')}</h2>
-        <FindingList findings={shown} url={payload.audit.site.url} />
+        {#if mode === 'report'}
+          <FindingList
+            findings={reportRows(payload, fixesFor(hostingOf(payload.audit.site.hosting)))}
+            brief={{
+              url: payload.audit.site.url,
+              at: stamp,
+              stack: recognizedStack(payload.findings),
+            }}
+          />
+        {:else}
+          <FindingList findings={shown} />
+        {/if}
       </div>
     </section>
 

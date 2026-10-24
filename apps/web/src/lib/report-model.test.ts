@@ -176,6 +176,12 @@ describe('rapport', () => {
     expect(plain?.limit).toBe(
       'Cela ne couvre pas toute la chaîne d’hébergement.',
     );
+    const hostedRows = reportRows(
+      { ...payload, findings: [hosted] },
+      new Map(),
+    );
+    expect(hostedRows[0]?.impactText).toBe(plain?.limit);
+    expect(hostedRows[0]?.proof).toBe(plain?.why);
     const withFix = reportFindings(
       {
         ...payload,
@@ -227,9 +233,11 @@ describe('rapport', () => {
     expect(rows[0]?.proof).toBe(rows[0]?.why);
     expect(rows[0]?.impactText).toBeNull();
     expect(rows[2]?.status).toBe('untested');
-    expect(reportFindings(payload, fixes).some((item) => item.id.includes('seo.hors'))).toBe(
-      false,
-    );
+    expect(
+      reportFindings(payload, fixes).some((item) =>
+        item.id.includes('seo.hors'),
+      ),
+    ).toBe(false);
   });
 
   it('sans OAuth, le constat propose le lien Search Console', () => {

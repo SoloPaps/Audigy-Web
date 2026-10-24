@@ -1,5 +1,6 @@
 import { t } from '../i18n/index.js';
 import type { ApiDomain, ApiFinding, AuditPayload } from './audit-api.js';
+import type { BriefSource } from './brief.js';
 import type { CategoryItem } from './categories.js';
 import {
   domainPlain,
@@ -7,7 +8,6 @@ import {
   domainTech,
   REPORT_DOMAINS,
 } from './domains.js';
-import type { BriefSource } from './brief.js';
 import type { Finding, FindingStatus } from './findings.js';
 import { presentFinding } from './report-export.js';
 import { type Level, levelForScore } from './score.js';
@@ -231,9 +231,17 @@ export interface ReportRow extends Finding {
   sources: BriefSource[];
 }
 
-function catalogStatusOf(raw: string, status: Finding['status']): CatalogStatus {
+function catalogStatusOf(
+  raw: string,
+  status: Finding['status'],
+): CatalogStatus {
   if (raw === 'na') return 'na';
-  if (raw === 'pass' || raw === 'warn' || raw === 'fail' || raw === 'untested') {
+  if (
+    raw === 'pass' ||
+    raw === 'warn' ||
+    raw === 'fail' ||
+    raw === 'untested'
+  ) {
     return raw;
   }
   return status;
@@ -260,7 +268,7 @@ export function reportRows(
         checkId: row.checkId,
         catalogStatus: catalogStatusOf(row.status, finding.status),
         proof: finding.why,
-        impactText: null,
+        impactText: finding.limit?.trim() ? finding.limit : null,
         sources,
       },
     ];
