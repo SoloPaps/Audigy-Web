@@ -69,7 +69,15 @@ test('la barre étroite ne coupe pas la marque, le menu ni le thème', async ({
   expect(plateBox).not.toBeNull();
   for (const label of labels) {
     const lines = await label.evaluate((node) => {
-      const range = document.createRange();
+      const view = globalThis as unknown as {
+        document: {
+          createRange: () => {
+            selectNodeContents: (target: unknown) => void;
+            getClientRects: () => { length: number };
+          };
+        };
+      };
+      const range = view.document.createRange();
       range.selectNodeContents(node);
       return range.getClientRects().length;
     });
@@ -91,48 +99,28 @@ test('la barre et le pied ne sont pas soulignés au repos', async ({ page }) => 
   const method = bar.getByRole('link', { name: 'Méthode' });
   await expect(method).toHaveClass(/link-nav/);
   await expect(method).toHaveAttribute('aria-current', 'page');
-  expect(
-    await method.evaluate((node) => getComputedStyle(node).textDecorationLine),
-  ).toContain('underline');
+  await expect(method).toHaveCSS('text-decoration-line', /underline/);
   const login = bar.getByRole('link', { name: 'Connexion' });
   await expect(login).toHaveClass(/link-nav/);
-  expect(
-    await login.evaluate((node) => getComputedStyle(node).textDecorationLine),
-  ).toBe('none');
+  await expect(login).toHaveCSS('text-decoration-line', 'none');
 
   const footer = page
     .getByRole('contentinfo')
     .getByRole('link', { name: 'Conditions d’utilisation' });
   await expect(footer).toHaveClass(/link-footer/);
-  expect(
-    await footer.evaluate((node) => getComputedStyle(node).textDecorationLine),
-  ).toBe('none');
+  await expect(footer).toHaveCSS('text-decoration-line', 'none');
 
   const prose = page.getByRole('link', {
     name: 'Voir les conditions d’utilisation.',
   });
   await expect(prose).toHaveClass(/link-inline/);
-  expect(
-    await prose.evaluate((node) => getComputedStyle(node).fontWeight),
-  ).toBe('600');
-  expect(
-    await prose.evaluate((node) => getComputedStyle(node).textDecorationLine),
-  ).toContain('underline');
+  await expect(prose).toHaveCSS('font-weight', '600');
+  await expect(prose).toHaveCSS('text-decoration-line', /underline/);
 
   await page.goto('/compte');
   const action = page.getByRole('link', { name: 'Aller à la connexion' });
-  const actionStyle = await action.evaluate((node) => {
-    const style = getComputedStyle(node);
-    return {
-      weight: style.fontWeight,
-      border: style.borderTopWidth,
-      minHeight: style.minHeight,
-    };
-  });
-  expect(actionStyle.weight).toBe('600');
-  expect(actionStyle.border).toBe('1px');
-  expect(actionStyle.minHeight).toBe('44px');
-  expect(
-    await footer.evaluate((node) => getComputedStyle(node).fontWeight),
-  ).toBe('400');
+  await expect(action).toHaveCSS('font-weight', '600');
+  await expect(action).toHaveCSS('border-top-width', '1px');
+  await expect(action).toHaveCSS('min-height', '44px');
+  await expect(footer).toHaveCSS('font-weight', '400');
 });
