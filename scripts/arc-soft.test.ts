@@ -147,4 +147,15 @@ describe('transitions', () => {
     expect(arc).toContain('::view-transition-old(root)');
     expect(arc).toContain('prefers-reduced-motion: reduce');
   });
+
+  it('grave le tracé et l’icône pour qu’ils ne s’étirent pas sans CSS', () => {
+    const gauge = text('apps/web/src/components/ScoreGauge.svelte');
+    expect(gauge).toContain('fill="none"');
+    expect(gauge).toContain('stroke-width="8"');
+    expect(gauge).toContain('container-type: inline-size');
+    const mark = text('apps/web/src/components/StatusMark.svelte');
+    expect(mark).toContain('width="20"');
+    expect(mark).toContain('height="20"');
+    expect(mark).toContain('fill="none"');
+  });
 });
