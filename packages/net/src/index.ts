@@ -16,7 +16,7 @@
  * - `createTlsProbe(options?) → probeTls(hôte)` : connexion TLS au port 443 (IP publique
  *   épinglée) ; protocole, suite, validité de la chaîne, SAN, expiration (selon `now`).
  * - `createExternalApi(options?) → api.request({ method, url, body?, contentType?, authorization?, headers?, timeoutMs?, signal? })` :
- *   HTTPS vers une liste fermée d’API (PSI, CrUX, OAuth Google, Search Console, Green Web, OSV, NVD, KEV).
+ *   HTTPS vers une liste fermée d’API (PSI, CrUX, OAuth Google, Search Console, Places, Green Web, OSV, NVD, KEV).
  *   POST permis, délai 120 s, pas de redirection, IP publique épinglée. `headers` ne remplace aucun
  *   en-tête du client. `authorization` est un `Bearer` réservé, jamais recopié dans une erreur.
  *   Ne sert pas à joindre le site audité.
@@ -60,6 +60,7 @@ export {
   KEV_HOST,
   NVD_HOST,
   OSV_HOST,
+  PLACES_HOST,
   SEARCH_CONSOLE_HOST,
 } from './external-api.js';
 export {

@@ -340,6 +340,34 @@ export type Database = {
           },
         ];
       };
+      places_cache: {
+        Row: {
+          fetched_at: string;
+          place_address: string;
+          place_id: string;
+          place_name: string;
+          rating_tenths: number | null;
+          review_count: number | null;
+        };
+        ComputedFields: never;
+        Insert: {
+          fetched_at: string;
+          place_address?: string;
+          place_id: string;
+          place_name: string;
+          rating_tenths?: number | null;
+          review_count?: number | null;
+        };
+        Update: {
+          fetched_at?: string;
+          place_address?: string;
+          place_id?: string;
+          place_name?: string;
+          rating_tenths?: number | null;
+          review_count?: number | null;
+        };
+        Relationships: [];
+      };
       profiles: {
         Row: {
           created_at: string;
@@ -458,6 +486,39 @@ export type Database = {
         Relationships: [
           {
             foreignKeyName: 'schedules_site_id_fkey';
+            columns: ['site_id'];
+            isOneToOne: true;
+            referencedRelation: 'sites';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
+      site_places: {
+        Row: {
+          confirmed_at: string;
+          place_address: string;
+          place_id: string;
+          place_name: string;
+          site_id: string;
+        };
+        ComputedFields: never;
+        Insert: {
+          confirmed_at?: string;
+          place_address?: string;
+          place_id: string;
+          place_name: string;
+          site_id: string;
+        };
+        Update: {
+          confirmed_at?: string;
+          place_address?: string;
+          place_id?: string;
+          place_name?: string;
+          site_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'site_places_site_id_fkey';
             columns: ['site_id'];
             isOneToOne: true;
             referencedRelation: 'sites';

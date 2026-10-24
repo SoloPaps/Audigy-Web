@@ -14,7 +14,7 @@ import {
   requestAudit,
   writeAuditResults,
 } from '@audigy/db';
-import { type FixSheet, loadFixes } from '@audigy/engine';
+import { type FixSheet, loadFixes, placesApiKey } from '@audigy/engine';
 import { fileFixStore } from '@audigy/engine/fixes-fs';
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { createAuditContext, defaultChecks } from './context.js';
@@ -29,6 +29,7 @@ import { gscForAudit } from './gsc-port.js';
 import type { ApiDeps, AuditView, FindingView, RunDeps } from './http.js';
 import { labFromEnv } from './lab.js';
 import { errorCode, type Logger } from './log.js';
+import { readConfirmedPlaceId, supabasePlacesCache } from './places.js';
 import {
   type AuditStore,
   type ProcessDeps,
@@ -347,21 +348,36 @@ export function runDepsFromEnv(options: RunFromEnvOptions): RunDeps {
       return processNextAudit({
         store: supabaseAuditStore(service, logger),
         dispatcher,
-        checks: defaultChecks(),
+        checks: defaultChecks(env, supabasePlacesCache(service)),
         fixes: await fixesFromDisk(logger),
         context: async (target, verified, audit) => {
           const base = createAuditContext({ target, verified, env, lab });
           if (!audit) return base;
+          let ctx = base.ctx;
+          if (placesApiKey(env)) {
+            try {
+              ctx = {
+                ...ctx,
+                confirmedPlaceId: await readConfirmedPlaceId(
+                  service,
+                  audit.siteId,
+                ),
+              };
+            } catch (error) {
+              logger.warn('places_unavailable', { code: errorCode(error) });
+              ctx = { ...ctx, confirmedPlaceId: null };
+            }
+          }
           try {
             const gsc = await gscForAudit(service, env, audit.siteId);
-            if (!gsc) return base;
+            if (!gsc) return { ...base, ctx };
             return {
               ...base,
-              ctx: { ...base.ctx, net: { ...base.ctx.net, gsc } },
+              ctx: { ...ctx, net: { ...ctx.net, gsc } },
             };
           } catch (error) {
             logger.warn('gsc_unavailable', { code: errorCode(error) });
-            return base;
+            return { ...base, ctx };
           }
         },
         confirmActive: async (audit) => {

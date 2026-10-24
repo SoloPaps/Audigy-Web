@@ -37,6 +37,8 @@
  *   `X-Powered-By`, balise generator, signatures retire.js Apache-2.0 sur les scripts
  *   chargés), failles OSV (bibliothèques) et NVD (logiciels), croisées avec le catalogue
  *   KEV. Version inconnue : aucune alerte. Cache jour UTC. `nvdApiKey` lit `NVD_API_KEY`.
+ * - `createReputationChecks` : avis Google (Places API New). Note et nombre d’avis,
+ *   score hors du global. Cache 7 jours. Sans `PLACES_API_KEY`, le check n’est pas enregistré.
  * - `VIE_PRIVEE_CHECKS` : traceurs avant consentement (liste DuckDuckGo, licence
  *   CC BY-NC-SA 4.0), bannière, refus au premier niveau, scripts et polices tiers,
  *   mentions légales et confidentialité. Le rapport navigateur se lit dans
@@ -93,6 +95,23 @@ export {
   type PsiBundle,
 } from '../checks/performance/index.js';
 export { QUALITE_CHECKS } from '../checks/qualite/index.js';
+export { createReputationChecks } from '../checks/reputation/index.js';
+export {
+  loadPlaceDetails,
+  memoryPlacesCache,
+  PLACES_CACHE_MS,
+  type PlaceCandidate,
+  type PlaceFacts,
+  type PlacesCache,
+  type PlacesFailure,
+  parseCandidates,
+  parseDetails,
+  placesApiKey,
+  pointsFromTenths,
+  ratingFromTenths,
+  reputationStatus,
+  searchPlaces,
+} from '../checks/reputation/places.js';
 export { ACTIVE_SECURITE_CHECKS } from '../checks/securite/active.js';
 export { SECURITE_CHECKS } from '../checks/securite/index.js';
 export { EXPOSED_FILES, LISTING_DIRS } from '../checks/securite/signatures.js';

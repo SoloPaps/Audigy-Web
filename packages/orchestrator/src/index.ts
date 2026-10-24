@@ -34,6 +34,9 @@
  * - `createAuditContext`, `defaultChecks` : réseau `@audigy/net` réel, ou labo local.
  * - `normalizeSiteUrl` : adresse saisie → site (`https`, portée, hébergeur).
  * - `createLogger`, `redact` : journal JSON sans secret ni donnée personnelle.
+ * - `handlePlaces` : recherche et confirmation d’un lieu (Places API New).
+ *   Sans `PLACES_API_KEY`, `GET` répond `{ enabled: false }` et aucun appel ne part.
+ *   Le navigateur ne parle qu’à `/api/places`. Cache 7 jours en base.
  * - `apiDepsFromEnv`, `runDepsFromEnv` : dépendances depuis les noms du §9.
  * - Labo (`AUDIGY_LAB`, dev seulement) : `labFromEnv`, `labNet`. Noms `*.audigy.test`.
  *   `AUDIGY_LOCAL_RUNNER=true` (labo sous `netlify dev`) : pas d'appel GitHub, la
@@ -117,6 +120,15 @@ export {
   runServerPhase,
   splitChecks,
 } from './pipeline.js';
+export {
+  handlePlaces,
+  type PlacesDeps,
+  type PlaceView,
+  placesDepsFromEnv,
+  readConfirmedPlaceId,
+  supabasePlacesCache,
+  takePlacesSlot,
+} from './places.js';
 export {
   type AuditStore,
   BACKGROUND_BUDGET_MS,

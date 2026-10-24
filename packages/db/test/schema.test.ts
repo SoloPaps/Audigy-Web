@@ -9,6 +9,10 @@ const migration = readFileSync(
 );
 const seed = readFileSync(`${repoRoot}supabase/seed.sql`, 'utf8');
 const helper = readFileSync(`${repoRoot}packages/db/test/local.ts`, 'utf8');
+const places = readFileSync(
+  `${repoRoot}supabase/migrations/20261024180000_places.sql`,
+  'utf8',
+);
 
 const TABLES = [
   'profiles',
@@ -71,7 +75,7 @@ describe('migration', () => {
   });
 
   it('ne contient ni secret ni projet distant', () => {
-    const blob = `${migration}\n${seed}\n${helper}`;
+    const blob = `${migration}\n${places}\n${seed}\n${helper}`;
     expect(blob).not.toMatch(/eyJ[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+/);
     expect(blob).not.toMatch(/supabase\.co/);
     expect(blob).not.toMatch(/--linked|--project-ref/);
@@ -80,6 +84,25 @@ describe('migration', () => {
 });
 
 describe('seed', () => {
+  it('cache les avis sans droit pour anon ni authenticated', () => {
+    expect(places).toContain('create table public.site_places');
+    expect(places).toContain('create table public.places_cache');
+    expect(places).toContain(
+      'alter table public.site_places enable row level security',
+    );
+    expect(places).toContain(
+      'alter table public.places_cache enable row level security',
+    );
+    expect(places).toContain(
+      'revoke all on public.site_places from public, anon, authenticated',
+    );
+    expect(places).toContain(
+      'revoke all on public.places_cache from public, anon, authenticated',
+    );
+    expect(places).not.toMatch(/grant .+ to anon/i);
+    expect(places).not.toMatch(/grant .+ to authenticated/i);
+  });
+
   it('enregistre les deux sites du propriétaire', () => {
     expect(seed).toContain('https://angelique-osteo.fr');
     expect(seed).toContain('https://solopaps.github.io/Projet-Site-Artiste/');

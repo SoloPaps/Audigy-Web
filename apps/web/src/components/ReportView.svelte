@@ -1,5 +1,6 @@
 <script lang="ts">
 import { onMount } from 'svelte';
+import { formatNumber } from '../i18n/format.js';
 import { t } from '../i18n/index.js';
 import { type AuditPayload, readAudit } from '../lib/audit-api.js';
 import { currentSession } from '../lib/browser-session.js';
@@ -13,9 +14,11 @@ import { topActions } from '../lib/findings.js';
 import { fixesFor, hostingOf } from '../lib/fix-catalog.js';
 import { GLOBAL_SERIES, type HistoryView } from '../lib/history.js';
 import { loginHref } from '../lib/nav.js';
+import { formatRating } from '../lib/places-api.js';
 import {
   categoryItems,
   reportFindings,
+  reputationAside,
   scoredDomainCount,
 } from '../lib/report-model.js';
 import { levelForScore } from '../lib/score.js';
@@ -50,6 +53,7 @@ const shown = $derived.by(() => {
   return reportFindings(payload, fixes);
 });
 const global = $derived(payload?.audit.globalScore ?? null);
+const aside = $derived(payload ? reputationAside(payload) : null);
 const verdict = $derived(verdictCopy(global, shown));
 const actions = $derived(topActions(shown));
 const domainRow = $derived(items.find((item) => item.id === domainId));
@@ -128,6 +132,10 @@ onMount(() => {
         <p class="kicker">{payload.audit.site.url}</p>
         <h1>{domainPlain(domainId)}</h1>
         <p class="detail">{domainSentence(domainId, levelForScore(domainScore))}</p>
+        {#if domainId === 'reputation' && aside?.rating !== null && aside}
+          <p>{t('places.rating', { rating: formatRating(aside.rating) })}</p>
+          <p>{t('places.count', { count: formatNumber(aside.reviewCount ?? 0) })}</p>
+        {/if}
       </div>
     </header>
   {:else}
@@ -155,6 +163,22 @@ onMount(() => {
     </header>
     <h2>{t('section.categories')}</h2>
     <CategoryList {items} />
+    {#if aside}
+      <h2>{t('places.aside.title')}</h2>
+      <p class="hint">{t('places.aside.note')}</p>
+      <ScoreGauge domain={t('domain.reputation.plain')} score={aside.score} />
+      {#if aside.name}
+        <p>{aside.name}</p>
+      {/if}
+      {#if aside.rating !== null}
+        <p>{t('places.rating', { rating: formatRating(aside.rating) })}</p>
+        <p>{t('places.count', { count: formatNumber(aside.reviewCount ?? 0) })}</p>
+      {/if}
+      <p>{domainSentence('reputation', aside.level)}</p>
+      {#if aside.score === null}
+        <p><a href="/sites">{t('places.choose')}</a></p>
+      {/if}
+    {/if}
   {/if}
 
   <h2 id="corrections">{t('section.findings')}</h2>
