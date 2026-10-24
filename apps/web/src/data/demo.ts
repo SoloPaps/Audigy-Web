@@ -1,12 +1,13 @@
 import { formatDate, type MessageKey, t } from '../i18n/index.js';
 import { type CategoryItem, globalScore } from '../lib/categories.js';
-import type { Finding, FindingStatus } from '../lib/findings.js';
+import type { FindingStatus } from '../lib/findings.js';
 import type {
   AuditSnapshot,
   ComparedIssue,
   HistoryPoint,
   HistorySeries,
 } from '../lib/history.js';
+import type { ReportRow } from '../lib/report-model.js';
 
 const CATEGORIES: readonly {
   id: string;
@@ -75,6 +76,7 @@ const CATEGORIES: readonly {
 
 interface RawFinding {
   id: string;
+  checkId: string;
   status: FindingStatus;
   severity: 1 | 2 | 3 | 4;
   impact: 1 | 2 | 3;
@@ -90,6 +92,7 @@ interface RawFinding {
 const FINDINGS: readonly RawFinding[] = [
   {
     id: 'https',
+    checkId: 'securite.https',
     status: 'fail',
     severity: 4,
     impact: 3,
@@ -104,6 +107,7 @@ const FINDINGS: readonly RawFinding[] = [
   },
   {
     id: 'frame',
+    checkId: 'securite.frames',
     status: 'warn',
     severity: 3,
     impact: 2,
@@ -117,6 +121,7 @@ const FINDINGS: readonly RawFinding[] = [
   },
   {
     id: 'images',
+    checkId: 'qualite.images_poids',
     status: 'warn',
     severity: 2,
     impact: 2,
@@ -127,6 +132,7 @@ const FINDINGS: readonly RawFinding[] = [
   },
   {
     id: 'description',
+    checkId: 'seo.description',
     status: 'warn',
     severity: 2,
     impact: 1,
@@ -137,6 +143,7 @@ const FINDINGS: readonly RawFinding[] = [
   },
   {
     id: 'cookies',
+    checkId: 'securite.cookies',
     status: 'untested',
     severity: 1,
     impact: 2,
@@ -147,6 +154,7 @@ const FINDINGS: readonly RawFinding[] = [
   },
   {
     id: 'title',
+    checkId: 'seo.title',
     status: 'pass',
     severity: 1,
     impact: 1,
@@ -157,6 +165,7 @@ const FINDINGS: readonly RawFinding[] = [
   },
   {
     id: 'lang',
+    checkId: 'seo.hreflang',
     status: 'pass',
     severity: 1,
     impact: 1,
@@ -181,17 +190,25 @@ export function demoGlobalScore(): number | null {
   return globalScore(demoCategories());
 }
 
-export function demoFindings(): Finding[] {
+export function demoFindings(): ReportRow[] {
   return FINDINGS.map((item) => {
-    const finding: Finding = {
+    const finding: ReportRow = {
       id: item.id,
+      checkId: item.checkId,
       status: item.status,
+      catalogStatus: item.status,
       severity: item.severity,
       impact: item.impact,
       title: t(item.title),
       why: t(item.why),
+      proof: t(item.why),
+      impactText: null,
       effort: item.effort,
       steps: item.steps.map((step) => t(step)),
+      sources:
+        item.sourceLabel && item.sourceHref
+          ? [{ label: t(item.sourceLabel), url: item.sourceHref }]
+          : [],
     };
     if (item.code) finding.code = t(item.code);
     if (item.sourceLabel) finding.sourceLabel = t(item.sourceLabel);

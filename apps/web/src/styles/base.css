@@ -514,3 +514,45 @@ a:visited {
   white-space: nowrap;
   border: 0;
 }
+
+.brief-bar,
+.brief-panel,
+.brief-choice {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  align-items: center;
+  max-width: 100%;
+}
+
+.brief-panel {
+  margin-top: var(--space-4);
+}
+
+.brief-text {
+  width: 100%;
+  overflow: auto;
+  resize: vertical;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  line-height: var(--leading-body);
+  color: var(--ink);
+  background: var(--surface);
+  border: var(--border) solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: var(--space-3);
+}
+
+.brief-choice input {
+  min-width: var(--touch-min);
+  min-height: var(--touch-min);
+}
+
+@media (max-width: 320px) {
+  .brief-bar,
+  .brief-panel,
+  .brief-choice {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
