@@ -370,3 +370,19 @@ test('le chiffre reste dans le cercle à 390 px', async ({ page }) => {
   });
   expect(widths.scrollWidth).toBeLessThanOrEqual(widths.clientWidth);
 });
+
+test('la jauge et la liste annoncent la note', async ({ page }) => {
+  await page.goto('/dev/composants?theme=light');
+  await expect(
+    page.getByRole('img', { name: 'Note de zéro : 0 sur 100, problème' }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole('img', { name: 'Note pleine : 100 sur 100, bon' }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole('img', { name: 'Note absente : non testé' }),
+  ).toBeVisible();
+  await expect(
+    page.locator('ul.domains .visually-hidden').first(),
+  ).toContainText('sur 100');
+});

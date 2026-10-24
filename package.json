@@ -22,7 +22,8 @@
     "audigy": "tsx packages/cli/src/bin.ts",
     "build": "node scripts/build.mjs",
     "build:functions": "node scripts/build-functions.ts",
-    "check": "pnpm guard && pnpm lint && pnpm copy-lint && pnpm typecheck && pnpm test && pnpm build && pnpm test:ui && pnpm test:a11y"
+    "self-audit": "tsx scripts/self-audit.ts",
+    "check": "pnpm guard && pnpm lint && pnpm copy-lint && pnpm typecheck && pnpm test && pnpm build && pnpm self-audit && pnpm test:ui && pnpm test:a11y"
   },
   "dependencies": {
     "@audigy/orchestrator": "workspace:*"

@@ -554,6 +554,8 @@ export const fr = {
     'Cette version des conditions n’est plus en vigueur.',
   'api.error.places_limit':
     'Vous avez fait trop de recherches. Réessayez dans une heure.',
+  'api.error.account_limit':
+    'Vous avez trop sollicité votre compte. Réessayez plus tard.',
   'reputation.avis.pass': 'Les avis publics sont favorables.',
   'reputation.avis.warn': 'Les avis publics sont mitigés.',
   'reputation.avis.fail': 'Les avis publics sont faibles.',
@@ -1608,7 +1610,8 @@ export const fr = {
     'Cette page ne déclare pas la conformité. L’audit reste à faire.',
   'a11y.contact': 'Signalez un blocage à',
   'a11y.tech': 'Les pages sont en HTML, en français, sans script tiers.',
-  'a11y.limits': 'Le test lecteur d’écran de la jauge est prévu à la recette.',
+  'a11y.limits':
+    'La jauge annonce sa note. Le passage au lecteur d’écran se fait à la main.',
   'method.lead': 'Cette page explique comment Audigy calcule ses notes.',
   'method.version': 'Méthode 2026.1.',
   'method.change':

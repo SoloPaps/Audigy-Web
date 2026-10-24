@@ -1,3 +1,4 @@
+import { createHash } from 'node:crypto';
 import {
   createServiceClient,
   createUserClient,
@@ -7,9 +8,12 @@ import {
 } from '@audigy/db';
 import type { SupabaseClient } from '@supabase/supabase-js';
 import {
+  type AccountAction,
   type AccountDeps,
   type AccountExport,
   type AccountGateway,
+  accountLimit,
+  accountWindowStart,
   mergeArtifactPaths,
   OAUTH_EXPORT_FIELDS,
 } from './account.js';
@@ -448,6 +452,34 @@ function oauthExportSelect(): 'provider' {
   return 'provider';
 }
 
+async function takeAccountSlot(
+  service: Client,
+  userId: string,
+  action: AccountAction,
+): Promise<boolean> {
+  const windowStart = accountWindowStart(action, new Date());
+  const key = createHash('sha256')
+    .update(`audigy:account:${action}:${userId}:${windowStart}`)
+    .digest('hex');
+  const { data, error } = await service
+    .from('rate_limits')
+    .select('count')
+    .eq('key', key)
+    .eq('window_start', windowStart)
+    .maybeSingle();
+  if (error) throw new Error('rate_limit');
+  const count = data?.count ?? 0;
+  if (count >= accountLimit(action)) return false;
+  const { error: writeError } = await service
+    .from('rate_limits')
+    .upsert(
+      { key, window_start: windowStart, count: count + 1 },
+      { onConflict: 'key,window_start' },
+    );
+  if (writeError) throw new Error('rate_limit');
+  return true;
+}
+
 export function accountDepsFromEnv(options: {
   env: NodeJS.ProcessEnv;
   logger: Logger;
@@ -465,5 +497,6 @@ export function accountDepsFromEnv(options: {
     gateway(token) {
       return supabaseGateway(service, anon, token);
     },
+    takeSlot: (userId, action) => takeAccountSlot(service, userId, action),
   };
 }

@@ -81,6 +81,7 @@ async function pruneUnreferenced(root) {
   for (const file of files) {
     const rel = path.relative(root, file);
     if (
+      rel === 'robots.txt' ||
       rel.startsWith(`preuves${path.sep}`) ||
       rel.startsWith(`.well-known${path.sep}`)
     ) {
@@ -134,3 +135,5 @@ if (stillThere)
   throw new Error(
     'La page /dev/composants est présente dans le build de production.',
   );
+
+await run('pnpm', ['exec', 'tsx', 'scripts/publish-policy.ts']);

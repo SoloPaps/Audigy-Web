@@ -54,7 +54,11 @@ const ACRONYMS = new Set([
 const FORBIDDEN =
   /(?<![\p{L}\p{N}])(révolutionnaire|révolutionnez|révolutionner|propulsez|propulser|propulse|sublimez|sublimer|sublime|boostez|booster|booste|boost)(?![\p{L}\p{N}])/giu;
 
-const PHRASE = 'en un clic magique';
+const PHRASES = [
+  'en un clic magique',
+  'en toute simplicité',
+  'nouvelle génération',
+];
 
 export interface CopyIssue {
   file: string;
@@ -210,12 +214,14 @@ function emojiIndexes(text: string): number[] {
 function forbiddenHits(text: string): { index: number }[] {
   const hits: { index: number }[] = [];
   const lower = text.toLocaleLowerCase('fr-FR');
-  let from = 0;
-  while (from < lower.length) {
-    const index = lower.indexOf(PHRASE, from);
-    if (index < 0) break;
-    hits.push({ index });
-    from = index + PHRASE.length;
+  for (const phrase of PHRASES) {
+    let from = 0;
+    while (from < lower.length) {
+      const index = lower.indexOf(phrase, from);
+      if (index < 0) break;
+      hits.push({ index });
+      from = index + phrase.length;
+    }
   }
   FORBIDDEN.lastIndex = 0;
   for (const match of text.matchAll(FORBIDDEN)) {

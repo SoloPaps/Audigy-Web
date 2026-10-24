@@ -152,6 +152,22 @@ export interface AccountExport {
 /** Colonnes lues dans `oauth_tokens`. Le secret n’en fait pas partie. */
 export const OAUTH_EXPORT_FIELDS = ['provider'] as const;
 
+export type AccountAction = 'export' | 'cgu' | 'delete';
+
+/** Export et acceptation des CGU : 30 par heure. Suppression : 5 par jour. */
+export function accountLimit(action: AccountAction): number {
+  return action === 'delete' ? 5 : 30;
+}
+
+export function accountRetryAfter(action: AccountAction): number {
+  return action === 'delete' ? 86_400 : 3_600;
+}
+
+export function accountWindowStart(action: AccountAction, now: Date): string {
+  const size = action === 'delete' ? 86_400_000 : 3_600_000;
+  return new Date(Math.floor(now.getTime() / size) * size).toISOString();
+}
+
 export function mergeArtifactPaths(
   ...groups: readonly (readonly string[])[]
 ): string[] {
@@ -174,6 +190,8 @@ export interface AccountDeps {
   logger: Logger;
   userFromToken(token: string): Promise<string | null>;
   gateway(token: string, userId: string): AccountGateway;
+  /** `false` : plafond anti-abus atteint. Absent : pas de plafond (tests). */
+  takeSlot?(userId: string, action: AccountAction): Promise<boolean>;
 }
 
 /**
@@ -234,6 +252,20 @@ function fail(deps: AccountDeps, error: unknown, event: string): Response {
   return apiError(500, 'internal');
 }
 
+async function allow(
+  deps: AccountDeps,
+  userId: string,
+  action: AccountAction,
+): Promise<Response | null> {
+  if (!deps.takeSlot || (await deps.takeSlot(userId, action))) return null;
+  return apiError(
+    429,
+    'account_limit',
+    {},
+    { 'retry-after': String(accountRetryAfter(action)) },
+  );
+}
+
 async function handleExport(
   req: Request,
   deps: AccountDeps,
@@ -243,6 +275,8 @@ async function handleExport(
   const auth = await authenticate(req, deps);
   if (!auth) return apiError(401, 'unauthorized');
   try {
+    const limited = await allow(deps, auth.userId, 'export');
+    if (limited) return limited;
     const data = await deps
       .gateway(auth.token, auth.userId)
       .readExport(auth.userId);
@@ -280,6 +314,8 @@ async function handleTerms(req: Request, deps: AccountDeps): Promise<Response> {
     if (!parsed.success) return apiError(400, 'invalid_input');
     if (parsed.data.version !== TERMS_VERSION)
       return apiError(409, 'terms_version');
+    const limited = await allow(deps, auth.userId, 'cgu');
+    if (limited) return limited;
     await gateway.acceptTerms(auth.userId, parsed.data.version);
     return json(200, { version: TERMS_VERSION, accepted: true });
   } catch (error) {
@@ -304,6 +340,8 @@ async function handleDelete(
   if (!deleteBody.safeParse(body).success)
     return apiError(400, 'invalid_input');
   try {
+    const limited = await allow(deps, auth.userId, 'delete');
+    if (limited) return limited;
     await deleteAccount(deps.gateway(auth.token, auth.userId), auth.userId);
     return json(200, { deleted: true });
   } catch (error) {
