@@ -1,24 +1,26 @@
 <script lang="ts">
 import { onMount } from 'svelte';
-import { type MessageKey, t } from '../i18n/index.js';
+import { t } from '../i18n/index.js';
 import { type AuditPayload, readAudit } from '../lib/audit-api.js';
 import { currentSession } from '../lib/browser-session.js';
+import { domainPlain } from '../lib/domains.js';
 import { loginHref } from '../lib/nav.js';
+import { progressLive } from '../lib/progress-live.js';
+import AuditOverlay from './AuditOverlay.svelte';
 
 const POLL_MS = 1500;
 
 let message = $state(t('progress.loading'));
 let payload = $state<AuditPayload | null>(null);
 let stopped = $state(false);
-
-function statusKey(status: string): MessageKey {
-  if (status === 'queued') return 'progress.queued';
-  if (status === 'running') return 'progress.running';
-  if (status === 'partial') return 'progress.partial';
-  if (status === 'done') return 'progress.done';
-  if (status === 'failed') return 'progress.failed';
-  return 'progress.loading';
-}
+const names = $derived(
+  (payload?.domains ?? [])
+    .filter((domain) => typeof domain.score === 'number')
+    .map((domain) => domainPlain(domain.domain)),
+);
+const waiting = $derived(
+  payload?.audit.status === 'queued' || payload?.audit.status === 'running',
+);
 
 onMount(() => {
   const id = new URLSearchParams(location.search).get('id');
@@ -45,7 +47,6 @@ onMount(() => {
       return;
     }
     payload = result.payload;
-    message = t(statusKey(result.payload.audit.status));
     const status = result.payload.audit.status;
     if (status === 'done' || status === 'failed') {
       stopped = true;
@@ -67,17 +68,23 @@ onMount(() => {
 {#if payload}
   <p class="kicker">{payload.audit.site.url}</p>
 {/if}
-<p role="status" aria-live="polite">{message}</p>
-{#if payload && (payload.audit.status === 'done' || payload.audit.status === 'partial')}
-  <p>
-    <a href={`/rapport?id=${encodeURIComponent(payload.audit.id)}`}>{t('progress.report')}</a>
+{#if payload && waiting}
+  <AuditOverlay message={progressLive(payload.audit.status, names)} />
+{:else}
+  <p role="status" aria-live="polite">
+    {payload ? progressLive(payload.audit.status, names) : message}
   </p>
-{/if}
-{#if payload?.audit.status === 'failed'}
-  <p>
-    <a href={`/lancer?site=${encodeURIComponent(payload.audit.site.id)}`}>{t('progress.retry')}</a>
-  </p>
-{/if}
-{#if stopped && !payload}
-  <p><a href="/sites">{t('nav.sites')}</a></p>
+  {#if payload && (payload.audit.status === 'done' || payload.audit.status === 'partial')}
+    <p>
+      <a href={`/rapport?id=${encodeURIComponent(payload.audit.id)}`}>{t('progress.report')}</a>
+    </p>
+  {/if}
+  {#if payload?.audit.status === 'failed'}
+    <p>
+      <a href={`/lancer?site=${encodeURIComponent(payload.audit.site.id)}`}>{t('progress.retry')}</a>
+    </p>
+  {/if}
+  {#if stopped && !payload}
+    <p><a href="/sites">{t('nav.sites')}</a></p>
+  {/if}
 {/if}

@@ -15,6 +15,7 @@ import { fixesFor, hostingOf } from '../lib/fix-catalog.js';
 import { GLOBAL_SERIES, type HistoryView } from '../lib/history.js';
 import { loginHref } from '../lib/nav.js';
 import { formatRating } from '../lib/places-api.js';
+import { progressLive } from '../lib/progress-live.js';
 import {
   categoryItems,
   reportFindings,
@@ -24,6 +25,7 @@ import {
 import { levelForScore } from '../lib/score.js';
 import { loadSiteHistory } from '../lib/site-history.js';
 import { verdictCopy } from '../lib/verdict.js';
+import AuditOverlay from './AuditOverlay.svelte';
 import CategoryList from './CategoryList.svelte';
 import FindingList from './FindingList.svelte';
 import HistoryPanel from './HistoryPanel.svelte';
@@ -58,6 +60,11 @@ const verdict = $derived(verdictCopy(global, shown));
 const actions = $derived(topActions(shown));
 const domainRow = $derived(items.find((item) => item.id === domainId));
 const domainScore = $derived(domainRow?.score ?? null);
+const finishedNames = $derived(
+  (payload?.domains ?? [])
+    .filter((domain) => typeof domain.score === 'number')
+    .map((domain) => domainPlain(domain.domain)),
+);
 const stamp = $derived.by(() => {
   const raw = payload?.audit.finishedAt ?? payload?.audit.createdAt;
   const date = raw ? new Date(raw) : new Date();
@@ -110,9 +117,12 @@ onMount(() => {
 });
 </script>
 
-{#if phase === 'loading'}
-  <h1>{mode === 'domain' ? t('domain.heading') : t('report.heading')}</h1>
-  <p role="status" aria-live="polite">{message}</p>
+{#if phase === 'loading' || (payload && (payload.audit.status === 'queued' || payload.audit.status === 'running'))}
+  <div class="reading">
+    <AuditOverlay
+      message={progressLive(payload?.audit.status ?? 'queued', finishedNames)}
+    />
+  </div>
 {:else if phase === 'message'}
   <h1>{mode === 'domain' ? t('domain.heading') : t('report.heading')}</h1>
   <p role="status">{message}</p>
