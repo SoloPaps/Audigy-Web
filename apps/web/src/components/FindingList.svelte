@@ -251,6 +251,11 @@ async function copyCode(finding: Finding): Promise<void> {
         </div>
         <p class="effort">{finding.effort}</p>
       </div>
+      {#if methodeCatalog().get(asRow(finding).checkId)?.href}
+        <p>
+          <a class="link-inline" href={methodeCatalog().get(asRow(finding).checkId)?.href}>{t('finding.method')}</a>
+        </p>
+      {/if}
       <details class="finding-detail">
         <summary>{t('finding.fix')}</summary>
         {#if finding.why !== finding.title}

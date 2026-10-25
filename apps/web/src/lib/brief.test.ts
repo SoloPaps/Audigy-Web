@@ -30,6 +30,7 @@ function doc(partial: Partial<BriefDocument> = {}): BriefDocument {
         pass: 'En-tête présent, max-age d’au moins six mois.',
         criterion: null,
         citation: 'MDN HTTP Observatory',
+        href: '/methode#method-observatory',
       },
     ],
   ]);
@@ -208,6 +209,7 @@ describe('renderBrief', () => {
               pass: '≤ 1 Mio et ≤ 30 requêtes',
               criterion: '6.1 — Poids et nombre de requêtes, plafonds absolus.',
               citation: 'référentiel général d’écoconception',
+              href: '/methode#method-repro',
             },
           ],
         ]),

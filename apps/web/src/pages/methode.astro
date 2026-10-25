@@ -19,6 +19,11 @@ import Base from '../layouts/Base.astro';
       { id: 'method-level', label: t('method.level.title') },
       { id: 'method-order', label: t('method.order.title') },
       { id: 'method-repro', label: t('method.repro.title') },
+      { id: 'method-observatory', label: t('method.card.observatory') },
+      { id: 'method-lighthouse', label: t('method.card.lighthouse') },
+      { id: 'method-ecoindex', label: t('method.card.ecoindex') },
+      { id: 'method-trackers', label: t('method.card.trackers') },
+      { id: 'method-doh', label: t('method.card.doh') },
     ]}
   />
 
@@ -73,6 +78,12 @@ import Base from '../layouts/Base.astro';
   <h2 id="method-order">{t('method.order.title')}</h2>
   <p class="prose">{t('method.order.body')}</p>
   <p class="prose">{t('method.order.tie')}</p>
+
+  <h2 id="method-observatory">{t('method.card.observatory')}</h2>
+  <h2 id="method-lighthouse">{t('method.card.lighthouse')}</h2>
+  <h2 id="method-ecoindex">{t('method.card.ecoindex')}</h2>
+  <h2 id="method-trackers">{t('method.card.trackers')}</h2>
+  <h2 id="method-doh">{t('method.card.doh')}</h2>
 
   <h2 id="method-repro">{t('method.repro.title')}</h2>
   <p class="prose">{t('method.repro.body')}</p>

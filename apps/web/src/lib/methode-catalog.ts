@@ -3,6 +3,8 @@ export interface MethodeEntry {
   pass: string | null;
   criterion: string | null;
   citation: string | null;
+  /** Ancre de /methode. Une seule des références déjà nommées dans METHODE. */
+  href: string;
 }
 
 /** Aiguille qui doit déjà être dans le chapitre du test. Absent : pas de puce. */
@@ -97,6 +99,22 @@ function sectionsOf(markdown: string): string[] {
     });
 }
 
+const SOURCE_HREF: Readonly<Record<string, string>> = {
+  'MDN HTTP Observatory': '/methode#method-observatory',
+  Lighthouse: '/methode#method-lighthouse',
+  'https://www.ecoindex.fr/comment-ca-marche/': '/methode#method-ecoindex',
+  'Tracker Radar': '/methode#method-trackers',
+};
+
+/** Lien de méthode. DNS : le chapitre dit déjà « DNS sur HTTPS ». */
+export function methodeHref(id: string, citation: string | null): string {
+  if (citation !== null && SOURCE_HREF[citation] !== undefined) {
+    return SOURCE_HREF[citation];
+  }
+  if (id.startsWith('dns_email.')) return '/methode#method-doh';
+  return '/methode#method-repro';
+}
+
 function clean(value: string): string | null {
   const text = value.replace(/\s+/g, ' ').trim();
   if (text === '' || text === '—') return null;
@@ -143,12 +161,14 @@ export function parseMethodeCatalog(
         const id = (row[idAt] ?? '').trim();
         if (!/^[a-z0-9_]+(?:\.[a-z0-9_]+)+$/u.test(id)) continue;
         const needle = NEEDLE[id];
+        const citation =
+          needle !== undefined && section.includes(needle) ? needle : null;
         catalog.set(id, {
           id,
           pass: clean(row[passAt] ?? ''),
           criterion: criteria.get(id) ?? null,
-          citation:
-            needle !== undefined && section.includes(needle) ? needle : null,
+          citation,
+          href: methodeHref(id, citation),
         });
       }
     }

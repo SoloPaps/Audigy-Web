@@ -1697,6 +1697,14 @@ export const fr = {
   'method.partial': 'Un test peut donner une valeur entre 0 et 1.',
   'method.weight': 'Chaque test pèse 1, 2 ou 3 dans son domaine.',
   'method.lighthouse': 'Le score Lighthouse d’un domaine pèse 3.',
+  'method.card.observatory':
+    'Les tests de protection suivent MDN HTTP Observatory.',
+  'method.card.lighthouse':
+    'La vitesse et l’accessibilité utilisent Lighthouse.',
+  'method.card.ecoindex': 'Le poids écologique s’appuie sur EcoIndex.',
+  'method.card.trackers': 'Les traceurs connus viennent de Tracker Radar.',
+  'method.card.doh': 'Les enregistrements DNS sont lus par DNS sur HTTPS.',
+  'finding.method': 'Voir la méthode',
   'method.skip.title': 'Quand un test devient non testé',
   'method.skip.lead': 'Le test n’est pas compté, et la raison est affichée.',
   'method.skip.active':
