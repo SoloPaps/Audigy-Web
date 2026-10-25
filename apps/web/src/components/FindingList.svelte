@@ -562,10 +562,10 @@ async function copyCode(finding: Finding): Promise<void> {
   .brief-choice > label input {
     display: grid;
     place-content: center;
-    width: 24px;
-    height: 24px;
+    width: var(--space-5);
+    height: var(--space-5);
     margin: 0;
-    border: 2px solid var(--ink-2);
+    border: var(--focus-width) solid var(--ink-2);
     border-radius: var(--radius-sm);
     background: var(--surface);
     appearance: none;
@@ -582,17 +582,17 @@ async function copyCode(finding: Finding): Promise<void> {
 
   .brief-choice > label input:checked::after {
     content: '';
-    width: 6px;
-    height: 11px;
-    margin-top: -2px;
+    width: 0.375rem;
+    height: 0.6875rem;
+    margin-top: -0.125rem;
     border: solid var(--on-accent);
-    border-width: 0 2px 2px 0;
+    border-width: 0 var(--focus-width) var(--focus-width) 0;
     transform: rotate(45deg);
   }
 
   .brief-choice > label input:focus-visible {
     outline: var(--focus-width) solid var(--focus);
-    outline-offset: 2px;
+    outline-offset: var(--focus-width);
   }
 
   /* Choix du terminal : trois pastilles dans un seul bloc, texte centré. */
@@ -640,7 +640,7 @@ async function copyCode(finding: Finding): Promise<void> {
 
   .brief-choice [role='radiogroup'] label:has(input:focus-visible) {
     outline: var(--focus-width) solid var(--focus);
-    outline-offset: -4px;
+    outline-offset: calc(var(--space-1) * -1);
   }
 
   @media (prefers-reduced-motion: reduce) {
