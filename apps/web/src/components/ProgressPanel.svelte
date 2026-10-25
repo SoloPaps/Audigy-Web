@@ -5,7 +5,7 @@ import { type AuditPayload, readAudit } from '../lib/audit-api.js';
 import { currentSession } from '../lib/browser-session.js';
 import { domainPlain } from '../lib/domains.js';
 import { loginHref } from '../lib/nav.js';
-import { progressLive } from '../lib/progress-live.js';
+import { progressLive, runnerGap } from '../lib/progress-live.js';
 import AuditOverlay from './AuditOverlay.svelte';
 
 const POLL_MS = 1500;
@@ -20,6 +20,9 @@ const names = $derived(
 );
 const waiting = $derived(
   payload?.audit.status === 'queued' || payload?.audit.status === 'running',
+);
+const gap = $derived(
+  payload?.audit.status === 'done' ? runnerGap(payload.findings) : null,
 );
 
 onMount(() => {
@@ -74,6 +77,9 @@ onMount(() => {
   <p role="status" aria-live="polite">
     {payload ? progressLive(payload.audit.status, names) : message}
   </p>
+  {#if gap}
+    <p>{gap}</p>
+  {/if}
   {#if payload && (payload.audit.status === 'done' || payload.audit.status === 'partial')}
     <p>
       <a class="link-action" href={`/rapport?id=${encodeURIComponent(payload.audit.id)}`}>{t('progress.report')}</a>

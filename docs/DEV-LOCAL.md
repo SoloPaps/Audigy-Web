@@ -72,7 +72,7 @@ Limites : 10 audits par jour et par compte (jour de Paris), 1 audit par hôte to
 
 Un test actif ne tourne que si la propriété est vérifiée et revérifiée depuis moins de 10 minutes. Un audit bloqué en `running` ou `partial` plus de 20 minutes passe en `failed`.
 
-`GH_DISPATCH_TOKEN` est facultatif en local. Sans lui, aucun appel à GitHub.
+`GH_DISPATCH_TOKEN` est facultatif en local. Sans lui, aucun appel à GitHub. Pour les checks navigateur : un jeton fine-grained `actions:write` sur ce dépôt seul, ou le repli `pnpm lab:audit --browser` (et `pnpm audigy audit <url> --browser`). Ne jamais coller la valeur du jeton. Sans l’un ou l’autre, l’audit finit `done` et ces checks restent nommés « non testé ».
 
 ## CLI
 
