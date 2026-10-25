@@ -167,6 +167,17 @@ function saveBrief(): void {
 }
 
 const groups = $derived(groupFindings(findings));
+const privacyUntested = $derived(
+  findings.filter(
+    (item) =>
+      item.status === 'untested' &&
+      asRow(item).checkId.startsWith('vie_privee.'),
+  ),
+);
+const privacyIds = $derived(new Set(privacyUntested.map((item) => item.id)));
+const nextShown = $derived(
+  groups.next.filter((item) => !privacyIds.has(item.id)),
+);
 const counts = $derived({
   all: findings.length,
   fail: groups.priority.length,
@@ -302,11 +313,19 @@ async function copyCode(finding: Finding): Promise<void> {
     {/if}
   {/if}
   {#if filter === 'all' || filter === 'warn'}
-    {#if groups.next.length > 0}
+    {#if nextShown.length > 0}
       <section class="group">
         <h3>{t('group.next')}</h3>
         <div class="stagger">
-          {@render rows(groups.next)}
+          {@render rows(nextShown)}
+        </div>
+      </section>
+    {/if}
+    {#if privacyUntested.length > 0}
+      <section class="group">
+        <h3>{t('domain.vie_privee.plain')}</h3>
+        <div class="stagger">
+          {@render rows(privacyUntested)}
         </div>
       </section>
     {/if}

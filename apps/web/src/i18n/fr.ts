@@ -1469,6 +1469,14 @@ export const fr = {
     'L’inférence est-elle réglée pour limiter les ressources utilisées ?',
   'vie_privee.untested_runner':
     'Nous n’avons pas pu tester : le navigateur d’audit n’a pas tourné.',
+  'vie_privee.traceurs.untested':
+    'Traceurs avant un choix : non testé. Le navigateur d’audit n’a pas tourné.',
+  'vie_privee.cmp.untested':
+    'Bannière de choix : non testé. Le navigateur d’audit n’a pas tourné.',
+  'vie_privee.refus.untested':
+    'Refus au premier niveau : non testé. Le navigateur d’audit n’a pas tourné.',
+  'vie_privee.tiers.untested':
+    'Scripts et polices d’un autre site : non testé. Le navigateur d’audit n’a pas tourné.',
   'vie_privee.untested_runner_invalid':
     'Nous n’avons pas pu tester : le résultat du navigateur est inutilisable.',
   'vie_privee.untested_interaction':

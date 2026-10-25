@@ -1,4 +1,4 @@
-import type { FixSheet } from '@audigy/engine';
+import type { Check, FixSheet } from '@audigy/engine';
 import { describe, expect, it, vi } from 'vitest';
 import {
   assemble,
@@ -105,6 +105,36 @@ describe('pipeline', () => {
       'reason.runner_absent',
       'reason.invalid_result',
     ]);
+  });
+
+  it('nomme chaque check vie privée, sans répéter la seule raison', () => {
+    const ids = [
+      'vie_privee.cmp',
+      'vie_privee.refus',
+      'vie_privee.tiers',
+      'vie_privee.traceurs',
+    ];
+    const checks: Check[] = ids.map((id) => ({
+      id,
+      domain: 'vie_privee',
+      mode: 'passive',
+      needs: ['browser'],
+      weight: 2,
+      run: async () => {
+        throw new Error('pas exécuté');
+      },
+    }));
+    const rows = browserPlaceholders(
+      checks,
+      ORCHESTRATION_REASONS.runnerAbsent,
+    );
+    expect(rows.map((row) => row.result.messageKey).sort()).toEqual(
+      ids.map((id) => `${id}.untested`).sort(),
+    );
+    expect(
+      rows.every((row) => row.result.reason === 'reason.runner_absent'),
+    ).toBe(true);
+    expect(new Set(rows.map((row) => row.result.messageKey)).size).toBe(4);
   });
 });
 

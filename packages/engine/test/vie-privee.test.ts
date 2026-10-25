@@ -208,6 +208,7 @@ function expectResult(
   expect(result.status, key).toBe(status);
   expect(result.messageKey).toBe(key);
   seen.add(key);
+  if (result.reason?.startsWith('vie_privee.')) seen.add(result.reason);
   const template = fr[key as MessageKey];
   expect(template, key).toBeTruthy();
   const issues = lintText(template, 'apps/web/src/i18n/fr.ts');
@@ -352,6 +353,15 @@ describe('checks navigateur', () => {
       'pass',
       'vie_privee.tiers.pass',
     );
+    const seeded = await runChecks(
+      VIE_PRIVEE_CHECKS.filter((item) => item.needs.includes('browser')),
+      ctx,
+      { available: ['http', 'browser'], concurrency: 1 },
+    );
+    for (const outcome of seeded) {
+      expect(outcome.result.messageKey).not.toContain('untested');
+      expect(outcome.result.reason ?? '').not.toContain('runner');
+    }
   });
 
   it('signale les traceurs de la fixture, pas le bandeau', async () => {
@@ -498,11 +508,16 @@ describe('checks navigateur', () => {
     const missing = context({
       fetch: () => Promise.reject(new Error('réseau interdit')),
     });
-    expectResult(
-      await run('vie_privee.traceurs', missing),
-      'untested',
-      'vie_privee.untested_runner',
-    );
+    for (const id of [
+      'vie_privee.traceurs',
+      'vie_privee.cmp',
+      'vie_privee.refus',
+      'vie_privee.tiers',
+    ]) {
+      const result = await run(id, missing);
+      expectResult(result, 'untested', `${id}.untested`);
+      expect(result.reason).toBe('vie_privee.untested_runner');
+    }
     const invalid = context();
     await seed(invalid, 'cookie-value.json');
     const bad = await run('vie_privee.cmp', invalid);
@@ -534,6 +549,32 @@ describe('checks navigateur', () => {
     expect(domain.score).toBeNull();
     expect(domain.level).toBe('untested');
     expect(domain.coverage).toBeLessThan(0.5);
+  });
+
+  it('sans rapport navigateur, couverture sous 50 % et sept clés nommées', async () => {
+    const ctx = context({ pages: legalPages() });
+    const outcomes = await runChecks([...VIE_PRIVEE_CHECKS], ctx, {
+      available: ['http', 'browser'],
+      concurrency: 1,
+    });
+    const browserIds = [
+      'vie_privee.cmp',
+      'vie_privee.refus',
+      'vie_privee.tiers',
+      'vie_privee.traceurs',
+    ];
+    for (const id of browserIds) {
+      const outcome = outcomes.find((item) => item.checkId === id);
+      if (!outcome) throw new Error(id);
+      expectResult(outcome.result, 'untested', `${id}.untested`);
+    }
+    const domain = scoreDomain('vie_privee', outcomes);
+    expect(domain.score).toBeNull();
+    expect(domain.level).toBe('untested');
+    expect(domain.coverage).toBeCloseTo(5 / 15);
+    expect(new Set(outcomes.map((item) => item.result.messageKey)).size).toBe(
+      7,
+    );
   });
 });
 

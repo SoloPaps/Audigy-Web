@@ -41,6 +41,19 @@ export function splitChecks(checks: readonly Check[]): {
   };
 }
 
+const NAMED_BROWSER = new Set([
+  'vie_privee.cmp',
+  'vie_privee.refus',
+  'vie_privee.tiers',
+  'vie_privee.traceurs',
+]);
+
+/** Clé du constat : le nom du test vie privée, sinon la raison d’orchestration. */
+function placeholderMessageKey(check: Check, reason: BrowserReason): string {
+  if (NAMED_BROWSER.has(check.id)) return `${check.id}.untested`;
+  return reason;
+}
+
 /** Checks navigateur non exécutés : `untested` avec une raison explicite. */
 export function browserPlaceholders(
   checks: readonly Check[],
@@ -55,7 +68,7 @@ export function browserPlaceholders(
       status: 'untested',
       severity: 1,
       impact: 1,
-      messageKey: reason,
+      messageKey: placeholderMessageKey(check, reason),
       reason,
     },
   }));
