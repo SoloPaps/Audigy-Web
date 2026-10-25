@@ -134,8 +134,8 @@ describe('rapport', () => {
     const fixes = new Map([['securite.https', fix]]);
     const all = reportFindings(payload, fixes);
     expect(all.map((item) => item.id)).toEqual([
-      'securite.https-0',
-      'vie_privee.traceurs-1',
+      'securite.https',
+      'vie_privee.traceurs',
     ]);
     expect(all[0]).toMatchObject({
       title: 'Forcer l’adresse chiffrée',
@@ -148,6 +148,23 @@ describe('rapport', () => {
     );
     expect(all[1]?.limit ?? null).toBeNull();
     expect(reportFindings(payload, fixes, 'securite')).toHaveLength(1);
+  });
+
+  it('garde le même identifiant quand la liste change', () => {
+    const fixes = new Map<string, FixView>();
+    const partial = reportRows(payload, fixes).map((row) => row.id);
+    const reversed = reportRows(
+      { ...payload, findings: [...payload.findings].reverse() },
+      fixes,
+    ).map((row) => row.id);
+    expect([...reversed].sort()).toEqual([...partial].sort());
+    const first = payload.findings[0];
+    if (!first) throw new Error('fixture');
+    const twice = reportRows(
+      { ...payload, findings: [first, first] },
+      fixes,
+    ).map((row) => row.id);
+    expect(twice).toEqual([first.checkId, `${first.checkId}-1`]);
   });
 
   it('range la limite à part et garde la cause hors du constat', () => {

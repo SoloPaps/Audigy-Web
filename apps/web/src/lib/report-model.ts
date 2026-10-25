@@ -205,18 +205,33 @@ function asName(value: unknown): string | null {
   return name === '' ? null : name.slice(0, 200);
 }
 
+/**
+ * Identifiant stable d’un constat : le test lui-même, pas sa position.
+ * Un suffixe n’apparaît que si le même test revient plusieurs fois.
+ * Ainsi les cases cochées survivent quand la liste change (partiel → terminé).
+ */
+function stableIds(rows: readonly ApiFinding[]): string[] {
+  const seen = new Map<string, number>();
+  return rows.map((row) => {
+    const count = seen.get(row.checkId) ?? 0;
+    seen.set(row.checkId, count + 1);
+    return count === 0 ? row.checkId : `${row.checkId}-${count}`;
+  });
+}
+
 export function reportFindings(
   payload: AuditPayload,
   fixes: ReadonlyMap<string, FixView>,
   domain?: string,
 ): Finding[] {
+  const ids = stableIds(payload.findings);
   return payload.findings.flatMap((row, index) => {
     if (row.status === 'na') return [];
     if (domain === undefined && row.domain === 'reputation') return [];
     if (domain !== undefined && row.domain !== domain) return [];
     const fix = row.fixKey ? fixes.get(row.fixKey) : undefined;
     const finding = toFinding(row, fix);
-    finding.id = `${row.checkId}-${index}`;
+    finding.id = ids[index] ?? row.checkId;
     return [finding];
   });
 }
@@ -252,12 +267,13 @@ export function reportRows(
   fixes: ReadonlyMap<string, FixView>,
   domain?: string,
 ): ReportRow[] {
+  const ids = stableIds(payload.findings);
   return payload.findings.flatMap((row, index) => {
     if (domain === undefined && row.domain === 'reputation') return [];
     if (domain !== undefined && row.domain !== domain) return [];
     const fix = row.fixKey ? fixes.get(row.fixKey) : undefined;
     const finding = toFinding(row, fix);
-    finding.id = `${row.checkId}-${index}`;
+    finding.id = ids[index] ?? row.checkId;
     const sources: BriefSource[] = [];
     if (fix?.sourceHref && fix.sourceLabel) {
       sources.push({ label: fix.sourceLabel, url: fix.sourceHref });

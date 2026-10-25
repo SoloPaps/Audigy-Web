@@ -109,3 +109,25 @@ test('à 320 px le panneau ne déborde pas', async ({ page }) => {
   });
   expect(overflow).toBe(false);
 });
+
+test('le compteur suit chaque case cochée puis décochée', async ({ page }) => {
+  await page.goto('/dev/composants');
+  const names = [
+    'Le site accepte encore une adresse non chiffrée',
+    'La page peut être affichée dans un cadre trompeur',
+    'La description de la page est trop courte',
+  ];
+  const boxes = names.map((name) =>
+    page.getByRole('checkbox', { name: `Inclure ${name}` }),
+  );
+  await expect(page.getByText('0 sélectionnés')).toBeVisible();
+  for (const [index, box] of boxes.entries()) {
+    await box.check();
+    const label = index === 0 ? '1 sélectionné' : `${index + 1} sélectionnés`;
+    await expect(page.getByText(label, { exact: true })).toBeVisible();
+  }
+  await boxes[1]?.uncheck();
+  await expect(page.getByText('2 sélectionnés', { exact: true })).toBeVisible();
+  await page.getByRole('button', { name: 'Générer le brief' }).click();
+  await expect(page.getByText('Brief généré, 2 constats')).toBeVisible();
+});
