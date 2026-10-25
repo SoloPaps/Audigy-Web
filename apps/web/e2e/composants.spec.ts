@@ -150,7 +150,9 @@ test('thème sombre mémorisé', async ({ page }) => {
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
 });
 
-test('le thème reste en place dès la navigation, sans rechargement', async ({ page }) => {
+test('le thème reste en place dès la navigation, sans rechargement', async ({
+  page,
+}) => {
   await page.addInitScript(() => {
     const view = globalThis as unknown as {
       localStorage: { setItem: (key: string, value: string) => void };
