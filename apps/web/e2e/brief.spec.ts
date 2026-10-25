@@ -137,7 +137,7 @@ test('le filtre « À améliorer » ne compte pas les non testés', async ({
 }) => {
   await page.goto('/dev/composants');
   const filter = page.getByRole('button', { name: /^À améliorer/ });
-  const badge = Number(await filter.locator('.count').innerText());
+  const badge = Number((await filter.locator('.count').textContent()) ?? '');
   await filter.click();
   await expect(page.locator('article.finding')).toHaveCount(badge);
   await expect(page.getByText('Non testé — pas de brief')).toHaveCount(0);

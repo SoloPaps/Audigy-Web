@@ -1,4 +1,4 @@
-import { type MessageKey, t } from '../i18n/index.js';
+import { t } from '../i18n/index.js';
 import type { ApiDomain, ApiFinding, AuditPayload } from './audit-api.js';
 import type { BriefSource } from './brief.js';
 import type { CategoryItem } from './categories.js';
@@ -47,11 +47,11 @@ function effortLabel(status: FindingStatus, minutes: number | null): string {
 }
 
 /** Tests qui exigent le navigateur : on les nomme, même sans résultat. */
-const BROWSER_NAMES: Readonly<Record<string, MessageKey>> = {
-  'vie_privee.traceurs': 'vie_privee.traceurs.name',
-  'vie_privee.cmp': 'vie_privee.cmp.name',
-  'vie_privee.refus': 'vie_privee.refus.name',
-  'vie_privee.tiers': 'vie_privee.tiers.name',
+const BROWSER_NAMES: Readonly<Record<string, () => string>> = {
+  'vie_privee.traceurs': () => t('vie_privee.traceurs.name'),
+  'vie_privee.cmp': () => t('vie_privee.cmp.name'),
+  'vie_privee.refus': () => t('vie_privee.refus.name'),
+  'vie_privee.tiers': () => t('vie_privee.tiers.name'),
 };
 
 export function toFinding(row: ApiFinding, fix: FixView | undefined): Finding {
@@ -76,7 +76,7 @@ export function toFinding(row: ApiFinding, fix: FixView | undefined): Finding {
   let shownTitle = title;
   const named = BROWSER_NAMES[row.checkId];
   if (status === 'untested' && named && !fix) {
-    shownTitle = t('finding.untested_named', { name: t(named) });
+    shownTitle = t('finding.untested_named', { name: named() });
   }
   if (copy.limit && shownTitle.includes(copy.limit)) {
     shownTitle = copy.statement;
