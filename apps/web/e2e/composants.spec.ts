@@ -150,6 +150,16 @@ test('thème sombre mémorisé', async ({ page }) => {
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
 });
 
+test('le thème tient après une navigation client', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.goto('/dev/composants?theme=light');
+  await page.getByLabel('Thème').selectOption('dark');
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
+  await page.locator('footer').getByRole('link', { name: 'Méthode' }).click();
+  await expect(page).toHaveURL(/\/methode/);
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
+});
+
 test('lien d’évitement', async ({ page }) => {
   await page.goto('/dev/composants?theme=light');
   await page.keyboard.press('Tab');
