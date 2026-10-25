@@ -327,6 +327,21 @@ describe('orchestration de bout en bout (Supabase local + labo)', () => {
     expect(rows[0]?.n).toBe(1);
   });
 
+  it('un audit en échec ne bloque pas la relance', async () => {
+    const res = await create('a', { url: 'echec.audigy.test' });
+    expect(res.status).toBe(202);
+    const { auditId } = (await res.json()) as { auditId: string };
+    await admin`
+      update public.audits
+      set status = 'failed', error = 'test', finished_at = now()
+      where id = ${auditId}::uuid
+    `;
+    const again = await create('a', { url: 'echec.audigy.test' });
+    expect(again.status).toBe(202);
+    const body = (await again.json()) as { auditId: string };
+    expect(body.auditId).not.toBe(auditId);
+  });
+
   it('limite par utilisateur : 10 audits par jour', async () => {
     await admin`
       insert into public.rate_limits (key, window_start, count)

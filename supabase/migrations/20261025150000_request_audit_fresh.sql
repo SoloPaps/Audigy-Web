@@ -2,6 +2,8 @@
 -- réutilisé (double clic). Un audit terminé depuis moins de 15 min ne doit plus
 -- être rendu comme « existant » : le parcours ouvrait l'ancien rapport.
 -- Il tombe dans la limite par hôte (host_limit), avec un message clair.
+-- Un audit en échec ne bloque pas la relance : le dernier essai du même site
+-- a échoué, l'utilisateur peut recommencer (la limite par jour reste valable).
 -- Même signature, mêmes droits : create or replace conserve les grants.
 
 create or replace function public.request_audit(
@@ -26,6 +28,7 @@ declare
   v_day timestamptz;
   v_existing uuid;
   v_last timestamptz;
+  v_last_status text;
   v_count integer;
   v_id uuid;
 begin
@@ -67,7 +70,14 @@ begin
   from public.rate_limits as r
   where r.key = v_host_key
     and r.window_start > now() - p_host_interval;
-  if v_last is not null then
+  select a.status into v_last_status
+  from public.audits as a
+  where a.site_id = p_site_id
+    and a.mode = p_mode
+    and a.created_at > now() - p_host_interval
+  order by a.created_at desc, a.id desc
+  limit 1;
+  if v_last is not null and coalesce(v_last_status, '') <> 'failed' then
     return query select
       null::uuid,
       'host_limit'::text,
