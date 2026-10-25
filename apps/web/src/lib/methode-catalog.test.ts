@@ -67,6 +67,22 @@ describe('parseMethodeCatalog', () => {
     expect(catalog.get('vie_privee.traceurs')?.citation).toBe('Tracker Radar');
     expect(catalog.get('vie_privee.cmp')?.citation).toBe('Tracker Radar');
     expect(catalog.get('vie_privee.mentions')?.citation).toBeNull();
+    expect(catalog.get('securite.hsts')?.href).toBe(
+      '/methode#method-observatory',
+    );
+    expect(catalog.get('performance.poids')?.href).toBe(
+      '/methode#method-lighthouse',
+    );
+    expect(catalog.get('ecologie.ecoindex')?.href).toBe(
+      '/methode#method-ecoindex',
+    );
+    expect(catalog.get('vie_privee.traceurs')?.href).toBe(
+      '/methode#method-trackers',
+    );
+    expect(catalog.get('dns_email.dkim')?.href).toBe('/methode#method-doh');
+    for (const entry of catalog.values()) {
+      expect(entry.href.startsWith('/methode#')).toBe(true);
+    }
     expect(catalog.get('securite.fichiers')?.citation).toBeNull();
     expect(catalog.get('securite.listing')?.citation).toBeNull();
     expect(catalog.get('securite.tls')?.citation).toBeNull();

@@ -58,7 +58,7 @@ Avec `AUDIGY_LOCAL_RUNNER=true`, la fonction n'appelle pas GitHub : elle attend 
 | `GET /api/audits/:id` | Audit, scores par domaine et constats, sous RLS (propriétaire seulement). |
 | `audit-run-background` | Fonction background, appelée par `api-audits-create` avec un en-tête signé. Pas de route publique. |
 
-Réponses de `POST` : `202` audit créé, `200` audit déjà en cours (double clic), `429` limite atteinte (`Retry-After`), `400`, `401`, `403` (actif sans vérification), `404`. Les erreurs renvoient un code et une clé `api.error.*`, jamais un message technique.
+Réponses de `POST` : `202` audit créé, `200` si un audit du même site est encore en cours (`queued`, `running`, `partial`). Un `done` ou `failed` dans les 15 minutes répond `429` (`host_limit`, `Retry-After`), pas l’ancien id. Aussi `400`, `401`, `403` (actif sans vérification), `404`. Les erreurs renvoient un code et une clé `api.error.*`, jamais un message technique.
 
 Limites : 10 audits par jour et par compte (jour de Paris), 1 audit par hôte toutes les 15 minutes. Les clés de `rate_limits` sont des empreintes SHA-256.
 
@@ -72,7 +72,7 @@ Limites : 10 audits par jour et par compte (jour de Paris), 1 audit par hôte to
 
 Un test actif ne tourne que si la propriété est vérifiée et revérifiée depuis moins de 10 minutes. Un audit bloqué en `running` ou `partial` plus de 20 minutes passe en `failed`.
 
-`GH_DISPATCH_TOKEN` est facultatif en local. Sans lui, aucun appel à GitHub.
+`GH_DISPATCH_TOKEN` est facultatif en local. Sans lui, aucun appel à GitHub. Pour les checks navigateur : un jeton fine-grained `actions:write` sur ce dépôt seul, ou le repli `pnpm lab:audit --browser` (et `pnpm audigy audit <url> --browser`). Ne jamais coller la valeur du jeton. Sans l’un ou l’autre, l’audit finit `done` et ces checks restent nommés « non testé ».
 
 ## CLI
 

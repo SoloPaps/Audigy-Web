@@ -17,6 +17,7 @@ import { GLOBAL_SERIES, type HistoryView } from '../lib/history.js';
 import { loginHref } from '../lib/nav.js';
 import { formatRating } from '../lib/places-api.js';
 import { progressLive } from '../lib/progress-live.js';
+import { relaunchHref } from '../lib/relaunch.js';
 import {
   markdownFilename,
   renderMarkdown,
@@ -253,6 +254,19 @@ onMount(() => {
       </section>
       <section class="glass glass-module">
         <div class="glass-plate">
+          <h2 id="corrections">{t('section.findings')}</h2>
+          <FindingList
+            findings={reportRows(payload, fixesFor(hostingOf(payload.audit.site.hosting)))}
+            brief={{
+              url: payload.audit.site.url,
+              at: stamp,
+              stack: recognizedStack(payload.findings),
+            }}
+          />
+        </div>
+      </section>
+      <section class="glass glass-module">
+        <div class="glass-plate">
           <h2>{t('section.categories')}</h2>
           <CategoryList {items} />
         </div>
@@ -279,23 +293,14 @@ onMount(() => {
       {/if}
     {/if}
 
-    <section class="glass glass-module">
-      <div class="glass-plate">
-        <h2 id="corrections">{t('section.findings')}</h2>
-        {#if mode === 'report'}
-          <FindingList
-            findings={reportRows(payload, fixesFor(hostingOf(payload.audit.site.hosting)))}
-            brief={{
-              url: payload.audit.site.url,
-              at: stamp,
-              stack: recognizedStack(payload.findings),
-            }}
-          />
-        {:else}
+    {#if mode === 'domain'}
+      <section class="glass glass-module">
+        <div class="glass-plate">
+          <h2 id="corrections">{t('section.findings')}</h2>
           <FindingList findings={shown} />
-        {/if}
-      </div>
-    </section>
+        </div>
+      </section>
+    {/if}
 
     {#if mode === 'report' && historyReady}
       <section class="glass glass-module">
@@ -309,7 +314,11 @@ onMount(() => {
               initialSeries={[GLOBAL_SERIES]}
             />
           {:else}
-            <EmptyState message={t('history.summary.empty')} />
+            <EmptyState message={t('history.summary.empty')}>
+              <p>
+                <a class="link-action" href={relaunchHref(payload.audit.site.id)}>{t('sites.audit')}</a>
+              </p>
+            </EmptyState>
           {/if}
         </div>
       </section>
@@ -318,6 +327,7 @@ onMount(() => {
     <section class="glass glass-module">
       <div class="glass-plate">
         <p class="no-print export-links">
+          <a class="link-action" href={relaunchHref(payload.audit.site.id)}>{t('progress.retry')}</a>
           <a class="link-action" href={`/rapport/${payload.audit.id}/imprimer`}>{t('print.link')}</a>
           <a
             class="link-action"

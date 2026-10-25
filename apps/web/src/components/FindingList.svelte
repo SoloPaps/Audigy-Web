@@ -167,6 +167,18 @@ function saveBrief(): void {
 }
 
 const groups = $derived(groupFindings(findings));
+const privacyUntested = $derived(
+  findings.filter(
+    (item) =>
+      item.status === 'untested' &&
+      asRow(item).checkId.startsWith('vie_privee.'),
+  ),
+);
+const privacyIds = $derived(new Set(privacyUntested.map((item) => item.id)));
+const nextShown = $derived(groups.next);
+const otherUntested = $derived(
+  groups.untested.filter((item) => !privacyIds.has(item.id)),
+);
 const counts = $derived({
   all: findings.length,
   fail: groups.priority.length,
@@ -233,23 +245,28 @@ async function copyCode(finding: Finding): Promise<void> {
         <StatusMark level={levelForStatus(finding.status)} />
         <div class="finding-copy">
           <h4>{finding.title}</h4>
-          {#if finding.why !== finding.title}
-            <p class="why">{finding.why}</p>
-          {/if}
           {#if finding.actionHref && finding.actionLabel}
             <p><a class="link-action" href={finding.actionHref}>{finding.actionLabel}</a></p>
           {/if}
         </div>
         <p class="effort">{finding.effort}</p>
       </div>
+      {#if methodeCatalog().get(asRow(finding).checkId)?.href}
+        <p>
+          <a class="link-inline" href={methodeCatalog().get(asRow(finding).checkId)?.href}>{t('home.offer.link')}</a>
+        </p>
+      {/if}
       {#if finding.limit}
         <details class="finding-limit">
           <summary>{t('finding.limit')}</summary>
           <p>{finding.limit}</p>
         </details>
       {/if}
-      <details>
+      <details class="finding-detail">
         <summary>{t('finding.fix')}</summary>
+        {#if finding.why !== finding.title}
+          <p class="why">{finding.why}</p>
+        {/if}
         <ol>
           {#each finding.steps as step, index (`${finding.id}-${index}`)}
             <li>{step}</li>
@@ -302,14 +319,30 @@ async function copyCode(finding: Finding): Promise<void> {
     {/if}
   {/if}
   {#if filter === 'all' || filter === 'warn'}
-    {#if groups.next.length > 0}
+    {#if nextShown.length > 0}
       <section class="group">
         <h3>{t('group.next')}</h3>
         <div class="stagger">
-          {@render rows(groups.next)}
+          {@render rows(nextShown)}
         </div>
       </section>
     {/if}
+  {/if}
+  {#if filter === 'all' && privacyUntested.length > 0}
+    <section class="group">
+      <h3>{t('domain.vie_privee.plain')}</h3>
+      <div class="stagger">
+        {@render rows(privacyUntested)}
+      </div>
+    </section>
+  {/if}
+  {#if filter === 'all' && otherUntested.length > 0}
+    <section class="group">
+      <h3>{t('status.untested')}</h3>
+      <div class="stagger">
+        {@render rows(otherUntested)}
+      </div>
+    </section>
   {/if}
   {#if filter === 'all' && groups.good.length > 0}
     <details class="good-group">
@@ -519,6 +552,30 @@ async function copyCode(finding: Finding): Promise<void> {
     gap: var(--space-3);
     align-items: center;
     max-width: 100%;
+  }
+
+  .brief-choice label {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    max-width: 100%;
+    min-height: var(--touch-min);
+  }
+
+  .brief-choice input:focus-visible {
+    outline: var(--focus-width) solid var(--focus);
+    outline-offset: var(--focus-width);
+  }
+
+  @media print {
+    :global(details.finding-detail::details-content) {
+      content-visibility: visible;
+      display: block;
+    }
+
+    :global(details.finding-detail:not([open]) > :not(summary)) {
+      display: block;
+    }
   }
 
   .brief-panel {

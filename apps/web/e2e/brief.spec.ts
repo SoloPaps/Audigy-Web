@@ -57,6 +57,10 @@ test('la voie rapide ignore les cases et le terminal', async ({ page }) => {
   });
   await warn.check();
   await expect(page.getByText('1 sélectionné')).toBeVisible();
+  const warnRow = page.locator('article.finding', { has: warn });
+  await warnRow.getByRole('radio', { name: 'Vérifier, sans écrire' }).check();
+  await expect(page.getByText('1 sélectionné')).toBeVisible();
+  await expect(page.getByText('2 sélectionnés')).toHaveCount(0);
   await page.getByRole('button', { name: 'Tous les échecs' }).click();
   const zone = page.getByRole('textbox', { name: 'Texte du brief' });
   await expect(zone).toHaveValue(/adresse non chiffrée/);

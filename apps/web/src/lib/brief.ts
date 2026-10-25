@@ -46,12 +46,6 @@ export function recognizedStack(
 ): string | null {
   const row = findings.find((item) => item.checkId === 'securite.technologies');
   if (!row) return null;
-  if (
-    row.messageKey !== 'securite.technologies.pass' &&
-    row.messageKey !== 'securite.technologies.warn'
-  ) {
-    return null;
-  }
   const list = asParams(row.params)?.liste;
   if (typeof list !== 'string') return null;
   const stack = list.trim();

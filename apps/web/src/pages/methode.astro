@@ -1,6 +1,7 @@
 ---
 import PageToc from '../components/PageToc.astro';
 import { t } from '../i18n/index.js';
+import { tReport } from '../i18n/report-fr.js';
 import Base from '../layouts/Base.astro';
 ---
 
@@ -19,6 +20,11 @@ import Base from '../layouts/Base.astro';
       { id: 'method-level', label: t('method.level.title') },
       { id: 'method-order', label: t('method.order.title') },
       { id: 'method-repro', label: t('method.repro.title') },
+      { id: 'method-observatory', label: tReport('card.observatory') },
+      { id: 'method-lighthouse', label: tReport('card.lighthouse') },
+      { id: 'method-ecoindex', label: tReport('card.ecoindex') },
+      { id: 'method-trackers', label: tReport('card.trackers') },
+      { id: 'method-doh', label: tReport('card.doh') },
     ]}
   />
 
@@ -73,6 +79,12 @@ import Base from '../layouts/Base.astro';
   <h2 id="method-order">{t('method.order.title')}</h2>
   <p class="prose">{t('method.order.body')}</p>
   <p class="prose">{t('method.order.tie')}</p>
+
+  <h2 id="method-observatory">{tReport('card.observatory')}</h2>
+  <h2 id="method-lighthouse">{tReport('card.lighthouse')}</h2>
+  <h2 id="method-ecoindex">{tReport('card.ecoindex')}</h2>
+  <h2 id="method-trackers">{tReport('card.trackers')}</h2>
+  <h2 id="method-doh">{tReport('card.doh')}</h2>
 
   <h2 id="method-repro">{t('method.repro.title')}</h2>
   <p class="prose">{t('method.repro.body')}</p>

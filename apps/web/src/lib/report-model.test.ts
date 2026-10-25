@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import type { AuditPayload } from './audit-api.js';
+import { t } from '../i18n/index.js';
+import type { ApiFinding, AuditPayload } from './audit-api.js';
 import {
   categoryItems,
   type FixView,
@@ -143,6 +144,7 @@ describe('rapport', () => {
       effort: '15 min',
       code: 'Strict-Transport-Security: max-age=1',
     });
+    expect(all[1]?.title).toBe(t('vie_privee.traceurs.untested'));
     expect(all[1]?.why).toBe(
       'Nous n’avons pas pu tester : le navigateur d’audit n’a pas tourné.',
     );
@@ -306,4 +308,93 @@ describe('rapport', () => {
       reportFindings(withAvis, new Map()).map((item) => item.id),
     ).not.toContain('reputation.avis-3');
   });
+
+  it('nomme les sept checks vie privée, score nul sous 50 %', () => {
+    const passKeys = [
+      'vie_privee.confidentialite.pass',
+      'vie_privee.mentions.pass',
+      'vie_privee.elements.pass',
+    ] as const;
+    const browserIds = [
+      'vie_privee.cmp',
+      'vie_privee.refus',
+      'vie_privee.tiers',
+      'vie_privee.traceurs',
+    ] as const;
+    const findings: ApiFinding[] = [
+      ...passKeys.map((messageKey) =>
+        privacyRow(
+          messageKey.replace(/\.pass$/u, ''),
+          'pass',
+          messageKey,
+          null,
+        ),
+      ),
+      ...browserIds.map((checkId) =>
+        privacyRow(
+          checkId,
+          'untested',
+          `${checkId}.untested`,
+          'reason.runner_absent',
+        ),
+      ),
+    ];
+    const rows = reportFindings(
+      {
+        ...payload,
+        domains: [
+          {
+            domain: 'vie_privee',
+            score: null,
+            coverage: 5 / 15,
+            level: 'untested',
+          },
+        ],
+        findings,
+      },
+      new Map(),
+    );
+    expect(rows).toHaveLength(7);
+    expect(new Set(rows.map((item) => item.title)).size).toBe(7);
+    for (const checkId of browserIds) {
+      expect(rows.map((item) => item.title)).toContain(
+        t(`${checkId}.untested`),
+      );
+    }
+    const items = categoryItems(
+      [
+        {
+          domain: 'vie_privee',
+          score: null,
+          coverage: 5 / 15,
+          level: 'untested',
+        },
+      ],
+      payload.audit.id,
+      findings,
+    );
+    expect(items.find((item) => item.id === 'vie_privee')?.score).toBeNull();
+  });
 });
+
+function privacyRow(
+  checkId: string,
+  status: 'pass' | 'untested',
+  messageKey: string,
+  reason: string | null,
+): ApiFinding {
+  return {
+    domain: 'vie_privee',
+    checkId,
+    status,
+    severity: 1,
+    impact: 1,
+    score: status === 'pass' ? 1 : null,
+    measured: {},
+    messageKey,
+    params: {},
+    fixKey: null,
+    effortMinutes: null,
+    reason,
+  };
+}

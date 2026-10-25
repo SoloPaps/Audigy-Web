@@ -40,6 +40,13 @@ function rank(value: number, max: 3 | 4): 1 | 2 | 3 | 4 {
   return 3;
 }
 
+/** Titre déjà nommé du check, quand le navigateur n’a pas tourné. */
+function privacyUntestedTitle(row: ApiFinding): string | null {
+  if (asStatus(row.status) !== 'untested') return null;
+  if (!row.checkId.startsWith('vie_privee.')) return null;
+  return translate(`${row.checkId}.untested`);
+}
+
 function effortLabel(status: FindingStatus, minutes: number | null): string {
   if (minutes !== null && minutes > 0) return t('finding.effort', { minutes });
   if (status === 'pass') return t('finding.done');
@@ -51,7 +58,11 @@ export function toFinding(row: ApiFinding, fix: FixView | undefined): Finding {
   const params = asParams(row.params);
   const observed = translate(row.messageKey, params);
   const reason = row.reason ? translate(row.reason, params) : null;
-  const title = fix?.title ?? observed ?? t('finding.untested');
+  const title =
+    privacyUntestedTitle(row) ??
+    fix?.title ??
+    observed ??
+    t('finding.untested');
   let why = fix?.why ?? reason ?? observed ?? t('finding.untested');
   if (why === title) why = reason ?? observed ?? t('finding.untested');
   if (status === 'pass' && !fix) why = t('finding.done');

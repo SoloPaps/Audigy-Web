@@ -15,7 +15,9 @@ function browserGate(
   facts: BrowserFacts,
 ): CheckResult | PrivacyAudit {
   if (facts.kind === 'absent') {
-    return finding(id, 'untested', 1, 1, 'vie_privee.untested_runner');
+    return finding(id, 'untested', 1, 1, `${id}.untested`, {
+      reason: 'vie_privee.untested_runner',
+    });
   }
   if (facts.kind === 'invalid') {
     return finding(id, 'untested', 1, 1, 'vie_privee.untested_runner_invalid');

@@ -4,6 +4,7 @@ import { t } from '../i18n/index.js';
 import { createAudit } from '../lib/audit-api.js';
 import { currentSession } from '../lib/browser-session.js';
 import { loginHref } from '../lib/nav.js';
+import { progressionHref } from '../lib/relaunch.js';
 import { InvalidSiteUrl, normalizeSiteUrl } from '../lib/site-url.js';
 
 let message = $state(t('launch.working'));
@@ -44,7 +45,7 @@ onMount(async () => {
     failed = true;
     return;
   }
-  location.replace(`/progression?id=${encodeURIComponent(result.auditId)}`);
+  location.replace(progressionHref(result.auditId));
 });
 </script>
 
