@@ -588,7 +588,7 @@ export const fr = {
   'api.error.user_limit':
     'Vous avez lancé 10 audits aujourd’hui. Réessayez demain.',
   'api.error.host_limit':
-    'Ce site a été audité il y a moins de 15 minutes. Réessayez plus tard.',
+    'Ce site a été audité il y a moins de 15 minutes. Son dernier rapport est dans votre liste de sites. Réessayez plus tard.',
   'api.error.internal':
     'Le service ne répond pas pour le moment. Réessayez dans quelques minutes.',
   'api.error.oauth_unconfigured':

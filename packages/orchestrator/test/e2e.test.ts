@@ -313,6 +313,20 @@ describe('orchestration de bout en bout (Supabase local + labo)', () => {
     expect(retry).toBeLessThanOrEqual(900);
   });
 
+  it('relancer un audit terminé : jamais l’ancien audit rendu comme nouveau', async () => {
+    const before = await admin<{ status: string }[]>`
+      select status from public.audits where id = ${first}::uuid
+    `;
+    expect(before[0]?.status).toBe('done');
+    const res = await create('a', { url: 'bon.audigy.test' });
+    expect(res.status).toBe(429);
+    expect(await res.json()).toMatchObject({ error: 'host_limit' });
+    const rows = await admin<{ n: number }[]>`
+      select count(*)::int as n from public.audits where id = ${first}::uuid
+    `;
+    expect(rows[0]?.n).toBe(1);
+  });
+
   it('limite par utilisateur : 10 audits par jour', async () => {
     await admin`
       insert into public.rate_limits (key, window_start, count)
