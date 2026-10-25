@@ -19,12 +19,17 @@ export interface BriefFinding {
   proof: string;
   impact: string | null;
   terminal: TerminalMode;
+  /** Pistes de la fiche Audigy, quand elle existe. Jamais inventées. */
+  steps?: readonly string[];
+  code?: string;
 }
 
 export interface BriefDocument {
   url: string;
   at: Date | null;
   stack: string | null;
+  /** Hébergement reconnu par l’audit, en clair. `null` s’il est inconnu. */
+  hosting?: string | null;
   findings: readonly BriefFinding[];
   catalog: ReadonlyMap<string, MethodeEntry>;
   sources: ReadonlyMap<string, readonly BriefSource[]>;
@@ -95,6 +100,21 @@ function findingBlock(item: BriefFinding): string[] {
       bullet(t('brief.finding.impact', { impact: spoken(item.impact) }), '  '),
     );
   }
+  if (item.steps && item.steps.length > 0) {
+    lines.push(bullet(t('brief.finding.steps'), '  '));
+    for (const step of item.steps) lines.push(bullet(step.trim(), '    '));
+  }
+  if (item.code && item.code.trim() !== '') {
+    lines.push(
+      bullet(t('brief.finding.code'), '  '),
+      '    ```',
+      ...item.code
+        .trim()
+        .split('\n')
+        .map((line) => `    ${line}`),
+      '    ```',
+    );
+  }
   return lines;
 }
 
@@ -142,6 +162,11 @@ export function renderBriefBody(input: BriefDocument): string {
   ];
   if (input.stack) {
     lines.push(bullet(t('brief.context.stack', { stack: input.stack })));
+  } else {
+    lines.push(bullet(t('brief.context.nostack')));
+  }
+  if (input.hosting) {
+    lines.push(bullet(t('brief.context.hosting', { hosting: input.hosting })));
   }
   if (input.at) {
     lines.push(
@@ -159,6 +184,7 @@ export function renderBriefBody(input: BriefDocument): string {
     t('brief.h.expected'),
     bullet(t('brief.expected.diff')),
     bullet(t('brief.expected.stack')),
+    bullet(t('brief.expected.verify')),
     bullet(t('brief.expected.score')),
     '',
     t('brief.h.guards'),

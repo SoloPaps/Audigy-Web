@@ -218,4 +218,30 @@ describe('renderBrief', () => {
       ),
     ).not.toContain('Terminal');
   });
+
+  it('ajoute hébergement, pistes et exemple, sans inventer la technique', () => {
+    const text = renderBrief(
+      doc({
+        hosting: 'Netlify',
+        findings: [
+          finding({
+            steps: ['Ouvrez le fichier _headers.', 'Ajoutez l’en-tête.'],
+            code: 'Strict-Transport-Security: max-age=31536000',
+          }),
+        ],
+      }),
+    );
+    expect(text).toContain('Hébergement reconnu : Netlify.');
+    expect(text).toContain('Technique non reconnue : demandez-la');
+    expect(text).toContain('Pistes de la fiche Audigy :');
+    expect(text).toContain('Ouvrez le fichier _headers.');
+    expect(text).toContain('Strict-Transport-Security: max-age=31536000');
+    expect(text).toContain('dites comment la vérifier');
+  });
+
+  it('sans fiche ni hébergement, rien d’inventé', () => {
+    const text = renderBrief(doc());
+    expect(text).not.toContain('Hébergement');
+    expect(text).not.toContain('Pistes de la fiche');
+  });
 });

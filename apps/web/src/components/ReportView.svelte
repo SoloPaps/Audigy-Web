@@ -12,7 +12,7 @@ import {
   REPORT_DOMAINS,
 } from '../lib/domains.js';
 import { levelForStatus, topActions } from '../lib/findings.js';
-import { fixesFor, hostingOf } from '../lib/fix-catalog.js';
+import { fixesFor, hostingLabel, hostingOf } from '../lib/fix-catalog.js';
 import { GLOBAL_SERIES, type HistoryView } from '../lib/history.js';
 import { loginHref } from '../lib/nav.js';
 import { formatRating } from '../lib/places-api.js';
@@ -292,6 +292,7 @@ onMount(() => {
               url: payload.audit.site.url,
               at: stamp,
               stack: recognizedStack(payload.findings),
+              hosting: hostingLabel(payload.audit.site.hosting),
             }}
           />
         {:else}

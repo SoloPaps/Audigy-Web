@@ -33,6 +33,7 @@ interface BriefContext {
   url: string;
   at: Date | null;
   stack: string | null;
+  hosting?: string | null;
 }
 
 interface Props {
@@ -77,6 +78,13 @@ function modeOf(id: string): TerminalMode {
   return terminal[id] ?? 'rien';
 }
 
+/** Sans fiche, `steps` ne porte que « Rien à faire » : on ne l’envoie pas. */
+function realSteps(row: ReportRow): string[] {
+  if (row.code || row.sourceHref) return row.steps;
+  if (row.steps.length === 1 && row.steps[0] === t('finding.done')) return [];
+  return row.steps;
+}
+
 function toBriefFinding(row: ReportRow, mode: TerminalMode): BriefFinding {
   return {
     id: row.id,
@@ -88,6 +96,8 @@ function toBriefFinding(row: ReportRow, mode: TerminalMode): BriefFinding {
     proof: row.proof,
     impact: row.impactText,
     terminal: mode,
+    steps: realSteps(row),
+    ...(row.code ? { code: row.code } : {}),
   };
 }
 
@@ -108,6 +118,7 @@ function documentFrom(
     url: brief?.url ?? '',
     at: auditAt(brief?.at),
     stack: brief?.stack ?? null,
+    hosting: brief?.hosting ?? null,
     findings: items.map((row) =>
       toBriefFinding(row, includeTerminal ? modeOf(row.id) : 'rien'),
     ),
@@ -539,9 +550,103 @@ async function copyCode(finding: Finding): Promise<void> {
     padding: var(--space-3);
   }
 
-  .brief-choice input {
+  /* Case à cocher : zone tactile de 44 px, carré de 24 px, coche dessinée. */
+  .brief-choice > label {
+    display: inline-grid;
+    place-items: center;
     min-width: var(--touch-min);
     min-height: var(--touch-min);
+    cursor: pointer;
+  }
+
+  .brief-choice > label input {
+    display: grid;
+    place-content: center;
+    width: 24px;
+    height: 24px;
+    margin: 0;
+    border: 2px solid var(--ink-2);
+    border-radius: var(--radius-sm);
+    background: var(--surface);
+    appearance: none;
+    cursor: pointer;
+    transition:
+      background-color var(--duration-hover) var(--ease-out),
+      border-color var(--duration-hover) var(--ease-out);
+  }
+
+  .brief-choice > label input:checked {
+    border-color: var(--accent);
+    background: var(--accent);
+  }
+
+  .brief-choice > label input:checked::after {
+    content: '';
+    width: 6px;
+    height: 11px;
+    margin-top: -2px;
+    border: solid var(--on-accent);
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+  }
+
+  .brief-choice > label input:focus-visible {
+    outline: var(--focus-width) solid var(--focus);
+    outline-offset: 2px;
+  }
+
+  /* Choix du terminal : trois pastilles dans un seul bloc, texte centré. */
+  .brief-choice [role='radiogroup'] {
+    display: inline-flex;
+    border: var(--border) solid var(--line);
+    border-radius: var(--radius-pill);
+    background: var(--surface);
+    overflow: hidden;
+  }
+
+  .brief-choice [role='radiogroup'] label {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: var(--touch-min);
+    padding-inline: var(--space-4);
+    color: var(--ink);
+    font: 600 var(--text-sm) / 1 var(--font-text);
+    cursor: pointer;
+    transition:
+      background-color var(--duration-hover) var(--ease-out),
+      color var(--duration-hover) var(--ease-out);
+  }
+
+  .brief-choice [role='radiogroup'] label + label {
+    border-inline-start: var(--border) solid var(--line);
+  }
+
+  .brief-choice [role='radiogroup'] input {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    opacity: 0;
+    cursor: pointer;
+  }
+
+  .brief-choice [role='radiogroup'] label:has(input:checked) {
+    background: var(--accent);
+    color: var(--on-accent);
+  }
+
+  .brief-choice [role='radiogroup'] label:has(input:focus-visible) {
+    outline: var(--focus-width) solid var(--focus);
+    outline-offset: -4px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .brief-choice * {
+      transition: none;
+    }
   }
 
   @media (max-width: 320px) {

@@ -30,6 +30,13 @@ export function hostingOf(value: string): Hosting {
   return 'other';
 }
 
+/** Nom d’hébergeur pour le brief ; `null` quand l’audit ne l’a pas reconnu. */
+export function hostingLabel(value: string): string | null {
+  if (value === 'netlify') return 'Netlify';
+  if (value === 'github_pages') return 'GitHub Pages';
+  return null;
+}
+
 export function fixesFor(hosting: Hosting): Map<string, FixView> {
   const cached = viewCache.get(hosting);
   if (cached) return cached;
