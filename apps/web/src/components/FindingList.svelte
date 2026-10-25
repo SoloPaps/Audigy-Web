@@ -178,12 +178,15 @@ function saveBrief(): void {
 }
 
 const groups = $derived(groupFindings(findings));
+/** « À améliorer » : les avertissements seuls. Les non testés restent à part. */
+const warned = $derived(groups.next.filter((item) => item.status === 'warn'));
 const counts = $derived({
   all: findings.length,
   fail: groups.priority.length,
-  warn: groups.next.length,
+  warn: warned.length,
   pass: groups.good.length,
 });
+const nextShown = $derived(filter === 'warn' ? warned : groups.next);
 const filters: { id: FilterId; label: string }[] = [
   { id: 'all', label: t('report.filter.all') },
   { id: 'fail', label: t('report.filter.fail') },
@@ -313,11 +316,11 @@ async function copyCode(finding: Finding): Promise<void> {
     {/if}
   {/if}
   {#if filter === 'all' || filter === 'warn'}
-    {#if groups.next.length > 0}
+    {#if nextShown.length > 0}
       <section class="group">
         <h3>{t('group.next')}</h3>
         <div class="stagger">
-          {@render rows(groups.next)}
+          {@render rows(nextShown)}
         </div>
       </section>
     {/if}

@@ -244,4 +244,25 @@ describe('renderBrief', () => {
     expect(text).not.toContain('Hébergement');
     expect(text).not.toContain('Pistes de la fiche');
   });
+
+  it('lit la technique mesurée, sans rien deviner', () => {
+    const row = {
+      checkId: 'securite.technologies',
+      messageKey: 'securite.technologies.pass',
+      params: { liste: 'nginx' },
+      measured: {
+        software: [{ name: 'nginx', version: '1.25' }, { name: 'PHP' }],
+        libraries: [{ name: 'jQuery', version: '3.4.1' }],
+      },
+    };
+    expect(recognizedStack([row])).toBe('nginx 1.25, PHP, jQuery 3.4.1');
+    expect(recognizedStack([{ ...row, measured: { software: [] } }])).toBe(
+      'nginx',
+    );
+    expect(
+      recognizedStack([
+        { ...row, messageKey: 'securite.technologies.untested' },
+      ]),
+    ).toBeNull();
+  });
 });

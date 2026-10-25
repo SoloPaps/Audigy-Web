@@ -131,3 +131,14 @@ test('le compteur suit chaque case cochée puis décochée', async ({ page }) =>
   await page.getByRole('button', { name: 'Générer le brief' }).click();
   await expect(page.getByText('Brief généré, 2 constats')).toBeVisible();
 });
+
+test('le filtre « À améliorer » ne compte pas les non testés', async ({
+  page,
+}) => {
+  await page.goto('/dev/composants');
+  const filter = page.getByRole('button', { name: /^À améliorer/ });
+  const badge = Number(await filter.locator('.count').innerText());
+  await filter.click();
+  await expect(page.locator('article.finding')).toHaveCount(badge);
+  await expect(page.getByText('Non testé — pas de brief')).toHaveCount(0);
+});

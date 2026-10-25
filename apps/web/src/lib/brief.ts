@@ -42,11 +42,47 @@ export function sameSentence(a: string, b: string): boolean {
   return fold(a) !== '' && fold(a) === fold(b);
 }
 
+const STACK_MAX = 8;
+
+function asObjects(value: unknown): Record<string, unknown>[] {
+  if (!Array.isArray(value)) return [];
+  return value.filter(
+    (item): item is Record<string, unknown> =>
+      typeof item === 'object' && item !== null && !Array.isArray(item),
+  );
+}
+
+function namedWithVersion(item: Record<string, unknown>): string | null {
+  const name = typeof item.name === 'string' ? item.name.trim() : '';
+  if (name === '') return null;
+  const raw = item.version;
+  const version =
+    typeof raw === 'string' || typeof raw === 'number' ? `${raw}`.trim() : '';
+  return version === '' ? name : `${name} ${version}`;
+}
+
+/** Noms réellement mesurés (logiciels et bibliothèques), jamais devinés. */
+function measuredStack(measured: unknown): string | null {
+  if (typeof measured !== 'object' || measured === null) return null;
+  const record = measured as Record<string, unknown>;
+  const names = new Set<string>();
+  for (const item of [
+    ...asObjects(record.software),
+    ...asObjects(record.libraries),
+  ]) {
+    const label = namedWithVersion(item);
+    if (label) names.add(label);
+  }
+  if (names.size === 0) return null;
+  return [...names].slice(0, STACK_MAX).join(', ');
+}
+
 export function recognizedStack(
   findings: readonly {
     checkId: string;
     messageKey: string;
     params: unknown;
+    measured?: unknown;
   }[],
 ): string | null {
   const row = findings.find((item) => item.checkId === 'securite.technologies');
@@ -57,6 +93,8 @@ export function recognizedStack(
   ) {
     return null;
   }
+  const measured = measuredStack(row.measured);
+  if (measured) return measured;
   const list = asParams(row.params)?.liste;
   if (typeof list !== 'string') return null;
   const stack = list.trim();

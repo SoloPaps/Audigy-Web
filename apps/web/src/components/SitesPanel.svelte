@@ -225,6 +225,12 @@ async function onSignOut(): Promise<void> {
               <span class="visually-hidden">{site.label}</span>
             </summary>
             <div class="site-extra">
+              {#if mark}
+                <a class="link-action" href={`/lancer?site=${encodeURIComponent(site.id)}`}>
+                  {t('progress.retry')}
+                  <span class="visually-hidden">{site.label}</span>
+                </a>
+              {/if}
               <a class="link-action" href={`/verifier?site=${encodeURIComponent(site.id)}`}>
                 {t('sites.verify')}
                 <span class="visually-hidden">{site.label}</span>
