@@ -5,7 +5,12 @@ import { type AuditPayload, readAudit } from '../lib/audit-api.js';
 import { currentSession } from '../lib/browser-session.js';
 import { domainPlain } from '../lib/domains.js';
 import { loginHref } from '../lib/nav.js';
-import { progressLive, runnerGap } from '../lib/progress-live.js';
+import {
+  progressEta,
+  progressLive,
+  progressPhase,
+  runnerGap,
+} from '../lib/progress-live.js';
 import AuditOverlay from './AuditOverlay.svelte';
 
 const POLL_MS = 1500;
@@ -23,6 +28,21 @@ const waiting = $derived(
 );
 const gap = $derived(
   payload?.audit.status === 'done' ? runnerGap(payload.findings) : null,
+);
+const scoredDomains = $derived(
+  (payload?.domains ?? []).filter((domain) => typeof domain.score === 'number'),
+);
+const eta = $derived(
+  payload ? progressEta(payload.audit.status, scoredDomains.length) : null,
+);
+const phase = $derived(
+  payload
+    ? progressPhase(
+        payload.audit.status,
+        scoredDomains.length,
+        scoredDomains.some((domain) => domain.domain === 'vie_privee'),
+      )
+    : null,
 );
 
 onMount(() => {
@@ -72,11 +92,22 @@ onMount(() => {
   <p class="kicker">{payload.audit.site.url}</p>
 {/if}
 {#if payload && waiting}
-  <AuditOverlay plain message={progressLive(payload.audit.status, names)} />
+  <AuditOverlay
+    plain
+    message={progressLive(payload.audit.status, names)}
+    {phase}
+    {eta}
+  />
 {:else}
   <p role="status" aria-live="polite">
     {payload ? progressLive(payload.audit.status, names) : message}
   </p>
+  {#if phase}
+    <p>{phase}</p>
+  {/if}
+  {#if eta}
+    <p>{eta}</p>
+  {/if}
   {#if gap}
     <p>{gap}</p>
   {/if}

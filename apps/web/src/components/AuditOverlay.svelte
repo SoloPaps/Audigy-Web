@@ -3,14 +3,22 @@ import { t } from '../i18n/index.js';
 
 interface Props {
   message: string;
+  phase?: string | null;
+  eta?: string | null;
   plain?: boolean;
 }
 
-let { message, plain = false }: Props = $props();
+let { message, phase = null, eta = null, plain = false }: Props = $props();
 </script>
 
 {#snippet body()}
   <p role="status" aria-live="polite">{message}</p>
+  {#if phase}
+    <p>{phase}</p>
+  {/if}
+  {#if eta}
+    <p>{eta}</p>
+  {/if}
   <div class="disk"></div>
   <div class="bar"></div>
   <div class="bar"></div>
