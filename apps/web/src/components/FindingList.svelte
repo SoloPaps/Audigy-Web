@@ -245,23 +245,20 @@ async function copyCode(finding: Finding): Promise<void> {
         <StatusMark level={levelForStatus(finding.status)} />
         <div class="finding-copy">
           <h4>{finding.title}</h4>
-          {#if finding.why !== finding.title}
-            <p class="why">{finding.why}</p>
-          {/if}
           {#if finding.actionHref && finding.actionLabel}
             <p><a class="link-action" href={finding.actionHref}>{finding.actionLabel}</a></p>
           {/if}
         </div>
         <p class="effort">{finding.effort}</p>
       </div>
-      {#if finding.limit}
-        <details class="finding-limit">
-          <summary>{t('finding.limit')}</summary>
-          <p>{finding.limit}</p>
-        </details>
-      {/if}
-      <details>
+      <details class="finding-detail">
         <summary>{t('finding.fix')}</summary>
+        {#if finding.why !== finding.title}
+          <p class="why">{finding.why}</p>
+        {/if}
+        {#if finding.limit}
+          <p>{finding.limit}</p>
+        {/if}
         <ol>
           {#each finding.steps as step, index (`${finding.id}-${index}`)}
             <li>{step}</li>

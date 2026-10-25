@@ -254,6 +254,19 @@ onMount(() => {
       </section>
       <section class="glass glass-module">
         <div class="glass-plate">
+          <h2 id="corrections">{t('section.findings')}</h2>
+          <FindingList
+            findings={reportRows(payload, fixesFor(hostingOf(payload.audit.site.hosting)))}
+            brief={{
+              url: payload.audit.site.url,
+              at: stamp,
+              stack: recognizedStack(payload.findings),
+            }}
+          />
+        </div>
+      </section>
+      <section class="glass glass-module">
+        <div class="glass-plate">
           <h2>{t('section.categories')}</h2>
           <CategoryList {items} />
         </div>
@@ -280,23 +293,14 @@ onMount(() => {
       {/if}
     {/if}
 
-    <section class="glass glass-module">
-      <div class="glass-plate">
-        <h2 id="corrections">{t('section.findings')}</h2>
-        {#if mode === 'report'}
-          <FindingList
-            findings={reportRows(payload, fixesFor(hostingOf(payload.audit.site.hosting)))}
-            brief={{
-              url: payload.audit.site.url,
-              at: stamp,
-              stack: recognizedStack(payload.findings),
-            }}
-          />
-        {:else}
+    {#if mode === 'domain'}
+      <section class="glass glass-module">
+        <div class="glass-plate">
+          <h2 id="corrections">{t('section.findings')}</h2>
           <FindingList findings={shown} />
-        {/if}
-      </div>
-    </section>
+        </div>
+      </section>
+    {/if}
 
     {#if mode === 'report' && historyReady}
       <section class="glass glass-module">
