@@ -150,6 +150,38 @@ test('thème sombre mémorisé', async ({ page }) => {
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
 });
 
+test('le thème reste en place dès la navigation, sans rechargement', async ({
+  page,
+}) => {
+  await page.addInitScript(() => {
+    const view = globalThis as unknown as {
+      localStorage: { setItem: (key: string, value: string) => void };
+    };
+    view.localStorage.setItem('audigy-theme', 'dark');
+  });
+  await page.goto('/');
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
+  await page.evaluate(() => {
+    const view = globalThis as unknown as {
+      themeAtSwap?: string | null;
+      document: {
+        addEventListener: (name: string, run: () => void) => void;
+        documentElement: { getAttribute: (name: string) => string | null };
+      };
+    };
+    view.document.addEventListener('astro:after-swap', () => {
+      view.themeAtSwap =
+        view.document.documentElement.getAttribute('data-theme');
+    });
+  });
+  await page.locator('footer a[href="/methode"]').click();
+  await expect(page).toHaveURL(/\/methode\/?$/);
+  const atSwap = await page.evaluate(
+    () => (globalThis as unknown as { themeAtSwap?: string | null }).themeAtSwap,
+  );
+  expect(atSwap).toBe('dark');
+});
+
 test('lien d’évitement', async ({ page }) => {
   await page.goto('/dev/composants?theme=light');
   await page.keyboard.press('Tab');
