@@ -239,6 +239,9 @@ onMount(() => {
                   total: REPORT_DOMAINS.length,
                 })}
               </p>
+              <p class="no-print">
+                <a class="link-action" href={`/lancer?site=${encodeURIComponent(payload.audit.site.id)}`}>{t('progress.retry')}</a>
+              </p>
               {#if actions.length > 0}
                 <p id="actions-label" class="hint">{t('verdict.actions')}</p>
                 <ol class="actions" aria-labelledby="actions-label">
