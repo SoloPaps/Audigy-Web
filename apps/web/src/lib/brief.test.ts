@@ -165,8 +165,28 @@ describe('renderBrief', () => {
         },
       ]),
     ).toBe('Apache/2.4.1');
-    const text = renderBrief(doc({ stack: 'nginx' }));
-    expect(text).toContain('Technique reconnue : nginx.');
+    expect(
+      recognizedStack([
+        {
+          checkId: 'securite.technologies',
+          messageKey: 'securite.technologies.fail',
+          params: { liste: 'nginx 1.24' },
+        },
+      ]),
+    ).toBe('nginx 1.24');
+    expect(
+      recognizedStack([
+        {
+          checkId: 'securite.technologies',
+          messageKey: 'securite.technologies.fail',
+          params: { liste: '   ' },
+        },
+      ]),
+    ).toBeNull();
+    const text = renderBrief(doc({ stack: 'nginx 1.24' }));
+    expect(text).toContain('Technique reconnue : nginx 1.24.');
+    expect(text).not.toMatch(/\brm\b/);
+    expect(text).not.toContain('GH_DISPATCH_TOKEN');
   });
 
   it('garde l’ordre reçu et le critère RGESN copié', () => {
