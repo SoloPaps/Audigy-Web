@@ -236,9 +236,58 @@ describe('orchestration de bout en bout (Supabase local + labo)', () => {
     expect(body.domains.find((d) => d.domain === 'securite')?.score).toBeTypeOf(
       'number',
     );
+    expect(
+      body.domains.find((d) => d.domain === 'vie_privee')?.score,
+    ).toBeNull();
+    const browserIds = VIE_PRIVEE_CHECKS.filter((check) =>
+      check.needs.includes('browser'),
+    ).map((check) => check.id);
+    expect(
+      body.findings
+        .filter((finding) => browserIds.includes(finding.checkId))
+        .map((finding) => finding.messageKey)
+        .sort(),
+    ).toEqual(browserIds.map((id) => `${id}.untested`).sort());
     expect(body.findings.some((f) => f.checkId.startsWith('securite.'))).toBe(
       true,
     );
+  });
+
+  it('audit terminé : limite, pas l’ancien id', async () => {
+    const res = await create('a', { url: 'https://bon.audigy.test/' });
+    expect(res.status).toBe(429);
+    const body = (await res.json()) as { error?: string; auditId?: string };
+    expect(body.error).toBe('host_limit');
+    expect(body.auditId).toBeUndefined();
+    expect(Number(res.headers.get('retry-after'))).toBeGreaterThan(0);
+  });
+
+  it('audit en cours : le même id de progression', async () => {
+    const created = await create('a', { url: 'encours.audigy.test' });
+    expect(created.status).toBe(202);
+    const { auditId } = (await created.json()) as { auditId: string };
+    await admin`
+      update public.audits set status = 'running' where id = ${auditId}::uuid
+    `;
+    const again = await create('a', { url: 'https://encours.audigy.test/' });
+    expect(again.status).toBe(200);
+    expect(await again.json()).toEqual({ auditId, existing: true });
+  });
+
+  it('audit failed récent : limite, pas une reprise', async () => {
+    const created = await create('a', { url: 'rate.audigy.test' });
+    expect(created.status).toBe(202);
+    const { auditId } = (await created.json()) as { auditId: string };
+    await admin`
+      update public.audits
+      set status = 'failed', error = 'stale', finished_at = now()
+      where id = ${auditId}::uuid
+    `;
+    const res = await create('a', { url: 'https://rate.audigy.test/' });
+    expect(res.status).toBe(429);
+    const body = (await res.json()) as { error?: string; auditId?: string };
+    expect(body.error).toBe('host_limit');
+    expect(body.auditId).toBeUndefined();
   });
 
   it('file vide : rien à traiter', async () => {
