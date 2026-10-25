@@ -175,8 +175,9 @@ const privacyUntested = $derived(
   ),
 );
 const privacyIds = $derived(new Set(privacyUntested.map((item) => item.id)));
-const nextShown = $derived(
-  groups.next.filter((item) => !privacyIds.has(item.id)),
+const nextShown = $derived(groups.next);
+const otherUntested = $derived(
+  groups.untested.filter((item) => !privacyIds.has(item.id)),
 );
 const counts = $derived({
   all: findings.length,
@@ -321,14 +322,22 @@ async function copyCode(finding: Finding): Promise<void> {
         </div>
       </section>
     {/if}
-    {#if privacyUntested.length > 0}
-      <section class="group">
-        <h3>{t('domain.vie_privee.plain')}</h3>
-        <div class="stagger">
-          {@render rows(privacyUntested)}
-        </div>
-      </section>
-    {/if}
+  {/if}
+  {#if filter === 'all' && privacyUntested.length > 0}
+    <section class="group">
+      <h3>{t('domain.vie_privee.plain')}</h3>
+      <div class="stagger">
+        {@render rows(privacyUntested)}
+      </div>
+    </section>
+  {/if}
+  {#if filter === 'all' && otherUntested.length > 0}
+    <section class="group">
+      <h3>{t('status.untested')}</h3>
+      <div class="stagger">
+        {@render rows(otherUntested)}
+      </div>
+    </section>
   {/if}
   {#if filter === 'all' && groups.good.length > 0}
     <details class="good-group">

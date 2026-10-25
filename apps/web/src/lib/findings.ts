@@ -60,17 +60,17 @@ export function countByFilter(
 export interface FindingGroups {
   priority: Finding[];
   next: Finding[];
+  untested: Finding[];
   good: Finding[];
 }
 
-/** Échecs d’abord, puis avertissements et non testés, réussites à part. */
+/** Échecs, puis avertissements. Le non testé ne compte pas dans « À améliorer ». */
 export function groupFindings(findings: readonly Finding[]): FindingGroups {
   const sorted = sortFindings(findings);
   return {
     priority: sorted.filter((item) => item.status === 'fail'),
-    next: sorted.filter(
-      (item) => item.status === 'warn' || item.status === 'untested',
-    ),
+    next: sorted.filter((item) => item.status === 'warn'),
+    untested: sorted.filter((item) => item.status === 'untested'),
     good: sorted.filter((item) => item.status === 'pass'),
   };
 }
