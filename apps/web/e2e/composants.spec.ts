@@ -153,6 +153,17 @@ test('thème sombre mémorisé', async ({ page }) => {
 test('le thème tient après une navigation client', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto('/dev/composants?theme=light');
+  await page.waitForFunction(() => {
+    const root = globalThis as unknown as {
+      document: {
+        querySelector: (
+          selector: string,
+        ) => { hasAttribute: (name: string) => boolean } | null;
+      };
+    };
+    const island = root.document.querySelector('astro-island');
+    return Boolean(island && !island.hasAttribute('ssr'));
+  });
   await page.getByLabel('Thème').selectOption('dark');
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
   await page.locator('footer').getByRole('link', { name: 'Méthode' }).click();

@@ -1,4 +1,5 @@
 import { t } from '../i18n/index.js';
+import { tReport } from '../i18n/report-fr.js';
 
 export function progressLive(
   status: string,
@@ -28,9 +29,9 @@ export function runnerGap(
 /** Fourchette grossière, pas un minuteur. */
 export function progressEta(status: string, scored: number): string | null {
   if (status === 'done' || status === 'failed') return null;
-  if (status === 'partial' || scored >= 4) return t('progress.eta.short');
-  if (scored >= 1) return t('progress.eta.mid');
-  return t('progress.eta.long');
+  if (status === 'partial' || scored >= 4) return tReport('eta.short');
+  if (scored >= 1) return tReport('eta.mid');
+  return tReport('eta.long');
 }
 
 /** Phase nommée : file, DNS, pages, vie privée, fin. */
@@ -40,9 +41,9 @@ export function progressPhase(
   privacyScored: boolean,
 ): string | null {
   if (status === 'done' || status === 'failed') return null;
-  if (status === 'queued') return t('progress.phase.queue');
-  if (privacyScored) return t('progress.phase.tail');
-  if (scored === 0) return t('progress.phase.dns');
-  if (scored < 4) return t('progress.phase.pages');
-  return t('progress.phase.privacy');
+  if (status === 'queued') return tReport('phase.queue');
+  if (privacyScored) return tReport('phase.tail');
+  if (scored === 0) return tReport('phase.dns');
+  if (scored < 4) return tReport('phase.pages');
+  return tReport('phase.privacy');
 }

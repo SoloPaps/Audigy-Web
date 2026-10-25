@@ -253,16 +253,19 @@ async function copyCode(finding: Finding): Promise<void> {
       </div>
       {#if methodeCatalog().get(asRow(finding).checkId)?.href}
         <p>
-          <a class="link-inline" href={methodeCatalog().get(asRow(finding).checkId)?.href}>{t('finding.method')}</a>
+          <a class="link-inline" href={methodeCatalog().get(asRow(finding).checkId)?.href}>{t('home.offer.link')}</a>
         </p>
+      {/if}
+      {#if finding.limit}
+        <details class="finding-limit">
+          <summary>{t('finding.limit')}</summary>
+          <p>{finding.limit}</p>
+        </details>
       {/if}
       <details class="finding-detail">
         <summary>{t('finding.fix')}</summary>
         {#if finding.why !== finding.title}
           <p class="why">{finding.why}</p>
-        {/if}
-        {#if finding.limit}
-          <p>{finding.limit}</p>
         {/if}
         <ol>
           {#each finding.steps as step, index (`${finding.id}-${index}`)}
@@ -562,6 +565,17 @@ async function copyCode(finding: Finding): Promise<void> {
   .brief-choice input:focus-visible {
     outline: var(--focus-width) solid var(--focus);
     outline-offset: var(--focus-width);
+  }
+
+  @media print {
+    :global(details.finding-detail::details-content) {
+      content-visibility: visible;
+      display: block;
+    }
+
+    :global(details.finding-detail:not([open]) > :not(summary)) {
+      display: block;
+    }
   }
 
   .brief-panel {
