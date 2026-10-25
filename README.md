@@ -6,12 +6,16 @@ Audit gratuit de sites web pour les particuliers, en français clair : performan
 
 Développement local. Aucun site de production : le déploiement Netlify n’a pas été fait.
 
-Sur `main` au 24 octobre 2026 :
+Au 25 octobre 2026 :
 
 - PART-00 à PART-26 sont dans le dépôt. PART-26 (durcissement et recette, #36) mesure un build servi en local : [`docs/RECETTE.md`](docs/RECETTE.md).
 - L’interface d’audit est en place (accueil, rapport, sites, historique). L’habillage Arc Soft est sur `main` (#38, #39, #40).
 - Clarté de l’interface : Vague 1 fusionnée (#45). Vague 2 ouverte (#46, rapport emportable). Vague 3 est décrite dans la spec, sans PR.
-- La spec du brief agent est fusionnée (#47). Elle ne change pas encore l’interface.
+- Le brief agent est dans l’interface : cases cochées, choix Rien / Vérif / Fix, pile reconnue.
+- Un audit terminé ne rejoue pas l’ancien rapport. Un audit encore en cours reprend la même page.
+- Sans navigateur d’audit, chaque test de vie privée a sa phrase et la note reste absente.
+- Le rapport montre le score et les priorités, le détail est replié, et chaque constat catalogué lie `/methode`.
+- L’avancement donne une fourchette de minutes et une phase : file, DNS, pages, vie privée.
 
 Le déploiement Netlify de production est une action manuelle, une seule fois, réservée au propriétaire, après PART-26. La checklist est dans [`docs/PLAN.md`](docs/PLAN.md) (section « PART-27 — Déploiement unique final » et §14). En développement, seul `netlify dev` est autorisé : pas de `netlify deploy`, pas de liaison Git, pas de deploy preview, pas de branch deploy.
 
