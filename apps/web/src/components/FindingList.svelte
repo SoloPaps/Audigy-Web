@@ -551,6 +551,19 @@ async function copyCode(finding: Finding): Promise<void> {
     max-width: 100%;
   }
 
+  .brief-choice label {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    max-width: 100%;
+    min-height: var(--touch-min);
+  }
+
+  .brief-choice input:focus-visible {
+    outline: var(--focus-width) solid var(--focus);
+    outline-offset: var(--focus-width);
+  }
+
   .brief-panel {
     margin-top: var(--space-4);
   }
