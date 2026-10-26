@@ -1,5 +1,7 @@
 # Audigy — spécification clarté, export et parcours
 
+> **Archive (26 octobre 2026).** Décisions déjà appliquées sur `main`. Ce fichier n’est plus la source de vérité. Produit : [`docs/FONCTIONNEMENT.md`](../../../FONCTIONNEMENT.md). UI : [`docs/DESIGN.md`](../../../DESIGN.md) et le pack design. Ancien chemin : `docs/superpowers/`.
+
 Date : 24 octobre 2026. Statut : décisions verrouillées par le propriétaire. Ce document ne modifie pas l’application. Il décrit trois vagues d’interface, à réaliser **après** sa relecture, chacune dans sa PR, avec une revue visuelle entre deux fusions.
 
 Décisions verrouillées :
@@ -309,7 +311,7 @@ Chaque PR d’interface part de `main` après la fusion précédente. Pas de bra
 
 ## 10. Références
 
-- Spec Arc Soft : `docs/superpowers/specs/2026-10-24-arc-soft-design.md` (verre, barre, rapport, compte, sites, impression des principes). Le plan d’implémentation Arc Soft n’est pas une référence de cette spec.
+- Spec Arc Soft : `docs/archive/superpowers/specs/2026-10-24-arc-soft-design.md` (verre, barre, rapport, compte, sites, impression des principes). Le plan d’implémentation Arc Soft n’est pas une référence de cette spec.
 - `docs/DESIGN.md` §4 (statuts, dont « Non testé »), §7 (ton), §8 (accessibilité), §9 (checklist).
 - `docs/METHODE.md` §2 : quand une mesure est « Non testé ». On cite la règle. On ne la réécrit pas.
 - `docs/RECETTE.md`, section « Reste au propriétaire » : lecteur d’écran réel, Firefox, niveaux de gris, zoom 200 %, liens externes à la main, échéance `security.txt`, HSTS, URLs du plan du site, PART-27. Cette spec ne les relance pas et ne les coche pas.

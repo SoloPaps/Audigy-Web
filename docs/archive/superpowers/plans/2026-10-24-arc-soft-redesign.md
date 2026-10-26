@@ -1,6 +1,8 @@
 # Arc Soft Redesign Implementation Plan
 
-> **Déjà suivi** (#38, #39, #40). Ne pas ré-exécuter ce plan. Thème sombre gelé : [`docs/design-pack-2026-10-26/04-THEME-DARK.md`](../../design-pack-2026-10-26/04-THEME-DARK.md). Clair : ce plan et la PR #66. Nav / logo : [`01-REGLES-STRICTES.md`](../../design-pack-2026-10-26/01-REGLES-STRICTES.md).
+> **Archive (26 octobre 2026).** Décisions déjà appliquées sur `main`. Ce fichier n’est plus la source de vérité. Produit : [`docs/FONCTIONNEMENT.md`](../../../FONCTIONNEMENT.md). UI : [`docs/DESIGN.md`](../../../DESIGN.md) et le pack design. Ancien chemin : `docs/superpowers/`.
+
+> **Déjà suivi** (#38, #39, #40). Ne pas ré-exécuter ce plan. Thème sombre gelé : [`docs/design-pack-2026-10-26/04-THEME-DARK.md`](../../../design-pack-2026-10-26/04-THEME-DARK.md). Clair : ce plan et la PR #66. Nav / logo : [`01-REGLES-STRICTES.md`](../../../design-pack-2026-10-26/01-REGLES-STRICTES.md).
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking. Ce plan est historique : ne pas le relancer.
 
@@ -12,7 +14,7 @@
 
 ## Global Constraints
 
-Chaque tâche inclut ces contraintes. Les valeurs sont celles de `docs/superpowers/specs/2026-10-24-arc-soft-design.md`.
+Chaque tâche inclut ces contraintes. Les valeurs sont celles de `docs/archive/superpowers/specs/2026-10-24-arc-soft-design.md`.
 
 - Intensité verrouillée : très spectaculaire. `docs/DESIGN.md` est révisé dans la tâche 3, pendant l’implémentation, pas dans la PR qui ne contient que ce plan.
 - Famille visuelle : verre lumineux, inspiré d’Apple et d’Arc. Direction retenue : A — Arc Soft.

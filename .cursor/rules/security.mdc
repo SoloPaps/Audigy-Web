@@ -9,3 +9,4 @@ alwaysApply: false
 - Budget de requêtes par audit (`ctx.budget`) ; 1 req/s par hôte ; `User-Agent: AudigyBot`.
 - Clé `service_role` uniquement côté fonctions. Jetons OAuth chiffrés (AES-256-GCM).
 - Valider toute entrée (zod). Pas de secret ni de donnée perso dans les logs.
+- Formulation produit (« passif par défaut », vie privée option C) : `docs/FONCTIONNEMENT.md`.

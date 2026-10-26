@@ -1,0 +1,290 @@
+<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"><meta content="mobile_stack" name="shell-type"><link href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;700&amp;family=Atkinson+Hyperlegible+Next:wght@400;600;700&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"><style>@layer base{html,body{width:100vw;margin:0;padding:0;}body{overscroll-behavior:none;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { colors: { "blob-teal": "#9FCFCB", "surface-glass": "rgba(255, 255, 255, 0.64)", "tertiary-fixed-dim": "#ffb59d", "background": "#fbf9f5", "status-good-bg": "#E6EEF8", "ink-secondary": "#4A5260", "on-secondary-fixed": "#001b3d", "focus-ring": "#C2410C", "blob-lilac": "#E3D4F0", "surface-solid": "#FFFFFF", "surface-container-high": "#eae8e4", "surface-container-lowest": "#ffffff", "tertiary": "#6f1f00", "tertiary-fixed": "#ffdbd0", "tertiary-container": "#972d00", "on-primary-container": "#8fd2cf", "error-container": "#ffdad6", "ink-primary": "#1B1F24", "on-secondary-fixed-variant": "#00468a", "on-primary": "#ffffff", "on-tertiary-fixed-variant": "#832600", "on-error-container": "#93000a", "secondary-fixed": "#d6e3ff", "surface": "#fbf9f5", "on-primary-fixed-variant": "#00504e", "on-tertiary-container": "#ffb49c", "on-error": "#ffffff", "surface-container": "#efeeea", "on-tertiary-fixed": "#390c00", "paper-end": "#D7E7F2", "status-neutral-text": "#5F6672", "secondary-fixed-dim": "#a8c8ff", "primary-container": "#0f5c5a", "primary-fixed-dim": "#90d2cf", "status-bad-bg": "#FBE7E5", "error": "#ba1a1a", "primary": "#004342", "on-background": "#1b1c1a", "status-neutral-bg": "#F1F1EF", "inverse-surface": "#30312e", "secondary-container": "#78acff", "surface-dim": "#dbdad6", "on-primary-fixed": "#00201f", "on-secondary": "#ffffff", "status-warn-bg": "#FBF0DE", "inverse-on-surface": "#f2f0ed", "on-secondary-container": "#003f7d", "paper-base": "#FAF8F4", "surface-container-low": "#f5f3ef", "primary-fixed": "#abefeb", "surface-variant": "#e4e2de", "inverse-primary": "#90d2cf", "on-surface-variant": "#3f4948", "surface-bright": "#fbf9f5", "status-good-text": "#1F5FAD", "surface-tint": "#226866", "blob-peach": "#F3C7B4", "outline-variant": "bec8c7", "secondary": "#1d5eac", "line-border": "#E3DED5", "on-tertiary": "#ffffff", "status-warn-text": "#9A5800", "outline": "#6f7978", "surface-container-highest": "#e4e2de", "on-surface": "#1b1c1a", "status-bad-text": "#B3261E" }, borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, spacing: { "margin": "1.5rem", "space-lg": "1.5rem", "gutter": "1rem", "space-xl": "2rem", "space-sm": "0.5rem", "space-md": "1rem", "space-xs": "0.25rem" }, fontFamily: { "display-hero-mobile": ["Outfit"], "headline-md": ["Atkinson Hyperlegible Next"], "body-md": ["Atkinson Hyperlegible Next"], "display-hero": ["Outfit"], "body-lg": ["Atkinson Hyperlegible Next"], "headline-sm": ["Atkinson Hyperlegible Next"], "headline-lg": ["Outfit"], "label-md": ["Atkinson Hyperlegible Next"], "code-md": ["JetBrains Mono"], "label-sm": ["Atkinson Hyperlegible Next"], "body-sm": ["Atkinson Hyperlegible Next"] }, fontSize: { "display-hero-mobile": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700" }], "headline-md": ["22px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "700" }], "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }], "display-hero": ["40px", { "lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }], "headline-sm": ["18px", { "lineHeight": "24px", "fontWeight": "700" }], "headline-lg": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.015em", "fontWeight": "600" }], "label-md": ["14px", { "lineHeight": "18px", "fontWeight": "600" }], "code-md": ["13px", { "lineHeight": "20px", "fontWeight": "500" }], "label-sm": ["12px", { "lineHeight": "16px", "letterSpacing": "0.04em", "fontWeight": "600" }], "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }] } } } };</script><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head><body class="bg-surface font-body-md text-on-surface flex flex-col min-h-screen selection:bg-primary-fixed"><header class="fixed top-0 w-full z-50 pt-safe bg-surface/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 px-gutter flex items-center justify-between"><a href="#" class="flex items-center gap-2" aria-label="Audigy - Accueil"><div class="w-9 h-9 rounded-lg bg-primary-container flex items-center justify-center shadow-sm"><svg class="w-5 h-5 text-on-primary fill-none stroke-current" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" viewBox="0 0 24 24"><polyline points="2 12 6 12 9 6 13 18 16 12 22 12"></polyline></svg></div><span class="font-headline-sm text-headline-sm text-ink-primary font-bold tracking-tight">Audigy</span></a><div class="flex items-center gap-2"><div class="flex items-center rounded-lg bg-surface-container p-0.5 font-label-sm text-label-sm"><button type="button" class="px-2 py-1 rounded bg-surface-container-lowest text-ink-primary font-bold shadow-xs">FR</button><button type="button" class="px-2 py-1 rounded text-ink-secondary hover:text-ink-primary">EN</button></div><button id="mobile-drawer-toggle" aria-label="Ouvrir le menu de navigation" class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-ink-primary active:scale-95 transition-transform"><span class="material-symbols-outlined text-[24px]">menu</span></button></div></div><div id="mobile-drawer" class="hidden fixed inset-0 z-50 bg-inverse-surface/60 backdrop-blur-sm"><div class="w-4/5 max-w-sm h-full bg-surface p-space-md flex flex-col justify-between shadow-md"><div class="flex flex-col gap-space-md"><div class="flex items-center justify-between pb-space-sm"><a href="#" class="flex items-center gap-2"><div class="w-8 h-8 rounded-lg bg-primary-container flex items-center justify-center"><svg class="w-4 h-4 text-on-primary fill-none stroke-current" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" viewBox="0 0 24 24"><polyline points="2 12 6 12 9 6 13 18 16 12 22 12"></polyline></svg></div><span class="font-headline-sm text-ink-primary font-bold">Audigy</span></a><button id="mobile-drawer-close" aria-label="Fermer le menu" class="w-9 h-9 rounded-full bg-surface-container flex items-center justify-center text-ink-primary"><span class="material-symbols-outlined text-[20px]">close</span></button></div><nav class="flex flex-col gap-1"><a href="#" class="px-3 py-2.5 rounded-lg text-ink-primary font-label-md hover:bg-surface-container transition-colors">Accueil</a><a href="#" class="px-3 py-2.5 rounded-lg text-ink-primary font-label-md hover:bg-surface-container transition-colors">Méthode</a><a href="#" class="px-3 py-2.5 rounded-lg text-ink-primary font-label-md hover:bg-surface-container transition-colors">Sites suivis</a><a href="#" class="px-3 py-2.5 rounded-lg text-ink-primary font-label-md hover:bg-surface-container transition-colors">Documentation</a></nav></div><div class="pt-space-md"><button class="w-full h-11 rounded-lg bg-primary text-on-primary font-label-md flex items-center justify-center gap-2 active:scale-95 transition-all shadow-sm"><span class="material-symbols-outlined text-[18px]">login</span><span class="">Connexion</span></button></div></div></div></header><main class="flex-1 flex flex-col relative w-full pt-16 pb-safe bg-surface"><div class="flex flex-col w-full relative pb-28">
+<!-- Ambient Soft Blobs for Frosted Glow Depth -->
+<div class="pointer-events-none absolute -top-10 -left-20 w-72 h-72 rounded-full bg-blob-teal/30 blur-3xl"></div>
+<div class="pointer-events-none absolute top-48 -right-16 w-80 h-80 rounded-full bg-blob-peach/35 blur-3xl"></div>
+<div class="pointer-events-none absolute top-96 left-10 w-64 h-64 rounded-full bg-blob-lilac/25 blur-3xl"></div>
+<!-- Sheet Container Card -->
+<div class="w-full max-w-xl mx-auto px-gutter pt-space-xs flex flex-col relative z-10">
+<!-- Top Grab Handle & Utility Bar -->
+<div class="flex items-center justify-between py-space-xs mb-space-sm"><button onclick="history.back()" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-primary font-label-md transition-colors"><span class="material-symbols-outlined text-[18px]">arrow_back</span><span class="">Retour au rapport</span></button><div class="flex items-center gap-2"><span aria-hidden="true" class="w-8 h-1 rounded-full bg-outline/25"></span><button aria-label="Fermer le guide de remédiation" class="w-9 h-9 rounded-full bg-surface-container text-ink-primary flex items-center justify-center active:scale-95 transition-transform" id="btn-close-modal" type="button"><span class="material-symbols-outlined text-[18px]">close</span></button></div></div>
+<!-- Title & Severity Context -->
+<div class="flex flex-col gap-space-xs mb-space-md">
+<div class="flex items-center gap-space-xs flex-wrap">
+<!-- Severity Pill with Silhouette & Text -->
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-status-bad-bg text-status-bad-text font-label-sm text-label-sm">
+<span aria-hidden="true" class="w-2 h-2 rounded-[2px] bg-status-bad-text"></span>
+<span class="">Critique · Sécurité</span>
+</span>
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-status-good-bg text-status-good-text font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[14px]">trending_up</span>
+<span class="">+8 pts au verdict</span>
+</span>
+</div>
+<h2 class="font-display-hero-mobile text-display-hero-mobile text-ink-primary tracking-tight">
+        Comment corriger : En-tête HSTS
+      </h2>
+<p class="font-body-sm text-body-sm text-ink-secondary">
+        Le protocole HTTP Strict Transport Security contraint les navigateurs à utiliser systématiquement une connexion chiffrée SSL/TLS.
+      </p>
+</div>
+<!-- Meta Strip (Actor, Time, Scope) -->
+<div class="grid grid-cols-2 gap-space-xs p-space-sm rounded-xl bg-surface-container-low mb-space-md">
+<div class="flex items-center gap-2">
+<div class="w-7 h-7 rounded-lg bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[16px]">schedule</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-ink-secondary">Temps estimé</span>
+<span class="font-headline-sm text-headline-sm text-ink-primary">15 min</span>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<div class="w-7 h-7 rounded-lg bg-surface-container flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-[16px]">admin_panel_settings</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-sm text-label-sm text-ink-secondary">Rôle suggéré</span>
+<span class="font-headline-sm text-headline-sm text-ink-primary truncate">Hébergeur / SysAdmin</span>
+</div>
+</div>
+</div>
+<!-- Platform Selector / Segmented Horizontal Scroll -->
+<div class="flex flex-col gap-space-xs mb-space-md">
+<div class="flex items-center justify-between">
+<label class="font-label-md text-label-md text-ink-primary" for="platform-tabs">Plateforme ou serveur</label>
+<span class="font-label-sm text-label-sm text-ink-secondary">4 hébergeurs</span>
+</div>
+<div aria-label="Sélectionnez votre serveur" class="flex gap-space-xs overflow-x-auto pb-1.5 scrollbar-none" id="platform-tabs" role="tablist"><button aria-selected="true" class="platform-btn shrink-0 px-3.5 py-2 rounded-lg bg-primary-container text-on-primary font-label-md text-label-md shadow-sm transition-colors flex items-center gap-1.5" data-tab="netlify" role="tab"><span class="material-symbols-outlined text-[16px]">layers</span><span class="">Netlify / Vercel</span></button><button aria-selected="false" class="platform-btn shrink-0 px-3.5 py-2 rounded-lg bg-surface-container text-ink-primary hover:bg-surface-container-high font-label-md text-label-md transition-colors flex items-center gap-1.5" data-tab="ovh" role="tab"><span class="material-symbols-outlined text-[16px]">hard_drive</span><span class="">OVH</span></button><button aria-selected="false" class="platform-btn shrink-0 px-3.5 py-2 rounded-lg bg-surface-container text-ink-primary hover:bg-surface-container-high font-label-md text-label-md transition-colors flex items-center gap-1.5" data-tab="cloudflare" role="tab"><span class="material-symbols-outlined text-[16px]">cloud</span><span class="">Cloudflare</span></button><button aria-selected="false" class="platform-btn shrink-0 px-3.5 py-2 rounded-lg bg-surface-container text-ink-primary hover:bg-surface-container-high font-label-md text-label-md transition-colors flex items-center gap-1.5" data-tab="apache" role="tab"><span class="material-symbols-outlined text-[16px]">dns</span><span class="">Autre (Apache / Nginx)</span></button></div>
+</div>
+<!-- Step 1 Card -->
+<div class="p-space-md rounded-xl bg-surface-container-lowest shadow-sm flex flex-col gap-space-xs mb-space-sm relative">
+<div class="flex items-start gap-space-sm">
+<span class="w-6 h-6 rounded-full bg-primary-fixed text-on-primary-fixed font-label-sm text-label-sm flex items-center justify-center shrink-0">1</span>
+<div class="flex flex-col">
+<h3 class="font-headline-sm text-headline-sm text-ink-primary">Localiser le fichier source</h3>
+<p class="font-body-md text-body-md text-ink-secondary mt-1" id="step-1-desc">
+            Localisez votre fichier de configuration d'en-têtes (<code class="font-code-md text-code-md px-1.5 py-0.5 rounded bg-surface-container-high text-primary font-bold">netlify.toml</code> ou <code class="font-code-md text-code-md px-1.5 py-0.5 rounded bg-surface-container-high text-primary font-bold">vercel.json</code>) situé à la racine du projet.
+          </p>
+</div>
+</div>
+</div>
+<!-- Step 2 Card & Dynamic Code Display -->
+<div class="p-space-md rounded-xl bg-surface-container-lowest shadow-sm flex flex-col gap-space-sm mb-space-md">
+<div class="flex items-start gap-space-sm">
+<span class="w-6 h-6 rounded-full bg-primary-fixed text-on-primary-fixed font-label-sm text-label-sm flex items-center justify-center shrink-0">2</span>
+<div class="flex flex-col flex-1">
+<h3 class="font-headline-sm text-headline-sm text-ink-primary">Ajouter la directive HSTS</h3>
+<p class="font-body-md text-body-md text-ink-secondary mt-1">
+            Collez la section suivante dans le bloc des en-têtes HTTP de votre hébergement :
+          </p>
+</div>
+</div>
+<!-- Code Snippet Box (Dark contrast plate) -->
+<div class="rounded-xl bg-inverse-surface text-inverse-on-surface p-space-sm flex flex-col gap-2 overflow-hidden shadow-inner">
+<div class="flex items-center justify-between pb-1">
+<div class="flex items-center gap-1.5">
+<span class="w-2.5 h-2.5 rounded-full bg-error"></span>
+<span class="w-2.5 h-2.5 rounded-full bg-status-warn-text"></span>
+<span class="w-2.5 h-2.5 rounded-full bg-blob-teal"></span>
+<span class="font-code-md text-code-md text-surface-variant/80 ml-2" id="code-file-label">netlify.toml</span>
+</div>
+<button class="px-2.5 py-1 rounded bg-inverse-surface/80 hover:bg-surface-variant/20 text-inverse-on-surface font-label-sm text-label-sm flex items-center gap-1 transition-colors active:scale-95" id="btn-copy-code" type="button">
+<span class="material-symbols-outlined text-[16px]" id="copy-icon">content_copy</span>
+<span id="copy-label" class="">Copier le code</span>
+</button>
+</div>
+<pre class="p-2.5 rounded-lg bg-on-background overflow-x-auto text-inverse-on-surface font-code-md text-code-md leading-relaxed selection:bg-primary-container"><code class="block font-code-md text-code-md whitespace-pre" id="code-block">[[headers]]
+  for = "/*"
+  [headers.values]
+    Strict-Transport-Security = "max-age=63072000; includeSubDomains; preload"</code></pre>
+</div>
+</div>
+<!-- Prerequisite Caution Warning Box -->
+<div class="p-space-md rounded-xl bg-status-warn-bg text-status-warn-text flex items-start gap-space-sm mb-space-md shadow-sm">
+<div class="w-7 h-7 rounded-full bg-status-warn-text/10 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[20px] text-status-warn-text">warning</span>
+</div>
+<div class="flex flex-col">
+<h4 class="font-label-md text-label-md text-status-warn-text font-bold">Validation préalable requise</h4>
+<p class="font-body-sm text-body-sm text-status-warn-text/90 mt-0.5 leading-snug">
+          Assurez-vous que votre certificat HTTPS est délivré et actif sur l'ensemble de vos sous-domaines (notamment <code class="font-code-md text-code-md">www</code> et APIs) avant d'activer <code class="font-code-md text-code-md font-bold">preload</code>.
+        </p>
+</div>
+</div>
+<!-- Quick Collaboration Alternative Tile -->
+<div class="p-space-md rounded-xl bg-surface-container-low flex flex-col gap-space-xs mb-space-md">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-[20px]">smart_toy</span>
+<h4 class="font-headline-sm text-headline-sm text-ink-primary">Délégation rapide</h4>
+</div>
+<p class="font-body-sm text-body-sm text-ink-secondary">
+        Transférez directement cette consigne technique ou transformez-la en prompt de correction prêt pour votre assistant de code.
+      </p>
+<div class="grid grid-cols-2 gap-space-xs pt-1">
+<button class="h-10 px-3 rounded-lg bg-surface-container-high hover:bg-surface-container-highest text-ink-primary font-label-sm text-label-sm flex items-center justify-center gap-1.5 transition-colors active:scale-95" id="btn-copy-prompt" type="button">
+<span class="material-symbols-outlined text-[16px]">terminal</span>
+<span class="">Générer prompt Fix</span>
+</button>
+<button class="h-10 px-3 rounded-lg bg-surface-container-high hover:bg-surface-container-highest text-ink-primary font-label-sm text-label-sm flex items-center justify-center gap-1.5 transition-colors active:scale-95" id="btn-share-dev" type="button">
+<span class="material-symbols-outlined text-[16px]">send</span>
+<span class="">Transférer au dev</span>
+</button>
+</div>
+</div>
+<!-- Visual illustration of safe HTTPS transport -->
+<div class="p-space-sm rounded-xl bg-surface-container-lowest shadow-sm flex items-center justify-between mb-space-sm">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-lg bg-status-good-bg text-status-good-text flex items-center justify-center">
+<span class="material-symbols-outlined text-[22px]">lock</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-ink-primary">Pré-chargement HSTS (Preload)</span>
+<span class="font-body-sm text-body-sm text-ink-secondary">Conforme à la liste HSTS Chromium &amp; Safari</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-primary text-[20px]">check_circle</span>
+</div>
+</div>
+<!-- Sticky Bottom Sheet Action Deck -->
+<div class="fixed bottom-0 left-0 right-0 z-40 bg-surface/90 backdrop-blur-xl px-gutter py-space-sm shadow-[0_-8px_32px_rgba(27,31,36,0.08)]">
+<div class="max-w-xl mx-auto flex flex-col gap-space-xs">
+<button class="w-full h-12 rounded-lg bg-primary-container text-on-primary font-label-md text-label-md flex items-center justify-center gap-2 active:scale-[0.99] transition-all shadow-md hover:brightness-105" id="btn-verify-now" type="button">
+<span class="material-symbols-outlined text-[20px]">sync_saved_locally</span>
+<span class="">Vérifier après modification</span>
+</button>
+<button class="w-full h-10 rounded-lg bg-transparent text-ink-secondary hover:text-ink-primary font-label-md text-label-md flex items-center justify-center transition-colors" id="btn-dismiss-sheet" type="button">
+        Fermer le guide
+      </button><div class="flex items-center justify-center gap-space-md pt-space-xs flex-wrap"><a href="#" class="text-primary-container font-label-md text-label-md hover:underline transition-all flex items-center gap-1" onclick="history.back(); return false;"><span class="">Retour au rapport</span><span aria-hidden="true" class="">→</span></a><button type="button" class="text-primary-container font-label-md text-label-md hover:underline transition-all flex items-center gap-1 bg-transparent border-0 p-0 cursor-pointer" onclick="document.getElementById('btn-copy-prompt')?.click()"><span class="">Générer le brief IA</span><span aria-hidden="true" class="">→</span></button><a href="#" class="text-primary-container font-label-md text-label-md hover:underline transition-all flex items-center gap-1"><span class="">Méthode</span><span aria-hidden="true" class="">→</span></a></div>
+</div>
+</div>
+</div>
+<script>
+  (function() {
+    const snippets = {
+      netlify: {
+        file: 'netlify.toml',
+        desc: 'Localisez votre fichier de configuration d\'en-têtes (netlify.toml ou vercel.json) situé à la racine du dépôt.',
+        code: `[[headers]]\n  for = "/*"\n  [headers.values]\n    Strict-Transport-Security = "max-age=63072000; includeSubDomains; preload"`
+      },
+      apache: {
+        file: '.htaccess ou virtualhost.conf',
+        desc: 'Ouvrez votre fichier .htaccess ou le VirtualHost SSL dans /etc/apache2/sites-available/.',
+        code: `<IfModule mod_headers.c>\n  Header always set Strict-Transport-Security "max-age=63072000; includeSubDomains; preload"\n</IfModule>`
+      },
+      nginx: {
+        file: 'nginx.conf ou default.conf',
+        desc: 'Éditez votre bloc server { listen 443 ssl; } dans la configuration de votre site.',
+        code: `server {\n    listen 443 ssl;\n    server_name example.com;\n    add_header Strict-Transport-Security "max-age=63072000; includeSubDomains; preload" always;\n}`
+      },
+      cloudflare: {
+        file: 'SSL/TLS > Edge Certificates',
+        desc: 'Accédez au tableau de bord Cloudflare > SSL/TLS > Certificats Edge > HSTS (HTTP Strict Transport Security).',
+        code: `# Configuration via Interface Cloudflare :\n- Enable HSTS: Activé\n- Max-Age: 2 ans (63072000s)\n- Include Subdomains: Oui\n- Preload: Oui`
+      },
+      ovh: {
+        file: 'www/.htaccess',
+        desc: 'Connectez-vous en FTP / SFTP sur votre hébergement mutualisé OVHcloud et éditez www/.htaccess.',
+        code: `Header set Strict-Transport-Security "max-age=63072000; includeSubDomains; preload"`
+      }
+    };
+
+    const tabs = document.querySelectorAll('.platform-btn');
+    const codeBlock = document.getElementById('code-block');
+    const codeFileLabel = document.getElementById('code-file-label');
+    const step1Desc = document.getElementById('step-1-desc');
+    const copyBtn = document.getElementById('btn-copy-code');
+    const copyIcon = document.getElementById('copy-icon');
+    const copyLabel = document.getElementById('copy-label');
+
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        tabs.forEach(t => {
+          t.setAttribute('aria-selected', 'false');
+          t.classList.remove('bg-primary-container', 'text-on-primary', 'shadow-sm');
+          t.classList.add('bg-surface-container', 'text-ink-primary');
+        });
+
+        tab.setAttribute('aria-selected', 'true');
+        tab.classList.remove('bg-surface-container', 'text-ink-primary');
+        tab.classList.add('bg-primary-container', 'text-on-primary', 'shadow-sm');
+
+        const key = tab.getAttribute('data-tab');
+        const data = snippets[key];
+        if (data && codeBlock) {
+          codeBlock.textContent = data.code;
+          if (codeFileLabel) codeFileLabel.textContent = data.file;
+          if (step1Desc) step1Desc.innerHTML = data.desc;
+        }
+      });
+    });
+
+    if (copyBtn && codeBlock) {
+      copyBtn.addEventListener('click', async () => {
+        try {
+          await navigator.clipboard.writeText(codeBlock.textContent);
+          copyIcon.textContent = 'check';
+          copyLabel.textContent = 'Copié !';
+          copyBtn.classList.add('bg-primary-container', 'text-on-primary');
+          setTimeout(() => {
+            copyIcon.textContent = 'content_copy';
+            copyLabel.textContent = 'Copier le code';
+            copyBtn.classList.remove('bg-primary-container', 'text-on-primary');
+          }, 2000);
+        } catch (e) {
+          copyLabel.textContent = 'Erreur';
+        }
+      });
+    }
+
+    const copyPromptBtn = document.getElementById('btn-copy-prompt');
+    if (copyPromptBtn) {
+      copyPromptBtn.addEventListener('click', async () => {
+        const promptText = `Tâche de correction de sécurité web Audigy :\nActiver l'en-tête HTTP Strict-Transport-Security (HSTS) avec max-age=63072000, includeSubDomains et preload sur notre serveur. Fournis le patch de configuration prêt à commit.`;
+        try {
+          await navigator.clipboard.writeText(promptText);
+          const orig = copyPromptBtn.innerHTML;
+          copyPromptBtn.innerHTML = '<span class="material-symbols-outlined text-[16px]">check</span><span>Prompt copié !</span>';
+          setTimeout(() => { copyPromptBtn.innerHTML = orig; }, 2000);
+        } catch (e) {}
+      });
+    }
+
+    const verifyBtn = document.getElementById('btn-verify-now');
+    if (verifyBtn) {
+      verifyBtn.addEventListener('click', () => {
+        verifyBtn.innerHTML = '<span class="material-symbols-outlined text-[20px] animate-spin">progress_activity</span><span>Vérification en direct...</span>';
+        setTimeout(() => {
+          verifyBtn.innerHTML = '<span class="material-symbols-outlined text-[20px]">check_circle</span><span>En-tête HSTS validé (+8 pts)</span>';
+          verifyBtn.classList.remove('bg-primary-container');
+          verifyBtn.classList.add('bg-primary');
+        }, 1200);
+      });
+    }
+
+    const dismissBtns = [document.getElementById('btn-close-modal'), document.getElementById('btn-dismiss-sheet')];
+    dismissBtns.forEach(btn => {
+      if (btn) {
+        btn.addEventListener('click', () => {
+          if (window.history.length > 1) {
+            window.history.back();
+          } else {
+            const container = btn.closest('.flex.flex-col');
+            if (container) container.style.opacity = '0.5';
+          }
+        });
+      }
+    });
+  })();
+</script><script>(function(){const toggle=document.getElementById('mobile-drawer-toggle');const drawer=document.getElementById('mobile-drawer');const close=document.getElementById('mobile-drawer-close');if(toggle&&drawer){toggle.addEventListener('click',()=>drawer.classList.remove('hidden'));}if(close&&drawer){close.addEventListener('click',()=>drawer.classList.add('hidden'));}if(drawer){drawer.addEventListener('click',(e)=>{if(e.target===drawer)drawer.classList.add('hidden');});}})();</script></main>
+
+
+
+
+
+</body></html>

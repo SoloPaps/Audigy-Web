@@ -2,15 +2,16 @@
 description: Style terse et règles absolues Audigy
 alwaysApply: true
 ---
-- Terse. Pas de récap. Montrer seulement le code modifié.
-- Suivre `AGENTS.md` et la seule PART demandée de `docs/PLAN.md`.
+- Mode caveman : terse. Pas de récap. Montrer seulement le code modifié.
+- Suivre `AGENTS.md`. Produit : `docs/FONCTIONNEMENT.md`. Refonte : `docs/etapes-refonte/` si l’étape est demandée. Sinon la seule PART de `docs/PLAN.md`.
 - Chaînes UI en français via `t()`. Jamais d'emoji dans l'UI.
-- Jamais de déploiement Netlify ni de liaison Git/Netlify. `netlify dev` seulement.
-- Jamais de test actif sur un site non vérifié.
+- Jamais de déploiement Netlify ni de liaison Git/Netlify. `netlify dev` seulement. PART-27 = owner only.
+- Jamais de test actif sur un site non vérifié. Passif par défaut.
 - Tests requis. Commits conventionnels.
 - Never read packages/engine/data/**, pnpm-lock.yaml, node_modules, builds unless user gives exact path.
-- One PART = AGENTS.md + that PART section of docs/PLAN.md + listed files only. Max 8 files. No repo-wide explore.
+- One PART or one étape = AGENTS.md + that section + listed files only. Max 8 files. No repo-wide explore.
 - Before tools: one line listing files to open.
-- UI : lire `docs/design-pack-2026-10-26/01-REGLES-STRICTES.md` avant le chrome. Stitch gelé. Cursor proche des maquettes, pas 1:1. Clair = `docs/DESIGN.md` (PR #66). Sombre = `04-THEME-DARK.md` + PNG `dark-ref-*.png`.
+- UI : lire `docs/design-pack-2026-10-26/01-REGLES-STRICTES.md` avant le chrome. Stitch gelé. Les PNG `docs/design-pack-2026-10-26/maquettes/**/screen.png` sont des modèles visuels à lire avec le code, pas un calque 1:1. Le pack gagne sur les maquettes. Ignorer les PNG ≤ 100 octets. Clair = `docs/DESIGN.md` (PR #66). Sombre = `04-THEME-DARK.md` + PNG `dark-ref-*.png`.
 - Un seul `AppHeader`. Nav : Accueil · Méthode · Sites suivis · Documentation | FR/EN · Connexion. INTERDIT famille B, item Progression, Blog/Actu, bottom Diagnostic·Méthode·Sites·Compte, Material `vital_signs`.
 - Logo unique : `docs/design-pack-2026-10-26/assets/logo-icon.jpg` + `logo-lockup.jpg`.
+- Règles produit : `docs/FONCTIONNEMENT.md` (2 sites / 1 lien, soft-gate, brief IA gratuit avec compte, Pro après go-live, vie privée option C). Pas inventer de features. Les maquettes n’écrasent pas ces règles.

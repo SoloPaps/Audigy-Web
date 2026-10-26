@@ -1,8 +1,10 @@
 # Audigy — spécification « Arc Soft »
 
+> **Archive (26 octobre 2026).** Décisions déjà appliquées sur `main`. Ce fichier n’est plus la source de vérité. Produit : [`docs/FONCTIONNEMENT.md`](../../../FONCTIONNEMENT.md). UI : [`docs/DESIGN.md`](../../../DESIGN.md) et le pack design. Ancien chemin : `docs/superpowers/`.
+
 Date : 24 octobre 2026. Statut : décisions verrouillées par le propriétaire. Ce document ne modifie pas l’application ni `docs/DESIGN.md`. Il décrit le redesign à réaliser **après** la fusion de PART-26 sur `main`.
 
-**Sombre gelé le 2026-10-26.** Les valeurs claires ci-dessous restent l’ancre Arc Soft (PR #66). Le dégradé sombre `#15181C` / `#1A2830` est remplacé par [`docs/design-pack-2026-10-26/04-THEME-DARK.md`](../../design-pack-2026-10-26/04-THEME-DARK.md) et [`docs/DESIGN.md`](../../DESIGN.md) §2.4. Ne pas relancer Stitch. Nav et logo : [`01-REGLES-STRICTES.md`](../../design-pack-2026-10-26/01-REGLES-STRICTES.md).
+**Sombre gelé le 2026-10-26.** Les valeurs claires ci-dessous restent l’ancre Arc Soft (PR #66). Le dégradé sombre `#15181C` / `#1A2830` est remplacé par [`docs/design-pack-2026-10-26/04-THEME-DARK.md`](../../../design-pack-2026-10-26/04-THEME-DARK.md) et [`docs/DESIGN.md`](../../../DESIGN.md) §2.4. Ne pas relancer Stitch. Nav et logo : [`01-REGLES-STRICTES.md`](../../../design-pack-2026-10-26/01-REGLES-STRICTES.md).
 
 Décisions verrouillées :
 

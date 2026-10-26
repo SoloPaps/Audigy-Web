@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+
+<html lang="fr"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><meta content="mobile_stack" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:ital,wght@0,400;0,600;0,700;1,400&amp;family=JetBrains+Mono:wght@500&amp;family=Outfit:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{width:100vw;min-height:100vh;margin:0;padding:0;}body{overscroll-behavior-y:none;-webkit-font-smoothing:antialiased;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { colors: { "primary": "#004342", "on-surface": "#1b1c1a", "on-primary-fixed-variant": "#00504e", "blob-teal": "#9FCFCB", "secondary-container": "#78acff", "blob-peach": "#F3C7B4", "on-tertiary-container": "#ffb49c", "primary-fixed": "#abefeb", "status-warn-bg": "#FBF0DE", "on-surface-variant": "#3f4948", "surface-tint": "#226866", "secondary-fixed-dim": "#a8c8ff", "status-neutral-text": "#5F6672", "ink-primary": "#1B1F24", "paper-base": "#FAF8F4", "surface-container": "#efeeea", "surface-container-highest": "#e4e2de", "on-tertiary-fixed": "#390c00", "surface-bright": "#fbf9f5", "inverse-on-surface": "#f2f0ed", "paper-end": "#D7E7F2", "secondary-fixed": "#d6e3ff", "status-bad-bg": "#FBE7E5", "on-secondary": "#ffffff", "on-secondary-fixed-variant": "#00468a", "outline": "#6f7978", "on-background": "#1b1c1a", "surface-container-high": "#eae8e4", "surface-container-lowest": "#ffffff", "error-container": "#ffdad6", "error": "#ba1a1a", "on-primary-container": "#8fd2cf", "on-tertiary": "#ffffff", "line-border": "#E3DED5", "inverse-surface": "#30312e", "status-good-bg": "#E6EEF8", "on-secondary-container": "#003f7d", "status-good-text": "#1F5FAD", "on-error": "#ffffff", "primary-container": "#0f5c5a", "primary-fixed-dim": "#90d2cf", "on-error-container": "#93000a", "tertiary-fixed": "#ffdbd0", "status-warn-text": "#9A5800", "on-primary": "#ffffff", "status-neutral-bg": "#F1F1EF", "surface-container-low": "#f5f3ef", "status-bad-text": "#B3261E", "surface-dim": "dbdad6", "tertiary-container": "#972d00", "surface": "#fbf9f5", "outline-variant": "#bec8c7", "tertiary-fixed-dim": "#ffb59d", "ink-secondary": "#4A5260", "on-tertiary-fixed-variant": "#832600", "focus-ring": "#C2410C", "tertiary": "#6f1f00", "surface-glass": "rgba(255, 255, 255, 0.64)", "blob-lilac": "#E3D4F0", "on-secondary-fixed": "#001b3d", "on-primary-fixed": "#00201f", "surface-variant": "#e4e2de", "surface-solid": "#FFFFFF", "background": "#fbf9f5", "inverse-primary": "#90d2cf", "secondary": "#1d5eac" }, borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, spacing: { "margin": "1.5rem", "space-md": "1rem", "gutter": "1rem", "space-xs": "0.25rem", "space-lg": "1.5rem", "space-xl": "2rem", "space-sm": "0.5rem" }, fontFamily: { "code-md": ["JetBrains Mono"], "headline-md": ["Atkinson Hyperlegible Next"], "body-sm": ["Atkinson Hyperlegible Next"], "display-hero": ["Outfit"], "label-sm": ["Atkinson Hyperlegible Next"], "body-lg": ["Atkinson Hyperlegible Next"], "headline-lg": ["Outfit"], "label-md": ["Atkinson Hyperlegible Next"], "headline-sm": ["Atkinson Hyperlegible Next"], "display-hero-mobile": ["Outfit"], "body-md": ["Atkinson Hyperlegible Next"] }, fontSize: { "code-md": ["13px", { "lineHeight": "20px", "fontWeight": "500" }], "headline-md": ["22px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "700" }], "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }], "display-hero": ["40px", { "lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "label-sm": ["12px", { "lineHeight": "16px", "letterSpacing": "0.04em", "fontWeight": "600" }], "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }], "headline-lg": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.015em", "fontWeight": "600" }], "label-md": ["14px", { "lineHeight": "18px", "fontWeight": "600" }], "headline-sm": ["18px", { "lineHeight": "24px", "fontWeight": "700" }], "display-hero-mobile": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700" }], "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }] } } } };</script><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head><body class="bg-gradient-to-b from-paper-base via-surface to-paper-end text-on-surface font-body-md text-body-md flex flex-col min-h-screen relative overflow-x-hidden"><div class="fixed inset-0 pointer-events-none overflow-hidden z-0"><div class="absolute -top-24 -left-20 w-80 h-80 rounded-full bg-blob-teal/35 blur-3xl"></div><div class="absolute top-1/3 -right-24 w-88 h-88 rounded-full bg-blob-peach/30 blur-3xl"></div><div class="absolute -bottom-24 left-1/4 w-96 h-96 rounded-full bg-blob-lilac/30 blur-3xl"></div></div><header class="fixed top-0 w-full z-50 pt-safe bg-surface-glass backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 px-space-md flex items-center justify-between"><div class="flex items-center gap-space-sm"><button aria-label="Retour" class="min-w-[44px] min-h-[44px] -ml-2 rounded-full flex items-center justify-center text-ink-primary hover:bg-surface-container-high/60 transition-colors" onclick="history.back()" type="button"><span class="material-symbols-outlined text-[22px]">arrow_back</span></button><div class="flex items-center gap-2"><div class="w-7 h-7 rounded-lg bg-primary flex items-center justify-center shadow-sm"><span class="material-symbols-outlined text-on-primary text-[16px]">vital_signs</span></div><h1 class="font-headline-sm text-headline-sm text-ink-primary truncate max-w-[130px]">Remediation Modal Step</h1></div></div><div class="flex items-center gap-space-sm"><div class="flex items-center bg-surface-container-high/80 rounded-full p-0.5 backdrop-blur-md"><button class="min-w-[32px] h-7 px-2 rounded-full font-label-sm text-label-sm bg-surface-solid text-primary shadow-sm font-semibold transition-all" type="button">FR</button><button class="min-w-[32px] h-7 px-2 rounded-full font-label-sm text-label-sm text-ink-secondary hover:text-ink-primary transition-all" type="button">EN</button></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="flex-1 flex flex-col relative z-10 w-full max-w-[720px] mx-auto px-space-md pt-16 pb-safe"><div class="flex flex-col w-full pb-12 space-y-5">
+<!-- En-tête de section -->
+<section class="flex flex-col pt-1 px-1">
+<div class="inline-flex items-center gap-1.5 self-start px-2.5 py-1 rounded-full bg-surface-container-high/80 backdrop-blur-md mb-2.5">
+<span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
+<span class="font-label-sm text-label-sm text-ink-secondary tracking-wide uppercase">Espace utilisateur &amp; Support</span>
+</div>
+<h1 class="font-display-hero-mobile text-display-hero-mobile text-ink-primary leading-tight">
+      Votre compte &amp; Contact
+    </h1>
+<p class="font-body-md text-body-md text-ink-secondary mt-1.5 leading-relaxed">
+      Gérez vos données personnelles, l'export de vos rapports et contactez directement l'équipe technique Audigy.
+    </p>
+</section>
+<!-- 1. Carte Identité connectée -->
+<div class="rounded-xl bg-surface-solid/70 backdrop-blur-xl p-5 shadow-[0_18px_48px_rgba(27,31,36,0.06)] relative overflow-hidden">
+<div class="flex items-start justify-between gap-3">
+<div class="flex items-center gap-3">
+<div class="w-11 h-11 rounded-xl bg-surface-container-high flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-primary text-[24px]">verified_user</span>
+</div>
+<div class="min-w-0">
+<div class="flex items-center gap-2">
+<span class="font-headline-sm text-headline-sm text-ink-primary truncate">alexis95120@gmail.com</span>
+</div>
+<p class="font-body-sm text-body-sm text-ink-secondary mt-0.5">Compte actif sans mot de passe (Magic link) v1.4 SSO</p>
+</div>
+</div>
+<div class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-status-good-bg text-status-good-text shrink-0">
+<span class="w-1.5 h-1.5 rounded-full bg-status-good-text"></span>
+<span class="font-label-sm text-label-sm font-semibold">Actif</span>
+</div>
+</div>
+<div class="mt-4 pt-3.5 flex items-center justify-between">
+<span class="font-body-sm text-body-sm text-ink-secondary">Session chiffrée de bout en bout</span>
+<button class="min-h-[40px] px-3.5 rounded-lg bg-surface-container-high hover:bg-surface-container-highest text-ink-primary font-label-md text-label-md flex items-center gap-1.5 transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">logout</span>
+<span>Se déconnecter</span>
+</button>
+</div>
+</div>
+<!-- 2. Carte Acceptation des conditions -->
+<div class="rounded-xl bg-surface-solid/70 backdrop-blur-xl p-5 shadow-[0_18px_48px_rgba(27,31,36,0.06)] space-y-4">
+<div class="flex items-start gap-3">
+<div class="w-10 h-10 rounded-lg bg-status-good-bg flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-status-good-text text-[22px]">policy</span>
+</div>
+<div class="flex-1 min-w-0">
+<h2 class="font-headline-sm text-headline-sm text-ink-primary">Conditions &amp; Traitements</h2>
+<p class="font-body-sm text-body-sm text-ink-secondary mt-0.5">
+          Conditions version 2026.1 : acceptées le 24 oct. 2026
+        </p>
+<button class="inline-flex items-center gap-1 font-label-sm text-label-sm text-secondary hover:underline mt-1" type="button">
+<span>Lire les conditions d'utilisation</span>
+<span class="material-symbols-outlined text-[14px]">open_in_new</span>
+</button>
+</div>
+</div>
+<label class="flex items-start gap-3 p-3 rounded-lg bg-surface-container-low/80 cursor-pointer select-none">
+<input checked="" class="mt-1 w-4 h-4 rounded text-primary accent-primary focus:ring-focus-ring shrink-0" type="checkbox"/>
+<span class="font-body-sm text-body-sm text-ink-primary leading-snug">
+        J'accepte expressément le traitement anonymisé de mes audits à des fins statistiques ouvertes et conformes RGAA/GreenIT.
+      </span>
+</label>
+<div class="flex justify-end">
+<button class="min-h-[42px] px-4 rounded-lg bg-surface-container-high hover:bg-surface-container-highest text-ink-primary font-label-md text-label-md flex items-center gap-2 transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">check_circle</span>
+<span>Mettre à jour l'acceptation</span>
+</button>
+</div>
+</div>
+<!-- 3. Carte Export et portabilité RGPD -->
+<div class="rounded-xl bg-surface-solid/70 backdrop-blur-xl p-5 shadow-[0_18px_48px_rgba(27,31,36,0.06)] space-y-3.5">
+<div class="flex items-start gap-3">
+<div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-primary text-[22px]">database</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center gap-2 flex-wrap">
+<h2 class="font-headline-sm text-headline-sm text-ink-primary">Export et portabilité</h2>
+<span class="font-label-sm text-label-sm px-2 py-0.5 rounded bg-surface-container text-ink-secondary">Article 20 RGPD</span>
+</div>
+<p class="font-body-sm text-body-sm text-ink-secondary mt-1">
+          Téléchargez une archive brute de vos scans, journaux de télémétrie et synthèses d'accessibilité numérique.
+        </p>
+</div>
+</div>
+<div class="flex items-center justify-between p-3.5 rounded-lg bg-surface-container-low/70">
+<div class="flex items-center gap-2.5 min-w-0">
+<span class="material-symbols-outlined text-ink-secondary text-[22px]">data_object</span>
+<div class="min-w-0">
+<p class="font-code-md text-code-md text-ink-primary truncate font-medium">audigy_export_2026.json</p>
+<p class="font-body-sm text-body-sm text-ink-secondary">~ 142 Ko · Format standardisé W3C/OpenData</p>
+</div>
+</div>
+<button class="min-h-[42px] px-4 rounded-lg bg-primary-container text-on-primary font-label-md text-label-md flex items-center gap-1.5 shrink-0 shadow-sm active:scale-98 transition-all" type="button">
+<span class="material-symbols-outlined text-[18px]">download</span>
+<span>Exporter JSON</span>
+</button>
+</div>
+</div>
+<!-- 4. Aperçu du tableau de bord v1.4 -->
+<div class="rounded-xl bg-surface-solid/70 backdrop-blur-xl p-5 shadow-[0_18px_48px_rgba(27,31,36,0.06)] space-y-3">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]">devices</span>
+<h2 class="font-headline-sm text-headline-sm text-ink-primary">Aperçu du tableau de bord v1.4</h2>
+</div>
+<span class="font-code-md text-code-md px-2 py-0.5 rounded-full bg-surface-container text-ink-secondary">v1.4 SSO</span>
+</div>
+<div class="relative w-full h-44 rounded-lg overflow-hidden bg-inverse-surface shadow-inner">
+<img class="w-full h-full object-cover opacity-90" data-alt="A dark-mode high-fidelity diagnostic dashboard screen for website accessibility and eco-index auditing. Dark charcoal background with subtle cyan and teal data telemetry charts, strict tabular numbers, clean monospace code diagnostics, editorial sans-serif metrics, frosted panels, and zero synthetic blur. Modern software product interface in clean European design." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDbh2bJbJHEMk9ybufwGbTjqDSIQgUE29Yawe-VQZBg93wAH2XjM2v4hvvDS_tPhwbMRpKX8oNMmzlyo95YTZX_Czcs-Y5dqF21lEI_hRtzjQ7tKLo7icHVsbWE488Mj_idyOdiFQU44Y6w6RJ6kGCWBQKitKRaVHSgH27Y2IncCY9nRnSuDzV8x8UeQD4WcIqz6Kk86f9-EBpi6bmw-iv8kxKeQ0ln5UAwHbGB448Y7tksQUyWj7g5VA"/>
+<div class="absolute inset-0 bg-gradient-to-t from-inverse-surface/90 via-transparent to-transparent flex items-end p-3.5">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary-fixed-dim text-[18px]">shield</span>
+<p class="font-label-sm text-label-sm text-inverse-on-surface">Console d'investigation temps réel sans traqueur tiers</p>
+</div>
+</div>
+</div>
+<p class="font-body-sm text-body-sm text-ink-secondary leading-relaxed">
+      Audigy ne pose aucun cookie publicitaire et n'utilise pas de solution tierce de profilage. Vos rapports sont sauvegardés localement ou sur infrastructure souveraine française.
+    </p>
+</div>
+<!-- 5. Carte Contact & Assistance -->
+<div class="rounded-xl bg-surface-solid/70 backdrop-blur-xl p-5 shadow-[0_18px_48px_rgba(27,31,36,0.06)] space-y-4">
+<div class="flex items-start justify-between gap-3">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-surface-container-high flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-primary text-[22px]">support_agent</span>
+</div>
+<div>
+<h2 class="font-headline-sm text-headline-sm text-ink-primary">Contact &amp; Assistance</h2>
+<p class="font-body-sm text-body-sm text-ink-secondary">Support direct aux auditeurs &amp; développeurs</p>
+</div>
+</div>
+<span class="font-label-sm text-label-sm px-2.5 py-1 rounded-full bg-status-good-bg text-status-good-text shrink-0 font-medium">
+        Réponse sous 48h ouvrées
+      </span>
+</div>
+<!-- Canal direct -->
+<div class="flex items-center justify-between p-3 rounded-lg bg-surface-container-low/70">
+<div class="flex items-center gap-2 min-w-0">
+<span class="material-symbols-outlined text-ink-secondary text-[20px]">mail</span>
+<span class="font-code-md text-code-md text-ink-primary truncate font-semibold">AudigyWeb@outlook.fr</span>
+</div>
+<button class="font-label-sm text-label-sm text-primary hover:underline shrink-0 flex items-center gap-1" onclick="navigator.clipboard?.writeText('AudigyWeb@outlook.fr')" type="button">
+<span class="material-symbols-outlined text-[16px]">content_copy</span>
+<span>Copier</span>
+</button>
+</div>
+<!-- Formulaire rapide -->
+<form class="space-y-3 pt-1" onsubmit="event.preventDefault();">
+<div class="space-y-1">
+<label class="font-label-md text-label-md text-ink-primary block" for="contact-topic">
+          Motif de la demande
+        </label>
+<div class="relative">
+<select class="w-full min-h-[44px] px-3 pr-8 rounded-lg bg-surface-container-high/70 text-ink-primary font-body-sm text-body-sm focus:outline-none focus:ring-2 focus:ring-focus-ring appearance-none" id="contact-topic">
+<option>Question sur un diagnostic de sécurité</option>
+<option>Signalement d'un faux-positif RGAA</option>
+<option>Assistance sur l'export JSON / API</option>
+<option>Facturation &amp; abonnement équipe</option>
+<option>Autre question technique</option>
+</select>
+<span class="material-symbols-outlined text-[20px] text-ink-secondary absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none">expand_more</span>
+</div>
+</div>
+<div class="space-y-1">
+<label class="font-label-md text-label-md text-ink-primary block" for="contact-msg">
+          Détaillez votre demande...
+        </label>
+<textarea class="w-full p-3 rounded-lg bg-surface-container-high/70 text-ink-primary placeholder:text-ink-secondary/60 font-body-sm text-body-sm focus:outline-none focus:ring-2 focus:ring-focus-ring resize-none" id="contact-msg" placeholder="Précisez l'URL analysée, la règle concernée ou votre question..." rows="3"></textarea>
+</div>
+<button class="w-full min-h-[44px] rounded-lg bg-primary hover:bg-primary-container text-on-primary font-label-md text-label-md font-semibold flex items-center justify-center gap-2 transition-colors active:scale-98" type="submit">
+<span class="material-symbols-outlined text-[18px]">send</span>
+<span>Envoyer mon message</span>
+</button>
+</form>
+</div>
+<!-- 6. Carte Zone de danger -->
+<div class="rounded-xl bg-status-bad-bg/60 backdrop-blur-xl p-5 shadow-[0_18px_48px_rgba(27,31,36,0.06)] space-y-3">
+<div class="flex items-start justify-between gap-2">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-status-bad-text text-[22px]">warning</span>
+<h2 class="font-headline-sm text-headline-sm text-status-bad-text">Zone de danger</h2>
+</div>
+<span class="font-label-sm text-label-sm font-semibold px-2 py-0.5 rounded bg-error-container text-on-error-container">
+        Irréversible
+      </span>
+</div>
+<p class="font-body-sm text-body-sm text-ink-primary leading-relaxed">
+      La suppression de votre compte supprime immédiatement et définitivement l'ensemble des historiques de scan, vos métriques comparatives et vos tokens de télémétrie. Cette action est irréversible.
+    </p>
+<div class="pt-1">
+<button class="w-full min-h-[44px] rounded-lg bg-error hover:bg-status-bad-text text-on-error font-label-md text-label-md font-semibold flex items-center justify-center gap-2 transition-colors active:scale-98" type="button">
+<span class="material-symbols-outlined text-[18px]">delete_forever</span>
+<span>Supprimer mon compte</span>
+</button>
+</div>
+</div>
+<!-- 7. Footer complet Audigy -->
+<footer class="pt-6 pb-2 space-y-4">
+<div class="flex items-center justify-between p-3.5 rounded-xl bg-surface-solid/60 backdrop-blur-md">
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-status-good-text"></span>
+<span class="font-label-md text-label-md text-ink-primary font-semibold">Sonde active 24/7</span>
+</div>
+<span class="font-code-md text-code-md text-ink-secondary">99.98% disponibilité</span>
+</div>
+<div class="flex flex-wrap gap-x-4 gap-y-2 justify-center font-body-sm text-body-sm text-ink-secondary">
+<a class="hover:text-ink-primary transition-colors" href="#">Documentation</a>
+<span>·</span>
+<a class="hover:text-ink-primary transition-colors" href="#">Méthodologie GreenIT</a>
+<span>·</span>
+<a class="hover:text-ink-primary transition-colors" href="#">RGAA 4.1.2</a>
+<span>·</span>
+<a class="hover:text-ink-primary transition-colors" href="#">Mentions légales</a>
+<span>·</span>
+<a class="hover:text-ink-primary transition-colors" href="#">Politique de confidentialité</a>
+</div>
+<div class="text-center font-label-sm text-label-sm text-ink-secondary/80">
+      Audigy Diagnostic Platform © 2026 — Hébergé sur infrastructure souveraine en France.
+    </div>
+</footer>
+</div></main></body></html>
