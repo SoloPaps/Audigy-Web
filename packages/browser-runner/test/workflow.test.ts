@@ -6,7 +6,7 @@ const file = new URL(
   '../../../.github/workflows/browser-audit.yml',
   import.meta.url,
 );
-const text = await readFile(file, 'utf8');
+const text = (await readFile(file, 'utf8')).replace(/\r\n/g, '\n');
 const OPEN = `$\{{`;
 const expr = (inner: string) => `${OPEN} ${inner} }}`;
 
@@ -56,6 +56,16 @@ describe('workflow browser-audit.yml', () => {
     expect(text).toContain(`AUDIT_ID: ${expr('inputs.auditId')}`);
     expect(text).toMatch(/\[\[ "\$AUDIT_ID" =~ \^\[0-9a-fA-F\]\{8\}-/);
     expect(text).toContain('run job "$AUDIT_ID"');
+  });
+
+  it('lit les scripts même si le checkout est en CRLF', () => {
+    const crlf = text.replace(/\n/g, '\r\n');
+    expect(crlf).toContain('\r\n');
+    const scripts = runScripts(crlf.replace(/\r\n/g, '\n'));
+    expect(scripts.length).toBeGreaterThanOrEqual(3);
+    expect(
+      scripts.some((script) => script.includes('run job "$AUDIT_ID"')),
+    ).toBe(true);
   });
 
   it('lit les secrets par leur nom seulement, sans déploiement', () => {

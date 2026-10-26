@@ -78,7 +78,7 @@ describe('causeOfFinding', () => {
 
   it('garde la phrase déjà rédigée, ou rien si la raison manque', () => {
     expect(causeOfFinding(row('reason.timeout', { seconds: 20 }))?.text).toBe(
-      'Nous n’avons pas pu tester : le test a dépassé 20 s.',
+      'Non testé : le test a dépassé 20 s.',
     );
     expect(causeOfFinding(row('reason.error'))?.text).toContain('erreur');
     expect(causeOfFinding(row(null))).toBeNull();

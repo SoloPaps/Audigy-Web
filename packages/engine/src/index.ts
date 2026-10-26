@@ -25,12 +25,15 @@
  *   (adresse puis origine), stockés dans `ctx.shared` (`psi`, `crux`).
  * - `ACCESSIBILITE_CHECKS` : accès. Lighthouse lit `categories.accessibility`
  *   dans le lot `psi` de PART-07. Sans clé : Non testé (`missing_key`), sans appel.
+ *   `accessibilite.axe` lit la sortie navigateur. Sans runner : Non testé.
+ *   Ce n’est pas un audit RGAA complet.
  * - `SEO_CHECKS` : référencement. Lighthouse SEO lit le lot `psi` de PART-07.
  *   `robots.txt` et le plan du site sont hors portée quand l’audit est un chemin.
  *   Search Console (`needs: ['gsc']`) lit `ctx.net.gsc`. Sans jeton : Non testé.
  * - `ECOLOGIE_CHECKS` : EcoIndex, CO2.js (SWD v4), annuaire Green Web, sous-ensemble
  *   RGESN. Le poids et les requêtes viennent du même artefact PSI. Les chiffres sont
- *   des estimations. `parseRgesnResponses` valide le questionnaire (pas d’interface).
+ *   des estimations. `parseRgesnResponses` valide le questionnaire. Une question
+ *   sans réponse est absente, pas un échec.
  * - `QUALITE_CHECKS` : parcours borné (50 pages, robots, portée), liens internes
  *   et externes, HTML essentiel, images (poids, dimensions, format).
  * - `googleApiKey`, `withGoogleApi` : clé `GOOGLE_API_KEY` et client `@audigy/net`.
@@ -53,6 +56,13 @@ export {
   type AccessibiliteCheckOptions,
   createAccessibiliteChecks,
 } from '../checks/accessibilite/index.js';
+export {
+  createDisponibiliteChecks,
+  DISPONIBILITE_CHECKS,
+  judgeUptime,
+  UPTIME_KEY,
+  type UptimeSample,
+} from '../checks/disponibilite/uptime.js';
 export { DKIM_SELECTORS, DNS_EMAIL_CHECKS } from '../checks/dns_email/index.js';
 export {
   CO2_LIBRARY,

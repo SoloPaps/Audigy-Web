@@ -88,6 +88,22 @@ export function supabaseAuditStore(
 
     writeResults: (input) => writeAuditResults(service, input),
 
+    async readUptime(siteId) {
+      const { data, error } = await service
+        .from('uptime_daily')
+        .select('checks, failures')
+        .eq('site_id', siteId);
+      if (error) throw new Error('uptime_read_failed');
+      let checks = 0;
+      let failures = 0;
+      for (const row of data ?? []) {
+        checks += row.checks;
+        failures += row.failures;
+      }
+      if (checks <= 0) return null;
+      return { checks, failures };
+    },
+
     async readRunnerOutput(auditId) {
       const storagePath = browserResultsPath(auditId);
       const { data: rows, error } = await service

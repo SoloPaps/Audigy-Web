@@ -16,6 +16,11 @@ Au 25 octobre 2026 :
 - Sans navigateur d’audit, chaque test de vie privée a sa phrase et la note reste absente.
 - Le rapport montre le score et les priorités, le détail est replié, et chaque constat catalogué lie `/methode`.
 - L’avancement donne une fourchette de minutes et une phase : file, DNS, pages, vie privée.
+- L’accès automatique (axe) entre dans le score d’accessibilité quand le navigateur d’audit a tourné. Sans lui : Non testé. Ce n’est pas un audit RGAA complet.
+- La disponibilité affiche un pourcentage de sondes, hors score global, ou Non testé.
+- Le questionnaire d’écoconception est sur `/ecoconception`. Une question vide n’est pas un échec.
+- L’anglais se charge à la demande. Le français reste la langue des pages statiques. Pas de troisième langue.
+- La barre de brief n’est pas collée à l’écran : elle cacherait les constats.
 
 Le déploiement Netlify de production est une action manuelle, une seule fois, réservée au propriétaire, après PART-26. La checklist est dans [`docs/PLAN.md`](docs/PLAN.md) (section « PART-27 — Déploiement unique final » et §14). En développement, seul `netlify dev` est autorisé : pas de `netlify deploy`, pas de liaison Git, pas de deploy preview, pas de branch deploy.
 

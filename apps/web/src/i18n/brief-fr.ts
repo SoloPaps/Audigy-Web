@@ -46,6 +46,8 @@ export const briefFr = {
   'brief.count.one': '1 sélectionné',
   'brief.count.many': '{n} sélectionnés',
   'brief.allFails': 'Tous les échecs',
+  'brief.allVerif': 'Tous en vérif',
+  'brief.allFix': 'Tous en fix',
   'brief.generate': 'Générer le brief',
   'brief.generate.hint': 'Cochez un constat, ou prenez tous les échecs.',
   'brief.none': 'Aucun constat à corriger',

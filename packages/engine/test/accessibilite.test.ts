@@ -1,6 +1,11 @@
 import { readdirSync, readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import {
+  BROWSER_SHARED_KEY,
+  type BrowserAuditResult,
+  BrowserAuditResultSchema,
+} from '@audigy/browser-runner/schema';
+import {
   createRequestBudget,
   type DohResolver,
   type ExternalApi,
@@ -10,7 +15,9 @@ import {
 } from '@audigy/net';
 import { describe, expect, it } from 'vitest';
 import { fr, type MessageKey } from '../../../apps/web/src/i18n/fr.js';
+import { reportLine } from '../../../apps/web/src/i18n/report-fr.js';
 import { failureCount, lintText } from '../../../scripts/copy-lint.js';
+import { judgeAxe } from '../checks/accessibilite/axe.js';
 import {
   ACCESSIBILITE_CHECKS,
   createAccessibiliteChecks,
@@ -150,9 +157,10 @@ describe('registre Accès', () => {
   it('expose un check passif qui lit le lot PSI', () => {
     expect(ACCESSIBILITE_CHECKS.map((item) => item.id)).toEqual([
       'accessibilite.lighthouse',
+      'accessibilite.axe',
     ]);
     const registry = createRegistry(ACCESSIBILITE_CHECKS);
-    expect(registry.list({ domain: 'accessibilite' })).toHaveLength(1);
+    expect(registry.list({ domain: 'accessibilite' })).toHaveLength(2);
     expect(registry.list({ mode: 'active' })).toHaveLength(0);
     expect(check.mode).toBe('passive');
     expect(check.domain).toBe('accessibilite');
@@ -395,5 +403,92 @@ describe('textes, fiche et méthode', () => {
     expect(methode).toContain(
       '| accessibilite.lighthouse | 3 | Les deux scores sont là, et le plus faible vaut au moins 80. |',
     );
+  });
+});
+
+function axeRule(id: string) {
+  return {
+    id,
+    impact: 'serious' as const,
+    tags: ['wcag2aa'],
+    help: 'Le bouton n’a pas de nom.',
+    helpUrl: 'https://exemple.test/axe',
+    nodeCount: 1,
+    nodes: [{ target: ['button'], html: '<button></button>' }],
+  };
+}
+
+function withAxe(
+  violations: ReturnType<typeof axeRule>[],
+  incomplete: ReturnType<typeof axeRule>[] = [],
+): BrowserAuditResult {
+  const raw = JSON.parse(
+    readFileSync(
+      fileURLToPath(
+        new URL('../../browser-runner/fixtures/clean.json', import.meta.url),
+      ),
+      'utf8',
+    ),
+  ) as unknown;
+  const report = BrowserAuditResultSchema.parse(raw);
+  report.axe = {
+    version: '4.10.0',
+    url: 'https://exemple.test/',
+    violations,
+    incomplete,
+    passes: ['document-title'],
+    inapplicable: [],
+  };
+  report.rgaa = {
+    version: '4.1',
+    criteriaTotal: 106,
+    criteriaMapped: 2,
+    coverage: 'partial',
+    criteria: [
+      {
+        id: '1.1',
+        status: violations.length > 0 ? 'fail' : 'passed_auto',
+        rules: ['button-name'],
+        failedRules: violations.map((rule) => rule.id),
+      },
+    ],
+  };
+  return report;
+}
+
+describe('accessibilite.axe', () => {
+  const axe = ACCESSIBILITE_CHECKS[1] as Check;
+
+  it('reste non testé sans navigateur, et montre les écarts sans RGAA complet', async () => {
+    const { ctx } = context({
+      async request() {
+        return { status: 200, text: '' };
+      },
+    });
+    const [missing] = await runChecks([axe], ctx, {
+      available: ['http', 'dns', 'tls', 'browser'],
+    });
+    expect(missing?.result.messageKey).toBe('accessibilite.axe.untested');
+    expect(missing?.result.status).toBe('untested');
+    expect(reportLine('accessibilite.axe.untested')).toContain('navigateur');
+
+    await ctx.shared.get(BROWSER_SHARED_KEY, async () =>
+      withAxe([axeRule('button-name')]),
+    );
+    const [failed] = await runChecks([axe], ctx, {
+      available: ['http', 'dns', 'tls', 'browser'],
+    });
+    expect(failed?.result.status).toBe('fail');
+    expect(failed?.result.messageKey).toBe('accessibilite.axe.fail');
+    expect(failed?.result.params?.rules).toBe('button-name');
+    expect(failed?.result.measured).toMatchObject({ coverage: 'partial' });
+    expect(reportLine('accessibilite.axe.fail')).toContain('RGAA complet');
+
+    const passed = judgeAxe(withAxe([]));
+    expect(passed.status).toBe('pass');
+    expect(passed.score).toBe(1);
+    const warned = judgeAxe(withAxe([], [axeRule('color-contrast')]));
+    expect(warned.status).toBe('warn');
+    expect(warned.params?.rules).toBe('color-contrast');
   });
 });

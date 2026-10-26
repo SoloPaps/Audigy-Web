@@ -1,0 +1,12 @@
+---
+import RgesnForm from '../components/RgesnForm.svelte';
+import { tReport } from '../i18n/report-fr.js';
+import Base from '../layouts/Base.astro';
+---
+
+<Base title={tReport('rgesn.screen.title')} description={tReport('rgesn.screen.lead')}>
+  <article class="reading">
+    <h1>{tReport('rgesn.screen.title')}</h1>
+    <RgesnForm client:load />
+  </article>
+</Base>

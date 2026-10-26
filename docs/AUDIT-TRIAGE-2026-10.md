@@ -321,3 +321,14 @@ Ne pas mélanger un correctif P0 et un polish motion dans la même PR.
 - Nouvelle langue au-delà de trois, refonte de `docs/DESIGN.md`, tokens ou mise en page décrits dans cette PR.
 - Ouvrir `packages/engine/data/trackers/`, `domains.txt`, `signatures.json` pour « vérifier » la liste. La méthode cite déjà le commit Tracker Radar.
 - Exploit, test actif sur un site non revérifié, soumission de formulaire, charge utile.
+
+## 9. Vague « reste » (après #58)
+
+Livré dans le code, hors de la PR #58 :
+
+- P3.4 : check `accessibilite.axe`, branché sur la sortie navigateur. Sans runner : Non testé. Avec axe : écarts visibles. Le texte dit que ce n’est pas un audit RGAA complet. Couverture mesurée : partielle.
+- P3.5 : `disponibilite.uptime` lit les sondes `uptime_daily`. Hors score global. Sans sonde : Non testé, pas de pourcentage inventé.
+- P3.6 : page `/ecoconception`. Une réponse vide n’est pas un échec et n’est pas un « non ». Les réponses restent dans le navigateur.
+- P2.2 : le rapport entre avec le mouvement déjà prévu (entrée 240 ms, jauge 400 ms), coupé par `prefers-reduced-motion`. Pas de nouvelle couleur.
+- P3.3 : français par défaut, anglais via `t()` après chargement de `/dictionnaire-en.json`. Pas de troisième langue. Les pages statiques et le brief restent en français.
+- P2.4 : non fait. Une barre sticky masquerait les constats. Le sélecteur reste dans le flux.

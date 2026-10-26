@@ -5,9 +5,10 @@ import {
   type Session,
   type SupabaseClient,
 } from '@supabase/supabase-js';
+import { AUTH_STORAGE_KEY } from './auth-storage.js';
 import { authConfigured, publicConfig } from './public-config.js';
 
-export const AUTH_STORAGE_KEY = 'audigy-auth';
+export { AUTH_STORAGE_KEY };
 
 let client: SupabaseClient<Database> | null = null;
 

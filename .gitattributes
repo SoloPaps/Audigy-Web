@@ -1,4 +1,5 @@
 # LF obligatoire : les empreintes SHA-256 sont celles des octets LF.
+.github/workflows/*.yml text eol=lf
 packages/engine/data/trackers/domains.txt text eol=lf
 packages/evidence/fixtures/results.json text eol=lf
 packages/evidence/fixtures/manifeste.txt text eol=lf

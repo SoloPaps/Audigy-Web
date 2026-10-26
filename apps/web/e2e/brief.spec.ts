@@ -50,10 +50,15 @@ test('le brief se génère au clavier, sans requête', async ({ page }) => {
   expect(results.violations).toEqual([]);
 });
 
-test('la voie rapide ignore les cases et le terminal', async ({ page }) => {
+test('tous les échecs coche les problèmes et ignore le terminal', async ({
+  page,
+}) => {
   await page.goto('/dev/composants');
   const warn = page.getByRole('checkbox', {
     name: 'Inclure La page peut être affichée dans un cadre trompeur',
+  });
+  const fail = page.getByRole('checkbox', {
+    name: 'Inclure Le site accepte encore une adresse non chiffrée',
   });
   await warn.check();
   await expect(page.getByText('1 sélectionné')).toBeVisible();
@@ -66,7 +71,36 @@ test('la voie rapide ignore les cases et le terminal', async ({ page }) => {
   await expect(zone).toHaveValue(/adresse non chiffrée/);
   await expect(zone).not.toHaveValue(/cadre trompeur/);
   await expect(zone).not.toHaveValue(/\nTerminal\n/);
-  await expect(warn).toBeChecked();
+  await expect(fail).toBeChecked();
+  await expect(warn).not.toBeChecked();
+  await expect(page.getByText('1 sélectionné')).toBeVisible();
+  await expect(page.getByText('Brief généré, 1 constats')).toBeVisible();
+});
+
+test('tous en vérif et tous en fix règlent le prompt', async ({ page }) => {
+  await page.goto('/dev/composants');
+  const fail = page.getByRole('checkbox', {
+    name: 'Inclure Le site accepte encore une adresse non chiffrée',
+  });
+  const failRow = page.locator('article.finding', { has: fail });
+  await page.getByRole('button', { name: 'Tous en vérif' }).click();
+  const zone = page.getByRole('textbox', { name: 'Texte du brief' });
+  await expect(zone).toHaveValue(/Terminal/);
+  await expect(zone).toHaveValue(/— Vérif/);
+  await expect(zone).toHaveValue(/adresse non chiffrée/);
+  await expect(zone).not.toHaveValue(/cadre trompeur/);
+  await expect(fail).toBeChecked();
+  await expect(
+    failRow.getByRole('radio', { name: 'Vérifier, sans écrire' }),
+  ).toBeChecked();
+  await expect(page.getByText('1 sélectionné')).toBeVisible();
+  await page.getByRole('button', { name: 'Tous en fix' }).click();
+  await expect(zone).toHaveValue(/— Fix/);
+  await expect(zone).toHaveValue(/Proposez un fichier/);
+  await expect(
+    failRow.getByRole('radio', { name: 'Proposer une correction' }),
+  ).toBeChecked();
+  await expect(page.getByText('1 sélectionné')).toBeVisible();
 });
 
 test('réduire garde le texte et une case ne régénère pas', async ({ page }) => {
