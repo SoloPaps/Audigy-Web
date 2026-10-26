@@ -76,7 +76,7 @@ L’interface d’Audigy associe le spectaculaire et la modernité de l’effet 
 - **Mockup rapport.** Aperçu réaliste du rapport (self-score Audigy).
 - **Sélecteur de langue.** FR (défaut) / EN discret.
 
-Les trois garanties de la spec source étaient marquées ⚡, 🔒 et 📖. L’interface les rend par des icônes Lucide (§1.2), pas par des emoji.
+L’interface rend ces trois garanties par des icônes Lucide (§1.2), pas par des emoji.
 
 ### 3.2 Écran 2 : Progression (`/progression` ou overlay)
 
