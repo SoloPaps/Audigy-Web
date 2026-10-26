@@ -143,7 +143,7 @@ async function generate(): Promise<void> {
   await publish(renderBrief(documentFrom(items, true)), items.length);
 }
 
-async function allFails(): Promise<void> {
+async function allFails(mode: TerminalMode = 'rien'): Promise<void> {
   if (!brief) return;
   const ids = failsOf(briefRows);
   const items = ordered(ids);
@@ -151,7 +151,15 @@ async function allFails(): Promise<void> {
   const next: Record<string, boolean> = {};
   for (const id of ids) next[id] = true;
   checked = next;
-  await publish(renderBrief(documentFrom(items, false)), items.length);
+  if (mode !== 'rien') {
+    const modes = { ...terminal };
+    for (const id of ids) modes[id] = mode;
+    terminal = modes;
+  }
+  await publish(
+    renderBrief(documentFrom(items, mode !== 'rien')),
+    items.length,
+  );
 }
 
 async function copyBrief(): Promise<void> {
@@ -383,8 +391,20 @@ async function copyCode(finding: Finding): Promise<void> {
       type="button"
       class="button button-secondary"
       disabled={!bar.failsEnabled}
-      onclick={allFails}
+      onclick={() => allFails('rien')}
     >{briefT('brief.allFails')}</button>
+    <button
+      type="button"
+      class="button button-secondary"
+      disabled={!bar.failsEnabled}
+      onclick={() => allFails('verif')}
+    >{briefT('brief.allVerif')}</button>
+    <button
+      type="button"
+      class="button button-secondary"
+      disabled={!bar.failsEnabled}
+      onclick={() => allFails('fix')}
+    >{briefT('brief.allFix')}</button>
     <button
       type="button"
       class={panelOpen && briefText ? 'button button-secondary' : 'button button-primary'}

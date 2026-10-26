@@ -44,6 +44,8 @@ const KEYS = [
   'brief.count.one',
   'brief.count.many',
   'brief.allFails',
+  'brief.allVerif',
+  'brief.allFix',
   'brief.generate',
   'brief.generate.hint',
   'brief.none',
