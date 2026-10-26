@@ -145,8 +145,12 @@ async function generate(): Promise<void> {
 
 async function allFails(): Promise<void> {
   if (!brief) return;
-  const items = ordered(failsOf(briefRows));
+  const ids = failsOf(briefRows);
+  const items = ordered(ids);
   if (items.length === 0) return;
+  const next: Record<string, boolean> = {};
+  for (const id of ids) next[id] = true;
+  checked = next;
   await publish(renderBrief(documentFrom(items, false)), items.length);
 }
 
@@ -218,21 +222,25 @@ async function copyCode(finding: Finding): Promise<void> {
                 }
               }
             />
+            <span class="mark mark-box" aria-hidden="true"></span>
             <span class="visually-hidden">{briefT('brief.include', { title: finding.title })}</span>
           </label>
           <div role="radiogroup" aria-label={briefT('brief.terminal.group', { title: finding.title })}>
             <label>
               <input type="radio" name={`terminal-${finding.id}`} value="rien" checked={modeOf(finding.id) === 'rien'} onclick={() => { terminal = { ...terminal, [finding.id]: 'rien' }; }} />
+              <span class="mark mark-dot" aria-hidden="true"></span>
               <span aria-hidden="true">{briefT('brief.terminal.rien')}</span>
               <span class="visually-hidden">{briefT('brief.terminal.rien.long')}</span>
             </label>
             <label>
               <input type="radio" name={`terminal-${finding.id}`} value="verif" checked={modeOf(finding.id) === 'verif'} onclick={() => { terminal = { ...terminal, [finding.id]: 'verif' }; }} />
+              <span class="mark mark-dot" aria-hidden="true"></span>
               <span aria-hidden="true">{briefT('brief.terminal.verif')}</span>
               <span class="visually-hidden">{briefT('brief.terminal.verif.long')}</span>
             </label>
             <label>
               <input type="radio" name={`terminal-${finding.id}`} value="fix" checked={modeOf(finding.id) === 'fix'} onclick={() => { terminal = { ...terminal, [finding.id]: 'fix' }; }} />
+              <span class="mark mark-dot" aria-hidden="true"></span>
               <span aria-hidden="true">{briefT('brief.terminal.fix')}</span>
               <span class="visually-hidden">{briefT('brief.terminal.fix.long')}</span>
             </label>
@@ -555,6 +563,7 @@ async function copyCode(finding: Finding): Promise<void> {
   }
 
   .brief-choice label {
+    position: relative;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -565,9 +574,12 @@ async function copyCode(finding: Finding): Promise<void> {
     padding-inline: var(--space-2);
   }
 
-  .brief-choice input:focus-visible {
-    outline: var(--focus-width) solid var(--focus);
-    outline-offset: var(--focus-width);
+  .brief-choice [role='radiogroup'] {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    align-items: center;
+    max-width: 100%;
   }
 
   @media print {
@@ -600,58 +612,60 @@ async function copyCode(finding: Finding): Promise<void> {
   }
 
   .brief-choice input {
-    appearance: none;
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    opacity: 0;
+  }
+
+  .brief-choice .mark {
     box-sizing: border-box;
     width: 1.25rem;
     height: 1.25rem;
-    margin: 0;
     border: var(--border) solid var(--ink);
     background: var(--paper);
     display: grid;
     place-items: center;
     flex: 0 0 auto;
+    pointer-events: none;
   }
 
-  .brief-choice input[type='checkbox'] {
+  .brief-choice .mark-box {
     border-radius: var(--radius-sm);
   }
 
-  .brief-choice input[type='radio'] {
+  .brief-choice .mark-dot {
     border-radius: var(--radius-pill);
   }
 
-  .brief-choice input::after {
-    content: '';
+  .brief-choice input:checked + .mark-box {
+    background: var(--accent);
+    border-color: var(--accent);
   }
 
-  .brief-choice input[type='checkbox']::after {
+  .brief-choice input:checked + .mark-box::after {
+    content: '';
     width: 0.3rem;
     height: 0.55rem;
     margin-top: -0.125rem;
     border: solid var(--on-accent);
     border-width: 0 0.125rem 0.125rem 0;
-    transform: rotate(40deg) scale(0);
+    transform: rotate(40deg);
   }
 
-  .brief-choice input[type='checkbox']:checked {
-    background: var(--accent);
-    border-color: var(--accent);
-  }
-
-  .brief-choice input[type='checkbox']:checked::after {
-    transform: rotate(40deg) scale(1);
-  }
-
-  .brief-choice input[type='radio']::after {
+  .brief-choice input:checked + .mark-dot::after {
+    content: '';
     width: 0.625rem;
     height: 0.625rem;
     border-radius: var(--radius-pill);
     background: var(--accent);
-    transform: scale(0);
   }
 
-  .brief-choice input[type='radio']:checked::after {
-    transform: scale(1);
+  .brief-choice input:focus-visible + .mark {
+    outline: var(--focus-width) solid var(--focus);
+    outline-offset: var(--focus-width);
   }
 
   @media (max-width: 320px) {

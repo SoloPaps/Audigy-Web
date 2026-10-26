@@ -50,10 +50,15 @@ test('le brief se génère au clavier, sans requête', async ({ page }) => {
   expect(results.violations).toEqual([]);
 });
 
-test('la voie rapide ignore les cases et le terminal', async ({ page }) => {
+test('tous les échecs coche les problèmes et ignore le terminal', async ({
+  page,
+}) => {
   await page.goto('/dev/composants');
   const warn = page.getByRole('checkbox', {
     name: 'Inclure La page peut être affichée dans un cadre trompeur',
+  });
+  const fail = page.getByRole('checkbox', {
+    name: 'Inclure Le site accepte encore une adresse non chiffrée',
   });
   await warn.check();
   await expect(page.getByText('1 sélectionné')).toBeVisible();
@@ -66,7 +71,10 @@ test('la voie rapide ignore les cases et le terminal', async ({ page }) => {
   await expect(zone).toHaveValue(/adresse non chiffrée/);
   await expect(zone).not.toHaveValue(/cadre trompeur/);
   await expect(zone).not.toHaveValue(/\nTerminal\n/);
-  await expect(warn).toBeChecked();
+  await expect(fail).toBeChecked();
+  await expect(warn).not.toBeChecked();
+  await expect(page.getByText('1 sélectionné')).toBeVisible();
+  await expect(page.getByText('Brief généré, 1 constats')).toBeVisible();
 });
 
 test('réduire garde le texte et une case ne régénère pas', async ({ page }) => {
