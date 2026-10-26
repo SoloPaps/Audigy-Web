@@ -11,7 +11,7 @@ Index des documents du dépôt. Le statut du produit et le démarrage sont dans 
 | [METHODE.md](METHODE.md) | Méthode de notation, version 2026.1. Une pondération nouvelle crée une version. |
 | [PLAN.md](PLAN.md) | Produit, architecture, garde-fous §14, découpage PART-00 à PART-26, checklist de déploiement du propriétaire (section « PART-27 — Déploiement unique final »). |
 | [QUESTIONS.md](QUESTIONS.md) | Questions ouvertes pour le propriétaire. Sans réponse, le défaut indiqué s’applique. |
-| [REFERENCE-AUDIGY-MONSCORE-FUSION.md](REFERENCE-AUDIGY-MONSCORE-FUSION.md) | Cible produit ~novembre 2026 : fusion Audigy × MonScoreSécurité (briefs IA et Rien/Vérif/Fix conservés, lecture du rapport façon MonScore). |
+| [REFERENCE-AUDIGY-MONSCORE-FUSION.md](REFERENCE-AUDIGY-MONSCORE-FUSION.md) | Cible produit ~novembre 2026 : fusion Audigy × MonScoreSécurité (briefs IA et Rien/Vérif/Fix conservés, lecture du rapport façon MonScore). État du 26 oct. : §5, PR #61. |
 | [RECETTE.md](RECETTE.md) | Recette PART-26 du 24 octobre 2026, sur un build local. Ce n’est pas une mise en production. |
 | [legal/registre.md](legal/registre.md) | Registre des traitements. La relecture humaine du propriétaire n’est pas faite. |
 
