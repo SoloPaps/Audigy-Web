@@ -1,7 +1,7 @@
 <script lang="ts">
 import { onMount } from 'svelte';
 import { t } from '../i18n/index.js';
-import { currentSession } from '../lib/browser-session.js';
+import { storedSessionPresent } from '../lib/auth-storage.js';
 
 interface Props {
   pathname: string;
@@ -31,9 +31,7 @@ function onKey(event: KeyboardEvent): void {
 
 onMount(() => {
   window.addEventListener('keydown', onKey);
-  void currentSession().then((session) => {
-    loggedIn = session !== null;
-  });
+  loggedIn = storedSessionPresent();
   return () => window.removeEventListener('keydown', onKey);
 });
 </script>

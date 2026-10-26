@@ -23,6 +23,8 @@ let signature = $state<'wait' | 'ok' | 'bad' | 'absent'>('wait');
 let verdict = $state<VerdictFichier | null>(null);
 let fichierMessage = $state('');
 let qr = $state<{ d: string; size: number } | null>(null);
+let champFichier = $state<HTMLInputElement | null>(null);
+let lecture = 0;
 
 onMount(() => {
   let actif = true;
@@ -123,10 +125,17 @@ async function charger(id: string, encore: () => boolean): Promise<void> {
   }
 }
 
+function fichierChoisi(event: Event): File | null {
+  const depuisEvent =
+    event.target instanceof HTMLInputElement ? event.target : null;
+  const input = depuisEvent ?? champFichier;
+  return input?.files?.[0] ?? null;
+}
+
 async function choisirFichier(event: Event): Promise<void> {
-  const input = event.currentTarget;
-  if (!(input instanceof HTMLInputElement) || !dossier) return;
-  const fichier = input.files?.[0];
+  if (!dossier) return;
+  const fichier = fichierChoisi(event);
+  const ticket = ++lecture;
   verdict = null;
   fichierMessage = '';
   if (!fichier) return;
@@ -134,10 +143,10 @@ async function choisirFichier(event: Event): Promise<void> {
     fichierMessage = t('verifier.tooBig');
     return;
   }
-  const empreinte = await crypto.subtle.digest(
-    'SHA-256',
-    await fichier.arrayBuffer(),
-  );
+  const octets = await fichier.arrayBuffer();
+  if (ticket !== lecture || !dossier) return;
+  const empreinte = await crypto.subtle.digest('SHA-256', octets);
+  if (ticket !== lecture || !dossier) return;
   verdict = verdictFichier(
     versHex(new Uint8Array(empreinte)),
     dossier.manifeste,
@@ -236,7 +245,9 @@ function telecharger(nom: string, blob: Blob): void {
       id="fichier-rapport"
       type="file"
       accept=".pdf,.json,application/pdf,application/json"
+      bind:this={champFichier}
       onchange={choisirFichier}
+      oninput={choisirFichier}
       aria-describedby="fichier-hint"
     />
     <p id="fichier-hint" class="hint">{t('verifier.hint')}</p>

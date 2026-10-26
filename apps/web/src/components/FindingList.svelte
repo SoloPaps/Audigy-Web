@@ -557,9 +557,12 @@ async function copyCode(finding: Finding): Promise<void> {
   .brief-choice label {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: var(--space-2);
     max-width: 100%;
+    min-width: var(--touch-min);
     min-height: var(--touch-min);
+    padding-inline: var(--space-2);
   }
 
   .brief-choice input:focus-visible {
@@ -597,8 +600,58 @@ async function copyCode(finding: Finding): Promise<void> {
   }
 
   .brief-choice input {
-    min-width: var(--touch-min);
-    min-height: var(--touch-min);
+    appearance: none;
+    box-sizing: border-box;
+    width: 1.25rem;
+    height: 1.25rem;
+    margin: 0;
+    border: var(--border) solid var(--ink);
+    background: var(--paper);
+    display: grid;
+    place-items: center;
+    flex: 0 0 auto;
+  }
+
+  .brief-choice input[type='checkbox'] {
+    border-radius: var(--radius-sm);
+  }
+
+  .brief-choice input[type='radio'] {
+    border-radius: var(--radius-pill);
+  }
+
+  .brief-choice input::after {
+    content: '';
+  }
+
+  .brief-choice input[type='checkbox']::after {
+    width: 0.3rem;
+    height: 0.55rem;
+    margin-top: -0.125rem;
+    border: solid var(--on-accent);
+    border-width: 0 0.125rem 0.125rem 0;
+    transform: rotate(40deg) scale(0);
+  }
+
+  .brief-choice input[type='checkbox']:checked {
+    background: var(--accent);
+    border-color: var(--accent);
+  }
+
+  .brief-choice input[type='checkbox']:checked::after {
+    transform: rotate(40deg) scale(1);
+  }
+
+  .brief-choice input[type='radio']::after {
+    width: 0.625rem;
+    height: 0.625rem;
+    border-radius: var(--radius-pill);
+    background: var(--accent);
+    transform: scale(0);
+  }
+
+  .brief-choice input[type='radio']:checked::after {
+    transform: scale(1);
   }
 
   @media (max-width: 320px) {
