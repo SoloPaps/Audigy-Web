@@ -15,7 +15,7 @@ Décisions verrouillées :
 | Exécution | Jamais dans le navigateur. Jamais d’envoi automatique vers une IA. |
 | Rapport | Rapport du propriétaire seulement. Le score public n’a pas de brief. |
 
-Le produit reste gratuit, pour des particuliers non techniciens. On observe, on n’exploite pas. Le ton de `docs/DESIGN.md` §7 s’applique aux libellés. Le brief, lui, s’adresse à un agent de développement : il reste en français, en vouvoiement, et il peut citer l’identifiant du test. Les tokens, le verre et le mouvement restent ceux d’Arc Soft.
+Le produit reste gratuit, pour des particuliers non techniciens. On observe, on n’exploite pas. Le ton de `docs/DESIGN.md` §7 s’applique aux libellés. Le brief, lui, s’adresse à un agent de développement : il reste en français, en vouvoiement, et il peut citer l’identifiant du test. Les tokens clairs, le verre et le mouvement restent ceux d’Arc Soft (PR #66). Ce brief ne redéfinit pas le chrome : nav, logo et thème sombre suivent [`01-REGLES-STRICTES.md`](../../design-pack-2026-10-26/01-REGLES-STRICTES.md) et [`DESIGN.md`](../../DESIGN.md) §2.4.
 
 ## 1. Contexte et objectifs
 

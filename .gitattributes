@@ -8,3 +8,5 @@ packages/evidence/fixtures/*.pem text eol=lf
 # Pas d’octet NUL : Git les traiterait comme du texte et casserait l’empreinte.
 packages/evidence/fixtures/rapport.pdf binary
 packages/evidence/fixtures/*.tsr binary
+docs/design-pack-2026-10-26/assets/*.png binary
+docs/design-pack-2026-10-26/assets/*.jpg binary

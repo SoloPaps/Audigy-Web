@@ -1,6 +1,8 @@
 # Arc Soft Redesign Implementation Plan
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+> **Déjà suivi** (#38, #39, #40). Ne pas ré-exécuter ce plan. Thème sombre gelé : [`docs/design-pack-2026-10-26/04-THEME-DARK.md`](../../design-pack-2026-10-26/04-THEME-DARK.md). Clair : ce plan et la PR #66. Nav / logo : [`01-REGLES-STRICTES.md`](../../design-pack-2026-10-26/01-REGLES-STRICTES.md).
+
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking. Ce plan est historique : ne pas le relancer.
 
 **Goal:** Remplacer l’habillage papier calme par une coquille unique Arc Soft sur tout le site, le rapport restant l’écran principal.
 
