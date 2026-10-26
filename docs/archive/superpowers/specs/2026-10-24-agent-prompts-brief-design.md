@@ -1,5 +1,7 @@
 # Audigy — spécification brief agent (approche B)
 
+> **Archive (26 octobre 2026).** Décisions déjà appliquées sur `main`. Ce fichier n’est plus la source de vérité. Produit : [`docs/FONCTIONNEMENT.md`](../../../FONCTIONNEMENT.md). UI : [`docs/DESIGN.md`](../../../DESIGN.md) et le pack design. Ancien chemin : `docs/superpowers/`.
+
 Date : 24 octobre 2026. Statut : décisions verrouillées par le propriétaire. Ce document ne modifie pas l’application. Il remplace le prompt simple d’UX-18. L’interface vient **après** relecture et fusion, dans une seule PR, sans plan de fichiers ici.
 
 Décisions verrouillées :
@@ -15,7 +17,7 @@ Décisions verrouillées :
 | Exécution | Jamais dans le navigateur. Jamais d’envoi automatique vers une IA. |
 | Rapport | Rapport du propriétaire seulement. Le score public n’a pas de brief. |
 
-Le produit reste gratuit, pour des particuliers non techniciens. On observe, on n’exploite pas. Le ton de `docs/DESIGN.md` §7 s’applique aux libellés. Le brief, lui, s’adresse à un agent de développement : il reste en français, en vouvoiement, et il peut citer l’identifiant du test. Les tokens clairs, le verre et le mouvement restent ceux d’Arc Soft (PR #66). Ce brief ne redéfinit pas le chrome : nav, logo et thème sombre suivent [`01-REGLES-STRICTES.md`](../../design-pack-2026-10-26/01-REGLES-STRICTES.md) et [`DESIGN.md`](../../DESIGN.md) §2.4.
+Le produit reste gratuit, pour des particuliers non techniciens. On observe, on n’exploite pas. Le ton de `docs/DESIGN.md` §7 s’applique aux libellés. Le brief, lui, s’adresse à un agent de développement : il reste en français, en vouvoiement, et il peut citer l’identifiant du test. Les tokens clairs, le verre et le mouvement restent ceux d’Arc Soft (PR #66). Ce brief ne redéfinit pas le chrome : nav, logo et thème sombre suivent [`01-REGLES-STRICTES.md`](../../../design-pack-2026-10-26/01-REGLES-STRICTES.md) et [`DESIGN.md`](../../../DESIGN.md) §2.4.
 
 ## 1. Contexte et objectifs
 
@@ -48,7 +50,7 @@ Montrer un critère déjà catalogué est de la copie. Écrire un nouveau critè
 
 ## 3. Lien avec la spec clarté et export
 
-`docs/superpowers/specs/2026-10-24-ux-clarity-export-design.md` reste la référence d’UX-16 (impression), d’UX-17 (Markdown du rapport) et d’UX-19 (constat en ligne). Leurs critères d’acceptation ne bougent pas.
+`docs/archive/superpowers/specs/2026-10-24-ux-clarity-export-design.md` reste la référence d’UX-16 (impression), d’UX-17 (Markdown du rapport) et d’UX-19 (constat en ligne). Leurs critères d’acceptation ne bougent pas.
 
 UX-18 est redéfini par le présent document. Le prompt d’une constatation, limité au correctif déjà montré, ne s’implémente plus. S’il est déjà sur une branche de Vague 2, la PR d’interface le retire et le remplace par ce brief. Elle ne rouvre pas l’impression, le Markdown du rapport, ni la ligne de constat.
 
@@ -272,7 +274,7 @@ La PR d’interface ne part pas avant cette relecture. Elle ne s’empile pas su
 
 ## 11. Références
 
-- Spec clarté, export et parcours : `docs/superpowers/specs/2026-10-24-ux-clarity-export-design.md`. UX-16, UX-17, UX-19 restent. UX-18 est remplacé ici. UX-09 (`formatDateTime`) et le ton des fragments restent applicables.
-- Spec Arc Soft : `docs/superpowers/specs/2026-10-24-arc-soft-design.md`, pour le verre, la barre et le rapport. Le plan d’implémentation Arc Soft n’est pas une référence de cette spec.
+- Spec clarté, export et parcours : `docs/archive/superpowers/specs/2026-10-24-ux-clarity-export-design.md`. UX-16, UX-17, UX-19 restent. UX-18 est remplacé ici. UX-09 (`formatDateTime`) et le ton des fragments restent applicables.
+- Spec Arc Soft : `docs/archive/superpowers/specs/2026-10-24-arc-soft-design.md`, pour le verre, la barre et le rapport. Le plan d’implémentation Arc Soft n’est pas une référence de cette spec.
 - `docs/DESIGN.md` §7 (ton), §8 (accessibilité), §9 (checklist de la future PR d’interface).
 - `docs/METHODE.md` §1 (statuts), §6 (ordre des constats), §8 et sections de tests suivantes (ce qu’un « Réussi » veut déjà dire). On cite le catalogue. On ne le réécrit pas.

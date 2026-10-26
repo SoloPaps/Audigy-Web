@@ -10,3 +10,4 @@ packages/evidence/fixtures/rapport.pdf binary
 packages/evidence/fixtures/*.tsr binary
 docs/design-pack-2026-10-26/assets/*.png binary
 docs/design-pack-2026-10-26/assets/*.jpg binary
+docs/design-pack-2026-10-26/maquettes/**/*.png binary

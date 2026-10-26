@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+
+<html lang="fr"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><meta content="mobile_stack" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:ital,wght@0,400;0,600;0,700;1,400&amp;family=JetBrains+Mono:wght@500&amp;family=Outfit:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{width:100vw;min-height:100vh;margin:0;padding:0;}body{overscroll-behavior-y:none;-webkit-font-smoothing:antialiased;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { colors: { "primary": "#004342", "on-surface": "#1b1c1a", "on-primary-fixed-variant": "#00504e", "blob-teal": "#9FCFCB", "secondary-container": "#78acff", "blob-peach": "#F3C7B4", "on-tertiary-container": "#ffb49c", "primary-fixed": "#abefeb", "status-warn-bg": "#FBF0DE", "on-surface-variant": "#3f4948", "surface-tint": "#226866", "secondary-fixed-dim": "#a8c8ff", "status-neutral-text": "#5F6672", "ink-primary": "#1B1F24", "paper-base": "#FAF8F4", "surface-container": "#efeeea", "surface-container-highest": "#e4e2de", "on-tertiary-fixed": "#390c00", "surface-bright": "#fbf9f5", "inverse-on-surface": "#f2f0ed", "paper-end": "#D7E7F2", "secondary-fixed": "#d6e3ff", "status-bad-bg": "#FBE7E5", "on-secondary": "#ffffff", "on-secondary-fixed-variant": "#00468a", "outline": "#6f7978", "on-background": "#1b1c1a", "surface-container-high": "#eae8e4", "surface-container-lowest": "#ffffff", "error-container": "#ffdad6", "error": "#ba1a1a", "on-primary-container": "#8fd2cf", "on-tertiary": "#ffffff", "line-border": "#E3DED5", "inverse-surface": "#30312e", "status-good-bg": "#E6EEF8", "on-secondary-container": "#003f7d", "status-good-text": "#1F5FAD", "on-error": "#ffffff", "primary-container": "#0f5c5a", "primary-fixed-dim": "#90d2cf", "on-error-container": "#93000a", "tertiary-fixed": "#ffdbd0", "status-warn-text": "#9A5800", "on-primary": "#ffffff", "status-neutral-bg": "#F1F1EF", "surface-container-low": "#f5f3ef", "status-bad-text": "#B3261E", "surface-dim": "dbdad6", "tertiary-container": "#972d00", "surface": "#fbf9f5", "outline-variant": "#bec8c7", "tertiary-fixed-dim": "#ffb59d", "ink-secondary": "#4A5260", "on-tertiary-fixed-variant": "#832600", "focus-ring": "#C2410C", "tertiary": "#6f1f00", "surface-glass": "rgba(255, 255, 255, 0.64)", "blob-lilac": "#E3D4F0", "on-secondary-fixed": "#001b3d", "on-primary-fixed": "#00201f", "surface-variant": "#e4e2de", "surface-solid": "#FFFFFF", "background": "#fbf9f5", "inverse-primary": "#90d2cf", "secondary": "#1d5eac" }, borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, spacing: { "margin": "1.5rem", "space-md": "1rem", "gutter": "1rem", "space-xs": "0.25rem", "space-lg": "1.5rem", "space-xl": "2rem", "space-sm": "0.5rem" }, fontFamily: { "code-md": ["JetBrains Mono"], "headline-md": ["Atkinson Hyperlegible Next"], "body-sm": ["Atkinson Hyperlegible Next"], "display-hero": ["Outfit"], "label-sm": ["Atkinson Hyperlegible Next"], "body-lg": ["Atkinson Hyperlegible Next"], "headline-lg": ["Outfit"], "label-md": ["Atkinson Hyperlegible Next"], "headline-sm": ["Atkinson Hyperlegible Next"], "display-hero-mobile": ["Outfit"], "body-md": ["Atkinson Hyperlegible Next"] }, fontSize: { "code-md": ["13px", { "lineHeight": "20px", "fontWeight": "500" }], "headline-md": ["22px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "700" }], "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }], "display-hero": ["40px", { "lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "label-sm": ["12px", { "lineHeight": "16px", "letterSpacing": "0.04em", "fontWeight": "600" }], "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }], "headline-lg": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.015em", "fontWeight": "600" }], "label-md": ["14px", { "lineHeight": "18px", "fontWeight": "600" }], "headline-sm": ["18px", { "lineHeight": "24px", "fontWeight": "700" }], "display-hero-mobile": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700" }], "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }] } } } };</script><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head><body class="bg-gradient-to-b from-paper-base via-surface to-paper-end text-on-surface font-body-md text-body-md flex flex-col min-h-screen relative overflow-x-hidden"><div class="fixed inset-0 pointer-events-none overflow-hidden z-0"><div class="absolute -top-24 -left-20 w-80 h-80 rounded-full bg-blob-teal/35 blur-3xl"></div><div class="absolute top-1/3 -right-24 w-88 h-88 rounded-full bg-blob-peach/30 blur-3xl"></div><div class="absolute -bottom-24 left-1/4 w-96 h-96 rounded-full bg-blob-lilac/30 blur-3xl"></div></div><header class="fixed top-0 w-full z-50 pt-safe bg-surface-glass backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 px-space-md flex items-center justify-between"><div class="flex items-center gap-space-sm"><button aria-label="Retour" class="min-w-[44px] min-h-[44px] -ml-2 rounded-full flex items-center justify-center text-ink-primary hover:bg-surface-container-high/60 transition-colors" onclick="history.back()" type="button"><span class="material-symbols-outlined text-[22px]">arrow_back</span></button><div class="flex items-center gap-2"><div class="w-7 h-7 rounded-lg bg-primary flex items-center justify-center shadow-sm"><span class="material-symbols-outlined text-on-primary text-[16px]">vital_signs</span></div><h1 class="font-headline-sm text-headline-sm text-ink-primary truncate max-w-[130px]">Remediation Modal Step</h1></div></div><div class="flex items-center gap-space-sm"><div class="flex items-center bg-surface-container-high/80 rounded-full p-0.5 backdrop-blur-md"><button class="min-w-[32px] h-7 px-2 rounded-full font-label-sm text-label-sm bg-surface-solid text-primary shadow-sm font-semibold transition-all" type="button">FR</button><button class="min-w-[32px] h-7 px-2 rounded-full font-label-sm text-label-sm text-ink-secondary hover:text-ink-primary transition-all" type="button">EN</button></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="flex-1 flex flex-col relative z-10 w-full max-w-[720px] mx-auto px-space-md pt-16 pb-safe"><div class="flex flex-col w-full pb-12">
+<!-- Fil d'ariane & Badge de statut légal -->
+<div class="pt-4 pb-3 flex flex-col gap-2">
+<nav aria-label="Fil d'Ariane" class="flex items-center gap-1.5 overflow-x-auto no-scrollbar text-ink-secondary">
+<a class="font-label-sm text-label-sm hover:text-ink-primary transition-colors flex items-center gap-1" href="#">
+<span class="material-symbols-outlined text-[15px]">home</span>
+<span>Accueil</span>
+</a>
+<span class="material-symbols-outlined text-[13px] text-outline-variant">chevron_right</span>
+<a class="font-label-sm text-label-sm hover:text-ink-primary transition-colors truncate" href="#">Légal &amp; Éthique</a>
+<span class="material-symbols-outlined text-[13px] text-outline-variant">chevron_right</span>
+<span aria-current="page" class="font-label-sm text-label-sm text-primary font-semibold truncate">Conditions d'utilisation</span>
+</nav>
+<div class="flex flex-wrap items-center gap-2 mt-1">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-status-good-bg text-status-good-text font-label-sm text-label-sm shadow-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+        Contrat d'utilisation neutre
+      </span>
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-surface-container-high text-ink-secondary font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[14px]">balance</span>
+        Juridiction : Droit français
+      </span>
+</div>
+</div>
+<!-- Titre & Chapeau éditorial -->
+<header class="py-2 flex flex-col gap-2">
+<div class="inline-flex items-center gap-1.5 text-ink-secondary font-code-md text-code-md">
+<span class="material-symbols-outlined text-[15px] text-primary">history</span>
+<span>Version 2026.1 • Texte du 24 oct. 2026</span>
+</div>
+<h2 class="font-headline-lg text-headline-lg text-ink-primary tracking-tight">Conditions d'utilisation</h2>
+<p class="font-body-md text-body-md text-ink-secondary leading-relaxed">
+      Cadre contractuel, responsabilités d'audit technique et règles de conformité applicables à la sonde et aux rapports de santé Audigy.
+    </p>
+</header>
+<!-- Principe Éthique Fondateur (Bento Highlight) -->
+<div class="mt-4 p-4 rounded-xl bg-surface-container-low shadow-sm flex flex-col gap-2 relative overflow-hidden">
+<div class="flex items-center gap-2 text-primary font-label-md text-label-md">
+<span class="material-symbols-outlined text-[20px]">verified_user</span>
+<h3 class="font-headline-sm text-headline-sm text-primary">Principe éthique fondamental</h3>
+</div>
+<p class="font-body-sm text-body-sm text-ink-secondary">
+      Rédigé en français direct, intelligible et opposable. Ce document ne contient aucune clause opaque, aucun transfert dissimulé de propriété intellectuelle, ni aucune renonciation à vos droits fondamentaux de rectitude numérique.
+    </p>
+<div class="flex items-center gap-3 pt-1 text-ink-primary font-label-sm text-label-sm">
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px] text-primary">check_circle</span>
+        Zéro captation tierce
+      </span>
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px] text-primary">check_circle</span>
+        Périmètre non-destructif
+      </span>
+</div>
+</div>
+<!-- Sommaire Interactif 6 Chapitres -->
+<section aria-labelledby="sommaire-heading" class="mt-6 flex flex-col gap-2">
+<div class="flex items-center justify-between">
+<h3 class="font-headline-sm text-headline-sm text-ink-primary flex items-center gap-2" id="sommaire-heading">
+<span class="material-symbols-outlined text-[18px] text-secondary">format_list_numbered</span>
+        Sommaire des 6 articles
+      </h3>
+<span class="font-label-sm text-label-sm text-ink-secondary">Lecture : 5 min</span>
+</div>
+<div class="grid grid-cols-2 gap-2 mt-1">
+<a class="p-2.5 rounded-lg bg-surface-container hover:bg-surface-container-high transition-colors flex items-center gap-2 text-ink-primary group" href="#art-1">
+<span class="w-6 h-6 rounded-md bg-surface-solid text-primary font-code-md text-code-md flex items-center justify-center shadow-xs font-bold">1</span>
+<span class="font-label-md text-label-md truncate group-hover:text-primary transition-colors">Service gratuit</span>
+</a>
+<a class="p-2.5 rounded-lg bg-surface-container hover:bg-surface-container-high transition-colors flex items-center gap-2 text-ink-primary group" href="#art-2">
+<span class="w-6 h-6 rounded-md bg-surface-solid text-primary font-code-md text-code-md flex items-center justify-center shadow-xs font-bold">2</span>
+<span class="font-label-md text-label-md truncate group-hover:text-primary transition-colors">Propriété &amp; Mandat</span>
+</a>
+<a class="p-2.5 rounded-lg bg-surface-container hover:bg-surface-container-high transition-colors flex items-center gap-2 text-ink-primary group" href="#art-3">
+<span class="w-6 h-6 rounded-md bg-surface-solid text-primary font-code-md text-code-md flex items-center justify-center shadow-xs font-bold">3</span>
+<span class="font-label-md text-label-md truncate group-hover:text-primary transition-colors">Rapports &amp; Portée</span>
+</a>
+<a class="p-2.5 rounded-lg bg-surface-container hover:bg-surface-container-high transition-colors flex items-center gap-2 text-ink-primary group" href="#art-4">
+<span class="w-6 h-6 rounded-md bg-surface-solid text-primary font-code-md text-code-md flex items-center justify-center shadow-xs font-bold">4</span>
+<span class="font-label-md text-label-md truncate group-hover:text-primary transition-colors">Acceptation</span>
+</a>
+<a class="p-2.5 rounded-lg bg-surface-container hover:bg-surface-container-high transition-colors flex items-center gap-2 text-ink-primary group" href="#art-5">
+<span class="w-6 h-6 rounded-md bg-surface-solid text-primary font-code-md text-code-md flex items-center justify-center shadow-xs font-bold">5</span>
+<span class="font-label-md text-label-md truncate group-hover:text-primary transition-colors">Compte &amp; Données</span>
+</a>
+<a class="p-2.5 rounded-lg bg-surface-container hover:bg-surface-container-high transition-colors flex items-center gap-2 text-ink-primary group" href="#art-6">
+<span class="w-6 h-6 rounded-md bg-surface-solid text-primary font-code-md text-code-md flex items-center justify-center shadow-xs font-bold">6</span>
+<span class="font-label-md text-label-md truncate group-hover:text-primary transition-colors">Droit applicable</span>
+</a>
+</div>
+</section>
+<!-- Contenu des Articles (Vertical Frosted Glass Cards) -->
+<div class="mt-6 flex flex-col gap-4">
+<!-- Article 1 : Service Gratuit -->
+<article class="rounded-xl p-4 bg-surface-container-low shadow-sm flex flex-col gap-3" id="art-1">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="w-7 h-7 rounded-lg bg-primary text-on-primary font-code-md text-code-md flex items-center justify-center font-bold">01</span>
+<h4 class="font-headline-sm text-headline-sm text-ink-primary">Service gratuit</h4>
+</div>
+<span class="px-2 py-0.5 rounded-full bg-status-good-bg text-status-good-text font-label-sm text-label-sm font-semibold">Sans abonnement</span>
+</div>
+<p class="font-body-md text-body-md text-ink-secondary">
+        La plateforme Audigy est un service d'utilité publique et d'hygiène numérique ouvert et gratuit. Elle a pour objet exclusif d'aider les gestionnaires de sites, développeurs et citoyens à évaluer et comprendre l'état de santé technique de leurs plateformes (sécurité HTTP, sobriété éco-index, accessibilité numérique et performances Core Web Vitals).
+      </p>
+<div class="p-3 rounded-lg bg-surface-solid shadow-xs flex items-start gap-2.5">
+<span class="material-symbols-outlined text-[18px] text-primary shrink-0 mt-0.5">spa</span>
+<p class="font-body-sm text-body-sm text-ink-secondary">
+          L'accès à l'audit unitaire, à la consultation des métriques et au téléchargement des synthèses s'effectue librement, sans aucune obligation de souscription payante ni contrepartie publicitaire.
+        </p>
+</div>
+</article>
+<!-- Article 2 : Propriété et mandat -->
+<article class="rounded-xl p-4 bg-surface-container-low shadow-sm flex flex-col gap-3" id="art-2">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="w-7 h-7 rounded-lg bg-primary text-on-primary font-code-md text-code-md flex items-center justify-center font-bold">02</span>
+<h4 class="font-headline-sm text-headline-sm text-ink-primary">Propriété et mandat</h4>
+</div>
+<span class="px-2 py-0.5 rounded-full bg-status-bad-bg text-status-bad-text font-label-sm text-label-sm font-semibold">Obligation légale</span>
+</div>
+<p class="font-body-md text-body-md text-ink-secondary">
+        En soumettant une adresse URL à la sonde technique Audigy, l'utilisateur déclare sur l'honneur être soit le propriétaire légitime du nom de domaine audité, soit expressément mandaté par écrit par ce dernier pour ordonner des tests de conformité.
+      </p>
+<!-- Encadré Juridique Code Pénal -->
+<div class="p-3.5 rounded-lg bg-surface-solid shadow-xs flex flex-col gap-2">
+<div class="flex items-center gap-1.5 text-status-bad-text font-label-sm text-label-sm font-semibold">
+<span class="material-symbols-outlined text-[16px]">gavel</span>
+<span>Rappel de l'Article 323-1 du Code Pénal</span>
+</div>
+<blockquote class="font-body-sm text-body-sm text-ink-secondary italic pl-2 bg-surface-container-high/40 py-1 rounded">
+          « Le fait d'accéder ou de se maintenir, frauduleusement, dans tout ou partie d'un système de traitement automatisé de données est puni de trois ans d'emprisonnement et de 100 000 € d'amende. »
+        </blockquote>
+<p class="font-label-sm text-label-sm text-ink-secondary">
+          Les sondes Audigy opèrent exclusivement par requêtes HTTP(S) passives et conformes aux protocoles publics. Aucun test d'intrusion destructif ni injection n'est exécuté.
+        </p>
+</div>
+</article>
+<!-- Article 3 : Rapports et portée juridique -->
+<article class="rounded-xl p-4 bg-surface-container-low shadow-sm flex flex-col gap-3" id="art-3">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="w-7 h-7 rounded-lg bg-primary text-on-primary font-code-md text-code-md flex items-center justify-center font-bold">03</span>
+<h4 class="font-headline-sm text-headline-sm text-ink-primary">Rapports &amp; Portée</h4>
+</div>
+<span class="px-2 py-0.5 rounded-full bg-status-neutral-bg text-status-neutral-text font-label-sm text-label-sm font-semibold">eIDAS / RFC 3161</span>
+</div>
+<p class="font-body-md text-body-md text-ink-secondary">
+        Les rapports générés constituent un constat technique descriptif à un instant T déterminé. Ils ne sauraient en aucun cas être assimilés à un constat d'huissier de justice ou à une certification juridique délivrée par un organisme accrédité.
+      </p>
+<div class="grid grid-cols-1 gap-2">
+<div class="p-3 rounded-lg bg-surface-solid shadow-xs flex items-start gap-2.5">
+<span class="material-symbols-outlined text-[18px] text-secondary shrink-0 mt-0.5">schedule</span>
+<div>
+<div class="font-label-md text-label-md text-ink-primary font-semibold">Horodatage cryptographique RFC 3161</div>
+<p class="font-body-sm text-body-sm text-ink-secondary mt-0.5">
+              Chaque audit bénéficie d'une empreinte d'horodatage qualifiée garantissant l'intégrité temporelle de l'évaluation technique au moment de la mesure.
+            </p>
+</div>
+</div>
+<div class="p-3 rounded-lg bg-surface-solid shadow-xs flex items-start gap-2.5">
+<span class="material-symbols-outlined text-[18px] text-secondary shrink-0 mt-0.5">verified</span>
+<div>
+<div class="font-label-md text-label-md text-ink-primary font-semibold">Conformité Articles 41.1 &amp; 41.2 eIDAS</div>
+<p class="font-body-sm text-body-sm text-ink-secondary mt-0.5">
+              Préservation de la preuve technologique et admissibilité des données horodatées conformément aux règlements de l'Union Européenne.
+            </p>
+</div>
+</div>
+</div>
+</article>
+<!-- Article 4 : Acceptation et traçabilité -->
+<article class="rounded-xl p-4 bg-surface-container-low shadow-sm flex flex-col gap-3" id="art-4">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="w-7 h-7 rounded-lg bg-primary text-on-primary font-code-md text-code-md flex items-center justify-center font-bold">04</span>
+<h4 class="font-headline-sm text-headline-sm text-ink-primary">Acceptation</h4>
+</div>
+<span class="px-2 py-0.5 rounded-full bg-status-good-bg text-status-good-text font-label-sm text-label-sm font-semibold">Consentement traçable</span>
+</div>
+<p class="font-body-md text-body-md text-ink-secondary">
+        L'utilisation de la plateforme implique l'acceptation pleine et entière des présentes conditions. Conformément au principe de transparence, cette acceptation est enregistrée localement avec sa version et son horodatage précis.
+      </p>
+<div class="p-3 rounded-lg bg-surface-solid shadow-xs flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px] text-primary">fingerprint</span>
+<span class="font-label-sm text-label-sm text-ink-primary">Nouvelle version publiée = Nouvelle acceptation explicite requise.</span>
+</div>
+</div>
+</article>
+<!-- Article 5 : Compte et Données -->
+<article class="rounded-xl p-4 bg-surface-container-low shadow-sm flex flex-col gap-3" id="art-5">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="w-7 h-7 rounded-lg bg-primary text-on-primary font-code-md text-code-md flex items-center justify-center font-bold">05</span>
+<h4 class="font-headline-sm text-headline-sm text-ink-primary">Compte &amp; Données</h4>
+</div>
+<span class="px-2 py-0.5 rounded-full bg-secondary-fixed text-on-secondary-container font-label-sm text-label-sm font-semibold">RGPD strict</span>
+</div>
+<p class="font-body-md text-body-md text-ink-secondary">
+        Vous conservez le contrôle absolu et sans réserve sur vos données. Audigy ne monétise, ne cède et ne profile aucune donnée issue de vos configurations ou de vos historiques d'audit.
+      </p>
+<div class="p-3 rounded-lg bg-surface-solid shadow-xs flex flex-col gap-2">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px] text-primary">download</span>
+<span class="font-label-md text-label-md text-ink-primary font-semibold">Portabilité et purge intégrale</span>
+</div>
+<span class="px-2 py-0.5 rounded bg-surface-container-high font-code-md text-code-md text-ink-secondary">JSON Schema</span>
+</div>
+<p class="font-body-sm text-body-sm text-ink-secondary">
+          Exportez l'intégralité de vos scans au format standardisé JSON ou demandez la suppression irréversible de votre compte et de tous les fichiers temporaires en un clic.
+        </p>
+<div class="pt-2">
+<a class="inline-flex items-center justify-center gap-1.5 w-full py-2.5 px-4 rounded-lg bg-primary text-on-primary font-label-md text-label-md hover:bg-primary-container transition-colors shadow-sm" href="#">
+<span class="material-symbols-outlined text-[18px]">manage_accounts</span>
+<span>Accéder à la page Compte</span>
+</a>
+</div>
+</div>
+</article>
+<!-- Article 6 : Droit applicable et contact -->
+<article class="rounded-xl p-4 bg-surface-container-low shadow-sm flex flex-col gap-3" id="art-6">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="w-7 h-7 rounded-lg bg-primary text-on-primary font-code-md text-code-md flex items-center justify-center font-bold">06</span>
+<h4 class="font-headline-sm text-headline-sm text-ink-primary">Droit applicable</h4>
+</div>
+<span class="px-2 py-0.5 rounded-full bg-status-neutral-bg text-status-neutral-text font-label-sm text-label-sm font-semibold">Tribunaux français</span>
+</div>
+<p class="font-body-md text-body-md text-ink-secondary">
+        Les présentes conditions sont soumises à la législation française. En cas de litige relatif à l'interprétation ou à l'exécution du service, une solution amiable sera systématiquement privilégiée avant toute saisine juridictionnelle.
+      </p>
+<div class="p-3.5 rounded-lg bg-surface-solid shadow-xs flex flex-col gap-3">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px] text-primary">mail</span>
+<span class="font-label-md text-label-md text-ink-primary font-semibold">Contact &amp; Réclamations</span>
+</div>
+<span class="font-code-md text-code-md text-primary font-bold">AudigyWeb@outlook.fr</span>
+</div>
+<a class="inline-flex items-center justify-center gap-2 w-full py-2.5 px-4 rounded-lg bg-surface-container hover:bg-surface-container-high text-ink-primary font-label-md text-label-md transition-colors shadow-xs" href="mailto:AudigyWeb@outlook.fr?subject=Conditions%20d%27utilisation%20Audigy">
+<span class="material-symbols-outlined text-[18px]">send</span>
+<span>Envoyer un courriel au délégué légal</span>
+</a>
+</div>
+</article>
+</div>
+<!-- Cartouche Sécurité & Hygiène de plateforme -->
+<section class="mt-6 p-4 rounded-xl bg-surface-container shadow-sm flex flex-col gap-3">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded-lg bg-primary text-on-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-[20px]">shield_with_heart</span>
+</div>
+<div>
+<h4 class="font-headline-sm text-headline-sm text-ink-primary">Sécurité &amp; Hygiène de plateforme</h4>
+<span class="font-label-sm text-label-sm text-ink-secondary">Un cadre au service d'un web transparent</span>
+</div>
+</div>
+<p class="font-body-sm text-body-sm text-ink-secondary">
+      Audigy applique les standards ouverts les plus stricts pour assurer des mesures fiables, non intrusives et opposables.
+    </p>
+<div class="grid grid-cols-3 gap-2 pt-1 text-center">
+<div class="p-2.5 rounded-lg bg-surface-solid shadow-xs flex flex-col items-center">
+<span class="material-symbols-outlined text-[18px] text-primary">accessibility_new</span>
+<span class="font-label-sm text-label-sm font-bold text-ink-primary mt-1">RGAA 4.1</span>
+<span class="font-label-sm text-label-sm text-ink-secondary">Inclusivité</span>
+</div>
+<div class="p-2.5 rounded-lg bg-surface-solid shadow-xs flex flex-col items-center">
+<span class="material-symbols-outlined text-[18px] text-primary">speed</span>
+<span class="font-label-sm text-label-sm font-bold text-ink-primary mt-1">Core Web</span>
+<span class="font-label-sm text-label-sm text-ink-secondary">Vitals CWV</span>
+</div>
+<div class="p-2.5 rounded-lg bg-surface-solid shadow-xs flex flex-col items-center">
+<span class="material-symbols-outlined text-[18px] text-primary">lock_clock</span>
+<span class="font-label-sm text-label-sm font-bold text-ink-primary mt-1">eIDAS</span>
+<span class="font-label-sm text-label-sm text-ink-secondary">RFC 3161</span>
+</div>
+</div>
+</section>
+<!-- Footer complet Audigy avec navigation et statut de sonde -->
+<footer class="mt-8 pt-6 flex flex-col gap-4">
+<!-- Statut de la sonde -->
+<div class="p-3 rounded-xl bg-surface-container-low flex items-center justify-between shadow-xs">
+<div class="flex items-center gap-2">
+<span class="relative flex h-2.5 w-2.5">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-secondary opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-secondary"></span>
+</span>
+<span class="font-label-sm text-label-sm text-ink-primary font-semibold">Sonde de contrôle active 24/7</span>
+</div>
+<span class="font-code-md text-code-md text-ink-secondary">99.98% up</span>
+</div>
+<!-- Navigation secondaire -->
+<div class="grid grid-cols-2 gap-3 text-ink-secondary font-body-sm text-body-sm">
+<div class="flex flex-col gap-1.5">
+<span class="font-label-md text-label-md text-ink-primary font-semibold">Gouvernance</span>
+<a class="hover:text-primary transition-colors" href="#">Manifeste éthique</a>
+<a class="hover:text-primary transition-colors" href="#">Méthodologie d'audit</a>
+<a class="hover:text-primary transition-colors" href="#">Code source (GitHub)</a>
+</div>
+<div class="flex flex-col gap-1.5">
+<span class="font-label-md text-label-md text-ink-primary font-semibold">Ressources</span>
+<a class="hover:text-primary transition-colors" href="#">Documentation sonde</a>
+<a class="hover:text-primary transition-colors" href="#">Mentions légales</a>
+<a class="hover:text-primary transition-colors" href="#">Politique cookies (0)</a>
+</div>
+</div>
+<!-- Copyright & Signature -->
+<div class="pt-2 flex flex-col gap-1 text-center font-label-sm text-label-sm text-ink-secondary">
+<div>Audigy Diagnostics Numériques © 2026 • Fait pour un web souverain et sobre</div>
+<div class="font-code-md text-code-md text-outline">SHA256: 4e9f7a81b2c40d12e987c9f3</div>
+</div>
+</footer>
+</div>
+<script>
+  // Micro-interaction de défilement fluide vers les ancres d'articles
+  document.querySelectorAll('a[href^="#art-"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      e.preventDefault();
+      const targetId = this.getAttribute('href');
+      const targetElement = document.querySelector(targetId);
+      if (targetElement) {
+        targetElement.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }
+    });
+  });
+</script></main></body></html>

@@ -1,6 +1,8 @@
 # Brief agent (approche B) Implementation Plan
 
-> **Chrome gelé 2026-10-26.** Ce plan concerne le brief produit, pas la nav. `AppHeader` unique, logos du pack, sombre : [`docs/design-pack-2026-10-26/01-REGLES-STRICTES.md`](../../design-pack-2026-10-26/01-REGLES-STRICTES.md). Pas de famille B, pas d’item Progression, pas de Blog / Actu, pas de Material `vital_signs`.
+> **Archive (26 octobre 2026).** Décisions déjà appliquées sur `main`. Ce fichier n’est plus la source de vérité. Produit : [`docs/FONCTIONNEMENT.md`](../../../FONCTIONNEMENT.md). UI : [`docs/DESIGN.md`](../../../DESIGN.md) et le pack design. Ancien chemin : `docs/superpowers/`.
+
+> **Chrome gelé 2026-10-26.** Ce plan concerne le brief produit, pas la nav. `AppHeader` unique, logos du pack, sombre : [`docs/design-pack-2026-10-26/01-REGLES-STRICTES.md`](../../../design-pack-2026-10-26/01-REGLES-STRICTES.md). Pas de famille B, pas d’item Progression, pas de Blog / Actu, pas de Material `vital_signs`.
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
@@ -12,7 +14,7 @@
 
 ## Global Constraints
 
-Chaque tâche inclut ces contraintes. Les valeurs sont celles de `docs/superpowers/specs/2026-10-24-agent-prompts-brief-design.md`.
+Chaque tâche inclut ces contraintes. Les valeurs sont celles de `docs/archive/superpowers/specs/2026-10-24-agent-prompts-brief-design.md`.
 
 - Base : `main` après fusion de la spec. Ne pas empiler cette PR sur la PR de spec. Ne pas rouvrir l’impression (UX-16), le Markdown du rapport (UX-17), ni la ligne de constat (UX-19).
 - UX-18 est ce brief. Le prompt d’une constatation, limité au correctif déjà montré, ne se livre pas. S’il est déjà sur la branche (`correctionPrompt`, clés `prompt.*`, bouton « Copier le prompt »), la tâche 9 le retire. S’il est absent, la tâche 9 ne le crée pas.

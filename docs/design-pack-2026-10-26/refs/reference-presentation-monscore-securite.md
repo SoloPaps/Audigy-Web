@@ -248,7 +248,7 @@ Espace Pro, PDF complet, message prestataire exact, options sélecteur hébergeu
 - Moteur multi-PART (26 PART, pas 27).  
 - Sécu passive type MDN HTTP Observatory (pas « OWASP » comme label principal).  
 - Perf Lighthouse/CrUX ; éco EcoIndex/RGESN ; deps retire.js/OSV ; trackers Tracker Radar ; a11y axe/RGAA ; disponibilité ; questionnaire RGESN.  
-- Spec brief agent (approche B) : docs superpowers specs/plans 2026-10-24 — implémenté via vagues PR.  
+- Spec brief agent (approche B) : `docs/archive/superpowers/` (ancien `docs/superpowers/`, 2026-10-24) — implémenté via vagues PR.  
 - UX post-Arc Soft : textes scannables, liens unifiés.  
 - Owner : autonome hors argent / comptes / secrets / Netlify deploy.  
 - Backlog polish nov : `audigy/bugs-a-reprendre-2026-11.md`.

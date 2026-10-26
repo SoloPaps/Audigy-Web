@@ -27,5 +27,5 @@ Date : 2026-10-26 Europe/Paris
 
 ## Notes
 
-- HTML Stitch (33) **non inclus** — chemins dans `02-PAGES.md`.
-- ZIP livrable : `/workspace/Audigy-pack-design-2026-10-26.zip`
+- Inventaire ci-dessus = pack d’origine (26 oct.). Les maquettes Stitch extraites sont arrivées ensuite dans `maquettes/` (voir `maquettes/README.md`). 31 PNG valides. Deux écrans sans PNG (fichiers de 28 octets omis).
+- ZIP livrable d’origine : hors dépôt. Pas de ZIP maquettes dans le git.

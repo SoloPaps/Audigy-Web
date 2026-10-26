@@ -1,5 +1,7 @@
 # Produit cible : Audigy × MonScoreSécurité (le meilleur des deux)
 
+> **Décisions historiques d’octobre 2026** — contenu conservé (#61 / #62). Ce n’est plus la source de vérité produit : voir [`FONCTIONNEMENT.md`](FONCTIONNEMENT.md). Charte : [`DESIGN.md`](DESIGN.md) et le [pack design](design-pack-2026-10-26/00-LISEZ-MOI.md).
+
 **Date :** 26 octobre 2026 (Europe/Paris)  
 **État :** 26 octobre 2026 — #61 et #62 sont sur `main` (merge #61 `9e2ea2e0`, #62 `87e14b7e`). Méthodo never/self et opt-out PublicScore livrés. Clés `home.guarantees.*`, `priorities.*`, `report.grade.*` : dictionnaires seulement. La cible ci-dessous ne change pas. Détail en §5.  
 **Intention owner :** ne pas seulement *présenter* Audigy comme MonScore — **fusionner** les deux : garder tout ce qu’Audigy a de fort (prompts IA, sélection des corrections, multi-domaines, Arc Soft…) et prendre le **maximum** de l’UX / pédagogie / parcours MonScore.  
@@ -251,7 +253,7 @@ Espace Pro, PDF complet, message prestataire exact, options sélecteur hébergeu
 - Moteur multi-PART (26 PART, pas 27).  
 - Sécu passive type MDN HTTP Observatory (pas « OWASP » comme label principal).  
 - Perf Lighthouse/CrUX ; éco EcoIndex/RGESN ; deps retire.js/OSV ; trackers Tracker Radar ; a11y axe/RGAA ; disponibilité ; questionnaire RGESN.  
-- Spec brief agent (approche B) : docs superpowers specs/plans 2026-10-24 — implémenté via vagues PR.  
+- Spec brief agent (approche B) : [`archive/superpowers/`](archive/README.md) (ancien `docs/superpowers/`, 2026-10-24) — implémenté via vagues PR.  
 - UX post-Arc Soft : textes scannables, liens unifiés.  
 - Owner : autonome hors argent / comptes / secrets / Netlify deploy.  
 - Backlog polish nov : `audigy/bugs-a-reprendre-2026-11.md`.

@@ -4,7 +4,8 @@ globs: apps/web/**/*.astro,apps/web/**/*.svelte,apps/web/**/*.css,apps/web/src/i
 alwaysApply: false
 ---
 - `docs/DESIGN.md` fait foi pour le clair (fusion PR #66) et la lecture du rapport. Lire seulement la section utile. Sombre gelé : §2.4 + `docs/design-pack-2026-10-26/04-THEME-DARK.md`. Chrome : `01-REGLES-STRICTES.md` prime sur Stitch.
-- Stitch gelé (nav, logo, dark). Cursor proche des checklists `02-PAGES.md`, pas un calque 1:1. Ne pas relancer Stitch.
+- Stitch gelé (nav, logo, dark). Ne pas le relancer. Ouvrir les PNG `docs/design-pack-2026-10-26/maquettes/**/screen.png` comme modèles visuels en même temps que le code. Checklists `02-PAGES.md`. Pas un calque 1:1. `01-REGLES-STRICTES.md` gagne. Ignorer les PNG invalides ou ≤ 100 octets.
+- Fonctionnalités et règles produit (2 sites / 1 lien, soft-gate, brief gratuit avec compte, Pro plus tard, vie privée option C) : `docs/FONCTIONNEMENT.md` et `docs/etapes-refonte/`, sur le code existant.
 - Un seul `AppHeader`. Nav exacte : Accueil · Méthode · Sites suivis · Documentation | FR/EN · Connexion. Drawer = les mêmes 5 items + FR/EN.
 - INTERDIT : Audit actif, Historique, Générateur Brief, item Progression, Blog/Actu, bottom-bar Diagnostic · Méthode · Sites · Compte, Material `vital_signs` / `ecg_heart` / `graphic_eq` / `shield` / `verified`, SVG ECG, lettre A isolée.
 - Logo : `docs/design-pack-2026-10-26/assets/logo-icon.jpg` et `logo-lockup.jpg` seulement.
@@ -14,4 +15,5 @@ alwaysApply: false
 - Polices auto-hébergées : Atkinson Hyperlegible Next (texte, interface, scores, titres légaux), Outfit (H1 de page hors pages légales), JetBrains Mono (URL et valeurs techniques). Zéro requête tierce.
 - Interdits : violet de marque, texte en dégradé, emoji, hero centré générique, 3 cartes identiques, capitales criées, shimmer. Verre, blobs pastel et ombre flottante : seulement dans les bornes de DESIGN.md.
 - Ton : vouvoiement, ≤ 20 mots/phrase, constat puis conséquence puis action.
+- Copie produit : 8 domaines unifiés ; « passif par défaut » ; « horodaté » ; jargon hors couche 1 ; « votre assistant IA » (pas modèles datés). Voir `docs/FONCTIONNEMENT.md` §10.
 - Avant merge : checklist §9 + axe 0 violation. `prefers-reduced-motion` coupe le mouvement.
