@@ -206,6 +206,16 @@ onMount(() => {
     </div>
   </section>
 
+  <section class="glass glass-module">
+    <div class="glass-plate">
+      <h2>{t('score.public.optout.title')}</h2>
+      <p class="prose">{t('score.public.optout.lead')}</p>
+      <p>
+        <a class="link-action" href="/connexion">{t('score.public.optout.action')}</a>
+      </p>
+    </div>
+  </section>
+
   {#if stamp && view.methodVersion && view.auditId}
     <section class="glass glass-module">
       <div class="glass-plate">

@@ -33,6 +33,9 @@ export const fr = {
     'Un score, ce qu’il veut dire, et quoi corriger. Rien n’est publié sans vous.',
   'home.url.example': 'https://exemple.fr',
   'home.url.error': 'Indiquez une adresse complète, comme https://exemple.fr.',
+  'home.guarantees.time': 'Résultats complets en ~1 minute',
+  'home.guarantees.free': '100% gratuit et sans inscription',
+  'home.guarantees.passive': 'Tests passifs conformes et sécurisés',
   'home.method': 'Comment le score est calculé',
   'home.example.badge': 'Exemple',
   'home.example.sentence': 'Votre site peut encore gagner en clarté.',
@@ -142,6 +145,10 @@ export const fr = {
   'score.security.hidden': 'Le détail de la protection n’est pas publié.',
   'score.security.title': 'Détail de la protection',
   'score.security.generic': 'Un point de protection est signalé.',
+  'score.public.optout.title': 'Propriétaire de ce site',
+  'score.public.optout.lead':
+    'Vous êtes propriétaire de ce nom de domaine ? Connectez-vous pour administrer, masquer ou retirer cette page.',
+  'score.public.optout.action': 'Gérer ce site',
   'share.missing': 'Ce lien ne fonctionne plus.',
   'gsc.connect': 'Connecter Search Console',
   'gsc.page.title': 'Search Console',
@@ -1712,6 +1719,26 @@ export const fr = {
     'Le rapport décrit une observation. Ce n’est pas un constat de commissaire de justice.',
   'method.proof.link':
     'Les mentions de preuve sont sur la page de vérification.',
+  'method.never.title': 'Ce que nous ne faisons jamais',
+  'method.never.lead':
+    'Par respect pour vos serveurs et la législation (art. 323-1 du Code pénal), nos vérifications sont strictement encadrées :',
+  'method.never.exploit':
+    'Aucune tentative d’intrusion ni exploitation de faille technique.',
+  'method.never.bruteforce':
+    'Aucun test destructeur, charge massive ou force brute.',
+  'method.never.submit':
+    'Aucun envoi de données dans vos formulaires ou paniers.',
+  'method.never.sell':
+    'Aucune revente de vos rapports, e-mails ou données d’audit.',
+  'method.self.title': 'Transparence et auto-audit',
+  'method.self.lead':
+    'Audigy s’applique à lui-même l’ensemble des standards mesurés :',
+  'method.self.csp':
+    'En-têtes de sécurité stricts (politique de contenu, HSTS).',
+  'method.self.privacy':
+    'Zéro traceur commercial, zéro cookie tiers avant consentement.',
+  'method.self.a11y':
+    'Accessibilité conforme (Atkinson Hyperlegible, contrastes élevés).',
   'account.title': 'Votre compte',
   'account.lead': 'Gérez l’export de vos données et la suppression du compte.',
   'domain.cause.coverage':
@@ -1748,6 +1775,65 @@ export const fr = {
   'account.delete.forever': 'Supprimer définitivement',
   'account.delete.done': 'Le compte est supprimé.',
   'account.error': 'L’action n’a pas abouti. Réessayez.',
+  'priorities.title': '3 priorités d’action',
+  'priorities.subtitle':
+    'Ce qui a le plus d’impact sur votre note et qui est rapide à corriger',
+  'priorities.duration': 'Durée estimée : {minutes} min',
+  'priorities.difficulty.easy': 'Facile',
+  'priorities.difficulty.medium': 'Moyen',
+  'priorities.difficulty.hard': 'Avancé',
+  'priorities.actor.owner': 'Par vous-même',
+  'priorities.actor.developer': 'Par votre développeur',
+  'priorities.actor.sysadmin': 'Hébergeur ou administrateur',
+  'priorities.btn.fix': 'Comment corriger',
+  'priorities.btn.brief': '+ Ajouter au brief',
+  'priorities.guide.modal.title': 'Guide de correction rapide',
+  'priorities.guide.modal.close': 'Fermer le guide',
+  'priorities.guide.host.label': 'Votre hébergeur ou registrar :',
+  'priorities.guide.step': 'Étape {step}',
+  'priorities.guide.copy': 'Copier le code',
+  'priorities.guide.copied': 'Copié !',
+  'priorities.guide.verify_after': 'Vérifier après modification',
+  'priorities.guide.recheck_hint':
+    'Après avoir enregistré vos réglages, relancez une vérification pour constater le gain.',
+  'priorities.bridge.title': 'Corriger avec un assistant IA',
+  'priorities.bridge.desc':
+    'Exportez un brief complet et prêt à coller dans Cursor, Copilot ou Claude pour corriger automatiquement les constats sélectionnés.',
+  'priorities.bridge.action': 'Ouvrir la sélection du brief',
+  'priorities.why.dmarc':
+    "Protège votre nom de domaine contre l'usurpation d'identité et garantit la délivrabilité de vos e-mails.",
+  'priorities.why.spf':
+    "Déclare officiellement quels serveurs ont le droit d'envoyer des e-mails avec votre nom de domaine.",
+  'priorities.why.dkim':
+    "Signe cryptographiquement vos courriels pour éviter qu'ils n'atterrissent dans les courriers indésirables.",
+  'priorities.why.hsts':
+    'Force les navigateurs à utiliser une connexion chiffrée HTTPS et bloque les interceptions.',
+  'priorities.why.https':
+    "Garantit la confidentialité et l'intégrité des données échangées avec vos visiteurs.",
+  'priorities.why.xcto':
+    'Interdit aux navigateurs de deviner le type de fichier, bloquant les attaques par contenu piégé.',
+  'priorities.why.frames':
+    "Empêche l'intégration de vos pages dans des fenêtres invisibles piégées (clickjacking).",
+  'priorities.why.csp':
+    "Restreint les sources de scripts autorisées et bloque l'injection de code malveillant.",
+  'priorities.why.images_poids':
+    "Des images trop lourdes ralentissent considérablement l'affichage, surtout sur mobile.",
+  'priorities.why.images_dimensions':
+    'Spécifier la largeur et la hauteur évite les sursauts de page agaçants lors du chargement.',
+  'priorities.why.accessibilite':
+    "Permet aux utilisateurs malvoyants ou naviguant au clavier d'utiliser votre site sans blocage.",
+  'priorities.why.seo_title':
+    'Le titre de page est le premier critère pris en compte par les moteurs de recherche.',
+  'priorities.why.seo_description':
+    'La description incite les internautes à cliquer sur votre lien dans les résultats Google.',
+  'priorities.why.traceurs':
+    'Le dépôt de cookies avant consentement enfreint la réglementation RGPD et la directive ePrivacy.',
+  'priorities.why.compression':
+    "Activer la compression Gzip ou Brotli allège les transferts et diminue l'impact environnemental.",
+  'priorities.why.default':
+    'Cette amélioration renforce la fiabilité, la rapidité et la conformité de votre site.',
+  'report.grade.letter': 'Note {grade}',
+  'report.grade.label': '{label} ({score}/100)',
 } as const satisfies Record<string, string>;
 
 export type MessageKey = keyof typeof fr;
