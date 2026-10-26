@@ -1,12 +1,13 @@
 # Documentation
 
-Index des documents du dépôt. Le statut du produit et le démarrage sont dans le [README](../README.md). Les règles pour les agents sont dans [AGENTS.md](../AGENTS.md) et dans `.cursor/rules/` (`00-core`, `design`, `security`, `stack`).
+Index des documents du dépôt. Le statut du produit et le démarrage sont dans le [README](../README.md). Les règles pour les agents sont dans [AGENTS.md](../AGENTS.md) et dans `.cursor/rules/` (`00-core`, `design`, `security`, `stack`). Le chrome UI (nav, logo, sombre) suit le [pack design gelé](design-pack-2026-10-26/00-LISEZ-MOI.md).
 
 ## Documents de référence
 
 | Fichier | À quoi il sert |
 |---|---|
-| [DESIGN.md](DESIGN.md) | Source de vérité UI : spec fusion MonScoreSécurité × Arc Soft (principes, tokens, écrans, composants, accessibilité, checklist §9). |
+| [DESIGN.md](DESIGN.md) | Source de vérité UI clair : spec fusion MonScoreSécurité × Arc Soft (PR #66). Le sombre gelé est le §2.4. |
+| [design-pack-2026-10-26/00-LISEZ-MOI.md](design-pack-2026-10-26/00-LISEZ-MOI.md) | Pack design gelé du 26 oct. 2026. Lire [01-REGLES-STRICTES.md](design-pack-2026-10-26/01-REGLES-STRICTES.md) avant toute UI. Pages : [02-PAGES.md](design-pack-2026-10-26/02-PAGES.md). Clair : [03](design-pack-2026-10-26/03-THEME-LIGHT-ARC-SOFT.md). Sombre : [04](design-pack-2026-10-26/04-THEME-DARK.md) + PNG `assets/dark-ref-*.png`. Logo : [05](design-pack-2026-10-26/05-LOGO.md). Backlog : [06](design-pack-2026-10-26/06-BACKLOG-CURSOR.md). Les copies `refs/bugs-a-reprendre-2026-11.md` et `refs/reference-presentation-monscore-securite.md` sont l’archive du pack ; les fichiers vivants restent [bugs-a-reprendre-2026-11.md](bugs-a-reprendre-2026-11.md) et [REFERENCE-AUDIGY-MONSCORE-FUSION.md](REFERENCE-AUDIGY-MONSCORE-FUSION.md). |
 | [DEV-LOCAL.md](DEV-LOCAL.md) | Démarrage local : Supabase, labo, `netlify dev`, API, CLI, runner navigateur. Aucun déploiement. |
 | [METHODE.md](METHODE.md) | Méthode de notation, version 2026.1. Une pondération nouvelle crée une version. |
 | [PLAN.md](PLAN.md) | Produit, architecture, garde-fous §14, découpage PART-00 à PART-26, checklist de déploiement du propriétaire (section « PART-27 — Déploiement unique final »). |

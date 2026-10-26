@@ -11,3 +11,6 @@ alwaysApply: true
 - Never read packages/engine/data/**, pnpm-lock.yaml, node_modules, builds unless user gives exact path.
 - One PART = AGENTS.md + that PART section of docs/PLAN.md + listed files only. Max 8 files. No repo-wide explore.
 - Before tools: one line listing files to open.
+- UI : lire `docs/design-pack-2026-10-26/01-REGLES-STRICTES.md` avant le chrome. Stitch gelé. Cursor proche des maquettes, pas 1:1. Clair = `docs/DESIGN.md` (PR #66). Sombre = `04-THEME-DARK.md` + PNG `dark-ref-*.png`.
+- Un seul `AppHeader`. Nav : Accueil · Méthode · Sites suivis · Documentation | FR/EN · Connexion. INTERDIT famille B, item Progression, Blog/Actu, bottom Diagnostic·Méthode·Sites·Compte, Material `vital_signs`.
+- Logo unique : `docs/design-pack-2026-10-26/assets/logo-icon.jpg` + `logo-lockup.jpg`.

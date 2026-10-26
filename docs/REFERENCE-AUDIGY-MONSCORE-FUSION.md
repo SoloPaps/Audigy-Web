@@ -5,7 +5,8 @@
 **Intention owner :** ne pas seulement *présenter* Audigy comme MonScore — **fusionner** les deux : garder tout ce qu’Audigy a de fort (prompts IA, sélection des corrections, multi-domaines, Arc Soft…) et prendre le **maximum** de l’UX / pédagogie / parcours MonScore.  
 **Livrable :** référence pour ~novembre 2026 (rappel routine 26 nov 9h).  
 **Sources MonScore :** [home](https://monscoresecurite.fr/), [méthodo](https://monscoresecurite.fr/methodologie) v1.5, [pricing](https://monscoresecurite.fr/pricing), [à propos](https://monscoresecurite.fr/a-propos), rapport [angelique-osteo](https://monscoresecurite.fr/rapport/owvrR361EUK5OKxQwRLs2g) + captures Jojo.  
-**Sources Audigy :** produit actuel SoloPaps/Audigy-Web (brief agent PR #47/#49/#54, triage #57–#59, Arc Soft, 26 PART, domaines MDN Observatory / Lighthouse-CrUX / EcoIndex-RGESN / axe / etc.).
+**Sources Audigy :** produit actuel SoloPaps/Audigy-Web (brief agent PR #47/#49/#54, triage #57–#59, Arc Soft, 26 PART, domaines MDN Observatory / Lighthouse-CrUX / EcoIndex-RGESN / axe / etc.).  
+**Chrome UI (gelé 2026-10-26) :** la nav, le logo et le thème sombre ne se déduisent pas de MonScore ni d’une nouvelle maquette Stitch. Source : [`design-pack-2026-10-26/01-REGLES-STRICTES.md`](design-pack-2026-10-26/01-REGLES-STRICTES.md). Le clair Arc Soft de la fusion (PR #66) reste dans [`DESIGN.md`](DESIGN.md). Le sombre est [`DESIGN.md`](DESIGN.md) §2.4.
 
 ---
 

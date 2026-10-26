@@ -1,5 +1,7 @@
 # Brief agent (approche B) Implementation Plan
 
+> **Chrome gelé 2026-10-26.** Ce plan concerne le brief produit, pas la nav. `AppHeader` unique, logos du pack, sombre : [`docs/design-pack-2026-10-26/01-REGLES-STRICTES.md`](../../design-pack-2026-10-26/01-REGLES-STRICTES.md). Pas de famille B, pas d’item Progression, pas de Blog / Actu, pas de Material `vital_signs`.
+
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
 **Goal:** Remplacer le prompt simple d’UX-18 par un brief unique, choisi dans le rapport du propriétaire, collable dans Cursor ou un chat.

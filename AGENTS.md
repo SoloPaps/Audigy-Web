@@ -10,7 +10,18 @@ Lire ce fichier, puis seulement la PART demandée dans `docs/PLAN.md`. Ne pas li
 ## Produit
 - Public : particuliers non techniciens. Gratuit uniquement.
 - UI en français d'abord. Toute chaîne visible passe par `t('clé')` (dictionnaire `fr`), jamais en dur.
-- Design : `docs/DESIGN.md` est obligatoire (tokens, typo, ton, a11y, checklist §9).
+- Design : `docs/DESIGN.md` est obligatoire (tokens clair, typo, ton, a11y, checklist §9). Le sombre gelé est le §2.4.
+- Avant toute UI (chrome, nav, logo, thème) : `docs/design-pack-2026-10-26/01-REGLES-STRICTES.md`. En conflit avec une maquette Stitch, ce fichier gagne. Index : `docs/design-pack-2026-10-26/00-LISEZ-MOI.md`.
+
+## Design gelé (2026-10-26)
+
+Stitch est gelé. Ne pas le relancer pour la nav, le logo ou le sombre. Cursor reste proche des checklists de `02-PAGES.md`, pas un calque 1:1. Le clair Arc Soft (PR #66, `ef52ddbf`) ne se réécrit pas. Pas d'agent on-demand sans OK owner (Pro épuisé le 26 oct. 2026).
+
+- Un seul `AppHeader`. Libellés : Accueil · Méthode · Sites suivis · Documentation | FR/EN · Connexion. Drawer mobile = ces 5 items + FR/EN.
+- INTERDIT en nav (header, drawer, bottom-bar) : Audit actif, Historique, Générateur Brief (famille B), item Progression, Blog / Actu, bottom-bar Diagnostic · Méthode · Sites · Compte.
+- Logo uniquement : `docs/design-pack-2026-10-26/assets/logo-icon.jpg` et `logo-lockup.jpg`. INTERDIT : Material `vital_signs`, `ecg_heart`, `graphic_eq`, `shield`, `verified` ; lettre A isolée ; SVG « ECG » inventés.
+- Sombre : tokens de `04-THEME-DARK.md` + PNG `assets/dark-ref-accueil.png` et `assets/dark-ref-progression.png`. Fond `#0F1620` → `#1A2332`, surface `#161E2C`, encre `#F0F2F5` / `#9AA3B2`, CTA `#2A9B96`. Pas de violet AI-slop, pas de `#000` plein écran.
+- Backlog chrome : `06-BACKLOG-CURSOR.md` (P0 → P2). Ne pas implémenter `07-PLUS-TARD.md` en passant (multi-sites + GSC, bugs de novembre, go-live).
 
 ## Sécurité (non négociable)
 - Site non vérifié = tests passifs seulement. Tests actifs = propriété vérifiée ET revérifiée juste avant le test (art. 323-1 Code pénal).
