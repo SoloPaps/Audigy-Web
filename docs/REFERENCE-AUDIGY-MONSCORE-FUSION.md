@@ -1,7 +1,7 @@
 # Produit cible : Audigy × MonScoreSécurité (le meilleur des deux)
 
 **Date :** 26 octobre 2026 (Europe/Paris)  
-**État :** 26 octobre 2026 — avance partielle dans la PR [#61](https://github.com/SoloPaps/Audigy-Web/pull/61), pas sur `main`. La cible ci-dessous ne change pas. Détail en §5.  
+**État :** 26 octobre 2026 — #61 et #62 sont sur `main` (merge #61 `9e2ea2e0`, #62 `87e14b7e`). Méthodo never/self et opt-out PublicScore livrés. Clés `home.guarantees.*`, `priorities.*`, `report.grade.*` : dictionnaires seulement. La cible ci-dessous ne change pas. Détail en §5.  
 **Intention owner :** ne pas seulement *présenter* Audigy comme MonScore — **fusionner** les deux : garder tout ce qu’Audigy a de fort (prompts IA, sélection des corrections, multi-domaines, Arc Soft…) et prendre le **maximum** de l’UX / pédagogie / parcours MonScore.  
 **Livrable :** référence pour ~novembre 2026 (rappel routine 26 nov 9h).  
 **Sources MonScore :** [home](https://monscoresecurite.fr/), [méthodo](https://monscoresecurite.fr/methodologie) v1.5, [pricing](https://monscoresecurite.fr/pricing), [à propos](https://monscoresecurite.fr/a-propos), rapport [angelique-osteo](https://monscoresecurite.fr/rapport/owvrR361EUK5OKxQwRLs2g) + captures Jojo.  
@@ -171,31 +171,33 @@ Pour findings « code / stack » :
 
 ### État 26 oct 2026
 
-PR ouverte [#61](https://github.com/SoloPaps/Audigy-Web/pull/61) (`cursor/ai-studio-recovery-34d4`, +173/−1, 4 fichiers). Elle reprend les éditions Google AI Studio sur `main` d’après #60. Elle ne force-push pas.
+#61 et #62 sont sur `main`.
 
-AI Studio avait importé le dépôt ; après #60 il ne proposait qu’un force-push vers `main`. Reprise : export zip, puis branche et PR. Ne pas force-push.
+- Merge #61 `9e2ea2e041dd7cf4b0825c45888adeb4f24e7599` : méthodo, score public, dictionnaires.
+- Merge #62 `87e14b7e91636d01ed2ddc94bfd971b8382be143` : cet état, rédigé alors que #61 n’était pas encore décrit comme fusionné.
 
-**Branché dans l’UI (proposé par #61, pas encore sur `main`) :**
-- `/methode` : « Ce que nous ne faisons jamais » + « Transparence et auto-audit », et le sommaire (`methode.astro`).
-- Score public (`PublicScore.svelte`) : bloc propriétaire, connexion pour gérer, masquer ou retirer.
-- Clés `method.never.*`, `method.self.*`, `score.public.optout.*` dans `fr.ts` et `dictionnaire-en.json`.
+AI Studio avait importé le dépôt ; après #60 il ne proposait qu’un force-push vers `main`. Reprise par export zip, puis #61. Pas de force-push.
 
-**Dictionnaires seulement (#61). L’export n’avait pas les écrans :**
+**Livré sur `main` (#61) :**
+- `/methode` : « Ce que nous ne faisons jamais » + « Transparence et auto-audit », et le sommaire (`methode.astro`). Clés `method.never.*`, `method.self.*`.
+- Score public (`PublicScore.svelte`) : bloc propriétaire, connexion pour gérer, masquer ou retirer. Clés `score.public.optout.*` dans `fr.ts` et `dictionnaire-en.json`.
+
+**Dictionnaires seulement (pas d’écran) :**
 - `home.guarantees.*` — délai, gratuit, passif. Pas de bandeau à l’accueil.
 - `priorities.*` — 3 priorités, durée, difficulté, qui, Comment corriger, pont vers le brief, `why.*`. Pas de cartes, pas de modale.
 - `report.grade.*` — lettre + label /100. Pas d’en-tête de note.
 
-**Pas traité par #61 :** bugs moteur et fiabilité du triage [`AUDIT-TRIAGE-2026-10.md`](AUDIT-TRIAGE-2026-10.md). Fusion encore ouverte : ranking des 3 priorités, modales Comment corriger, en-tête de note, bandeau de garanties.
+**Hors #61 :** bugs moteur et fiabilité du triage [`AUDIT-TRIAGE-2026-10.md`](AUDIT-TRIAGE-2026-10.md). Fusion encore ouverte : ranking des 3 priorités, modales Comment corriger, en-tête de note, bandeau de garanties.
 
 **Présentation (MSS)**
-- [ ] Note lettre + label + /100 + phrase — clés `report.grade.*` seulement (#61), pas d’en-tête
-- [ ] 3 priorités cross-domaines avec durée / difficulté / qui — clés `priorities.*` seulement (#61), pas de ranking ni de cartes
-- [ ] Comment corriger (guide) là où ça a du sens — libellés dans `priorities.*` (#61), pas de modale
+- [ ] Note lettre + label + /100 + phrase — clés `report.grade.*` seulement, pas d’en-tête
+- [ ] 3 priorités cross-domaines avec durée / difficulté / qui — clés `priorities.*` seulement, pas de ranking ni de cartes
+- [ ] Comment corriger (guide) là où ça a du sens — libellés dans `priorities.*`, pas de modale
 - [ ] Sans compte jusqu’au rapport
-- [ ] Méthodo publique + self-audit — **en PR #61** (sections + sommaire, pas sur `main`)
-- [ ] Opt-out propriétaire (gérer / masquer / retirer) — **en PR #61** (`PublicScore`)
+- [x] Méthodo publique + self-audit — livré sur `main` (#61) : sections + sommaire
+- [x] Opt-out propriétaire (gérer / masquer / retirer) — livré sur `main` (#61, `PublicScore`)
 - [ ] Gating soft
-- [ ] Bandeau de garanties à l’accueil — clés `home.guarantees.*` seulement (#61)
+- [ ] Bandeau de garanties à l’accueil — clés `home.guarantees.*` seulement
 
 **Puissance (Audigy)**
 - [ ] Coches + Rien/Vérif/Fix + Générer brief (sticky)
@@ -203,7 +205,7 @@ AI Studio avait importé le dépôt ; après #60 il ne proposait qu’un force-p
 - [ ] Multi-domaines visibles sans écraser les 3 priorités
 - [ ] Relancer / historique / export
 - [ ] Arc Soft home + rapport scannable
-- [ ] Pont « Ajouter au brief » depuis chaque priorité — libellé dans `priorities.*` (#61), pas branché
+- [ ] Pont « Ajouter au brief » depuis chaque priorité — libellé dans `priorities.*`, pas branché
 
 **Fusion**
 - [ ] Chaque finding Important a *au moins* : pourquoi + (guide **ou** Fix brief)
@@ -259,7 +261,7 @@ Espace Pro, PDF complet, message prestataire exact, options sélecteur hébergeu
 
 1. Rouvrir ce fichier (rappel 26 nov).  
 2. Cocher §5 sur le rapport Audigy live.  
-3. Prioriser les écarts : (1) 3 priorités + phrase note, (2) pont priorités → brief, (3) Comment corriger pour findings DNS/config, (4) polish Arc Soft sans casser la hiérarchie. La méthodo et l’auto-audit, ainsi que l’opt-out du score public, sont dans la PR #61 (pas sur `main`). Les clés accueil / priorités / note de #61 ne comptent pas tant que l’écran n’existe pas.  
+3. Prioriser les écarts : (1) 3 priorités + phrase note, (2) pont priorités → brief, (3) Comment corriger pour findings DNS/config, (4) polish Arc Soft sans casser la hiérarchie. La méthodo, l’auto-audit et l’opt-out du score public sont sur `main` (#61). Les clés accueil / priorités / note ne comptent pas tant que l’écran n’existe pas.  
 4. Ne pas ouvrir de PR design non demandée avant feu owner ; ce doc = cible produit, pas ticket immédiat.
 
 ---
