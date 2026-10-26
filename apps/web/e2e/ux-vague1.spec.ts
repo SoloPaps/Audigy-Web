@@ -63,10 +63,11 @@ test('la barre étroite ne coupe pas la marque, le menu ni le thème', async ({
   const labels = [
     page.getByRole('link', { name: 'Audigy', exact: true }),
     page.getByRole('button', { name: 'Menu' }),
-    page.locator('.theme span'),
+    page.locator('.theme span', { hasText: 'Thème' }),
   ];
   const plateBox = await plate.boundingBox();
   expect(plateBox).not.toBeNull();
+  const inside = [...labels, page.getByRole('combobox', { name: 'Langue' })];
   for (const label of labels) {
     const lines = await label.evaluate((node) => {
       const view = globalThis as unknown as {
@@ -82,6 +83,8 @@ test('la barre étroite ne coupe pas la marque, le menu ni le thème', async ({
       return range.getClientRects().length;
     });
     expect(lines).toBe(1);
+  }
+  for (const label of inside) {
     const box = await label.boundingBox();
     expect(box).not.toBeNull();
     if (box && plateBox) {
