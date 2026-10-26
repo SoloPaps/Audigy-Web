@@ -19,6 +19,8 @@ import Base from '../layouts/Base.astro';
       { id: 'method-global', label: t('method.global.title') },
       { id: 'method-level', label: t('method.level.title') },
       { id: 'method-order', label: t('method.order.title') },
+      { id: 'method-never', label: t('method.never.title') },
+      { id: 'method-self', label: t('method.self.title') },
       { id: 'method-repro', label: t('method.repro.title') },
       { id: 'method-observatory', label: tReport('card.observatory') },
       { id: 'method-lighthouse', label: tReport('card.lighthouse') },
@@ -79,6 +81,23 @@ import Base from '../layouts/Base.astro';
   <h2 id="method-order">{t('method.order.title')}</h2>
   <p class="prose">{t('method.order.body')}</p>
   <p class="prose">{t('method.order.tie')}</p>
+
+  <h2 id="method-never">{t('method.never.title')}</h2>
+  <p class="prose">{t('method.never.lead')}</p>
+  <ul class="prose-list">
+    <li>{t('method.never.exploit')}</li>
+    <li>{t('method.never.bruteforce')}</li>
+    <li>{t('method.never.submit')}</li>
+    <li>{t('method.never.sell')}</li>
+  </ul>
+
+  <h2 id="method-self">{t('method.self.title')}</h2>
+  <p class="prose">{t('method.self.lead')}</p>
+  <ul class="prose-list">
+    <li>{t('method.self.csp')}</li>
+    <li>{t('method.self.privacy')}</li>
+    <li>{t('method.self.a11y')}</li>
+  </ul>
 
   <h2 id="method-observatory">{tReport('card.observatory')}</h2>
   <h2 id="method-lighthouse">{tReport('card.lighthouse')}</h2>
