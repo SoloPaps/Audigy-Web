@@ -240,6 +240,10 @@ export interface ReportRow extends Finding {
   proof: string;
   impactText: string | null;
   sources: BriefSource[];
+  /** Pour classer les priorités entre domaines. */
+  domain?: string;
+  minutes?: number | null;
+  fixKey?: string | null;
 }
 
 function catalogStatusOf(
@@ -281,6 +285,9 @@ export function reportRows(
         proof: finding.why,
         impactText: finding.limit?.trim() ? finding.limit : null,
         sources,
+        domain: row.domain,
+        minutes: row.effortMinutes ?? fix?.effortMinutes ?? null,
+        fixKey: row.fixKey,
       },
     ];
   });
