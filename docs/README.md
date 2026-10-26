@@ -24,4 +24,4 @@ La charte en vigueur pour le code reste [DESIGN.md](DESIGN.md). Les fichiers ci-
 | [superpowers/plans/2026-10-24-arc-soft-redesign.md](superpowers/plans/2026-10-24-arc-soft-redesign.md) | Plan d’implémentation Arc Soft suivi pour les PR #38, #39 et #40. |
 | [superpowers/specs/2026-10-24-ux-clarity-export-design.md](superpowers/specs/2026-10-24-ux-clarity-export-design.md) | Trois vagues de clarté et d’export. Vague 1 sur `main` (#45). Vague 2 : PR #46, ouverte. Vague 3 : spec seulement. |
 | [superpowers/specs/2026-10-24-agent-prompts-brief-design.md](superpowers/specs/2026-10-24-agent-prompts-brief-design.md) | Brief agent (approche B). Spec fusionnée (#47). L’interface est dans l’app. |
-| [AUDIT-TRIAGE-2026-10.md](AUDIT-TRIAGE-2026-10.md) | Triage du 25 octobre 2026. Les P0 et P1 sont dans le code. |
+| [AUDIT-TRIAGE-2026-10.md](AUDIT-TRIAGE-2026-10.md) | Triage du 25 octobre 2026. P0, P1, puis la vague reste (axe partiel, disponibilité, questionnaire, anglais, mouvement). |

@@ -1,4 +1,5 @@
 import { fr, type MessageKey } from './fr.js';
+import { packLine } from './pack.js';
 
 export {
   formatDate,
@@ -29,7 +30,7 @@ type ArgsFor<K extends MessageKey> = K extends unknown
  * Une clé littérale à paramètres exige ces paramètres.
  */
 export function t<K extends MessageKey>(key: K, ...args: ArgsFor<K>): string {
-  const template: string = fr[key];
+  const template: string = packLine(key) ?? fr[key];
   const params = args[0] as
     | Readonly<Record<string, string | number>>
     | undefined;

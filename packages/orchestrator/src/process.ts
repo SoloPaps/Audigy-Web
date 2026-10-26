@@ -1,5 +1,11 @@
 import type { AuditResultsInput } from '@audigy/db';
-import type { Check, CheckOutcome, FixSheet, Target } from '@audigy/engine';
+import {
+  type Check,
+  type CheckOutcome,
+  type FixSheet,
+  type Target,
+  UPTIME_KEY,
+} from '@audigy/engine';
 import type { AuditContext } from './context.js';
 import type { Dispatcher } from './dispatch.js';
 import { errorCode, type Logger } from './log.js';
@@ -47,6 +53,10 @@ export interface AuditStore {
   writeResults(input: AuditResultsInput): Promise<void>;
   /** Sortie validée du runner navigateur, ou `null` si elle n'est pas encore là. */
   readRunnerOutput(auditId: string): Promise<unknown | null>;
+  /** Somme `uptime_daily`. Absent : le check reste Non testé. */
+  readUptime?(
+    siteId: string,
+  ): Promise<{ checks: number; failures: number } | null>;
 }
 
 export interface ProcessDeps {
@@ -139,6 +149,10 @@ export async function processNextAudit(
       verified,
       audit,
     );
+    if (deps.store.readUptime) {
+      const sample = await deps.store.readUptime(audit.siteId);
+      if (sample) await ctx.shared.get(UPTIME_KEY, async () => sample);
+    }
     const { server, browser } = splitChecks(deps.checks);
 
     const serverOutcomes = await runServerPhase(server, ctx, { available });

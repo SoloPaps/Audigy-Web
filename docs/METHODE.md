@@ -236,7 +236,7 @@ Les critères 6.2 et 6.3 relisent les mêmes notes que la performance, avec les 
 
 ### Questionnaire
 
-Schéma seulement. Pas de note, pas d’interface. Version 2024, 78 questions. Réponses : oui, partiel, non, na. Les critères 4.8, 5.1, 6.1, 6.2 et 6.3 restent posés, parce que la mesure automatique ne couvre qu’une page.
+Écran volontaire, version 2024, 78 questions. Réponses : oui, partiel, non, na. Une question sans réponse n’est pas notée : elle est absente, pas un échec et pas un « non ». Les critères 4.8, 5.1, 6.1, 6.2 et 6.3 restent posés, parce que la mesure automatique ne couvre qu’une page.
 
 | Identifiant | Poids | Réussi | À améliorer | Problème |
 |---|---|---|---|---|
@@ -345,9 +345,20 @@ Le score du domaine est l’arrondi de note / 5 × 100. Une note de 4,0 donne 80
 
 ## 18. Accès
 
-Un test passif, version 2026.1. La note Lighthouse d’accessibilité est celle déjà demandée avec la performance (catégories mobile et ordinateur, dans `ctx.shared`). Elle n’entraîne pas un second appel. Le score retenu est le plus faible des deux, avec les mêmes seuils : 80, puis 50. S’il manque une des deux mesures et que le score disponible vaut au moins 80, le statut devient À améliorer. Sans lot, sans clé, sur un quota ou sur une erreur, le test est Non testé. Le domaine reste alors « Non testé », sans chiffre.
+Deux tests passifs, version 2026.1. La note Lighthouse d’accessibilité est celle déjà demandée avec la performance (catégories mobile et ordinateur, dans `ctx.shared`). Elle n’entraîne pas un second appel. Le score retenu est le plus faible des deux, avec les mêmes seuils : 80, puis 50. S’il manque une des deux mesures et que le score disponible vaut au moins 80, le statut devient À améliorer. Sans lot, sans clé, sur un quota ou sur une erreur, le test est Non testé.
+
+Le second test lit la sortie axe du navigateur d’audit, et la correspondance RGAA déjà calculée. Cette correspondance est partielle. Un critère automatique ne vaut pas un audit RGAA complet. Sans navigateur, ou si axe n’a pas tourné, le test est Non testé. Des écarts axe sont un Problème. Des points seulement incomplets sont À améliorer. Aucun écart est Réussi, sans prétendre que la page est conforme.
 
 | Identifiant | Poids | Réussi | À améliorer | Problème |
 |---|---|---|---|---|
 | accessibilite.lighthouse | 3 | Les deux scores sont là, et le plus faible vaut au moins 80. | Le plus faible est entre 50 et 79, ou une seule mesure est disponible alors que son score vaut au moins 80. | Le plus faible est sous 50. |
+| accessibilite.axe | 1 | Aucun écart axe. Couverture RGAA partielle, dite comme telle. | Seulement des points incomplets. | Au moins un écart axe. Sans runner : Non testé. |
+
+## 19. Disponibilité
+
+Hors score global, comme la réputation. Une sonde planifiée alimente `uptime_daily`. Le pourcentage est les sondes réussies sur les sondes faites. Aucune sonde : Non testé, pas un chiffre inventé. 99 % ou plus : Réussi. De 95 % à 98 % : À améliorer. En dessous : Problème.
+
+| Identifiant | Poids | Réussi | À améliorer | Problème |
+|---|---|---|---|---|
+| disponibilite.uptime | 1 | Au moins 99 % des sondes répondent. | De 95 % à 98 %. | Moins de 95 %. Aucune sonde : Non testé. |
 

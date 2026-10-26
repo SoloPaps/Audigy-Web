@@ -43,7 +43,7 @@ Mettre des **liens soignés** (Arc Soft) vers les **sources** et ce sur quoi l�
 **Renfort (note 25 oct.) :** depuis chaque constat du rapport, lien / tooltip pédagogique vers la **section correspondante** de `docs/METHODE.md` / page `/methode` (« pourquoi cette règle »).
 
 ### D. Système de langue (max 3)
-Ajouter un **sélecteur de langue** pour l’UI (et copies i18n). **Maximum 3 langues** au total — ex. français (défaut) + anglais + une 3ᵉ à choisir plus tard. Pas d’explosion i18n : rester léger, conserver les textes FR existants comme base.
+Français (défaut) et anglais sont en place. Le sélecteur charge `/dictionnaire-en.json` et `t()` bascule les îlots. Les pages statiques et le brief restent en français. Pas de troisième langue : elle n’était pas triviale. Maximum trois catalogues, inchangé.
 
 ## Axes d’amélioration (suggestions Jojo — owner OK pour les garder)
 
@@ -60,7 +60,7 @@ Renforcer `/methode` (et pieds de rapport) comme vitrine des bases de l’audit 
 Vague 2 a livré PDF/Markdown/prompt : en reprendre le layout pour alléger la densité (lié au bug 5) et hiérarchiser score → priorités → détails.
 
 ### I. Sticky bar brief plus claire
-Quand des constats sont cochés : sticky « Générer le brief » avec compteur fiable (lié bugs 1–3) et résumé court de la sélection.
+Non fait. Coller la barre masquerait les constats. Elle reste dans le flux, avec le compteur des cases cochées.
 
 ### J. Accessibilité du sélecteur Rien / Vérif / Fix
 Au-delà de l’alignement : focus visible, labels associés, taille de cible tactile correcte (mobile).

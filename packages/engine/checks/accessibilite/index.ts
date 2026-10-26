@@ -2,6 +2,7 @@ import { googleApiKey } from '../../src/google-api.js';
 import type { Check } from '../../src/types.js';
 import { type DayCache, memoryDayCache } from '../performance/cache.js';
 import { PERFORMANCE_CHECK_TIMEOUT_MS } from '../performance/types.js';
+import { createAccessibiliteAxeCheck } from './axe.js';
 import { createAccessibiliteLighthouseCheck } from './lighthouse.js';
 
 export interface AccessibiliteCheckOptions {
@@ -21,6 +22,7 @@ export function createAccessibiliteChecks(
       cache,
       PERFORMANCE_CHECK_TIMEOUT_MS,
     ),
+    createAccessibiliteAxeCheck(),
   ];
 }
 

@@ -21,7 +21,7 @@ describe('progressLive', () => {
 
   it('dit que le navigateur d’audit n’a pas tourné', () => {
     expect(runnerGap([{ reason: 'reason.runner_absent' }])).toBe(
-      'Nous n’avons pas pu tester : le navigateur d’audit n’a pas tourné.',
+      'Non testé : le navigateur d’audit n’a pas tourné.',
     );
     expect(runnerGap([{ reason: null }])).toBeNull();
   });

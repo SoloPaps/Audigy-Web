@@ -1,7 +1,8 @@
 /**
- * Schéma du questionnaire RGESN 2024. Pas d’interface : les réponses
- * seront saisies plus tard. Les critères observés automatiquement restent
- * posés, parce que la mesure ne couvre qu’une page.
+ * Schéma du questionnaire RGESN 2024. L’écran est volontaire.
+ * Une question sans réponse est absente, pas un échec.
+ * Les critères observés automatiquement restent posés :
+ * la mesure ne couvre qu’une page.
  */
 export const RGESN_VERSION = '2024';
 

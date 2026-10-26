@@ -14,6 +14,9 @@ export const fr = {
   'theme.system': 'Système',
   'theme.light': 'Clair',
   'theme.dark': 'Sombre',
+  'locale.label': 'Langue',
+  'locale.fr': 'Français',
+  'locale.en': 'English',
   'home.title': 'Audigy',
   'home.headline': 'Vérifiez la santé de votre site, gratuitement.',
   'home.submit': "Lancer l'audit",
@@ -556,25 +559,18 @@ export const fr = {
   'demo.lang.why': 'Le lecteur d’écran utilise la bonne prononciation.',
   'demo.lang.s1': 'Gardez l’attribut de langue sur la page.',
   'demo.cookie.title': 'Les cookies avant le choix n’ont pas été vus',
-  'demo.cookie.why':
-    'Nous n’avons pas pu tester : le navigateur d’audit n’a pas tourné.',
+  'demo.cookie.why': 'Non testé : le navigateur d’audit n’a pas tourné.',
   'demo.cookie.s1': 'Relancez l’audit lorsque ce navigateur est disponible.',
-  'reason.active_unverified':
-    'Nous n’avons pas pu tester : ce test demande un site vérifié.',
-  'reason.missing_source':
-    'Nous n’avons pas pu tester : une source manque ({source}).',
-  'reason.timeout':
-    'Nous n’avons pas pu tester : le test a dépassé {seconds} s.',
-  'reason.error':
-    'Nous n’avons pas pu tester : une erreur est survenue pendant le test.',
-  'reason.invalid_result':
-    'Nous n’avons pas pu tester : le résultat obtenu est inutilisable.',
+  'reason.active_unverified': 'Non testé : ce test demande un site vérifié.',
+  'reason.missing_source': 'Non testé : une source manque ({source}).',
+  'reason.timeout': 'Non testé : le test a dépassé {seconds} s.',
+  'reason.error': 'Non testé : une erreur est survenue pendant le test.',
+  'reason.invalid_result': 'Non testé : le résultat obtenu est inutilisable.',
   'reason.runner_pending':
     'Le navigateur d’audit n’a pas encore fini. Ce résultat arrive bientôt.',
-  'reason.runner_absent':
-    'Nous n’avons pas pu tester : le navigateur d’audit n’a pas tourné.',
+  'reason.runner_absent': 'Non testé : le navigateur d’audit n’a pas tourné.',
   'reason.browser_skipped':
-    'Nous n’avons pas pu tester : le navigateur d’audit n’a pas été lancé.',
+    'Non testé : le navigateur d’audit n’a pas été lancé.',
   'api.error.method_not_allowed': 'Cette action n’est pas possible ici.',
   'api.error.unauthorized': 'Connectez-vous pour lancer ou lire un audit.',
   'api.error.invalid_input': 'La demande est incomplète. Vérifiez l’adresse.',
@@ -606,12 +602,9 @@ export const fr = {
   'reputation.avis.fail': 'Les avis publics sont faibles.',
   'reputation.avis.unconfirmed': 'Choisissez le lieu pour afficher les avis.',
   'reputation.avis.none': 'Ce lieu n’a pas encore d’avis public.',
-  'reputation.avis.quota':
-    'Nous n’avons pas pu tester : le quota des avis est atteint.',
-  'reputation.avis.error':
-    'Nous n’avons pas pu tester : les avis n’ont pas répondu.',
-  'reputation.avis.absent':
-    'Nous n’avons pas pu tester : ce lieu est introuvable.',
+  'reputation.avis.quota': 'Non testé : le quota des avis est atteint.',
+  'reputation.avis.error': 'Non testé : les avis n’ont pas répondu.',
+  'reputation.avis.absent': 'Non testé : ce lieu est introuvable.',
   'reputation.avis.missing': 'Nous n’avons pas consulté les avis.',
   'cli.usage': 'Utilisation : audigy audit <adresse> [--json] [--browser]',
   'cli.error.command': 'Commande inconnue.',
@@ -767,7 +760,7 @@ export const fr = {
   'securite.security_txt.warn_canonical':
     'Le fichier de contact annonce une autre adresse que celle qui répond.',
   'securite.security_txt.untested_status':
-    'Nous n’avons pas pu tester : le fichier de contact a répondu {status}.',
+    'Non testé : le fichier de contact a répondu {status}.',
   'securite.technologies.pass':
     'Technologies repérées : {liste}. Aucun en-tête n’annonce de numéro de version.',
   'securite.technologies.pass_aucune':
@@ -799,7 +792,7 @@ export const fr = {
   'securite.cve_scripts.quota':
     'La base de failles OSV limite les demandes. Nous n’avons pas pu tester ces scripts.',
   'securite.cve_scripts.missing_api':
-    'Nous n’avons pas pu tester : la connexion aux bases de failles n’est pas configurée.',
+    'Non testé : la connexion aux bases de failles n’est pas configurée.',
   'securite.cve_logiciels.fail_kev':
     'Version possiblement vulnérable : {liste}. Failles connues : {count}, dont une exploitée selon la CISA. Mettez à jour sans attendre.',
   'securite.cve_logiciels.fail':
@@ -827,7 +820,7 @@ export const fr = {
   'securite.cve_logiciels.quota':
     'Une base de failles limite les demandes. Nous n’avons pas pu tester ces logiciels.',
   'securite.cve_logiciels.missing_api':
-    'Nous n’avons pas pu tester : la connexion aux bases de failles n’est pas configurée.',
+    'Non testé : la connexion aux bases de failles n’est pas configurée.',
   'performance.lighthouse.pass':
     'La vitesse mesurée est bonne : {mobile} sur 100 au téléphone, {desktop} sur 100 sur ordinateur.',
   'performance.lighthouse.warn':
@@ -886,11 +879,9 @@ export const fr = {
   'performance.quota':
     'Nous n’avons pas pu tester : le quota de mesure est atteint.',
   'performance.missing_key':
-    'Nous n’avons pas pu tester : la source de mesure n’est pas configurée.',
-  'performance.error':
-    'Nous n’avons pas pu tester : la mesure de vitesse a échoué.',
-  'seo.page.untested_status':
-    'Nous n’avons pas pu tester : la page a répondu {status}.',
+    'Non testé : la source de mesure n’est pas configurée.',
+  'performance.error': 'Non testé : la mesure de vitesse a échoué.',
+  'seo.page.untested_status': 'Non testé : la page a répondu {status}.',
   'seo.page.na_not_html':
     'La page n’est pas au format HTML. Ce contrôle ne s’applique pas.',
   'seo.lighthouse.pass':
@@ -902,13 +893,10 @@ export const fr = {
   'seo.lighthouse.partial':
     'Une des deux mesures de référencement manque. Le score obtenu est {score} sur 100.',
   'seo.lighthouse.missing_key':
-    'Nous n’avons pas pu tester : la source de mesure n’est pas configurée.',
-  'seo.lighthouse.quota':
-    'Nous n’avons pas pu tester : le quota de mesure est atteint.',
-  'seo.lighthouse.error':
-    'Nous n’avons pas pu tester : la mesure de référencement a échoué.',
-  'seo.lighthouse.absent':
-    'Nous n’avons pas pu tester : la note de référencement est absente.',
+    'Non testé : la source de mesure n’est pas configurée.',
+  'seo.lighthouse.quota': 'Non testé : le quota de mesure est atteint.',
+  'seo.lighthouse.error': 'Non testé : la mesure de référencement a échoué.',
+  'seo.lighthouse.absent': 'Non testé : la note de référencement est absente.',
   'accessibilite.lighthouse.pass':
     'L’accès mesuré est bon : {mobile} sur 100 au téléphone, {desktop} sur 100 sur ordinateur.',
   'accessibilite.lighthouse.warn':
@@ -918,13 +906,11 @@ export const fr = {
   'accessibilite.lighthouse.partial':
     'Une des deux mesures d’accès manque. Le score obtenu est {score} sur 100.',
   'accessibilite.lighthouse.missing_key':
-    'Nous n’avons pas pu tester : la source de mesure n’est pas configurée.',
+    'Non testé : la source de mesure n’est pas configurée.',
   'accessibilite.lighthouse.quota':
-    'Nous n’avons pas pu tester : le quota de mesure est atteint.',
-  'accessibilite.lighthouse.error':
-    'Nous n’avons pas pu tester : la mesure d’accès a échoué.',
-  'accessibilite.lighthouse.absent':
-    'Nous n’avons pas pu tester : la note d’accès est absente.',
+    'Non testé : le quota de mesure est atteint.',
+  'accessibilite.lighthouse.error': 'Non testé : la mesure d’accès a échoué.',
+  'accessibilite.lighthouse.absent': 'Non testé : la note d’accès est absente.',
   'seo.robots.pass':
     'Le fichier robots laisse les moteurs explorer cette adresse.',
   'seo.robots.pass_absent':
@@ -934,7 +920,7 @@ export const fr = {
   'seo.robots.fail_html':
     'Le fichier robots n’est pas un texte de règles. Les moteurs peuvent l’ignorer.',
   'seo.robots.untested_status':
-    'Nous n’avons pas pu tester : le fichier robots a répondu {status}.',
+    'Non testé : le fichier robots a répondu {status}.',
   'seo.robots.na_scope':
     'Le fichier robots est à la racine du domaine, hors du chemin audité.',
   'seo.sitemap.pass': 'Le plan du site est lisible et ses adresses répondent.',
@@ -957,7 +943,7 @@ export const fr = {
   'seo.sitemap.fail_file':
     'Le plan annoncé ne répond pas. Les moteurs ne peuvent pas le lire.',
   'seo.sitemap.untested_status':
-    'Nous n’avons pas pu tester : le plan du site a répondu {status}.',
+    'Non testé : le plan du site a répondu {status}.',
   'seo.sitemap.na_scope':
     'Le plan du site est à la racine du domaine, hors du chemin audité.',
   'seo.noindex.pass':
@@ -1030,11 +1016,9 @@ export const fr = {
   'seo.gsc.untested_connect': 'Nous n’avons pas pu tester l’indexation Google.',
   'seo.gsc.untested_property':
     'Ce site ne correspond à aucune propriété Search Console.',
-  'seo.gsc.untested_quota':
-    'Nous n’avons pas pu tester : le quota Search Console est atteint.',
+  'seo.gsc.untested_quota': 'Non testé : le quota Search Console est atteint.',
   'seo.gsc.untested_auth': 'La connexion Search Console a expiré.',
-  'seo.gsc.untested_error':
-    'Nous n’avons pas pu tester : Search Console n’a pas répondu.',
+  'seo.gsc.untested_error': 'Non testé : Search Console n’a pas répondu.',
   'seo.gsc_sitemaps.pass':
     'Les plans envoyés à Google ne signalent pas d’erreur.',
   'seo.gsc_sitemaps.warn_none': 'Aucun plan de site n’est envoyé à Google.',
@@ -1057,7 +1041,7 @@ export const fr = {
     'Ce nom est sur github.io. Le courrier et le DNS du domaine ne se règlent pas ici.',
   'dns_email.na_address':
     'Une adresse IP n’a pas de réglage de courrier. Ce test ne s’applique pas.',
-  'dns_email.untested': 'Nous n’avons pas pu tester : le DNS n’a pas répondu.',
+  'dns_email.untested': 'Non testé : le DNS n’a pas répondu.',
   'dns_email.mx.pass': 'Des serveurs de courrier sont annoncés pour ce nom.',
   'dns_email.mx.pass_null':
     'Ce nom refuse le courrier. C’est annoncé clairement.',
@@ -1153,7 +1137,7 @@ export const fr = {
   'dns_email.mta_sts.na_nomail':
     'Sans courrier entrant, cette règle de chiffrement ne s’applique pas.',
   'dns_email.mta_sts.untested':
-    'Nous n’avons pas pu tester : le fichier de règle n’a pas répondu.',
+    'Non testé : le fichier de règle n’a pas répondu.',
   'dns_email.tls_rpt.pass':
     'Les échecs de chiffrement du courrier vous sont signalés.',
   'dns_email.tls_rpt.warn_missing':
@@ -1165,19 +1149,16 @@ export const fr = {
   'qualite.na_robots':
     'Le fichier robots interdit cette adresse. Ce contrôle ne s’applique pas.',
   'qualite.untested_robots':
-    'Nous n’avons pas pu tester : le fichier robots a répondu {status}.',
+    'Non testé : le fichier robots a répondu {status}.',
   'qualite.untested_robots_down':
-    'Nous n’avons pas pu tester : le fichier robots n’a pas répondu.',
-  'qualite.untested_status':
-    'Nous n’avons pas pu tester : la page a répondu {status}.',
-  'qualite.untested_down':
-    'Nous n’avons pas pu tester : la page n’a pas répondu.',
+    'Non testé : le fichier robots n’a pas répondu.',
+  'qualite.untested_status': 'Non testé : la page a répondu {status}.',
+  'qualite.untested_down': 'Non testé : la page n’a pas répondu.',
   'qualite.na_not_html':
     'La page n’est pas au format HTML. Ce contrôle ne s’applique pas.',
   'qualite.na_scope':
     'La page demandée quitte la zone auditée. La suite n’est pas lue.',
-  'qualite.untested_budget':
-    'Nous n’avons pas pu tester : le budget de requêtes est atteint.',
+  'qualite.untested_budget': 'Non testé : le budget de requêtes est atteint.',
   'qualite.liens.pass': 'Les liens vérifiés répondent.',
   'qualite.liens.fail_internal_one':
     '1 lien interne ne répond pas. La page citée est inaccessible.',
@@ -1232,49 +1213,46 @@ export const fr = {
   'qualite.images_format.na':
     'Aucune image bitmap n’est affichée. Ce contrôle ne s’applique pas.',
   'ecologie.missing_key':
-    'Nous n’avons pas pu tester : la mesure de la page n’est pas configurée.',
+    'Non testé : la mesure de la page n’est pas configurée.',
   'ecologie.psi_quota':
-    'Nous n’avons pas pu tester : le quota de mesure de la page est atteint.',
-  'ecologie.psi_error':
-    'Nous n’avons pas pu tester : la mesure de la page a échoué.',
+    'Non testé : le quota de mesure de la page est atteint.',
+  'ecologie.psi_error': 'Non testé : la mesure de la page a échoué.',
   'ecologie.missing_api':
-    'Nous n’avons pas pu tester : la source d’annuaire n’est pas branchée.',
-  'ecologie.quota':
-    'Nous n’avons pas pu tester : le quota de l’annuaire est atteint.',
-  'ecologie.error':
-    'Nous n’avons pas pu tester : l’annuaire des hébergeurs n’a pas répondu.',
+    'Non testé : la source d’annuaire n’est pas branchée.',
+  'ecologie.quota': 'Non testé : le quota de l’annuaire est atteint.',
+  'ecologie.error': 'Non testé : l’annuaire des hébergeurs n’a pas répondu.',
   'ecologie.ecoindex.pass':
-    'Estimation : la page obtient {score} sur 100, lettre {lettre}. Ce chiffre repose sur une formule publique, pas sur une mesure exacte.',
+    'Estimation : la page obtient {score} sur 100, lettre {lettre}. Pas une mesure exacte.',
   'ecologie.ecoindex.warn':
-    'Estimation : la page obtient {score} sur 100, lettre {lettre}, un résultat moyen. Ce chiffre repose sur une formule publique, pas sur une mesure exacte.',
+    'Estimation : la page obtient {score} sur 100, lettre {lettre}, un résultat moyen. Pas une mesure exacte.',
   'ecologie.ecoindex.fail':
-    'Estimation : la page obtient {score} sur 100, lettre {lettre}, un résultat faible. Ce chiffre repose sur une formule publique, pas sur une mesure exacte.',
+    'Estimation : la page obtient {score} sur 100, lettre {lettre}, un résultat faible. Pas une mesure exacte.',
   'ecologie.ecoindex.pass_une':
-    'Estimation : {score} sur 100, lettre {lettre}, d’après une seule mesure. Ce chiffre repose sur une formule publique, pas sur une mesure exacte.',
+    'Estimation : {score} sur 100, lettre {lettre}, d’après une seule mesure. Pas une mesure exacte.',
   'ecologie.ecoindex.warn_une':
-    'Estimation : {score} sur 100, lettre {lettre}, un résultat moyen sur une seule mesure. Ce chiffre repose sur une formule publique, pas sur une mesure exacte.',
+    'Estimation : {score} sur 100, lettre {lettre}, un résultat moyen sur une seule mesure. Pas une mesure exacte.',
   'ecologie.ecoindex.fail_une':
-    'Estimation : {score} sur 100, lettre {lettre}, un résultat faible sur une seule mesure. Ce chiffre repose sur une formule publique, pas sur une mesure exacte.',
+    'Estimation : {score} sur 100, lettre {lettre}, un résultat faible sur une seule mesure. Pas une mesure exacte.',
   'ecologie.ecoindex.incomplete':
     'Nous n’avons pas pu estimer l’EcoIndex : il manque {manque}. Sans ces mesures, l’estimation serait trompeuse.',
   'ecologie.co2.pass':
-    'Estimation : environ {grammes} grammes de CO2 par visite, lettre {lettre}. Le modèle SWD décrit une visite moyenne, pas une mesure exacte.',
+    'Estimation : environ {grammes} grammes de CO2 par visite, lettre {lettre}. Pas une mesure exacte.',
   'ecologie.co2.warn':
-    'Estimation : environ {grammes} grammes de CO2 par visite, lettre {lettre}, au-dessus des pages légères. Le modèle SWD décrit une visite moyenne, pas une mesure exacte.',
+    'Estimation : environ {grammes} grammes de CO2 par visite, lettre {lettre}, au-dessus des pages légères. Pas une mesure exacte.',
   'ecologie.co2.fail':
-    'Estimation : environ {grammes} grammes de CO2 par visite, lettre {lettre}, au-dessus de la médiane. Le modèle SWD décrit une visite moyenne, pas une mesure exacte.',
+    'Estimation : environ {grammes} grammes de CO2 par visite, lettre {lettre}, au-dessus de la médiane. Pas une mesure exacte.',
   'ecologie.co2.pass_vert':
-    'Estimation : environ {grammes} grammes de CO2 par visite, lettre {lettre}, hébergeur listé comme vert. Le modèle SWD décrit une visite moyenne, pas une mesure exacte.',
+    'Estimation : environ {grammes} grammes de CO2 par visite, lettre {lettre}, hébergeur listé comme vert. Pas une mesure exacte.',
   'ecologie.co2.warn_vert':
-    'Estimation : environ {grammes} grammes de CO2 par visite, lettre {lettre}, hébergeur listé comme vert. Le modèle SWD décrit une visite moyenne, pas une mesure exacte.',
+    'Estimation : environ {grammes} grammes de CO2 par visite, lettre {lettre}, hébergeur listé comme vert. Pas une mesure exacte.',
   'ecologie.co2.fail_vert':
-    'Estimation : environ {grammes} grammes de CO2 par visite, lettre {lettre}, hébergeur listé comme vert. Le modèle SWD décrit une visite moyenne, pas une mesure exacte.',
+    'Estimation : environ {grammes} grammes de CO2 par visite, lettre {lettre}, hébergeur listé comme vert. Pas une mesure exacte.',
   'ecologie.co2.pass_inconnu':
-    'Estimation : environ {grammes} grammes de CO2 par visite, lettre {lettre}. L’hébergeur n’a pas pu être confirmé. Le modèle SWD décrit une visite moyenne, pas une mesure exacte.',
+    'Estimation : environ {grammes} grammes de CO2 par visite, lettre {lettre}. L’hébergeur n’a pas pu être confirmé. Pas une mesure exacte.',
   'ecologie.co2.warn_inconnu':
-    'Estimation : environ {grammes} grammes de CO2 par visite, lettre {lettre}, au-dessus des pages légères. L’hébergeur n’a pas pu être confirmé. Le modèle SWD décrit une visite moyenne, pas une mesure exacte.',
+    'Estimation : environ {grammes} grammes de CO2 par visite, lettre {lettre}, au-dessus des pages légères. L’hébergeur n’a pas pu être confirmé. Pas une mesure exacte.',
   'ecologie.co2.fail_inconnu':
-    'Estimation : environ {grammes} grammes de CO2 par visite, lettre {lettre}, au-dessus de la médiane. L’hébergeur n’a pas pu être confirmé. Le modèle SWD décrit une visite moyenne, pas une mesure exacte.',
+    'Estimation : environ {grammes} grammes de CO2 par visite, lettre {lettre}, au-dessus de la médiane. L’hébergeur n’a pas pu être confirmé. Pas une mesure exacte.',
   'ecologie.co2.incomplete':
     'Nous n’avons pas pu estimer le CO2 : le poids de la page manque. Sans ce poids, l’estimation serait trompeuse.',
   'ecologie.hebergeur.pass':
@@ -1284,7 +1262,7 @@ export const fr = {
   'ecologie.hebergeur.fail':
     'L’annuaire ne liste pas cet hébergeur comme alimenté en électricité renouvelable. Cela ne couvre pas toute la chaîne d’hébergement.',
   'ecologie.hebergeur.ip':
-    'Nous n’avons pas pu tester : l’annuaire attend un nom de domaine, pas une adresse de machine.',
+    'Non testé : l’annuaire attend un nom de domaine, pas une adresse de machine.',
   'ecologie.rgesn_budget.pass':
     'Cette page pèse {poids} et envoie {requetes} requêtes, sous les repères. Le référentiel demande aussi un objectif écrit, invisible ici.',
   'ecologie.rgesn_budget.warn':
@@ -1302,19 +1280,19 @@ export const fr = {
   'ecologie.rgesn_budget.incomplete':
     'Nous n’avons pas pu tester le budget de la page : le poids et les requêtes manquent.',
   'ecologie.rgesn_cache.pass':
-    'Sur cette page, les fichiers déjà vus peuvent rester en mémoire. Cela ne prouve pas une stratégie écrite pour tout le service.',
+    'Sur cette page, les fichiers déjà vus peuvent rester en mémoire. Pas une stratégie globale.',
   'ecologie.rgesn_cache.warn':
-    'Sur cette page, certains fichiers sont rechargés trop souvent. Cela ne prouve pas une stratégie écrite pour tout le service.',
+    'Sur cette page, certains fichiers sont rechargés trop souvent. Pas une stratégie globale.',
   'ecologie.rgesn_cache.fail':
-    'Sur cette page, les fichiers sont rechargés presque à chaque visite. Cela ne prouve pas une stratégie écrite pour tout le service.',
+    'Sur cette page, les fichiers sont rechargés presque à chaque visite. Pas une stratégie globale.',
   'ecologie.rgesn_cache.na':
     'Cette mesure de cache ne s’applique pas à cette page.',
   'ecologie.rgesn_compression.pass':
-    'Sur cette page, les textes sont compressés avant l’envoi. Cela ne prouve pas une stratégie écrite pour tout le service.',
+    'Sur cette page, les textes sont compressés avant l’envoi. Pas une stratégie globale.',
   'ecologie.rgesn_compression.warn':
-    'Sur cette page, une partie des textes n’est pas compressée. Cela ne prouve pas une stratégie écrite pour tout le service.',
+    'Sur cette page, une partie des textes n’est pas compressée. Pas une stratégie globale.',
   'ecologie.rgesn_compression.fail':
-    'Sur cette page, les textes ne sont pas compressés. Cela ne prouve pas une stratégie écrite pour tout le service.',
+    'Sur cette page, les textes ne sont pas compressés. Pas une stratégie globale.',
   'ecologie.rgesn_compression.na':
     'Cette mesure de compression ne s’applique pas à cette page.',
   'ecologie.rgesn_polices.pass':
@@ -1468,7 +1446,7 @@ export const fr = {
   'rgesn.9.7':
     'L’inférence est-elle réglée pour limiter les ressources utilisées ?',
   'vie_privee.untested_runner':
-    'Nous n’avons pas pu tester : le navigateur d’audit n’a pas tourné.',
+    'Non testé : le navigateur d’audit n’a pas tourné.',
   'vie_privee.traceurs.untested':
     'Traceurs avant un choix : non testé. Le navigateur d’audit n’a pas tourné.',
   'vie_privee.cmp.untested':
@@ -1478,29 +1456,27 @@ export const fr = {
   'vie_privee.tiers.untested':
     'Scripts et polices d’un autre site : non testé. Le navigateur d’audit n’a pas tourné.',
   'vie_privee.untested_runner_invalid':
-    'Nous n’avons pas pu tester : le résultat du navigateur est inutilisable.',
+    'Non testé : le résultat du navigateur est inutilisable.',
   'vie_privee.untested_interaction':
     'Nous n’avons pas pu tester l’état d’avant le choix. Le navigateur a déjà cliqué.',
-  'vie_privee.untested_home':
-    'Nous n’avons pas pu tester : l’accueil n’a pas répondu.',
+  'vie_privee.untested_home': 'Non testé : l’accueil n’a pas répondu.',
   'vie_privee.untested_home_status':
-    'Nous n’avons pas pu tester : l’accueil a répondu {status}.',
+    'Non testé : l’accueil a répondu {status}.',
   'vie_privee.untested_not_html':
-    'Nous n’avons pas pu tester : l’accueil n’est pas une page HTML.',
+    'Non testé : l’accueil n’est pas une page HTML.',
   'vie_privee.untested_robots':
-    'Nous n’avons pas pu tester : le fichier robots bloque cette page.',
+    'Non testé : le fichier robots bloque cette page.',
   'vie_privee.untested_robots_down':
-    'Nous n’avons pas pu tester : le fichier robots n’a pas répondu.',
+    'Non testé : le fichier robots n’a pas répondu.',
   'vie_privee.untested_robots_status':
-    'Nous n’avons pas pu tester : le fichier robots a répondu {status}.',
+    'Non testé : le fichier robots a répondu {status}.',
   'vie_privee.untested_budget':
-    'Nous n’avons pas pu tester : le budget de requêtes est atteint.',
-  'vie_privee.untested_down':
-    'Nous n’avons pas pu tester : la page légale n’a pas répondu.',
+    'Non testé : le budget de requêtes est atteint.',
+  'vie_privee.untested_down': 'Non testé : la page légale n’a pas répondu.',
   'vie_privee.untested_page_status':
-    'Nous n’avons pas pu tester : une page légale a répondu {status}.',
+    'Non testé : une page légale a répondu {status}.',
   'vie_privee.untested_page':
-    'Nous n’avons pas pu tester : la page légale n’est pas un texte lisible.',
+    'Non testé : la page légale n’est pas un texte lisible.',
   'vie_privee.traceurs.pass':
     'Aucun traceur connu n’est contacté avant un choix.',
   'vie_privee.traceurs.fail_one':

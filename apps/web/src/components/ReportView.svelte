@@ -200,7 +200,7 @@ onMount(() => {
     <p><a class="link-action" href="/sites">{t('nav.sites')}</a></p>
   {/if}
 {:else if payload}
-  <div class="reading">
+  <div class="reading" class:stagger={mode === 'report'}>
     {#if mode === 'domain'}
       <section class="glass glass-module">
         <div class="glass-plate">

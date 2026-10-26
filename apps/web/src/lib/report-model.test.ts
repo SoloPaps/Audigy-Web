@@ -146,7 +146,7 @@ describe('rapport', () => {
     });
     expect(all[1]?.title).toBe(t('vie_privee.traceurs.untested'));
     expect(all[1]?.why).toBe(
-      'Nous n’avons pas pu tester : le navigateur d’audit n’a pas tourné.',
+      'Non testé : le navigateur d’audit n’a pas tourné.',
     );
     expect(all[1]?.limit ?? null).toBeNull();
     expect(reportFindings(payload, fixes, 'securite')).toHaveLength(1);

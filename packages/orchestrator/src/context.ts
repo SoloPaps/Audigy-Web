@@ -6,6 +6,7 @@ import {
   createReputationChecks,
   createSharedArtifacts,
   DEFAULT_AVAILABLE,
+  DISPONIBILITE_CHECKS,
   DNS_EMAIL_CHECKS,
   ECOLOGIE_CHECKS,
   googleApiKey,
@@ -51,6 +52,7 @@ export function defaultChecks(
     ...ECOLOGIE_CHECKS,
     ...QUALITE_CHECKS,
     ...VIE_PRIVEE_CHECKS,
+    ...DISPONIBILITE_CHECKS,
   ];
   if (placesApiKey(env)) {
     checks.push(

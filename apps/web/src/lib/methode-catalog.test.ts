@@ -13,7 +13,7 @@ describe('parseMethodeCatalog', () => {
   const catalog = parseMethodeCatalog(markdown);
 
   it('lit chaque ligne Identifiant / Réussi, sans inventer de test', () => {
-    expect(catalog.size).toBe(66);
+    expect(catalog.size).toBe(68);
     expect(catalog.get('securite.hsts')?.pass).toContain('15768000');
     expect(catalog.get('securite.https')?.pass).toContain('chiffrée');
     expect(catalog.get('performance.lcp')?.pass).toContain('2,5 s');

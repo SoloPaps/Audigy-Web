@@ -42,6 +42,7 @@ export function splitChecks(checks: readonly Check[]): {
 }
 
 const NAMED_BROWSER = new Set([
+  'accessibilite.axe',
   'vie_privee.cmp',
   'vie_privee.refus',
   'vie_privee.tiers',
