@@ -65,6 +65,24 @@ function asRow(item: Finding | ReportRow): ReportRow {
 }
 
 const briefRows = $derived(findings.map(asRow));
+
+/** « Ajouter au brief » d’une priorité : on coche le constat correspondant. */
+$effect(() => {
+  if (!brief) return;
+  const onAdd = (event: Event): void => {
+    const checkId = (event as CustomEvent<{ checkId?: unknown }>).detail
+      ?.checkId;
+    if (typeof checkId !== 'string') return;
+    const row = briefRows.find(
+      (item) =>
+        item.checkId === checkId &&
+        (item.catalogStatus === 'fail' || item.catalogStatus === 'warn'),
+    );
+    if (row) checked = { ...checked, [row.id]: true };
+  };
+  window.addEventListener('audigy:brief-add', onAdd);
+  return () => window.removeEventListener('audigy:brief-add', onAdd);
+});
 const countsBrief = $derived({
   failCount: briefRows.filter((row) => row.catalogStatus === 'fail').length,
   warnCount: briefRows.filter((row) => row.catalogStatus === 'warn').length,

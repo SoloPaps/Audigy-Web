@@ -11,11 +11,13 @@ import {
   isKnownDomain,
   REPORT_DOMAINS,
 } from '../lib/domains.js';
-import { levelForStatus, topActions } from '../lib/findings.js';
+import { levelForStatus } from '../lib/findings.js';
 import { fixesFor, hostingOf } from '../lib/fix-catalog.js';
+import { gradeCopy } from '../lib/grade.js';
 import { GLOBAL_SERIES, type HistoryView } from '../lib/history.js';
 import { loginHref } from '../lib/nav.js';
 import { formatRating } from '../lib/places-api.js';
+import { pickPriorities } from '../lib/priorities.js';
 import { progressLive } from '../lib/progress-live.js';
 import { relaunchHref } from '../lib/relaunch.js';
 import {
@@ -40,6 +42,7 @@ import EmptyState from './EmptyState.svelte';
 import FindingList from './FindingList.svelte';
 import HistoryPanel from './HistoryPanel.svelte';
 import PreuveMentions from './PreuveMentions.svelte';
+import PriorityCards from './PriorityCards.svelte';
 import ReportFooter from './ReportFooter.svelte';
 import ScoreGauge from './ScoreGauge.svelte';
 import UntestedCause from './UntestedCause.svelte';
@@ -71,7 +74,13 @@ const shown = $derived.by(() => {
 const global = $derived(payload?.audit.globalScore ?? null);
 const aside = $derived(payload ? reputationAside(payload) : null);
 const verdict = $derived(verdictCopy(global, shown));
-const actions = $derived(topActions(shown));
+const grade = $derived(gradeCopy(global));
+const reportRowList = $derived(
+  payload
+    ? reportRows(payload, fixesFor(hostingOf(payload.audit.site.hosting)))
+    : [],
+);
+const priorities = $derived(pickPriorities(reportRowList));
 const domainRow = $derived(items.find((item) => item.id === domainId));
 const domainScore = $derived(
   payload?.domains.find((row) => row.domain === domainId)?.score ??
@@ -232,6 +241,12 @@ onMount(() => {
             <ScoreGauge domain={t('domain.global')} score={global} size="hero" />
             <div>
               <p class="kicker">{payload.audit.site.url}</p>
+              {#if grade}
+                <p class="grade">
+                  <span class="grade-letter">{grade.letter}</span>
+                  <span class="grade-label">{grade.label}</span>
+                </p>
+              {/if}
               <h1>{verdict.headline}</h1>
               <p class="detail">{verdict.detail}</p>
               <p class="hint">
@@ -240,23 +255,26 @@ onMount(() => {
                   total: REPORT_DOMAINS.length,
                 })}
               </p>
-              {#if actions.length > 0}
-                <p id="actions-label" class="hint">{t('verdict.actions')}</p>
-                <ol class="actions" aria-labelledby="actions-label">
-                  {#each actions as item (item.id)}
-                    <li><a class="link-inline" href={`#finding-${item.id}`}>{item.title}</a></li>
-                  {/each}
-                </ol>
-              {/if}
             </div>
           </header>
         </div>
       </section>
+      {#if priorities.length > 0}
+        <section class="glass glass-module">
+          <div class="glass-plate">
+            <PriorityCards
+              {priorities}
+              siteId={payload.audit.site.id}
+              hosting={payload.audit.site.hosting}
+            />
+          </div>
+        </section>
+      {/if}
       <section class="glass glass-module">
         <div class="glass-plate">
           <h2 id="corrections">{t('section.findings')}</h2>
           <FindingList
-            findings={reportRows(payload, fixesFor(hostingOf(payload.audit.site.hosting)))}
+            findings={reportRowList}
             brief={{
               url: payload.audit.site.url,
               at: stamp,
@@ -375,13 +393,20 @@ onMount(() => {
     font-size: var(--text-lg);
   }
 
-  .actions {
-    margin: 0;
-    padding-inline-start: var(--space-5);
+  .grade {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--space-2) var(--space-3);
+    margin: 0 0 var(--space-2);
   }
 
-  .actions li + li {
-    margin-top: var(--space-2);
+  .grade-letter {
+    font: 600 var(--text-lg) / 1 var(--font-text);
+  }
+
+  .grade-label {
+    color: var(--ink-2);
   }
 
   .export-links {

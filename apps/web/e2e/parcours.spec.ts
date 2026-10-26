@@ -318,7 +318,7 @@ test('parcours accueil, connexion, progression, rapport et sites', async ({
   await expect(page.getByRole('link', { name: 'Protection' })).toBeVisible();
   await page.getByRole('button', { name: /Problèmes/ }).click();
   await expect(
-    page.getByRole('heading', { name: "Forcer l'adresse chiffrée" }),
+    page.getByRole('heading', { level: 4, name: "Forcer l'adresse chiffrée" }),
   ).toBeVisible();
   await expect(page.getByText('Aucun traceur connu')).toBeHidden();
   await page.getByText('Voir comment corriger').click();
@@ -382,6 +382,43 @@ test('connexion et sites vides sans violation, clair et sombre', async ({
     page.getByText('Connectez-vous pour voir vos sites.'),
   ).toBeVisible();
   await expectNoViolations(page);
+});
+
+test('le rapport donne la note, trois priorités et le pont vers le brief', async ({
+  page,
+}) => {
+  await installMocks(page, { immediate: true });
+  await page.goto('/');
+  await page.evaluate((value) => {
+    const storage = (
+      globalThis as unknown as {
+        localStorage: { setItem: (key: string, item: string) => void };
+      }
+    ).localStorage;
+    storage.setItem('audigy-auth', JSON.stringify(value));
+  }, session);
+  await page.goto(`/rapport?id=${AUDIT_ID}`);
+  await expect(page.getByText('Note C', { exact: true })).toBeVisible();
+  await expect(page.getByText(/\(72\/100\)/)).toBeVisible();
+  const section = page.getByRole('region', { name: '3 priorités d’action' });
+  await expect(section).toBeVisible();
+  await expect(section.getByRole('listitem')).toHaveCount(2);
+  await section
+    .getByRole('button', { name: /^Comment corriger/ })
+    .first()
+    .click();
+  const dialog = page.getByRole('dialog');
+  await expect(dialog).toBeVisible();
+  await expect(
+    dialog.getByText('Activez le certificat de votre hébergeur.'),
+  ).toBeVisible();
+  await dialog.getByRole('button', { name: 'Fermer le guide' }).click();
+  await expect(dialog).toBeHidden();
+  await section
+    .getByRole('button', { name: /^\+ Ajouter au brief/ })
+    .first()
+    .click();
+  await expect(page.getByText('1 sélectionné')).toBeVisible();
 });
 
 test('rapport sombre sans violation', async ({ page }) => {

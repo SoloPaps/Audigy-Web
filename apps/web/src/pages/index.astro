@@ -43,6 +43,10 @@ const ranges = {
       <h1>{t('home.headline')}</h1>
       <p class="prose">{t('home.support')}</p>
       <HomeAuditForm client:load />
+      <ul class="guarantees">
+        <li>{t('home.guarantees.free')}</li>
+        <li>{t('home.guarantees.passive')}</li>
+      </ul>
     </div>
     <aside class="hero-preview glass">
       <div class="glass-plate">
@@ -101,3 +105,26 @@ const ranges = {
     </article>
   </section>
 </Base>
+
+<style>
+  .guarantees {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2) var(--space-5);
+    margin: var(--space-4) 0 0;
+    padding: 0;
+    list-style: none;
+    color: var(--ink-2);
+    font-size: var(--text-sm);
+  }
+
+  .guarantees li::before {
+    content: '';
+    display: inline-block;
+    width: var(--space-2);
+    height: var(--space-2);
+    margin-inline-end: var(--space-2);
+    border-radius: var(--radius-pill);
+    background: var(--accent);
+  }
+</style>
