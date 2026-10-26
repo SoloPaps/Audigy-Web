@@ -6,7 +6,7 @@ Index des documents du dépôt. Le statut du produit et le démarrage sont dans 
 
 | Fichier | À quoi il sert |
 |---|---|
-| [DESIGN.md](DESIGN.md) | Charte obligatoire pour toute interface : principes, tokens, typographie, ton, accessibilité, checklist §9. |
+| [DESIGN.md](DESIGN.md) | Source de vérité UI : spec fusion MonScoreSécurité × Arc Soft (principes, tokens, écrans, composants, accessibilité, checklist §9). |
 | [DEV-LOCAL.md](DEV-LOCAL.md) | Démarrage local : Supabase, labo, `netlify dev`, API, CLI, runner navigateur. Aucun déploiement. |
 | [METHODE.md](METHODE.md) | Méthode de notation, version 2026.1. Une pondération nouvelle crée une version. |
 | [PLAN.md](PLAN.md) | Produit, architecture, garde-fous §14, découpage PART-00 à PART-26, checklist de déploiement du propriétaire (section « PART-27 — Déploiement unique final »). |
@@ -18,7 +18,7 @@ Index des documents du dépôt. Le statut du produit et le démarrage sont dans 
 
 ## Specs et plans d’interface
 
-La charte en vigueur pour le code reste [DESIGN.md](DESIGN.md). Les fichiers ci-dessous gardent les décisions du propriétaire.
+La source de vérité UI est [DESIGN.md](DESIGN.md). Les notes produit et d’expérience de la fusion restent dans [REFERENCE-AUDIGY-MONSCORE-FUSION.md](REFERENCE-AUDIGY-MONSCORE-FUSION.md). Les fichiers ci-dessous gardent les décisions historiques du propriétaire.
 
 | Fichier | À quoi il sert |
 |---|---|
@@ -26,4 +26,3 @@ La charte en vigueur pour le code reste [DESIGN.md](DESIGN.md). Les fichiers ci-
 | [superpowers/plans/2026-10-24-arc-soft-redesign.md](superpowers/plans/2026-10-24-arc-soft-redesign.md) | Plan d’implémentation Arc Soft suivi pour les PR #38, #39 et #40. |
 | [superpowers/specs/2026-10-24-ux-clarity-export-design.md](superpowers/specs/2026-10-24-ux-clarity-export-design.md) | Trois vagues de clarté et d’export, sur `main` : Vague 1 (#45), Vague 2 (#46), Vague 3 (#53). Suite (axe partiel, disponibilité, questionnaire, anglais) : #59, sur `main`. |
 | [superpowers/specs/2026-10-24-agent-prompts-brief-design.md](superpowers/specs/2026-10-24-agent-prompts-brief-design.md) | Brief agent (approche B). Spec fusionnée (#47). L’interface est dans l’app. |
-| [AUDIT-TRIAGE-2026-10.md](AUDIT-TRIAGE-2026-10.md) | Triage du 25 octobre 2026. P0, P1, puis la vague reste (axe partiel, disponibilité, questionnaire, anglais, mouvement). |

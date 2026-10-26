@@ -1,124 +1,233 @@
-# Audigy — DESIGN.md
-Règles de design pour l'agent de code. Public : des particuliers non techniciens. But : une app calme, fiable et lisible, qui ne ressemble pas à une app générée par IA.
+# Audigy — System & UI Design Specification (fusion MonScoreSécurité × Arc Soft)
 
-## 1. Principes
-1. **Le rapport passe en premier.** L'écran principal, c'est le résultat de l'audit : un score, ce qu'il signifie, puis quoi faire. Pas de vitrine marketing.
-2. **Calme > spectaculaire.** Modèles : Plausible/Fathom (une page, peu de chiffres), Stripe/Linear (hiérarchie typographique nette, couleur rare), Mozilla Observatory (note + liste de tests réussis ou échoués, avec explications).
-3. **La couleur a un sens.** Couleur vive = un statut. Tout le reste est en encre et papier.
-4. **Chaque chiffre s'explique.** Tout score est accompagné d'une phrase en français simple et d'une action.
-5. **Une colonne de lecture.** Le rapport se lit de haut en bas : le verdict, puis le détail. Une colonne de contexte n’existe que si elle aide. On sait toujours quoi lire en premier.
-6. **Vérifiable.** Date, URL auditée, version de la méthode et lien du rapport sont toujours visibles.
+Fusion complète MonScoreSécurité × esthétique Arc Soft. Ce document est la source de vérité UI.
 
-## 2. Motifs interdits (signes d'« AI slop »)
-- Dégradés violet/indigo vers bleu/rose, et texte en dégradé. Le dégradé de fond Arc Soft est autorisé : `#FAF8F4` vers `#D7E7F2` en clair, `#15181C` vers `#1A2830` en sombre, linéaire, du haut vers le bas, fixe.
-- Violet ou indigo comme couleur de marque, de lien, de bouton ou de score (`#6366F1`, `#8B5CF6`, `#A855F7`). Le lilas `#E3D4F0` n’existe que comme blob.
-- Verre hors bornes. Le verre autorisé a une enveloppe `rgba(255, 255, 255, 0.64)` en clair et `rgba(29, 33, 38, 0.72)` en sombre, un flou de 20px, une bordure blanche à 30 % (18 % en sombre) et une plaque opaque derrière le texte. Pas de shimmer argenté.
-- Blobs autres que le pétrole `#9FCFCB`, la pêche `#F3C7B4` et le lilas `#E3D4F0`, aux tailles et positions de la spec Arc Soft. Pas de halo coloré.
-- Emojis utilisés comme icônes ou puces (✨🚀⚡🎯). Icône Lucide dans un carré arrondi en dégradé.
-- Inter, Geist, Space Grotesk, Instrument Serif, Poppins ; italique serif sur un seul mot du titre.
-- Hero centré type « badge pilule + H1 72px + 2 CTA » ; « Boostez / Propulsez / Sublimez votre site », « en toute simplicité », « nouvelle génération ».
-- Grille de 3 cartes identiques icône + titre + 3 lignes ; bento sombre ; bandeau de stats inventées.
-- Faux témoignages, avatars générés, logos « Ils nous font confiance » sans relation réelle.
-- Liseré coloré à gauche ou en haut des cartes. `rounded-2xl` partout. La même ombre sur toutes les cartes.
-- Mode sombre permanent `#0a0a0a` + un seul accent néon ; texte gris peu contrasté.
-- Fade-up au scroll sur chaque élément. Le mouvement autorisé est celui de la spec Arc Soft (survol 200 ms, entrée 280 ms, jauge ≤ 400 ms, page ≤ 450 ms, blobs 32 s), toujours coupé par `prefers-reduced-motion`.
-- Thème shadcn/Tailwind par défaut non modifié (le problème vient des tokens par défaut, pas de la librairie).
-- Titres et labels en MAJUSCULES ; lorem ipsum ou texte de remplissage ; « 1, 2, 3 étapes » décoratifs.
-- **Ne pas utiliser le DSFR ni la police Marianne** : c'est interdit pour un acteur privé (risque de confusion avec un service public). S'inspirer seulement de sa rigueur et de son accessibilité.
+En cas de tension avec une formulation plus ancienne, cette spec prime : coquille Arc Soft, lecture du rapport façon MonScore, liseré de sévérité seulement sur les cartes priorité.
 
-## 3. Typographie
-- **Texte, interface et titres : Atkinson Hyperlegible Next** (SIL OFL, Braille Institute). Le corps, l’interface, les scores et les titres des pages légales restent en Atkinson Hyperlegible Next. Le H1 des autres pages utilise Outfit (SIL OFL, auto-hébergée, graisses 600 et 700). Sora et Manrope ne sont pas utilisées. Graisse 600 pour H1–H4 et les scores.
-- **Chiffres et code : JetBrains Mono** (OFL) pour les URL, les en-têtes HTTP et les valeurs techniques. Les scores utilisent la police de texte avec `font-variant-numeric: tabular-nums`.
-- Auto-hébergées (woff2, `font-display: swap`), sous-ensemble latin. Aucun appel à Google Fonts (vie privée et écologie).
-- Échelle en rem (base 16px) : 12 · 14 · **16 (corps)** · 18 · 22 · 28. Interligne 1,5 pour le corps, 1,2 pour les titres. Longueur de ligne ≤ 70ch.
-- Le chiffre de la jauge n’est pas un palier de cette échelle : il vaut 20 % de la largeur de la jauge. « /100 » reste au moins à 12px, sur sa propre ligne. L’ensemble du chiffre tient dans le disque intérieur (rayon moins la moitié du trait), y compris pour 0, 100 et « — ».
-- Casse de phrase partout. Graisses autorisées : 400 / 600 / 700 uniquement.
+Repères pour les documents qui citent l’ancienne numérotation : couleurs et scores = §2 (ex-§4) ; ton = §7 ; accessibilité = §6 et §8 ; checklist PR = §9.
 
-## 4. Couleurs (tokens CSS)
-Clair (papier chaud, encre bleu-noir) :
-| Token | Hex | Usage |
-|---|---|---|
-| `--paper` | #FAF8F4 | fond |
-| `--surface` | #FFFFFF | panneaux |
-| `--ink` | #1B1F24 | texte (16:1) |
-| `--ink-2` | #4A5260 | texte secondaire (≥ 7:1) |
-| `--line` | #E3DED5 | bordures 1px |
-| `--accent` | #0F5C5A | liens, bouton principal (pétrole, ≈ 7:1) |
-| `--focus` | #C2410C | anneau de focus 2px |
+## 1. Principes et direction artistique
 
-Couleurs de score (palette bleu/orange, lisible par les daltoniens, **jamais rouge/vert seuls**) :
-| Niveau | Plage | Texte/trait | Fond doux | Forme + libellé |
+### 1.1 Philosophie générale
+
+L’interface d’Audigy associe le spectaculaire et la modernité de l’effet Arc Soft sur la coquille / le marketing (glassmorphism avec flou, fond vivant et fluide, typographie soignée) avec l’extrême clarté pédagogique de MonScoreSécurité sur le rapport d’audit (note synthétique A–F /100, 3 priorités claires, accompagnement pas-à-pas et génération de prompts IA).
+
+**Effet wow à l’entrée (hero et marketing) :**
+
+- Fond dégradé fluide Arc Soft : `#FAF8F4` vers `#D7E7F2` en clair, `#15181C` vers `#1A2830` en sombre, fixe.
+- Blobs pastel animés en douceur (32 s) : pétrole `#9FCFCB`, pêche `#F3C7B4`, lilas `#E3D4F0`.
+- Cartes en verre dépoli (`rgba(255, 255, 255, 0.64)` / `rgba(29, 33, 38, 0.72)`) avec flou de 20px et bordure fine à 30 %.
+
+**Rapport ultra-lisible et structuré :**
+
+- Hiérarchie stricte en 1 colonne scannable (largeur ~450–720px). Le wow ne brouille jamais la lecture.
+- Règle d’or : 1re lecture = note globale → 3 priorités → guide « Comment corriger » → brief IA optionnel → détail multi-domaines.
+- Le brief IA est le turbo pour power-user / prestataire, pas le seul chemin.
+
+### 1.2 Interdictions strictes (anti-AI slop)
+
+- Pas de violet AI-slop : aucun dégradé violet/indigo/rose générique (`#6366F1`, `#8B5CF6`).
+- Pas d’emojis décoratifs : utiliser des icônes Lucide de 1,5px dans des carrés arrondis.
+- Interdiction du DSFR / Marianne : pour éviter toute confusion avec un service public.
+- Jamais de rouge/vert seuls : doubler chaque statut par une forme géométrique et un libellé textuel.
+- Pas de gating forcé : audit gratuit sans inscription obligatoire jusqu’au premier rapport.
+
+## 2. Design system et design tokens
+
+### 2.1 Couleurs et thématiques
+
+| Token | Mode clair | Mode sombre | Usage et contraste |
+|---|---|---|---|
+| `--paper` | `#FAF8F4` | `#15181C` | Fond de page principal (papier chaud / encre nuit) |
+| `--surface` | `#FFFFFF` | `#1D2126` | Cartes, conteneurs et fenêtres modales |
+| `--ink` | `#1B1F24` | `#ECE9E3` | Texte principal (contraste ≥ 16:1) |
+| `--ink-2` | `#4A5260` | `#A9B0BA` | Textes secondaires et labels d’interface (≥ 7:1) |
+| `--line` | `#E3DED5` | `#2E343B` | Bordures de séparation (1px) |
+| `--accent` | `#0F5C5A` | `#5FC1BC` | Couleur de marque (vert pétrole profond) |
+| `--focus` | `#C2410C` | `#C2410C` | Anneau d’accessibilité clavier (2px, offset 2px) |
+
+### 2.2 Niveaux de score et formes distinctives
+
+| Niveau | Plage | Texte | Fond | Forme |
 |---|---|---|---|---|
-| Bon | 80–100 | #1F5FAD | #E6EEF8 | cercle et coche, « Bon » |
-| À améliorer | 50–79 | #9A5800 | #FBF0DE | triangle, « À améliorer » |
-| Problème | 0–49 | #B3261E | #FBE7E5 | carré, « Problème » |
-| Non testé | — | #5F6672 | #F1F1EF | cercle en pointillés, « Non testé » |
-Toutes les couleurs de texte font ≥ 4,5:1 sur leur fond. Le statut est **toujours** porté par la forme et le libellé en plus de la couleur.
+| Bon | 80–100 / note A–B | `#1F5FAD` | `#E6EEF8` | Cercle avec coche |
+| À améliorer | 50–79 / note C–D | `#9A5800` | `#FBF0DE` | Triangle d’avertissement |
+| Problème | 0–49 / note E–F | `#B3261E` | `#FBE7E5` | Carré d’alerte |
+| Non testé | — | `#5F6672` | `#F1F1EF` | Cercle en pointillés |
 
-Sombre (pas de noir pur) : `--paper` #15181C, `--surface` #1D2126, `--ink` #ECE9E3, `--ink-2` #A9B0BA, `--line` #2E343B, `--accent` #5FC1BC ; scores #7FB0EE / #E8A64A / #F08A80. Le thème suit `prefers-color-scheme` et peut être changé à la main (mémorisé en localStorage).
+### 2.3 Typographie (auto-hébergée woff2)
 
-## 5. Espacement, grille, formes
-- Échelle de 4px : 4 · 8 · 12 · 16 · 24 · 32 · 48 · 64. Rien en dehors de cette échelle.
-- Contenu max 1120px. Le rapport tient dans une colonne. Une grille de 12 colonnes (8 / 4) reste possible pour un contexte secondaire. Une seule colonne sous 768px.
-- Rayons hiérarchisés : 4px (champs, badges), 8px (boutons), 12px (modules intérieurs), 16px (enveloppes flottantes : barre, hero, modales). Pas de pilules sauf pour un filtre réel.
-- La profondeur vient des filets de 1px, pas des ombres ni de boîtes identiques. Une seule ombre, la même partout : `0 18px 48px rgb(27 31 36 / 0.10)` en clair, `0 18px 48px rgb(0 0 0 / 0.35)` en sombre. Elle ne change pas au survol.
-- Icônes : traits Lucide auto-hébergés (licence ISC, `apps/web/src/icons/LICENSE.txt`), 1,5px, 20px, `currentColor`, sans fond et sans requête tierce. La forme reste distincte, avec son libellé.
+- Titres display / hero (H1) : Outfit (SIL OFL, 600/700).
+- Interface et titres H2–H4 : Atkinson Hyperlegible Next (SIL OFL, Braille Institute).
+- Données techniques, URL et code : JetBrains Mono (SIL OFL).
 
-## 6. Composants
-**Verdict**
-- En haut du rapport : une seule grande jauge, une phrase (« Votre site est en bonne santé. »), puis le décompte en français simple (« 4 points à corriger, dont 1 urgent. »). La phrase suit le score réel : on n’écrit pas « bonne santé » si la moyenne est sous 80.
-- Sous la phrase, trois actions au plus, en liens vers le constat. Pas une rangée de boutons.
+## 3. Architecture des écrans et parcours
 
-**Jauge de score**
-- Arc de 270° (pas un donut fermé), trait 8px, piste `--line`, remplissage à la couleur du niveau.
-- Le chiffre est au centre du disque, au-dessus du trait (`z-index`), en tabular. « /100 » est plus petit, sur la ligne d’en dessous. Le libellé (« À améliorer ») est sous l’arc, pas sur le trait.
-- Le bloc du chiffre (0, 100 et « — ») reste entièrement dans le rayon intérieur, à la taille affichée et à 390px de large.
-- `role="img"` + `aria-label="Performance : 72 sur 100, à améliorer"`. Animation de 0 au score en ≤ 400 ms, supprimée si reduced-motion.
+### 3.1 Écran 1 : Accueil (`/`) — l’entrée « wow et confiance »
 
-**Domaines**
-- Liste compacte, pas une grille de cartes, pas une barre répétée sous chaque ligne.
-- Nom courant d’abord (« Visibilité sur Google »), terme technique ensuite (« Référencement »), puis une phrase (« Votre site s’affiche en 1,8 s sur mobile. »). Score et forme du statut à droite.
+- **Hero et titre.** Question engageante style MonScore (« Votre site web est-il réellement performant, sécurisé et éco-conçu ? ») posée sur le fond dégradé Arc Soft avec blobs pastel.
+- **Formulaire URL.** Champ d’entrée avec bouton pétrole (`--accent`) « Lancer l’audit gratuit » (sans inscription).
+- **Délai clair.** Mention « Réponse en ~1–2 min ».
+- **3 micro-garanties.**
+  - ⚡ Gratuit et sans compte au départ
+  - 🔒 Audit 100 % passif (aucun risque pour votre serveur)
+  - 📖 Basé sur la méthode publique et transparente
+- **Ligne multi-domaines.** Aperçu des piliers (Sécurité, Vitesse, Accessibilité, Éco-conception, Vie privée, SEO).
+- **Mockup rapport.** Aperçu réaliste du rapport (self-score Audigy).
+- **Sélecteur de langue.** FR (défaut) / EN discret.
 
-**Liste des corrections**
-- Trois groupes, dans cet ordre : « À corriger en priorité » (échecs), « À améliorer ensuite » (avertissements et non testés), « Ce qui va bien » replié dans un `<details>`.
-- Tri par sévérité puis par impact dans chaque groupe. Chaque ligne tient en deux lignes : forme + libellé, titre, phrase d’explication sans l’étiquette répétée « Pourquoi c’est important », durée à part.
-- « Voir comment corriger » se déplie : étapes numérotées, un bloc de code copiable si besoin, et un lien vers une source officielle (CNIL, MDN, ANSSI, RGAA).
+Les trois garanties de la spec source étaient marquées ⚡, 🔒 et 📖. L’interface les rend par des icônes Lucide (§1.2), pas par des emoji.
 
-**Graphiques d'historique**
-- Courbes simples : une catégorie sélectionnée à la fois, ou au maximum 3 avec des styles de trait différents (plein, tirets, pointillés).
-- Axe Y de 0 à 100 (jamais tronqué), bandes de fond très légères pour les seuils 50/80, points cliquables vers chaque rapport.
-- Pas de dégradé sous la courbe, pas de 3D, pas de camembert. Chaque graphique a un **tableau de données équivalent** (bouton « Voir en tableau ») et un résumé texte (« +12 points depuis le 3 mars »).
-- Librairie conseillée : Observable Plot ou uPlot (légères), stylées avec les tokens.
+### 3.2 Écran 2 : Progression (`/progression` ou overlay)
 
-**Rapport vérifiable**
-- Pied de rapport en mono : URL, date et heure (fuseau Europe/Paris), version de la méthode, identifiant ou empreinte, bouton « Vérifier ce rapport ».
+- Étapes humaines et rassurantes (« Vérification des en-têtes HTTP », « Analyse des métriques de vitesse mobile », « Vérification du respect de la vie privée »), pas de logs bruts.
+- Temps estimé : fourchette en minutes + barre de progression fluide Arc Soft.
 
-**Boutons** : un seul bouton principal par écran (fond `--accent`), les autres en secondaire bordé ou en lien. Hauteur 40px, cible ≥ 44px sur mobile.
+### 3.3 Écran 3 : Rapport d’audit (`/rapport`) — l’écran central
 
-## 7. Ton du texte (particuliers)
-- Vouvoiement, phrases courtes (≤ 20 mots), voix active. Le mot technique vient après l'explication : « Votre site met 6 s à s'afficher (LCP) ».
-- Dire le constat, la conséquence, puis l'action. Jamais de jargon seul, jamais d'alarmisme (« CRITIQUE !!! »), jamais de culpabilisation.
-- Honnêteté : écrire « Nous n'avons pas pu tester… » plutôt que de cacher la limite. Pas de superlatifs ni de mots marketing (« boostez », « révolutionnaire », « en un clic magique »).
-- Titre de l'accueil, factuel : « Vérifiez la santé de votre site, gratuitement. » + un champ URL + « Lancer l'audit ».
-- Pas d'emoji dans l'interface. Nombres au format français (« 1 234 », « 3,5 s »), dates « 23 oct. 2026 ».
+Hiérarchie stricte MonScore, de haut en bas.
 
-## 8. Accessibilité (RGAA 4.1 / WCAG 2.2 AA minimum)
-- Contraste du texte ≥ 4,5:1 (≥ 3:1 pour les gros textes et les éléments graphiques), vérifié dans les deux thèmes.
-- Navigation complète au clavier, focus visible (2px `--focus` + offset 2px), lien d'évitement « Aller au contenu ».
-- HTML sémantique d'abord (`<main>`, `<nav>`, titres hiérarchiques, `<table>` pour les données). ARIA seulement en complément.
-- Formulaires : `<label>` visible, erreurs en texte reliées par `aria-describedby`, pas de placeholder utilisé comme label.
-- Résultat d'audit annoncé via `aria-live="polite"`. Zoom à 200 % et reflow à 320px sans scroll horizontal.
-- `prefers-reduced-motion` respecté partout. `lang="fr"`. Page de déclaration d'accessibilité.
-- Cohérence : Audigy note l'écologie et la vie privée, donc pas de tracker tiers, pas de police distante, page d’accueil < 700 Ko gzippés pour le document, le CSS, le JS et les polices du premier écran.
+**En-tête verdict**
+
+- Note lettre globale (A–F) + label (« BON », « À AMÉLIORER », « CRITIQUE ») + score /100 + phrase explicative humaine.
+- Boutons d’action : Relancer, PDF résumé, (Pro) PDF complet.
+- Disclaimer honnête : « Audit passif basé sur des référentiels ouverts (MDN Observatory, Lighthouse, EcoIndex) — Ne remplace pas un audit d’intrusion PASSI. »
+
+**Exactement 3 priorités (cartes MonScore)**
+
+- Titre impératif (« Activer l’en-tête HSTS sur votre serveur »).
+- Pourquoi (1 phrase métier accessible).
+- Métadonnées : durée estimée (ex. 10 min) · difficulté (Facile) · intervenant (Hébergeur / Dev).
+- Boutons : [Comment corriger] (ouvre la modale) | [Ajouter au brief] (pré-coche le constat).
+
+**Bandeau discret « Corriger avec un assistant ».** Déplie la zone du brief IA.
+
+**Zone brief IA (Audigy)**
+
+- Coches interactives multi-constats.
+- Sélecteur par ligne à 3 états : Rien | Vérif | Fix.
+- Compteur en temps réel : « 4 constats · 2 Fix · 2 Vérif ».
+- Barre / sticky non intrusive : [Générer le brief IA] → copier le prompt structuré ou l’ouvrir dans Cursor / ChatGPT / Claude (incluant les recommandations NIST / MDN / OSV).
+
+**Détail multi-domaines (accordéons Audigy)**
+
+- Score /100 + phrase par domaine.
+- Domaines : Sécurité & Headers, Performance & Core Web Vitals, Éco-conception (EcoIndex/RGESN), Accessibilité (axe/RGAA), Vie privée & Trackers, Disponibilité (hors score global), Stack & Vulnérabilités (OSV/NVD), SEO & Google Search Console.
+- Soft-gating Pro pour masquer les chemins de fichiers sensibles en mode partage public.
+
+**Pied du rapport.** E-mail optionnel pour alertes, bouton Partager, Surveillance, Historique des évolutions.
+
+### 3.4 Écran 4 : Modale « Comment corriger »
+
+**Constats de configuration / DNS (DMARC, SPF, headers, HTTPS)**
+
+- Étapes numérotées simples.
+- Sélecteur d’hébergeur : Netlify | OVH | Cloudflare | Autre.
+- Snippet de code / entrée DNS prête à copier-coller.
+- Avertissement et bouton [Vérifier après modification] (relance l’analyse du test).
+
+**Constats de code / stack**
+
+- Explication synthétique + bouton d’action principal redirigeant vers [Générer le brief IA (Fix)].
+
+### 3.5 Autres pages spécifiées
+
+- `/methode` : barème public, « Ce que nous ne faisons jamais », grille d’auto-audit.
+- `/sites` + historique : suivi multi-sites et courbes de progression 0–100 avec alternative tableau.
+- `/score` (public) + `/partage` : score partagé avec bouton d’opt-out propriétaire (Gérer / Masquer / Retirer).
+- `/verifier` : preuve et validation de propriété (balise méta ou fichier TXT pour tests actifs).
+- `/ecoconception` : questionnaire complémentaire RGESN (les questions non renseignées n’impactent pas négativement le score).
+- `/compte`, `/connexion` : espace compte optionnel (proposé après le premier rapport).
+
+## 4. Composants et hiérarchie visuelle
+
+- **Note lettre.** Badge 64×64px avec bordure fine, lettre A–F en graisse 700 Outfit, accompagné de la jauge 270° et du score /100.
+- **Carte priorité (MonScore).** Fond `--surface`, rayon 12px, liseré supérieur discret selon la sévérité, tag de rôle (Hébergeur/Dev), boutons secondaires alignés.
+- **Ligne de constat (Audigy).** Ligne compacte avec icône de statut (forme + couleur), titre du test, sélecteur radio à 3 boutons (Rien, Vérif, Fix).
+- **Barre sticky du brief IA.** Bandeau flottant en bas de page (hauteur 56px, `--surface` avec flou 20px, ombre douce), sans masquer la liste des constats.
+
+## 5. Matrice d’annotation : MonScore (clarté) vs Audigy (puissance)
+
+| Élément d’interface | Origine et rôle | Justification UX |
+|---|---|---|
+| Coquille / fond / blobs / verre | Arc Soft (Audigy) | Apporte l’effet « wow », la modernité et une identité de marque haut de gamme. |
+| Hero accueil (question + micro-garanties) | MonScoreSécurité | Répare l’engagement utilisateur, rassure immédiatement les non-techniciens. |
+| Note lettre (A–F) + 3 priorités d’action | MonScoreSécurité | Garantit la scannabilité en 3 secondes sans noyer l’utilisateur sous 40 alertes. |
+| Guides « Comment corriger » par hébergeur | MonScoreSécurité | Offre une voie de résolution manuelle sans nécessiter d’outils d’IA. |
+| Sélecteur Rien / Vérif / Fix et brief IA | Audigy | Le cœur différenciant : permet aux prestataires et power-users d’obtenir un prompt de correction précis. |
+| Largeur multi-domaines (éco, a11y, vie privée, stack) | Audigy | Assure un audit complet du site web au-delà de la seule cybersécurité. |
+
+## 6. Conformité technique et rendu
+
+- **Langue des maquettes.** Français, vouvoiement neutre (« vous »).
+- **Accessibilité.** Contrastes conformes WCAG 2.2 AA (≥ 4,5:1), navigation 100 % au clavier avec anneau orange `--focus`, support de `prefers-reduced-motion`.
+- **Poids maximal.** HTML + CSS + JS initial < 700 Ko gzippés sur Astro + Svelte.
+
+## 7. Ton et précisions conservées
+
+La spec fusion ne redit pas ces points. Ils restent en vigueur tant qu’ils ne contredisent pas les §1 à §6.
+
+**Ton (particuliers)**
+
+- Vouvoiement, phrases courtes (≤ 20 mots), voix active. Le mot technique vient après l’explication : « Votre site met 6 s à s’afficher (LCP) ».
+- Dire le constat, la conséquence, puis l’action. Pas de jargon seul, pas de culpabilisation. Les labels de verdict sont ceux du §3.3 (« BON », « À AMÉLIORER », « CRITIQUE »), sans points d’exclamation.
+- Honnêteté : écrire « Nous n’avons pas pu tester… » plutôt que de cacher la limite. Pas de superlatifs ni de mots marketing (« boostez », « révolutionnaire », « en un clic magique »).
+- Pas d’emoji dans l’interface. Nombres au format français (« 1 234 », « 3,5 s »), dates « 23 oct. 2026 ».
+
+**Typographie, chargement**
+
+- Auto-hébergées (woff2, `font-display: swap`), sous-ensemble latin. Aucun appel à Google Fonts.
+- Échelle en rem (base 16px) : 12 · 14 · **16 (corps)** · 18 · 22 · 28. Interligne 1,5 pour le corps, 1,2 pour les titres. Longueur de ligne ≤ 70ch.
+- Casse de phrase. Graisses autorisées : 400 / 600 / 700. Les scores chiffrés utilisent `font-variant-numeric: tabular-nums`.
+- Le chiffre de la jauge n’est pas un palier de cette échelle : il vaut 20 % de la largeur de la jauge. « /100 » reste au moins à 12px. L’ensemble du chiffre tient dans le disque intérieur, y compris pour 0, 100 et « — ».
+
+**Espacement, formes, verre**
+
+- Échelle de 4px : 4 · 8 · 12 · 16 · 24 · 32 · 48 · 64.
+- Contenu max 1120px. Le rapport tient dans une colonne (~450–720px, §1.1). Une seule colonne sous 768px.
+- Rayons : 4px (champs, badges), 8px (boutons), 12px (cartes priorité et modules), 16px (enveloppes flottantes : barre, hero, modales).
+- Une seule ombre : `0 18px 48px rgb(27 31 36 / 0.10)` en clair, `0 18px 48px rgb(0 0 0 / 0.35)` en sombre. Elle sert aussi d’ombre douce de la barre sticky.
+- Verre : enveloppes du §1.1, bordure à 30 % (18 % en sombre), plaque opaque derrière le texte. Pas de shimmer.
+- Le lilas `#E3D4F0` n’existe que comme blob. Pas de halo hors des trois blobs du §1.1.
+- Icônes : Lucide auto-hébergées, trait 1,5px, `currentColor`, dans un carré arrondi, avec le libellé. Pas de requête tierce.
+- Liseré supérieur : seulement sur les cartes priorité, selon la sévérité (§4).
+- Mouvement : survol 200 ms, entrée 280 ms, jauge ≤ 400 ms, page ≤ 450 ms, blobs 32 s. Toujours coupé par `prefers-reduced-motion`.
+- Thème : `prefers-color-scheme`, avec bascule manuelle mémorisée en localStorage. Scores en sombre, non redéfinis par la spec fusion : texte `#7FB0EE` / `#E8A64A` / `#F08A80`.
+
+**Jauge**
+
+- Arc de 270°, trait 8px, piste `--line`, remplissage à la couleur du niveau. Libellé sous l’arc.
+- `role="img"` et un nom du type « Performance : 72 sur 100, à améliorer ». Animation de 0 au score en ≤ 400 ms, absente si reduced-motion.
+
+**Historique (`/sites`)**
+
+- Courbes 0–100 (axe non tronqué), au plus 3 séries (plein, tirets, pointillés), alternative tableau et résumé texte. Pas de dégradé sous la courbe, pas de 3D, pas de camembert.
+
+**Pied vérifiable**
+
+- En plus des actions du §3.3 : URL, date et heure (Europe/Paris), version de la méthode, identifiant ou empreinte.
+
+## 8. Accessibilité (complète le §6)
+
+- RGAA 4.1 / WCAG 2.2 AA minimum. Contraste du texte ≥ 4,5:1 (≥ 3:1 pour les gros textes et les éléments graphiques), clair et sombre.
+- Navigation complète au clavier, focus visible (2px `--focus` + offset 2px), lien d’évitement « Aller au contenu ».
+- HTML sémantique d’abord (`<main>`, `<nav>`, titres hiérarchiques, `<table>` pour les données). ARIA seulement en complément.
+- Formulaires : `<label>` visible, erreurs reliées par `aria-describedby`, pas de placeholder utilisé comme label.
+- Résultat d’audit annoncé via `aria-live="polite"`. Zoom à 200 % et reflow à 320px sans scroll horizontal.
+- `prefers-reduced-motion` partout. `lang="fr"`. Page de déclaration d’accessibilité.
+- Pas de tracker tiers, pas de police distante. Accueil < 700 Ko gzippés (document, CSS, JS et polices du premier écran), conformément au §6.
 
 ## 9. Checklist avant de merger une UI
-- [ ] Aucun violet de marque, aucun texte en dégradé, aucun emoji, aucune grille de 3 cartes identiques, aucun hero centré générique, aucun shimmer. Le verre, les trois blobs pastel, l’ombre flottante et le mouvement court sont ceux de la spec Arc Soft, coupés par `prefers-reduced-motion`.
-- [ ] Uniquement des tokens : couleurs, espacements et rayons hors tokens = refus.
-- [ ] Chaque statut a une forme + un libellé en plus de la couleur ; test en niveaux de gris et avec un simulateur de daltonisme.
-- [ ] Contrastes AA vérifiés en clair et en sombre (axe DevTools / Lighthouse a11y = 100).
-- [ ] Parcours complet au clavier, focus visible, lecteur d'écran testé (NVDA ou VoiceOver) sur la jauge et la liste.
-- [ ] Texte relu : français simple, sans jargon non expliqué, sans lorem, sans superlatifs.
+
+- [ ] Lecture du rapport : note globale, puis 3 priorités, puis « Comment corriger », puis brief IA optionnel, puis détail multi-domaines. Pas d’inscription obligatoire avant le premier rapport.
+- [ ] Aucun violet de marque, aucun texte en dégradé, aucun emoji, aucune grille de 3 cartes identiques, aucun hero centré générique, aucun shimmer, ni DSFR ni Marianne. Verre, trois blobs pastel, ombre flottante et mouvement court : bornes des §1 et §7, coupés par `prefers-reduced-motion`.
+- [ ] Liseré supérieur seulement sur les cartes priorité, selon la sévérité.
+- [ ] Uniquement des tokens de ce document. Question d’accueil, micro-garanties (icônes Lucide), note A–F et libellés du §3.3.
+- [ ] Chaque statut a une forme et un libellé en plus de la couleur.
+- [ ] Contrastes AA en clair et en sombre.
+- [ ] Parcours clavier, focus visible, lecteur d’écran sur la jauge et la liste.
+- [ ] Français simple, sans lorem, sans superlatif. Labels « BON » / « À AMÉLIORER » / « CRITIQUE » sans alarmisme ajouté.
 - [ ] Graphiques : axe 0–100, alternative en tableau, résumé texte.
-- [ ] Rendu vérifié à 320px, 768px, 1280px et zoom à 200 %.
-- [ ] reduced-motion testé ; aucune animation sans fonction.
-- [ ] Poids de la page et requêtes tierces vérifiés (0 tiers).
+- [ ] Rendu à 320px, 768px, 1280px et zoom 200 %.
+- [ ] Reduced-motion testé.
+- [ ] Poids de la page et zéro requête tierce.
