@@ -187,7 +187,7 @@ AI Studio avait importé le dépôt ; après #60 il ne proposait qu’un force-p
 - `priorities.*` — 3 priorités, durée, difficulté, qui, Comment corriger, pont vers le brief, `why.*`. Pas de cartes, pas de modale.
 - `report.grade.*` — lettre + label /100. Pas d’en-tête de note.
 
-**Hors #61 :** bugs moteur et fiabilité du triage [`AUDIT-TRIAGE-2026-10.md`](AUDIT-TRIAGE-2026-10.md). Fusion encore ouverte : ranking des 3 priorités, modales Comment corriger, en-tête de note, bandeau de garanties.
+**Hors #61 :** bugs moteur et fiabilité du triage d’octobre 2026 (document retiré, travail clos). Fusion encore ouverte : ranking des 3 priorités, modales Comment corriger, en-tête de note, bandeau de garanties.
 
 **Présentation (MSS)**
 - [ ] Note lettre + label + /100 + phrase — clés `report.grade.*` seulement, pas d’en-tête
