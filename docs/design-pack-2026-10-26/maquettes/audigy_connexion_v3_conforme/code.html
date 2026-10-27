@@ -1,0 +1,234 @@
+<!DOCTYPE html><html lang="fr"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Connexion — Audigy | Santé &amp; Hygiène Web</title>
+<!-- BEGIN: Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:ital,wght@0,400;0,600;0,700;1,400&amp;family=JetBrains+Mono:wght@400;500;600&amp;family=Outfit:wght@600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+<!-- END: Google Fonts -->
+<!-- BEGIN: Tailwind CSS v3 Setup -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script data-purpose="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#004342",
+            "primary-container": "#0f5c5a",
+            "on-primary": "#ffffff",
+            "ink-primary": "#1B1F24",
+            "ink-secondary": "#4A5260",
+            "line-border": "#E3DED5",
+            "status-good-bg": "#E6EEF8",
+            "status-good-text": "#1F5FAD",
+            "status-neutral-bg": "#F1F1EF",
+            "status-neutral-text": "#5F6672",
+            "focus-ring": "#C2410C",
+            "blob-teal": "#9FCFCB",
+            "blob-peach": "#F3C7B4",
+            "blob-lilac": "#E3D4F0"
+          },
+          fontFamily: {
+            sans: ['"Atkinson Hyperlegible Next"', 'system-ui', 'sans-serif'],
+            heading: ['Outfit', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace']
+          },
+          borderRadius: {
+            '2xl': '1rem',
+            '3xl': '1.5rem'
+          }
+        }
+      }
+    }
+  </script>
+<!-- END: Tailwind CSS v3 Setup -->
+<!-- BEGIN: Custom Styles for Blobs and Animations -->
+<style data-purpose="animations">
+    @layer base {
+      html, body {
+        margin: 0;
+        padding: 0;
+        min-height: 100%;
+      }
+    }
+
+    @keyframes blob-float-1 {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      33% { transform: translate(50px, 35px) scale(1.06); }
+      66% { transform: translate(-25px, 60px) scale(0.95); }
+    }
+    @keyframes blob-float-2 {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      33% { transform: translate(-45px, 50px) scale(1.10); }
+      66% { transform: translate(35px, -35px) scale(0.93); }
+    }
+    @keyframes blob-float-3 {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      33% { transform: translate(40px, -45px) scale(1.05); }
+      66% { transform: translate(-30px, -25px) scale(1.12); }
+    }
+
+    .animate-blob-1 { animation: blob-float-1 30s ease-in-out infinite; }
+    .animate-blob-2 { animation: blob-float-2 34s ease-in-out infinite; }
+    .animate-blob-3 { animation: blob-float-3 28s ease-in-out infinite; }
+  </style>
+<!-- END: Custom Styles -->
+</head>
+<body class="bg-gradient-to-b from-[#FAF8F4] via-[#F5F2EB] to-[#D7E7F2] font-sans text-ink-primary antialiased min-h-screen flex flex-col justify-between relative selection:bg-blob-teal selection:text-ink-primary">
+<!-- BEGIN: Atmospheric Background Blobs -->
+<div aria-hidden="true" class="fixed inset-0 pointer-events-none -z-10 overflow-hidden">
+<div class="absolute -top-32 -left-32 w-[34rem] h-[34rem] rounded-full bg-[#9FCFCB]/45 blur-[120px] mix-blend-multiply animate-blob-1"></div>
+<div class="absolute top-[20%] -right-28 w-[38rem] h-[38rem] rounded-full bg-[#F3C7B4]/50 blur-[130px] mix-blend-multiply animate-blob-2"></div>
+<div class="absolute top-[58%] -left-20 w-[42rem] h-[42rem] rounded-full bg-[#E3D4F0]/45 blur-[140px] mix-blend-multiply animate-blob-3"></div>
+<div class="absolute -bottom-24 right-1/4 w-[36rem] h-[36rem] rounded-full bg-[#9FCFCB]/35 blur-[130px] mix-blend-multiply animate-blob-1"></div>
+</div>
+<!-- END: Atmospheric Background Blobs -->
+<!-- BEGIN: MainHeader -->
+<header class="w-full bg-[#FAF8F4]/80 backdrop-blur-md border-b border-white/70 shadow-[0_1px_4px_rgba(27,31,36,0.02)] z-40">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+<!-- Brand Logo Lockup -->
+<div class="flex items-center gap-8">
+<a class="flex items-center gap-3 focus:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring rounded-lg py-1" href="#">
+<img alt="Audigy" class="w-7 h-7 rounded-lg object-contain shadow-sm" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA_DdRtS0MEyZsrvOlnG2OpgvfPtkze18PUxrxlDw3pzwgFnwmqs3UDxwuaSkl2MuD2KHblab_Kesmzdxhunz1qWq_vHs6_LMKEi1fUP4l-gq9omosFILw3hzyDX-P5_OevXzQDzN0UG7djtWJKMbQgYKfFfCxaq3ct86o8Qu_pCmQAR_b1CiDJDSW0Fu3FyTBx9-4YCF3pRPOCySjFyHdhFgXAFIXMfeWKChIwCydjBfJAoPpqxzKjdf5-hZKnj6b0ZWs">
+<div class="flex flex-col">
+<span class="font-heading font-bold text-lg leading-tight tracking-tight text-ink-primary">Audigy</span>
+<span class="text-[11px] leading-tight text-ink-secondary font-medium">Santé &amp; Hygiène Web</span>
+</div>
+</a>
+<!-- Canonical Desktop Navigation -->
+<nav aria-label="Navigation principale" class="hidden md:flex items-center gap-6">
+<a class="text-sm font-semibold text-ink-secondary hover:text-ink-primary transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring rounded-md py-1 px-1" href="#">Accueil</a>
+<a class="text-sm font-semibold text-ink-secondary hover:text-ink-primary transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring rounded-md py-1 px-1" href="#">Méthode</a>
+<a class="text-sm font-semibold text-ink-secondary hover:text-ink-primary transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring rounded-md py-1 px-1" href="#">Sites suivis</a>
+<a class="text-sm font-semibold text-ink-secondary hover:text-ink-primary transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring rounded-md py-1 px-1" href="#">Documentation</a>
+</nav>
+</div>
+<!-- Action Utilities -->
+<div class="flex items-center gap-3">
+<!-- Language Switcher -->
+<div class="flex items-center bg-white/70 border border-line-border/60 p-0.5 rounded-full text-xs font-semibold">
+<button aria-label="Langue française sélectionnée" class="px-2.5 py-0.5 rounded-full bg-white text-ink-primary shadow-[0_1px_2px_rgba(0,0,0,0.06)]" type="button">FR</button>
+<button aria-label="Passer en anglais" class="px-2.5 py-0.5 rounded-full text-ink-secondary hover:text-ink-primary transition-colors" type="button">EN</button>
+</div>
+<!-- Light/Dark Toggle -->
+<button aria-label="Basculer le thème" class="w-8 h-8 rounded-full bg-white/70 hover:bg-white border border-line-border/60 flex items-center justify-center text-ink-secondary hover:text-ink-primary transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">light_mode</span>
+</button>
+<!-- Connexion CTA Button (Active Highlight) -->
+<a class="inline-flex items-center justify-center px-4 py-1.5 bg-[#004342] hover:bg-[#0f5c5a] text-white text-sm font-semibold rounded-lg shadow-sm transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring" href="#">
+          Connexion
+        </a>
+<!-- User Profile Avatar Placeholder -->
+<button aria-label="Menu utilisateur" class="w-8 h-8 rounded-full bg-[#004342] text-white flex items-center justify-center shadow-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring" type="button">
+<span class="material-symbols-outlined text-[18px]">person</span>
+</button>
+</div>
+</div>
+</header>
+<!-- END: MainHeader -->
+<!-- BEGIN: MainContent -->
+<main class="flex-grow flex items-center justify-center px-4 py-10 sm:py-16">
+<div class="w-full max-w-[480px]">
+<!-- Frosted Glass Authentication Card -->
+<div class="relative bg-white/85 backdrop-blur-xl border border-white/70 shadow-[0_12px_40px_rgba(27,31,36,0.06)] rounded-3xl p-6 sm:p-9 transition-all">
+<!-- Info Banner (Accès libre) -->
+<div class="flex items-center gap-2.5 bg-status-neutral-bg/90 text-status-neutral-text px-3 py-2 rounded-xl mb-6 text-xs font-semibold leading-relaxed border border-black/[0.03]"><span class="material-symbols-outlined text-[18px] text-[#004342] shrink-0">verified_user</span>
+<span class="">Sans compte, le dernier audit reste dans ce navigateur. Avec un compte, sites suivis et rapports sont sauvegardés sur Audigy.</span></div>
+<!-- Form Header -->
+<header class="mb-6">
+<div class="flex items-center gap-2 mb-2">
+<span class="w-2 h-2 rounded-full bg-[#004342]"></span>
+<span class="text-[11px] font-bold tracking-wider uppercase text-ink-secondary">ESPACE AUDIGY</span>
+</div>
+<h1 class="font-heading text-3xl font-bold text-ink-primary tracking-tight">Connexion</h1>
+<p class="text-sm text-ink-secondary mt-1 font-normal">Optionnel — le premier audit reste possible sans compte.</p>
+</header>
+<!-- Magic Link Form -->
+<form class="space-y-4" id="magic-auth-form" onsubmit="event.preventDefault(); document.getElementById('feedback-box').classList.remove('hidden');">
+<div>
+<label class="block text-sm font-semibold text-ink-primary mb-1.5" for="email-input">
+              Adresse e-mail
+            </label>
+<div class="relative">
+<input class="w-full px-3.5 py-2.5 rounded-lg bg-white border border-line-border text-ink-primary text-sm placeholder:text-ink-secondary/50 focus:outline-none focus:ring-2 focus:ring-focus-ring focus:border-transparent shadow-xs transition-all pr-10" id="email-input" name="email" placeholder="nom@organisation.fr" required="" type="email">
+<div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-ink-secondary">
+<span class="material-symbols-outlined text-[20px]">mail</span>
+</div>
+</div>
+<p class="text-xs text-ink-secondary mt-1.5 flex items-center gap-1.5"><span class="material-symbols-outlined text-[15px]">badge</span>
+              Authentification sans mot de passe à mémoriser.</p>
+</div>
+<!-- Primary Submit Button -->
+<button class="w-full py-2.5 px-4 rounded-lg bg-[#004342] hover:bg-[#0f5c5a] text-white font-semibold text-sm transition-all shadow-sm focus:outline-none focus:ring-2 focus:ring-focus-ring flex items-center justify-center gap-2" type="submit">
+<span class="material-symbols-outlined text-[18px]">send</span>
+<span class="">Recevoir un lien magique</span>
+</button>
+</form>
+<!-- Feedback Success Alert (Interactive Response) -->
+<div class="hidden mt-4 p-3.5 rounded-xl bg-status-good-bg text-status-good-text text-xs font-medium flex items-start gap-2.5 border border-[#1F5FAD]/15 transition-all" id="feedback-box">
+<span class="material-symbols-outlined text-[18px] shrink-0 mt-0.5">check_circle</span>
+<p class="leading-relaxed">
+            Vérifiez votre boîte e-mail : lien magique envoyé ! Cliquez sur le lien pour ouvrir votre session en toute sérénité.
+          </p>
+</div>
+<!-- Visual Separator -->
+<div class="relative my-6 flex items-center justify-center">
+<div class="w-full border-t border-line-border"></div>
+<span class="absolute px-3 bg-[#FAF8F4] text-[11px] font-bold text-ink-secondary tracking-wider uppercase rounded-full">OU</span>
+</div>
+<!-- Google Single Sign-On Button -->
+<button class="w-full py-2.5 px-4 rounded-lg bg-white border border-line-border text-ink-primary hover:bg-[#FAF8F4] font-semibold text-sm transition-all flex items-center justify-center gap-3 shadow-xs focus:outline-none focus:ring-2 focus:ring-focus-ring" type="button">
+<svg aria-hidden="true" class="w-4 h-4 shrink-0" viewBox="0 0 24 24">
+<path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"></path>
+<path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"></path>
+<path d="M5.84 14.1c-.22-.66-.35-1.36-.35-2.1s.13-1.44.35-2.1V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.62z" fill="#FBBC05"></path>
+<path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" fill="#EA4335"></path>
+</svg>
+<span class="">Continuer avec Google</span>
+</button>
+<!-- Card Footer -->
+<footer class="mt-6 pt-5 border-t border-line-border/60 flex flex-col items-center gap-3 text-center">
+<a class="inline-flex items-center gap-1.5 text-sm font-semibold text-[#004342] hover:text-[#0f5c5a] focus:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring rounded-md py-0.5" href="#">
+<span class="material-symbols-outlined text-[16px]">arrow_back</span>
+<span class="">Retour à l’accueil</span>
+</a>
+<p class="text-xs text-ink-secondary font-normal">
+            Audigy ne transmet aucune donnée télémétrique à des fins publicitaires.
+          </p>
+</footer>
+</div>
+</div>
+</main>
+<!-- END: MainContent -->
+<!-- BEGIN: MainFooter -->
+<footer class="w-full bg-[#FAF8F4]/80 backdrop-blur-md border-t border-line-border/60 py-8 px-4 sm:px-6 lg:px-8">
+<div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+<!-- Brand & Mission statement -->
+<div class="flex items-center gap-3">
+<img alt="Audigy" class="w-6 h-6 rounded-md object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA_DdRtS0MEyZsrvOlnG2OpgvfPtkze18PUxrxlDw3pzwgFnwmqs3UDxwuaSkl2MuD2KHblab_Kesmzdxhunz1qWq_vHs6_LMKEi1fUP4l-gq9omosFILw3hzyDX-P5_OevXzQDzN0UG7djtWJKMbQgYKfFfCxaq3ct86o8Qu_pCmQAR_b1CiDJDSW0Fu3FyTBx9-4YCF3pRPOCySjFyHdhFgXAFIXMfeWKChIwCydjBfJAoPpqxzKjdf5-hZKnj6b0ZWs">
+<div>
+<span class="font-heading font-bold text-sm text-ink-primary block leading-tight">Audigy</span>
+<span class="text-xs text-ink-secondary font-medium">Observatoire indépendant de santé, sécurité et sobriété numérique.</span>
+</div>
+</div>
+<!-- Legal & Reference Links -->
+<nav aria-label="Liens légaux" class="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs font-semibold text-ink-secondary">
+<a class="hover:text-ink-primary transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring rounded py-0.5" href="#">Mentions légales</a>
+<a class="hover:text-ink-primary transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring rounded py-0.5" href="#">Confidentialité</a>
+<a class="hover:text-ink-primary transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring rounded py-0.5" href="#">Accessibilité (WCAG 2.2 / RGAA 4.1)</a>
+<a class="hover:text-ink-primary transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring rounded py-0.5" href="#">Conditions d'utilisation (CGU)</a>
+<a class="hover:text-ink-primary transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring rounded py-0.5 flex items-center gap-0.5" href="#">Audigy Pro <span class="material-symbols-outlined text-[13px]">arrow_outward</span></a>
+</nav>
+<!-- Copyright & Ethics statement -->
+<div class="text-right text-xs text-ink-secondary max-w-sm">
+<p class="">© 2026 Audigy. Passif par défaut. Les tests actifs ne partent que sur un site dont vous prouvez la propriété. Polices auto-hébergées. Horodaté.</p>
+</div>
+</div>
+</footer>
+<!-- END: MainFooter -->
+
+
+</body></html>
