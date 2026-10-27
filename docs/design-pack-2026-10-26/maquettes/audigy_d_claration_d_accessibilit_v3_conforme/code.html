@@ -1,0 +1,426 @@
+<!DOCTYPE html><html class="scroll-smooth" lang="fr"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Déclaration d'accessibilité — Audigy</title>
+<!-- Google Fonts: Outfit & Atkinson Hyperlegible -->
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&amp;family=Outfit:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<!-- Tailwind CSS CDN with Forms & Container Queries -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Atkinson Hyperlegible"', 'sans-serif'],
+            display: ['"Outfit"', 'sans-serif'],
+          },
+          colors: {
+            teal: {
+              850: '#0f4c5c',
+              900: '#0e3b43',
+              950: '#08262b',
+            },
+            brand: {
+              dark: '#1e293b',
+              accent: '#d97706',
+              pine: '#114b53',
+              softBg: '#f6f8f7',
+            }
+          },
+          borderRadius: {
+            '2xl': '1rem',
+            '3xl': '1.5rem',
+            '4xl': '2rem',
+          }
+        }
+      }
+    }
+  </script>
+<!-- Ambient Gradient & Focus Rings (Arc Soft aesthetic) -->
+<style data-purpose="ambient-decor">
+    body {
+      background-color: #f8faf9;
+      background-image: 
+        radial-gradient(at 0% 0%, rgba(204, 235, 230, 0.45) 0px, transparent 50%),
+        radial-gradient(at 100% 12%, rgba(254, 226, 215, 0.4) 0px, transparent 48%),
+        radial-gradient(at 50% 55%, rgba(240, 230, 248, 0.32) 0px, transparent 55%),
+        radial-gradient(at 15% 90%, rgba(204, 235, 230, 0.38) 0px, transparent 50%);
+      background-attachment: fixed;
+      font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    }
+
+    *:focus-visible {
+      outline: 2px solid #ea580c !important;
+      outline-offset: 3px !important;
+    }
+  </style>
+</head>
+<body class="text-slate-800 font-sans antialiased min-h-screen flex flex-col selection:bg-teal-100 selection:text-teal-900">
+<!-- BEGIN: MainHeader -->
+<header class="sticky top-0 z-50 backdrop-blur-md bg-white/80 border-b border-slate-200/60 transition-all duration-200" data-purpose="site-navigation">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+<!-- Brand & Title Block -->
+<a aria-label="Audigy Accueil" class="flex items-center gap-3.5 group rounded-xl p-1 focus-visible:outline-none" href="/">
+<div class="relative w-10 h-10 rounded-xl overflow-hidden shadow-sm ring-1 ring-slate-900/5 group-hover:scale-105 transition-transform duration-200 bg-white">
+<img alt="Audigy Logo" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAlpe0AQDkfJ692ItUPOM6hwAPiSisOYNlKKHFZnkF-hPIkvbJ25MDtyMbBGPVcdGHN64VXfLH0LVaJ6fnrdzkITEAsdTDx9TRNkkoLovFyeZfll1xdjMFyb-K_Snh7p2oooBG0e6L0NXyDBbJymUlLW2Dg2Blojgcazb06ZoDSazPcFTBqBw7cQYtNcDBvCGCOOK_oaS9TCve2S8r9u-lXieqN-RtI4TEQX1pJOmDM31akD8VFsVNWlea1Zwz6TMQYAGA">
+</div>
+<div class="flex flex-col">
+<span class="font-display font-bold text-xl text-slate-900 tracking-tight leading-none">Audigy</span>
+<span class="text-xs font-medium text-slate-500 tracking-normal mt-0.5">Santé &amp; Hygiène Web</span>
+</div>
+</a>
+<!-- Canon Navigation Menu: Strictly 4 links -->
+<nav aria-label="Navigation principale" class="hidden md:flex items-center gap-1 bg-slate-100/70 p-1.5 rounded-full border border-slate-200/50 shadow-inner">
+<a class="px-4 py-1.5 text-sm font-medium text-slate-700 hover:text-slate-950 rounded-full transition-colors hover:bg-white/80" href="#accueil">Accueil</a>
+<a class="px-4 py-1.5 text-sm font-medium text-slate-700 hover:text-slate-950 rounded-full transition-colors hover:bg-white/80" href="#methode">Méthode</a>
+<a class="px-4 py-1.5 text-sm font-medium text-slate-700 hover:text-slate-950 rounded-full transition-colors hover:bg-white/80" href="#sites-suivis">Sites suivis</a>
+<a class="px-4 py-1.5 text-sm font-medium text-slate-700 hover:text-slate-950 rounded-full transition-colors hover:bg-white/80" href="#documentation">Documentation</a>
+</nav>
+<!-- Utility Area: Lang, Theme Toggle, Login Button -->
+<div class="flex items-center gap-3">
+<!-- Language Switcher -->
+<div aria-label="Langue" class="flex items-center text-xs font-bold bg-slate-100 rounded-lg p-1 border border-slate-200" role="group">
+<span aria-current="true" class="px-2 py-0.5 bg-white text-slate-900 rounded shadow-xs">FR</span>
+<button class="px-2 py-0.5 text-slate-500 hover:text-slate-800 transition" type="button">EN</button>
+</div>
+<!-- Theme Toggle -->
+<button class="flex items-center gap-1.5 text-xs font-medium text-slate-600 bg-white border border-slate-200/80 rounded-lg px-2.5 py-1.5 shadow-2xs hover:bg-slate-50 transition" title="Basculer le thème" type="button">
+<svg class="w-3.5 h-3.5 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<span class="hidden sm:inline">Clair</span>
+</button>
+<!-- Connexion Button -->
+<a class="flex items-center gap-2 text-xs font-semibold text-slate-900 bg-white border border-slate-300 rounded-xl px-3.5 py-2 shadow-sm hover:border-slate-400 hover:bg-slate-50 transition" href="#connexion">
+<svg class="w-4 h-4 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<path d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<span class="">Connexion</span>
+<span class="w-6 h-6 rounded-full bg-teal-900 text-white flex items-center justify-center text-[10px] ml-0.5">
+<svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+<path clip-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" fill-rule="evenodd"></path>
+</svg>
+</span>
+</a>
+</div>
+</div>
+</header>
+<!-- END: MainHeader -->
+<!-- BEGIN: MainContent -->
+<main class="flex-grow max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-12 w-full" id="contenu">
+<!-- Breadcrumb: Accueil > Légal & Éthique > Déclaration d'accessibilité -->
+<nav aria-label="Fil d'Ariane" class="mb-6">
+<ol class="flex items-center gap-2 text-xs text-slate-500 font-medium">
+<li class="">
+<a class="hover:text-slate-800 transition" href="/">Accueil</a>
+</li>
+<li aria-hidden="true" class="text-slate-400">›</li>
+<li class="">
+<a class="hover:text-slate-800 transition" href="#legal">Légal &amp; Éthique</a>
+</li>
+<li aria-hidden="true" class="text-slate-400">›</li>
+<li aria-current="page" class="text-slate-800 font-semibold">Déclaration d'accessibilité</li>
+</ol>
+</nav>
+<!-- Header Section: Title, Subtitle, Neutral Badge & Gauge Score Miniature -->
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-8 border-b border-slate-200/60 mb-8">
+<div class="space-y-3">
+<!-- Target Badge: Didactic alert/neutral, not premature compliance -->
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-amber-50 text-amber-900 border border-amber-200/80 shadow-2xs">
+<span class="w-2 h-2 rounded-full bg-amber-500"></span>
+          Objectif Niveau AA RGAA 4.1 / WCAG 2.2
+        </div>
+<!-- Main Title -->
+<h1 class="text-3xl sm:text-4xl font-display font-bold tracking-tight text-slate-900">
+          Déclaration d'accessibilité
+        </h1>
+<!-- Subtitle -->
+<p class="flex items-center gap-2 text-sm text-slate-500 font-medium">
+<svg class="w-4 h-4 text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<span class="">Version 2026.1 — Texte du 27 oct. 2026</span>
+</p>
+</div>
+<!-- Target Score / Miniature Gauge: AA - Cible visée / En cours de démarche -->
+<div class="shrink-0 bg-white/90 backdrop-blur-sm border border-slate-200/80 rounded-2xl p-4 shadow-sm flex items-center gap-4">
+<div class="relative w-14 h-14 rounded-full border-4 border-slate-800 flex items-center justify-center font-display font-bold text-slate-900 text-lg shadow-inner bg-slate-50/50">
+          AA
+        </div>
+<div class="text-left pr-2">
+<span class="block text-sm font-bold text-slate-800">AA — Cible visée</span>
+<span class="block text-xs font-medium text-amber-700">En cours de démarche</span>
+</div>
+</div>
+</div>
+<!-- BEGIN: 5 Native Arc Soft Interface Cards -->
+<div class="space-y-6">
+<!-- Card 1: État de conformité -->
+<article class="bg-white/85 backdrop-blur-md border border-slate-200/80 rounded-3xl p-6 sm:p-7 shadow-xs">
+<div class="flex items-start gap-4">
+<div class="w-10 h-10 rounded-2xl bg-amber-100/80 text-amber-800 flex items-center justify-center shrink-0 border border-amber-200/60 font-display font-bold text-base">
+            1
+          </div>
+<div class="flex-grow space-y-3">
+<div>
+<span class="text-xs font-semibold text-slate-400 uppercase tracking-wider block">Transparence &amp; Diagnostic</span>
+<h2 class="font-display font-bold text-slate-900 text-lg sm:text-xl">1. État de conformité</h2>
+</div>
+<!-- Alert Callout -->
+<div class="p-4 rounded-2xl bg-amber-50/80 border border-amber-200/80 text-amber-950 text-sm flex gap-3 items-start leading-relaxed">
+<svg class="w-4 h-4 text-amber-600 mt-0.5 shrink-0" fill="currentColor" viewBox="0 0 20 20">
+<path clip-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" fill-rule="evenodd"></path>
+</svg>
+<div class="">
+<strong>État au 27 oct. 2026 :</strong> audit formel non finalisé (« l'audit reste à faire »). Cette page ne déclare pas une conformité prématurée.
+              </div>
+</div>
+<p class="text-slate-600 text-sm leading-relaxed">
+              Dans une démarche de transparence radicale, Audigy refuse toute fausse déclaration de conformité anticipée. Les critères techniques d'accessibilité sont intégrés au cœur du développement, et les résultats détaillés seront publiés dès la finalisation d'un audit formel complet.
+            </p>
+</div>
+</div>
+</article>
+<!-- Card 2: Référentiels (2 blocs didactiques) -->
+<article class="bg-white/85 backdrop-blur-md border border-slate-200/80 rounded-3xl p-6 sm:p-7 shadow-xs">
+<div class="flex items-start gap-4">
+<div class="w-10 h-10 rounded-2xl bg-blue-100/80 text-blue-800 flex items-center justify-center shrink-0 border border-blue-200/60 font-display font-bold text-base">
+            2
+          </div>
+<div class="flex-grow space-y-4">
+<div>
+<span class="text-xs font-semibold text-slate-400 uppercase tracking-wider block">Normes de référence</span>
+<h2 class="font-display font-bold text-slate-900 text-lg sm:text-xl">2. Référentiels visés</h2>
+</div>
+<p class="text-slate-600 text-sm leading-relaxed">
+              La plateforme s'aligne sur les standards officiels français et internationaux d'accessibilité numérique :
+            </p>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-1">
+<!-- Block RGAA 4.1 -->
+<div class="p-4 rounded-2xl bg-slate-50/80 border border-slate-200/80 flex flex-col justify-between">
+<div>
+<div class="flex items-center gap-2 mb-2 font-display font-bold text-slate-900 text-sm">
+<svg class="w-4 h-4 text-teal-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+                    RGAA 4.1 — Niveau AA
+                  </div>
+<p class="text-xs text-slate-500 leading-normal">
+                    Référentiel Général d'Amélioration de l'Accessibilité pour le secteur numérique français, assurant l'équité d'usage pour tous les usagers.
+                  </p>
+</div>
+</div>
+<!-- Block WCAG 2.2 -->
+<div class="p-4 rounded-2xl bg-slate-50/80 border border-slate-200/80 flex flex-col justify-between">
+<div>
+<div class="flex items-center gap-2 mb-2 font-display font-bold text-slate-900 text-sm">
+<svg class="w-4 h-4 text-blue-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<path d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-3-3-3m0 18c-1.657 0-3-4.03-3-9s1.343-3 3-3m-9 9a9 9 0 019-9" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+                    WCAG 2.2 — Critères AA
+                  </div>
+<p class="text-xs text-slate-500 leading-normal">
+                    Web Content Accessibility Guidelines du W3C garantissant l'interopérabilité internationale et la robustesse des aides techniques.
+                  </p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</article>
+<!-- Card 3: Choix techniques sobres -->
+<article class="bg-white/85 backdrop-blur-md border border-slate-200/80 rounded-3xl p-6 sm:p-7 shadow-xs">
+<div class="flex items-start gap-4">
+<div class="w-10 h-10 rounded-2xl bg-emerald-100/80 text-emerald-800 flex items-center justify-center shrink-0 border border-emerald-200/60 font-display font-bold text-base">
+            3
+          </div>
+<div class="flex-grow space-y-4">
+<div>
+<span class="text-xs font-semibold text-slate-400 uppercase tracking-wider block">Architecture technique</span>
+<h2 class="font-display font-bold text-slate-900 text-lg sm:text-xl">3. Choix techniques sobres</h2>
+</div>
+<p class="text-slate-600 text-sm leading-relaxed">
+              L'architecture privilégie la simplicité native et l'épuration logicielle pour une fiabilité maximale au contact des outils d'assistance :
+            </p>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-1">
+<div class="p-3.5 rounded-2xl border border-slate-200/80 bg-slate-50/60 flex gap-3 items-start">
+<span class="font-mono text-teal-850 font-bold text-sm shrink-0">&lt;/&gt;</span>
+<div>
+<h3 class="text-xs font-bold text-slate-800">HTML sémantique natif</h3>
+<p class="text-[11px] text-slate-500 mt-0.5">Balises structurelles standard (header, main, nav, article) sans surcharge artificielle.</p>
+</div>
+</div>
+<div class="p-3.5 rounded-2xl border border-slate-200/80 bg-slate-50/60 flex gap-3 items-start">
+<span class="font-serif font-bold text-teal-850 text-base shrink-0">Aa</span>
+<div>
+<h3 class="text-xs font-bold text-slate-800">Atkinson Hyperlegible</h3>
+<p class="text-[11px] text-slate-500 mt-0.5">Typographie optimisée pour la distinction des glyphes et le confort de basse vision.</p>
+</div>
+</div>
+<div class="p-3.5 rounded-2xl border border-slate-200/80 bg-slate-50/60 flex gap-3 items-start">
+<svg class="w-4 h-4 text-teal-850 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<path d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<div>
+<h3 class="text-xs font-bold text-slate-800">ARIA utile sans surcharge</h3>
+<p class="text-[11px] text-slate-500 mt-0.5">Attributs réservés aux états dynamiques essentiels, sans interférer avec la sémantique native.</p>
+</div>
+</div>
+<div class="p-3.5 rounded-2xl border border-slate-200/80 bg-slate-50/60 flex gap-3 items-start">
+<svg class="w-4 h-4 text-teal-850 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<path d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<div>
+<h3 class="text-xs font-bold text-slate-800">Navigation clavier libre</h3>
+<p class="text-[11px] text-slate-500 mt-0.5">Ordre de tabulation naturel, aucun piège au focus et anneau de repérage visuel contrasté.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</article>
+<!-- Card 4: Signalement de blocage et contact -->
+<article class="bg-white/85 backdrop-blur-md border border-slate-200/80 rounded-3xl p-6 sm:p-7 shadow-xs">
+<div class="flex items-start gap-4">
+<div class="w-10 h-10 rounded-2xl bg-indigo-100/80 text-indigo-800 flex items-center justify-center shrink-0 border border-indigo-200/60 font-display font-bold text-base">
+            4
+          </div>
+<div class="flex-grow space-y-4">
+<div>
+<span class="text-xs font-semibold text-slate-400 uppercase tracking-wider block">Assistance &amp; Écoute</span>
+<h2 class="font-display font-bold text-slate-900 text-lg sm:text-xl">4. Signalement de blocage et contact</h2>
+</div>
+<p class="text-slate-600 text-sm leading-relaxed">
+              Si vous rencontrez la moindre difficulté d'accès à un contenu ou à une fonctionnalité, signalez-le directement à notre équipe :
+            </p>
+<!-- Contact Row with Petroleum Button -->
+<div class="flex flex-col sm:flex-row items-center justify-between gap-4 p-4 rounded-2xl bg-slate-50 border border-slate-200/80">
+<div class="flex items-center gap-3">
+<div class="p-2 bg-white rounded-xl shadow-2xs text-teal-850">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</div>
+<a class="font-bold text-slate-900 text-base hover:underline hover:text-teal-850" href="mailto:audigy.web@outlook.fr">
+                  audigy.web@outlook.fr
+                </a>
+</div>
+<a class="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-teal-900 hover:bg-teal-950 text-white text-xs font-semibold px-5 py-2.5 rounded-xl shadow-xs transition" href="mailto:audigy.web@outlook.fr">
+<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<path d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<span class="">Envoyer un courriel</span>
+</a>
+</div>
+<p class="text-xs text-slate-500">
+              Nous répondons avec diligence sous 48 à 72 heures ouvrées pour vous proposer une solution de contournement accessible.
+            </p>
+</div>
+</div>
+</article>
+<!-- Card 5: Voies de recours -->
+<article class="bg-white/85 backdrop-blur-md border border-slate-200/80 rounded-3xl p-6 sm:p-7 shadow-xs">
+<div class="flex items-start gap-4">
+<div class="w-10 h-10 rounded-2xl bg-purple-100/80 text-purple-800 flex items-center justify-center shrink-0 border border-purple-200/60 font-display font-bold text-base">
+            5
+          </div>
+<div class="flex-grow space-y-4">
+<div>
+<span class="text-xs font-semibold text-slate-400 uppercase tracking-wider block">Médiation juridique</span>
+<h2 class="font-display font-bold text-slate-900 text-lg sm:text-xl">5. Voies de recours</h2>
+</div>
+<p class="text-slate-600 text-sm leading-relaxed">
+              Si vous constatez un défaut d'accessibilité vous empêchant d'accéder à un contenu ou à une fonctionnalité du site, que vous nous le signalez et que vous ne parvenez pas à obtenir une réponse satisfaisante, vous êtes en droit de faire parvenir vos doléances ou une demande de saisine au <strong class="text-slate-900">Défenseur des droits</strong>.
+            </p>
+<!-- Recourse steps -->
+<div class="p-4 rounded-2xl bg-slate-50 border border-slate-200/70 text-xs text-slate-600 space-y-2">
+<span class="font-bold text-slate-800 block">Démarches auprès du Défenseur des droits :</span>
+<ul class="space-y-1.5 list-disc list-inside">
+<li class="">Remplir le formulaire de contact en ligne sur le portail officiel du Défenseur des droits.</li>
+<li class="">Contacter le délégué territorial du Défenseur des droits dans votre région ou département.</li>
+<li class="">Envoyer un courrier postal gratuit (sans affranchissement en France) à l'adresse suivante : <span class="font-mono text-slate-800 font-semibold">Le Défenseur des droits — Libre réponse 71120 — 75342 Paris CEDEX 07</span>.</li>
+</ul>
+</div>
+</div>
+</div>
+</article>
+</div>
+<!-- END: 5 Cards -->
+<!-- BEGIN: Bottom Nav Action -->
+<div class="mt-8 pt-4 flex items-center justify-between">
+<a class="inline-flex items-center gap-2 text-xs font-bold text-slate-700 bg-white hover:bg-slate-50 px-4 py-2.5 rounded-xl border border-slate-200 shadow-2xs transition" href="/">
+<svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<path d="M10 19l-7-7m0 0l7-7m-7 7h18" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<span class="">Retour à l'accueil</span>
+</a>
+</div>
+</main>
+<!-- END: MainContent -->
+<!-- BEGIN: MainFooter v3 -->
+<footer class="mt-16 bg-white/80 border-t border-slate-200/70 text-slate-600 text-xs backdrop-blur-md" data-purpose="site-footer">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+<div class="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-12">
+<!-- Brand Description with official logo -->
+<div class="md:col-span-5 space-y-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-lg overflow-hidden ring-1 ring-slate-900/10 bg-white">
+<img alt="Audigy" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAlpe0AQDkfJ692ItUPOM6hwAPiSisOYNlKKHFZnkF-hPIkvbJ25MDtyMbBGPVcdGHN64VXfLH0LVaJ6fnrdzkITEAsdTDx9TRNkkoLovFyeZfll1xdjMFyb-K_Snh7p2oooBG0e6L0NXyDBbJymUlLW2Dg2Blojgcazb06ZoDSazPcFTBqBw7cQYtNcDBvCGCOOK_oaS9TCve2S8r9u-lXieqN-RtI4TEQX1pJOmDM31akD8VFsVNWlea1Zwz6TMQYAGA">
+</div>
+<span class="font-display font-bold text-lg text-slate-900">Audigy</span>
+</div>
+<p class="text-slate-500 leading-relaxed max-w-sm">
+            Observatoire didactique et indépendant d'audit de santé web : sécurité applicative, éco-conception, accessibilité RGAA, signaux web essentiels et confidentialité.
+          </p>
+</div>
+<!-- Navigation Column -->
+<div class="md:col-span-2 space-y-3">
+<span class="font-display font-semibold text-slate-900 uppercase tracking-wider text-[11px] block">Navigation</span>
+<ul class="space-y-2">
+<li class=""><a class="hover:text-slate-900 transition" href="#accueil">Accueil</a></li>
+<li class=""><a class="hover:text-slate-900 transition" href="#methode">Méthode</a></li>
+<li class=""><a class="hover:text-slate-900 transition" href="#sites-suivis">Sites suivis</a></li>
+<li class=""><a class="hover:text-slate-900 transition" href="#documentation">Documentation</a></li>
+</ul>
+</div>
+<!-- Legal & Ethics Column -->
+<div class="md:col-span-3 space-y-3">
+<span class="font-display font-semibold text-slate-900 uppercase tracking-wider text-[11px] block">Légal &amp; Éthique</span>
+<ul class="space-y-2">
+<li class=""><a class="hover:text-slate-900 transition" href="#mentions-legales">Mentions légales</a></li>
+<li class=""><a class="hover:text-slate-900 transition" href="#confidentialite">Confidentialité</a></li>
+<li class=""><a class="hover:text-slate-900 transition" href="#cgu">Conditions d'utilisation (CGU)</a></li>
+<li class=""><a class="text-teal-850 font-bold hover:underline" href="#accessibilite">Accessibilité (RGAA / WCAG)</a></li>
+<li class=""><a class="text-slate-700 hover:text-slate-950 inline-flex items-center gap-1 font-medium" href="#pro">Audigy Pro <span class="text-[10px]">↗</span></a></li>
+</ul>
+</div>
+<!-- Assistance Column -->
+<div class="md:col-span-2 space-y-3">
+<span class="font-display font-semibold text-slate-900 uppercase tracking-wider text-[11px] block">Assistance</span>
+<ul class="space-y-2">
+<li class=""><a class="hover:text-slate-900 transition font-medium" href="mailto:audigy.web@outlook.fr">Contact &amp; Support</a></li>
+</ul>
+
+</div>
+</div>
+<!-- Legal Bottom Notice -->
+<div class="mt-12 pt-6 border-t border-slate-200/60 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-slate-500">
+<div class="">
+          © 2026 Audigy. Passif par défaut. Les tests actifs ne partent que sur un site dont vous prouvez la propriété. Polices auto-hébergées. Horodaté.
+        </div>
+<div class="flex items-center gap-1.5 shrink-0 font-medium text-slate-600">
+<svg class="w-3.5 h-3.5 text-teal-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<span class="">Données publiques et diagnostics souverains</span>
+</div>
+</div>
+</div>
+</footer>
+<!-- END: MainFooter -->
+
+
+</body></html>

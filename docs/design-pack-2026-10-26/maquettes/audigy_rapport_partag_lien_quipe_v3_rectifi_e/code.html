@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+
+<html lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="web_standard" name="shell-type"/>
+<title>Exemple de rapport - Audigy Santé &amp; Hygiène Web</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:ital,wght@0,400;0,600;0,700;1,400&amp;family=JetBrains+Mono:wght@400;500;600&amp;family=Outfit:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#002b2a",
+            "primary-container": "#004342",
+            "on-primary": "#ffffff",
+            "on-primary-container": "#79afad",
+            "primary-fixed": "#b5edeb",
+            "primary-fixed-dim": "#9ad1ce",
+            "on-primary-fixed": "#00201f",
+            "on-primary-fixed-variant": "#144f4e",
+            "secondary": "#226866",
+            "secondary-container": "#abefeb",
+            "on-secondary": "#ffffff",
+            "on-secondary-container": "#296e6c",
+            "secondary-fixed": "#abefeb",
+            "secondary-fixed-dim": "#90d2cf",
+            "on-secondary-fixed": "#00201f",
+            "on-secondary-fixed-variant": "#00504e",
+            "tertiary": "#4b1200",
+            "tertiary-container": "#701f00",
+            "on-tertiary": "#ffffff",
+            "on-tertiary-container": "#ff8257",
+            "tertiary-fixed": "#ffdbd0",
+            "tertiary-fixed-dim": "#ffb59d",
+            "on-tertiary-fixed": "#390c00",
+            "on-tertiary-fixed-variant": "#832600",
+            "surface": "#f8f9ff",
+            "surface-bright": "#f8f9ff",
+            "surface-dim": "#d7dae1",
+            "surface-variant": "#e0e2e9",
+            "surface-container-lowest": "#ffffff",
+            "surface-container-low": "#f1f4fb",
+            "surface-container": "#ebeef5",
+            "surface-container-high": "#e5e8ef",
+            "surface-container-highest": "#e0e2e9",
+            "surface-tint": "#306765",
+            "on-surface": "#181c21",
+            "on-surface-variant": "#404848",
+            "outline": "#707978",
+            "outline-variant": "#bfc8c7",
+            "background": "#f8f9ff",
+            "on-background": "#181c21",
+            "inverse-surface": "#2d3136",
+            "inverse-on-surface": "#eef1f8",
+            "inverse-primary": "#9ad1ce",
+            "error": "#ba1a1a",
+            "error-container": "#ffdad6",
+            "on-error": "#ffffff",
+            "on-error-container": "#93000a"
+          },
+          borderRadius: {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          spacing: {
+            "space-2xs": "0.25rem",
+            "space-xs": "0.5rem",
+            "space-sm": "0.75rem",
+            "space-md": "1rem",
+            "space-lg": "1.5rem",
+            "space-xl": "2rem",
+            "space-2xl": "3rem",
+            "margin-mobile": "1rem",
+            "margin": "2rem",
+            "margin-desktop": "3rem",
+            "gutter-sm": "1rem",
+            "gutter": "1.5rem",
+            "gutter-lg": "2rem"
+          },
+          fontFamily: {
+            "display-hero": ["Outfit", "sans-serif"],
+            "display-hero-mobile": ["Outfit", "sans-serif"],
+            "headline-lg": ["Outfit", "sans-serif"],
+            "headline-lg-mobile": ["Outfit", "sans-serif"],
+            "headline-md": ["Outfit", "sans-serif"],
+            "headline-sm": ["Outfit", "sans-serif"],
+            "body-lg": ["Atkinson Hyperlegible Next", "sans-serif"],
+            "body-md": ["Atkinson Hyperlegible Next", "sans-serif"],
+            "body-sm": ["Atkinson Hyperlegible Next", "sans-serif"],
+            "label-md": ["Atkinson Hyperlegible Next", "sans-serif"],
+            "label-sm": ["Atkinson Hyperlegible Next", "sans-serif"],
+            "mono-data": ["JetBrains Mono", "monospace"],
+            "mono-timestamp": ["JetBrains Mono", "monospace"]
+          },
+          fontSize: {
+            "display-hero": ["56px", { lineHeight: "64px", letterSpacing: "-0.03em", fontWeight: "700" }],
+            "display-hero-mobile": ["36px", { lineHeight: "44px", letterSpacing: "-0.02em", fontWeight: "700" }],
+            "headline-lg": ["36px", { lineHeight: "44px", letterSpacing: "-0.02em", fontWeight: "600" }],
+            "headline-lg-mobile": ["28px", { lineHeight: "36px", letterSpacing: "-0.015em", fontWeight: "600" }],
+            "headline-md": ["24px", { lineHeight: "32px", letterSpacing: "-0.01em", fontWeight: "600" }],
+            "headline-sm": ["20px", { lineHeight: "28px", fontWeight: "500" }],
+            "body-lg": ["18px", { lineHeight: "28px", fontWeight: "400" }],
+            "body-md": ["16px", { lineHeight: "24px", fontWeight: "400" }],
+            "body-sm": ["14px", { lineHeight: "20px", fontWeight: "400" }],
+            "label-md": ["14px", { lineHeight: "20px", letterSpacing: "0.01em", fontWeight: "600" }],
+            "label-sm": ["12px", { lineHeight: "16px", letterSpacing: "0.02em", fontWeight: "600" }],
+            "mono-data": ["14px", { lineHeight: "20px", letterSpacing: "-0.01em", fontWeight: "500" }],
+            "mono-timestamp": ["11px", { lineHeight: "14px", letterSpacing: "0.04em", fontWeight: "400" }]
+          }
+        }
+      }
+    };
+  </script>
+<style>
+    @layer base {
+      html, body {
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        overscroll-behavior: none;
+      }
+      main > :first-child {
+        margin-top: 0 !important;
+      }
+      main > :last-child {
+        margin-bottom: 0 !important;
+      }
+    }
+    ::-webkit-scrollbar {
+      display: none;
+    }
+  </style>
+</head>
+<body class="bg-surface font-body-md text-on-surface antialiased selection:bg-secondary-fixed selection:text-on-secondary-fixed">
+<!-- Header Canonique Audigy -->
+<header class="fixed top-0 left-0 right-0 z-50 bg-surface/80 backdrop-blur-xl border-b border-surface-container-high/60 shadow-[0_1px_8px_rgba(0,0,0,0.03)]">
+<div class="h-16 max-w-[1440px] mx-auto px-margin-mobile md:px-margin lg:px-margin-desktop flex items-center justify-between gap-gutter">
+<!-- Logo & Navigation -->
+<div class="flex items-center gap-space-lg">
+<a class="flex items-center gap-space-sm transition-opacity hover:opacity-90" data-path="accueil" href="#">
+<img alt="Audigy logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1WxrcF3gAxk-tw4m3QZnkfteHUSN_PV83kqpl_b44QbD5MgdvuS-MDHi1NuiCbHNw-6vWRELy5j8k4Dcre80fw4vfqpM5VgyA25giD7m0UEo_coVJwTiInl08COo3xdf57qX3WYqqRgmymvlmHgjHWlRuRsuzr-MYQqiiocQ4ZqXkeiTl7RM6Tv3rP6OSU65PL72r0Y7iMzrnwfnSjxmPwpOxTlziXozAcerDBwbURy-pLVVJEqPPUZNJD5vujHwTTDmD_X8_N7QxY"/>
+<span class="font-headline-sm text-headline-sm text-primary font-bold tracking-tight whitespace-nowrap">Audigy <span class="font-label-md text-label-md text-on-surface-variant font-normal hidden sm:inline">Santé &amp; Hygiène Web</span></span>
+</a>
+<nav class="hidden lg:flex items-center gap-space-md">
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-on-surface px-space-sm py-space-xs rounded-lg transition-colors" data-path="accueil" href="#">Accueil</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-on-surface px-space-sm py-space-xs rounded-lg transition-colors" data-path="methode" href="#">Méthode</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-on-surface px-space-sm py-space-xs rounded-lg transition-colors" data-path="sites-suivis" href="#">Sites suivis</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-on-surface px-space-sm py-space-xs rounded-lg transition-colors" data-path="documentation" href="#">Documentation</a>
+</nav>
+</div>
+<!-- Lang, Theme & Auth Actions -->
+<div class="flex items-center gap-space-sm">
+<div class="flex items-center bg-surface-container rounded-full p-space-2xs text-on-surface-variant">
+<button class="font-label-sm text-label-sm font-semibold px-space-xs py-space-2xs rounded-full bg-surface-container-lowest text-primary shadow-[0_1px_3px_rgba(0,0,0,0.06)]" type="button">FR</button>
+<button class="font-label-sm text-label-sm px-space-xs py-space-2xs rounded-full text-on-surface-variant hover:text-on-surface transition-colors" type="button">EN</button>
+</div>
+<button aria-label="Basculer le thème" class="w-9 h-9 rounded-full flex items-center justify-center text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" type="button">
+<span class="material-symbols-outlined text-[20px]">light_mode</span>
+</button>
+<a class="font-label-md text-label-md px-space-md py-space-xs rounded-lg bg-primary text-on-primary hover:bg-secondary transition-all shadow-sm flex items-center gap-1.5" data-path="connexion" href="#">
+<span>Connexion</span>
+</a>
+<div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-on-primary">
+<span class="material-symbols-outlined text-[18px]">person</span>
+</div>
+</div>
+</div>
+</header>
+<main class="w-full pt-16 bg-surface">
+<div class="flex flex-col w-full">
+<!-- Fil d'Ariane et statut démo -->
+<section class="w-full bg-surface-container-low/70 border-b border-surface-container-high/50 backdrop-blur-md">
+<div class="max-w-[1440px] mx-auto px-margin-mobile md:px-margin lg:px-margin-desktop py-space-sm flex flex-col sm:flex-row sm:items-center justify-between gap-space-xs text-on-surface-variant">
+<nav aria-label="Fil d'Ariane" class="flex items-center gap-space-xs font-label-sm text-label-sm">
+<a class="hover:text-primary transition-colors flex items-center gap-1" data-path="accueil" href="#">
+<span class="material-symbols-outlined text-[16px]">home</span>
+<span>Accueil</span>
+</a>
+<span class="text-outline-variant font-mono-timestamp">/</span>
+<span class="text-primary font-semibold">Exemple de rapport</span>
+</nav>
+<div class="flex items-center gap-space-xs font-mono-timestamp text-mono-timestamp text-on-surface-variant">
+<span class="inline-block w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
+<span>Environnement de démonstration figé</span>
+</div>
+</div>
+</section>
+<!-- Encart d'avertissement supérieur -->
+<section class="w-full bg-gradient-to-r from-primary/10 via-secondary/10 to-transparent">
+<div class="max-w-[1440px] mx-auto px-margin-mobile md:px-margin lg:px-margin-desktop py-space-md">
+<div class="p-space-md rounded-xl bg-surface-container-lowest/80 border border-surface-container-high backdrop-blur-md shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-space-md">
+<div class="flex items-start md:items-center gap-space-md">
+<div class="w-10 h-10 rounded-lg bg-primary-container text-on-primary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[24px]">science</span>
+</div>
+<div>
+<div class="flex items-center gap-space-xs flex-wrap">
+<span class="font-headline-sm text-headline-sm text-primary font-bold">Ceci est un exemple de rapport figé</span>
+<span class="font-mono-timestamp text-mono-timestamp bg-surface-container-high text-on-surface-variant px-space-xs py-space-2xs rounded uppercase font-semibold">Données fictives</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">
+                  Ce document illustre la synthèse délivrée après analyse publique. Il ne reflète pas un audit réel de votre propre domaine.
+                </p>
+</div>
+</div>
+<div class="flex items-center gap-space-sm shrink-0">
+<a class="inline-flex items-center gap-space-xs px-space-lg py-space-xs rounded-lg bg-primary text-on-primary font-label-md text-label-md hover:bg-secondary transition-all shadow-sm group" data-path="accueil" href="#">
+<span class="material-symbols-outlined text-[18px] group-hover:rotate-12 transition-transform">bolt</span>
+<span>Auditer mon site</span>
+</a>
+</div>
+</div>
+</div>
+</section>
+<!-- Contenu Principal du Rapport -->
+<div class="w-full max-w-[1440px] mx-auto px-margin-mobile md:px-margin lg:px-margin-desktop py-space-xl flex flex-col gap-space-2xl">
+<!-- En-tête du domaine ciblé & score bento -->
+<header class="flex flex-col gap-space-lg">
+<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-space-md pb-space-md border-b border-surface-container-high/60">
+<div class="flex flex-col gap-space-2xs">
+<div class="flex items-center gap-space-sm flex-wrap">
+<h1 class="font-headline-lg text-headline-lg text-primary font-bold tracking-tight flex items-center gap-space-xs">
+<span>https://monsite-exemple.fr</span>
+<a class="text-on-surface-variant hover:text-secondary transition-colors" href="https://monsite-exemple.fr" rel="noopener noreferrer" target="_blank" title="Visiter l'URL cible">
+<span class="material-symbols-outlined text-[22px]">open_in_new</span>
+</a>
+</h1>
+<span class="font-mono-timestamp text-mono-timestamp px-space-xs py-space-2xs rounded-full bg-secondary-fixed text-on-secondary-fixed font-semibold flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+                  Exemple interactif
+                </span>
+</div>
+<div class="flex items-center gap-space-sm font-mono-timestamp text-mono-timestamp text-on-surface-variant flex-wrap">
+<span class="bg-surface-container px-space-xs py-space-2xs rounded">ID: AUD-2026-DEMO</span>
+<span>·</span>
+<span>Horodaté le 18 mai 2026 (Europe/Paris)</span>
+<span>·</span>
+<span class="text-primary font-semibold">Méthode Audigy 2026.1</span>
+</div>
+</div>
+<!-- Actions d'audit et création -->
+<div class="flex items-center gap-space-sm shrink-0">
+<a class="inline-flex items-center gap-space-2xs px-space-md py-space-xs rounded-lg bg-surface-container-lowest border border-surface-container-high text-primary hover:bg-surface-container-low font-label-md text-label-md transition-all shadow-sm" data-path="accueil" href="#">
+<span class="material-symbols-outlined text-[18px]">search</span>
+<span>Auditer un autre site</span>
+</a>
+<a class="inline-flex items-center gap-space-2xs px-space-md py-space-xs rounded-lg bg-primary text-on-primary hover:bg-secondary font-label-md text-label-md transition-all shadow-sm" data-path="connexion" href="#">
+<span class="material-symbols-outlined text-[18px]">app_registration</span>
+<span>Créer un compte</span>
+</a>
+</div>
+</div>
+<!-- Hero Score Bento (Score global + 4 métriques) -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg items-stretch">
+<!-- Carte Score d'hygiène globale -->
+<div class="lg:col-span-4 rounded-xl bg-surface-container-lowest/80 border border-surface-container-high backdrop-blur-xl p-space-xl shadow-sm flex flex-col justify-between relative overflow-hidden">
+<div class="absolute -right-8 -bottom-8 w-44 h-44 rounded-full bg-primary/5 pointer-events-none blur-2xl"></div>
+<div>
+<div class="flex items-center justify-between">
+<span class="font-mono-timestamp text-mono-timestamp uppercase text-on-surface-variant font-semibold tracking-wider">Score d'hygiène globale</span>
+<span class="font-label-sm text-label-sm bg-secondary-fixed text-on-secondary-fixed px-space-xs py-space-2xs rounded-full font-bold">RANG B</span>
+</div>
+<div class="mt-space-lg flex items-baseline gap-space-sm">
+<span class="font-display-hero text-display-hero text-primary font-bold leading-none tracking-tight">84</span>
+<span class="font-headline-md text-headline-md text-on-surface-variant font-medium">/ 100</span>
+</div>
+<p class="font-headline-sm text-headline-sm text-secondary font-semibold mt-space-xs">
+                  Santé globale favorable
+                </p>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-space-2xs">
+                  Site rapide et sain. 3 points d'optimisation identifiés pour atteindre la classe A.
+                </p>
+</div>
+<!-- Jauge d'avancement -->
+<div class="mt-space-lg pt-space-md border-t border-surface-container-high/60">
+<div class="flex justify-between items-center font-mono-timestamp text-mono-timestamp text-on-surface-variant mb-space-2xs">
+<span>Potentiel de remédiation</span>
+<span class="text-secondary font-semibold">+6 pts atteignables (90/100)</span>
+</div>
+<div class="w-full h-3 rounded-full bg-surface-container overflow-hidden flex">
+<div class="h-full bg-secondary rounded-l-full" style="width: 84%;"></div>
+<div class="h-full bg-secondary-fixed-dim" style="width: 6%;"></div>
+</div>
+<div class="flex items-center justify-between text-on-surface-variant font-mono-timestamp text-[10px] mt-1">
+<span>0</span>
+<span class="font-semibold text-primary">Score actuel : 84</span>
+<span>100</span>
+</div>
+</div>
+</div>
+<!-- Grille des 4 indicateurs clés -->
+<div class="lg:col-span-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-space-md">
+<!-- 1. Temps LCP -->
+<div class="rounded-xl bg-surface-container-lowest/80 border border-surface-container-high backdrop-blur-xl p-space-lg shadow-sm flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between text-on-surface-variant">
+<span class="material-symbols-outlined text-[20px] text-secondary">speed</span>
+<span class="font-mono-timestamp text-[11px] font-semibold text-secondary uppercase">Optimal</span>
+</div>
+<span class="font-mono-data text-mono-data text-primary font-bold text-2xl block mt-space-md">1.4 s</span>
+<span class="font-label-sm text-label-sm text-on-surface font-semibold block mt-0.5">Temps LCP</span>
+</div>
+<div class="mt-space-sm pt-space-xs">
+<p class="font-body-sm text-[13px] text-on-surface-variant leading-tight">
+                    Chargement du composant visuel principal sous le seuil critique (2.5s).
+                  </p>
+</div>
+</div>
+<!-- 2. Éco-Index -->
+<div class="rounded-xl bg-surface-container-lowest/80 border border-surface-container-high backdrop-blur-xl p-space-lg shadow-sm flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between text-on-surface-variant">
+<span class="material-symbols-outlined text-[20px] text-secondary">nest_eco_leaf</span>
+<span class="font-mono-timestamp text-[11px] font-semibold text-secondary uppercase">Rang B</span>
+</div>
+<span class="font-mono-data text-mono-data text-primary font-bold text-2xl block mt-space-md">72 / 100</span>
+<span class="font-label-sm text-label-sm text-on-surface font-semibold block mt-0.5">Éco-Index</span>
+</div>
+<div class="mt-space-sm pt-space-xs">
+<p class="font-body-sm text-[13px] text-on-surface-variant leading-tight">
+                    Poids de la page : 1.8 Mo. 38 requêtes DOM. Empreinte carbone maîtrisée.
+                  </p>
+</div>
+</div>
+<!-- 3. TLS & En-têtes -->
+<div class="rounded-xl bg-surface-container-lowest/80 border border-surface-container-high backdrop-blur-xl p-space-lg shadow-sm flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between text-on-surface-variant">
+<span class="material-symbols-outlined text-[20px] text-secondary">lock</span>
+<span class="font-mono-timestamp text-[11px] font-semibold text-secondary uppercase">Valide</span>
+</div>
+<span class="font-mono-data text-mono-data text-primary font-bold text-2xl block mt-space-md">78 / 100</span>
+<span class="font-label-sm text-label-sm text-on-surface font-semibold block mt-0.5">TLS &amp; En-têtes</span>
+</div>
+<div class="mt-space-sm pt-space-xs">
+<p class="font-body-sm text-[13px] text-on-surface-variant leading-tight">
+                    Certificat TLS 1.3 valide. HSTS absent. Aucun protocole obsolète.
+                  </p>
+</div>
+</div>
+<!-- 4. Temps de remédiation -->
+<div class="rounded-xl bg-surface-container-lowest/80 border border-surface-container-high backdrop-blur-xl p-space-lg shadow-sm flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between text-on-surface-variant">
+<span class="material-symbols-outlined text-[20px] text-secondary">timelapse</span>
+<span class="font-mono-timestamp text-[11px] font-semibold text-secondary uppercase">Sprint</span>
+</div>
+<span class="font-mono-data text-mono-data text-primary font-bold text-2xl block mt-space-md">~50 min</span>
+<span class="font-label-sm text-label-sm text-on-surface font-semibold block mt-0.5">Temps de remédiation</span>
+</div>
+<div class="mt-space-sm pt-space-xs">
+<p class="font-body-sm text-[13px] text-on-surface-variant leading-tight">
+                    Pour corriger les 3 actions prioritaires détaillées ci-après.
+                  </p>
+</div>
+</div>
+</div>
+</div>
+</header>
+<!-- PLAN D'ACTION D'HYGIÈNE : LES 3 ACTIONS PRIORITAIRES -->
+<section class="flex flex-col gap-space-lg">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-space-xs">
+<div>
+<span class="font-mono-timestamp text-mono-timestamp uppercase text-on-surface-variant font-semibold tracking-wider">Plan d'action d'hygiène</span>
+<h2 class="font-headline-lg text-headline-lg text-primary font-bold tracking-tight">3 actions prioritaires identifiées</h2>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant max-w-md">
+              Classées par ordre décroissant de criticité et d'impact sur votre score technique global.
+            </p>
+</div>
+<div class="grid grid-cols-1 gap-space-md">
+<!-- Action 01 : Critique Sécurité -->
+<article class="p-space-lg rounded-xl bg-surface-container-lowest/90 border border-surface-container-high backdrop-blur-xl shadow-sm flex flex-col lg:flex-row lg:items-center justify-between gap-space-lg transition-all hover:bg-surface-container-lowest">
+<div class="flex items-start gap-space-md max-w-3xl">
+<div class="w-12 h-12 rounded-xl bg-tertiary-fixed text-on-tertiary-fixed flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[24px]">gpp_maybe</span>
+</div>
+<div class="flex flex-col gap-space-2xs">
+<div class="flex items-center gap-space-xs flex-wrap">
+<span class="font-mono-timestamp text-mono-timestamp px-space-xs py-space-2xs rounded bg-tertiary-fixed text-on-tertiary-fixed font-bold uppercase">#01 Critique · Sécurité</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Rôle : Hébergeur / CDN</span>
+<span>·</span>
+<span class="font-mono-timestamp text-mono-timestamp text-secondary font-semibold">Gain : +8 pts</span>
+<span>·</span>
+<span class="font-mono-timestamp text-mono-timestamp text-on-surface-variant">~15 min</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-primary font-bold">Activer l'en-tête HSTS sur votre serveur</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                    L'en-tête <code class="font-mono-data text-xs bg-surface-container px-1 py-0.5 rounded text-primary">Strict-Transport-Security</code> est manquant. Cela expose les requêtes initiales à des attaques de déclassement SSL (downgrade attacks).
+                  </p>
+</div>
+</div>
+<div class="flex items-center gap-space-sm shrink-0">
+<button class="px-space-md py-space-xs rounded-lg bg-surface-container-low hover:bg-surface-container text-primary font-label-md text-label-md flex items-center gap-space-2xs transition-colors border border-surface-container-high/80" onclick="document.getElementById('modal-action-1').classList.toggle('hidden')" type="button">
+<span class="material-symbols-outlined text-[18px]">help_outline</span>
+<span>Comment corriger</span>
+</button>
+</div>
+</article>
+<!-- Volet remédiation Action 1 -->
+<div class="hidden p-space-md rounded-xl bg-surface-container-high/60 border border-surface-container-highest -mt-2 mb-2 flex flex-col gap-space-sm" id="modal-action-1">
+<div class="flex items-center justify-between font-label-md text-label-md text-primary">
+<span class="flex items-center gap-1 font-semibold">
+<span class="material-symbols-outlined text-[18px]">terminal</span>
+                  Remédiation recommandée (Nginx / Apache / CDN)
+                </span>
+<button class="text-on-surface-variant hover:text-on-surface" onclick="document.getElementById('modal-action-1').classList.add('hidden')" type="button">Fermer</button>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+                Ajoutez l'instruction suivante dans la configuration de votre serveur ou de votre proxy inverse :
+              </p>
+<pre class="font-mono-data text-[13px] bg-primary text-on-primary p-space-md rounded-lg overflow-x-auto"><code>add_header Strict-Transport-Security "max-age=31536000; includeSubDomains; preload" always;</code></pre>
+</div>
+<!-- Action 02 : Important Performance -->
+<article class="p-space-lg rounded-xl bg-surface-container-lowest/90 border border-surface-container-high backdrop-blur-xl shadow-sm flex flex-col lg:flex-row lg:items-center justify-between gap-space-lg transition-all hover:bg-surface-container-lowest">
+<div class="flex items-start gap-space-md max-w-3xl">
+<div class="w-12 h-12 rounded-xl bg-secondary-fixed text-on-secondary-fixed flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[24px]">image</span>
+</div>
+<div class="flex flex-col gap-space-2xs">
+<div class="flex items-center gap-space-xs flex-wrap">
+<span class="font-mono-timestamp text-mono-timestamp px-space-xs py-space-2xs rounded bg-secondary-fixed text-on-secondary-fixed font-bold uppercase">#02 Important · Performance</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Rôle : Développeur Web</span>
+<span>·</span>
+<span class="font-mono-timestamp text-mono-timestamp text-secondary font-semibold">Gain : ~1.9s LCP</span>
+<span>·</span>
+<span class="font-mono-timestamp text-mono-timestamp text-on-surface-variant">~25 min</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-primary font-bold">Convertir l'image hero (2.4 Mo) en AVIF/WebP</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                    L'élément critique visuel utilise un fichier PNG non compressé. Une conversion au format moderne AVIF/WebP réduirait la charge de 85 % sans perte de fidélité perçue.
+                  </p>
+</div>
+</div>
+<div class="flex items-center gap-space-sm shrink-0">
+<button class="px-space-md py-space-xs rounded-lg bg-surface-container-low hover:bg-surface-container text-primary font-label-md text-label-md flex items-center gap-space-2xs transition-colors border border-surface-container-high/80" onclick="document.getElementById('modal-action-2').classList.toggle('hidden')" type="button">
+<span class="material-symbols-outlined text-[18px]">help_outline</span>
+<span>Comment corriger</span>
+</button>
+</div>
+</article>
+<!-- Volet remédiation Action 2 -->
+<div class="hidden p-space-md rounded-xl bg-surface-container-high/60 border border-surface-container-highest -mt-2 mb-2 flex flex-col gap-space-sm" id="modal-action-2">
+<div class="flex items-center justify-between font-label-md text-label-md text-primary">
+<span class="flex items-center gap-1 font-semibold">
+<span class="material-symbols-outlined text-[18px]">aspect_ratio</span>
+                  Remédiation recommandée (HTML &amp; Compression)
+                </span>
+<button class="text-on-surface-variant hover:text-on-surface" onclick="document.getElementById('modal-action-2').classList.add('hidden')" type="button">Fermer</button>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+                Exportez l'image source avec un encodeur moderne (ex. Squoosh ou Sharp) et déclarez la balise responsive :
+              </p>
+<pre class="font-mono-data text-[13px] bg-primary text-on-primary p-space-md rounded-lg overflow-x-auto"><code>&lt;picture&gt;
+  &lt;source srcset="hero.avif" type="image/avif" /&gt;
+  &lt;source srcset="hero.webp" type="image/webp" /&gt;
+  &lt;img src="hero.jpg" alt="Description" fetchpriority="high" width="1280" height="720" /&gt;
+&lt;/picture&gt;</code></pre>
+</div>
+<!-- Action 03 : Recommandé Accessibilité -->
+<article class="p-space-lg rounded-xl bg-surface-container-lowest/90 border border-surface-container-high backdrop-blur-xl shadow-sm flex flex-col lg:flex-row lg:items-center justify-between gap-space-lg transition-all hover:bg-surface-container-lowest">
+<div class="flex items-start gap-space-md max-w-3xl">
+<div class="w-12 h-12 rounded-xl bg-surface-container-high text-primary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[24px]">accessibility_new</span>
+</div>
+<div class="flex flex-col gap-space-2xs">
+<div class="flex items-center gap-space-xs flex-wrap">
+<span class="font-mono-timestamp text-mono-timestamp px-space-xs py-space-2xs rounded bg-surface-container-high text-primary font-bold uppercase">#03 Recommandé · Accessibilité</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Rôle : Intégrateur Web</span>
+<span>·</span>
+<span class="font-mono-timestamp text-mono-timestamp text-secondary font-semibold">Conformité RGAA 11.1</span>
+<span>·</span>
+<span class="font-mono-timestamp text-mono-timestamp text-on-surface-variant">~10 min</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-primary font-bold">Associer des étiquettes aria aux champs de formulaires</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                    Le champ de recherche principal et le formulaire de contact manquent d'éléments <code class="font-mono-data text-xs bg-surface-container px-1 py-0.5 rounded text-primary">&lt;label&gt;</code> explicites ou d'attributs <code class="font-mono-data text-xs bg-surface-container px-1 py-0.5 rounded text-primary">aria-label</code> pour les lecteurs d'écran.
+                  </p>
+</div>
+</div>
+<div class="flex items-center gap-space-sm shrink-0">
+<button class="px-space-md py-space-xs rounded-lg bg-surface-container-low hover:bg-surface-container text-primary font-label-md text-label-md flex items-center gap-space-2xs transition-colors border border-surface-container-high/80" onclick="document.getElementById('modal-action-3').classList.toggle('hidden')" type="button">
+<span class="material-symbols-outlined text-[18px]">help_outline</span>
+<span>Comment corriger</span>
+</button>
+</div>
+</article>
+<!-- Volet remédiation Action 3 -->
+<div class="hidden p-space-md rounded-xl bg-surface-container-high/60 border border-surface-container-highest -mt-2 mb-2 flex flex-col gap-space-sm" id="modal-action-3">
+<div class="flex items-center justify-between font-label-md text-label-md text-primary">
+<span class="flex items-center gap-1 font-semibold">
+<span class="material-symbols-outlined text-[18px]">code</span>
+                  Remédiation recommandée (HTML sémantique)
+                </span>
+<button class="text-on-surface-variant hover:text-on-surface" onclick="document.getElementById('modal-action-3').classList.add('hidden')" type="button">Fermer</button>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+                Liez explicitement l'identifiant du champ au label textuel visible :
+              </p>
+<pre class="font-mono-data text-[13px] bg-primary text-on-primary p-space-md rounded-lg overflow-x-auto"><code>&lt;label for="search-field" class="sr-only"&gt;Rechercher sur le site&lt;/label&gt;
+&lt;input id="search-field" type="search" name="q" placeholder="Rechercher..." /&gt;</code></pre>
+</div>
+</div>
+</section>
+<!-- SYNTHÈSE DES 8 DOMAINES MÉTHODE -->
+<section class="flex flex-col gap-space-lg">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-space-xs">
+<div>
+<span class="font-mono-timestamp text-mono-timestamp uppercase text-on-surface-variant font-semibold tracking-wider">Cadre d'évaluation officiel</span>
+<h2 class="font-headline-lg text-headline-lg text-primary font-bold tracking-tight">Synthèse des 8 domaines Méthode</h2>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+              Pondération équilibrée selon le référentiel d'audit public Audigy 2026.1.
+            </p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-space-md">
+<!-- 1. Performance -->
+<div class="p-space-lg rounded-xl bg-surface-container-lowest/80 border border-surface-container-high backdrop-blur-xl shadow-sm flex flex-col justify-between">
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-mono-timestamp text-mono-timestamp text-on-surface-variant font-semibold">01 / 08</span>
+<span class="font-mono-data text-mono-data text-secondary font-bold">88 / 100</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-primary font-bold mt-space-2xs">Performance</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Optimal. Temps de réponse TTFB rapide (120ms), compression gzip active.</p>
+</div>
+<div class="mt-space-md pt-space-xs">
+<div class="w-full h-1.5 rounded-full bg-surface-container overflow-hidden">
+<div class="h-full bg-secondary" style="width: 88%;"></div>
+</div>
+</div>
+</div>
+<!-- 2. SEO -->
+<div class="p-space-lg rounded-xl bg-surface-container-lowest/80 border border-surface-container-high backdrop-blur-xl shadow-sm flex flex-col justify-between">
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-mono-timestamp text-mono-timestamp text-on-surface-variant font-semibold">02 / 08</span>
+<span class="font-mono-data text-mono-data text-secondary font-bold">88 / 100</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-primary font-bold mt-space-2xs">SEO</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Schéma &amp; Sitemap conformes. Balises OpenGraph et canonical correctement déclarées.</p>
+</div>
+<div class="mt-space-md pt-space-xs">
+<div class="w-full h-1.5 rounded-full bg-surface-container overflow-hidden">
+<div class="h-full bg-secondary" style="width: 88%;"></div>
+</div>
+</div>
+</div>
+<!-- 3. Sécurité -->
+<div class="p-space-lg rounded-xl bg-surface-container-lowest/80 border border-surface-container-high backdrop-blur-xl shadow-sm flex flex-col justify-between">
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-mono-timestamp text-mono-timestamp text-on-surface-variant font-semibold">03 / 08</span>
+<span class="font-mono-data text-mono-data text-primary font-bold">78 / 100</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-primary font-bold mt-space-2xs">Sécurité</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">HSTS manquant. Headers CSP et X-Content-Type-Options bien implémentés.</p>
+</div>
+<div class="mt-space-md pt-space-xs">
+<div class="w-full h-1.5 rounded-full bg-surface-container overflow-hidden">
+<div class="h-full bg-secondary" style="width: 78%;"></div>
+</div>
+</div>
+</div>
+<!-- 4. Écologie -->
+<div class="p-space-lg rounded-xl bg-surface-container-lowest/80 border border-surface-container-high backdrop-blur-xl shadow-sm flex flex-col justify-between">
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-mono-timestamp text-mono-timestamp text-on-surface-variant font-semibold">04 / 08</span>
+<span class="font-mono-data text-mono-data text-primary font-bold">72 / 100</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-primary font-bold mt-space-2xs">Écologie</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Rang B EcoIndex. Faible consommation de mémoire vive lors du rendu client.</p>
+</div>
+<div class="mt-space-md pt-space-xs">
+<div class="w-full h-1.5 rounded-full bg-surface-container overflow-hidden">
+<div class="h-full bg-secondary" style="width: 72%;"></div>
+</div>
+</div>
+</div>
+<!-- 5. Accessibilité -->
+<div class="p-space-lg rounded-xl bg-surface-container-lowest/80 border border-surface-container-high backdrop-blur-xl shadow-sm flex flex-col justify-between">
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-mono-timestamp text-mono-timestamp text-on-surface-variant font-semibold">05 / 08</span>
+<span class="font-mono-data text-mono-data text-secondary font-bold">81 / 100</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-primary font-bold mt-space-2xs">Accessibilité</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">RGAA / WCAG AA. Bons contrastes de couleur. Légères retouches aria nécessaires.</p>
+</div>
+<div class="mt-space-md pt-space-xs">
+<div class="w-full h-1.5 rounded-full bg-surface-container overflow-hidden">
+<div class="h-full bg-secondary" style="width: 81%;"></div>
+</div>
+</div>
+</div>
+<!-- 6. Qualité technique -->
+<div class="p-space-lg rounded-xl bg-surface-container-lowest/80 border border-surface-container-high backdrop-blur-xl shadow-sm flex flex-col justify-between">
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-mono-timestamp text-mono-timestamp text-on-surface-variant font-semibold">06 / 08</span>
+<span class="font-mono-data text-mono-data text-secondary font-bold">95 / 100</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-primary font-bold mt-space-2xs">Qualité technique</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">0 faille détectée. Arborescence HTML saine, absence d'erreurs en console JavaScript.</p>
+</div>
+<div class="mt-space-md pt-space-xs">
+<div class="w-full h-1.5 rounded-full bg-surface-container overflow-hidden">
+<div class="h-full bg-secondary" style="width: 95%;"></div>
+</div>
+</div>
+</div>
+<!-- 7. Vie privée (STRICTEMENT Non testé) -->
+<div class="p-space-lg rounded-xl bg-surface-container-lowest/80 border border-surface-container-high backdrop-blur-xl shadow-sm flex flex-col justify-between">
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-mono-timestamp text-mono-timestamp text-on-surface-variant font-semibold">07 / 08</span>
+<span class="font-mono-timestamp text-mono-timestamp px-space-xs py-space-2xs rounded bg-surface-container-high text-on-surface-variant font-semibold uppercase">Non testé</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-primary font-bold mt-space-2xs">Vie privée</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">L'analyse du consentement cookies et traqueurs tiers requiert un test applicatif authentifié.</p>
+</div>
+<div class="mt-space-md pt-space-xs">
+<div class="w-full h-1.5 rounded-full bg-surface-container overflow-hidden">
+<div class="h-full bg-outline-variant/40" style="width: 0%;"></div>
+</div>
+</div>
+</div>
+<!-- 8. DNS / e-mail -->
+<div class="p-space-lg rounded-xl bg-surface-container-lowest/80 border border-surface-container-high backdrop-blur-xl shadow-sm flex flex-col justify-between">
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-mono-timestamp text-mono-timestamp text-on-surface-variant font-semibold">08 / 08</span>
+<span class="font-mono-data text-mono-data text-secondary font-bold">88 / 100</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-primary font-bold mt-space-2xs">DNS / e-mail</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">SPF &amp; DMARC conformes. Résolution IPv6 fonctionnelle et serveurs MX protégés.</p>
+</div>
+<div class="mt-space-md pt-space-xs">
+<div class="w-full h-1.5 rounded-full bg-surface-container overflow-hidden">
+<div class="h-full bg-secondary" style="width: 88%;"></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- SECTION SOFT-GATE / CONTENU RÉSERVÉ -->
+<section class="rounded-xl relative overflow-hidden bg-surface-container-lowest/90 border border-surface-container-high backdrop-blur-2xl shadow-sm p-space-xl">
+<!-- Simulation technique en arrière-plan flouté -->
+<div aria-hidden="true" class="absolute inset-0 p-space-xl opacity-20 filter blur-[7px] select-none pointer-events-none overflow-hidden font-mono-data text-xs leading-relaxed">
+<div class="flex gap-4">
+<div class="w-1/3">
+<p class="text-primary font-bold">// SYSTEM STACK FINGERPRINT</p>
+<p>HTTP/2.0 200 OK</p>
+<p>server: cloudflare-nginx/v1.24.1</p>
+<p>x-powered-by: Next.js 14.2.3</p>
+<p>content-security-policy: script-src 'self' 'nonce-demo...'</p>
+<p>set-cookie: __audigy_session=masked_token_for_review_purpose;</p>
+<p class="mt-4 text-primary font-bold">// DEPENDENCY CVE SCAN MATRIX</p>
+<p>[PASS] react@18.2.0 - 0 vulnerabilities</p>
+<p>[WARN] core-js@3.26.1 - Upgrade recommended</p>
+<p>[PASS] lodash-es@4.17.21 - Clean AST tree</p>
+</div>
+<div class="w-2/3">
+<p class="text-primary font-bold">// AI REMEDIATION PROMPT (LLM TARGET: Claude 3.5 Sonnet / Cursor)</p>
+<p>You are an expert web engineer reviewing an audit for monsite-exemple.fr.</p>
+<p>Task 1: Generate an optimized web server configuration file adding the following directives:</p>
+<p>Strict-Transport-Security: max-age=31536000; includeSubDomains; preload</p>
+<p>Permissions-Policy: geolocation=(), camera=(), microphone=()</p>
+<p>Referrer-Policy: strict-origin-when-cross-origin</p>
+<p class="mt-4">Task 2: Refactor HTML form elements according to RGAA 11.1 compliance checklist...</p>
+</div>
+</div>
+</div>
+<!-- Carte centrale au premier plan -->
+<div class="relative z-10 max-w-2xl mx-auto my-space-lg text-center flex flex-col items-center gap-space-md">
+<div class="w-16 h-16 rounded-2xl bg-primary-container text-on-primary flex items-center justify-center shadow-md">
+<span class="material-symbols-outlined text-[32px]">lock</span>
+</div>
+<div class="flex flex-col gap-space-2xs">
+<span class="font-mono-timestamp text-mono-timestamp uppercase text-secondary font-bold tracking-widest">Contenu réservé aux comptes vérifiés</span>
+<h3 class="font-headline-md text-headline-md text-primary font-bold">Détails techniques avancés &amp; Briefs IA</h3>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-lg mx-auto">
+                Les détails techniques approfondis, l'historique complet et les prompts d'ingénierie pour vos développeurs (Cursor, Claude, ChatGPT) sont réservés aux comptes vérifiés.
+              </p>
+</div>
+<div class="flex flex-col sm:flex-row items-center gap-space-sm mt-space-xs">
+<a class="px-space-xl py-space-sm rounded-lg bg-primary text-on-primary font-label-md text-label-md hover:bg-secondary transition-all shadow-sm flex items-center gap-space-xs" data-path="connexion" href="#">
+<span>Créer un compte gratuit</span>
+<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</a>
+<a class="px-space-lg py-space-sm rounded-lg bg-surface-container-low border border-surface-container-high hover:bg-surface-container text-primary font-label-md text-label-md transition-colors" data-path="methode" href="#">
+                Découvrir la Méthode
+              </a>
+</div>
+<p class="font-mono-timestamp text-mono-timestamp text-on-surface-variant">
+              Audit immédiat sans carte bancaire ni engagement.
+            </p>
+</div>
+</section>
+</div>
+</div>
+</main>
+<!-- Footer Canonique Audigy 2026 -->
+<footer class="w-full bg-surface-container-low border-t border-surface-container-high shadow-[0_-1px_8px_rgba(0,0,0,0.02)]">
+<div class="max-w-[1440px] mx-auto px-margin-mobile md:px-margin lg:px-margin-desktop py-space-xl flex flex-col md:flex-row items-center justify-between gap-space-md">
+<div class="flex flex-wrap items-center justify-center md:justify-start gap-x-space-md gap-y-space-xs text-on-surface-variant font-body-sm text-body-sm">
+<a class="hover:text-on-surface transition-colors" data-path="mentions-legales" href="#">Mentions légales</a>
+<span class="text-outline-variant">·</span>
+<a class="hover:text-on-surface transition-colors" data-path="confidentialite" href="#">Confidentialité</a>
+<span class="text-outline-variant">·</span>
+<a class="hover:text-on-surface transition-colors" data-path="cgu" href="#">CGU</a>
+<span class="text-outline-variant">·</span>
+<a class="hover:text-on-surface transition-colors" data-path="accessibilite" href="#">Accessibilité</a>
+<span class="text-outline-variant">·</span>
+<a class="inline-flex items-center gap-space-2xs text-secondary hover:text-on-surface transition-colors font-label-sm text-label-sm" href="https://pro.audigy.fr" rel="noopener noreferrer" target="_blank">
+<span>Audigy Pro</span>
+<span class="material-symbols-outlined text-[14px]">north_east</span>
+</a>
+</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant text-center md:text-right">
+        Copyright © 2026 Audigy. Hébergement souverain neutre en carbone.
+      </div>
+</div>
+</footer>
+</body></html>

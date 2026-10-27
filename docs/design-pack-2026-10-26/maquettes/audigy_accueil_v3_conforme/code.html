@@ -1,0 +1,743 @@
+<!DOCTYPE html><html class="scroll-smooth" lang="fr" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Audigy — Observatoire indépendant de l'hygiène web</title>
+<meta content="Diagnostic instantané de santé web : Passif par défaut. Les tests actifs ne partent que sur un site dont vous prouvez la propriété." name="description">
+<!-- Polices Google requises dans la charte -->
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:ital,wght@0,400;0,600;0,700;1,400&amp;family=JetBrains+Mono:wght@500;600&amp;family=Outfit:wght@600;700;800&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "blob-peach": "#F3C7B4",
+            "blob-lilac": "#E3D4F0",
+            "blob-teal": "#9FCFCB",
+            "paper-base": "#FAF8F4",
+            "paper-end": "#D7E7F2",
+            "primary": "#004342",
+            "primary-container": "#0f5c5a",
+            "on-primary": "#ffffff",
+            "on-primary-container": "#8fd2cf",
+            "primary-fixed-dim": "#90d2cf",
+            "secondary": "#1d5eac",
+            "secondary-container": "#78acff",
+            "on-secondary": "#ffffff",
+            "on-secondary-container": "#003f7d",
+            "secondary-fixed": "#d6e3ff",
+            "secondary-fixed-dim": "#a8c8ff",
+            "tertiary": "#6f1f00",
+            "tertiary-container": "#972d00",
+            "tertiary-fixed": "#ffdbd0",
+            "tertiary-fixed-dim": "#ffb59d",
+            "surface-tint": "#226866",
+            "ink-primary": "#1B1F24",
+            "ink-secondary": "#4A5260",
+            "line-border": "#E3DED5",
+            "surface-solid": "#FFFFFF",
+            "surface-container": "#efeeea",
+            "surface-container-high": "#eae8e4",
+            "surface-container-low": "#f5f3ef",
+            "surface-glass": "rgba(255, 255, 255, 0.72)",
+            "status-good-bg": "#E6EEF8",
+            "status-good-text": "#1F5FAD",
+            "status-warn-bg": "#FBF0DE",
+            "status-warn-text": "#9A5800",
+            "status-bad-bg": "#FBE7E5",
+            "status-bad-text": "#B3261E",
+            "status-neutral-bg": "#F1F1EF",
+            "status-neutral-text": "#5F6672",
+            "focus-ring": "#C2410C",
+            "pro-gold": "#D97706"
+          },
+          borderRadius: {
+            'xl': '0.75rem',
+            '2xl': '1rem'
+          },
+          fontFamily: {
+            'outfit': ['Outfit', 'sans-serif'],
+            'atkinson': ['Atkinson Hyperlegible Next', 'sans-serif'],
+            'mono': ['JetBrains Mono', 'monospace']
+          }
+        }
+      }
+    };
+  </script>
+<style>
+    @layer base {
+      html, body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Atkinson Hyperlegible Next', sans-serif;
+      }
+    }
+    ::-webkit-scrollbar {
+      display: none;
+    }
+  </style>
+</head>
+<body class="min-h-screen relative text-[#1B1F24] bg-gradient-to-b from-[#FAF8F4] to-[#D7E7F2] antialiased selection:bg-[#abefeb] selection:text-[#00201f]">
+<!-- Skip link accessibilité canonique -->
+<a class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-[#004342] focus:text-white focus:rounded-lg focus:shadow-lg font-semibold text-sm" href="#audit-form">
+    Aller au formulaire d'audit
+  </a>
+<!-- Blobs ambiants en arrière-plan (charte Arc Soft) -->
+<div aria-hidden="true" class="fixed inset-0 pointer-events-none overflow-hidden z-0">
+<div class="absolute -top-32 -left-20 w-[520px] h-[520px] rounded-full bg-[#9FCFCB]/35 blur-[120px]"></div>
+<div class="absolute top-1/4 -right-24 w-[480px] h-[480px] rounded-full bg-[#F3C7B4]/40 blur-[130px]"></div>
+<div class="absolute -bottom-24 left-1/3 w-[560px] h-[560px] rounded-full bg-[#E3D4F0]/35 blur-[140px]"></div>
+</div>
+<!-- NAVIGATION CANONIQUE (5 items exacts : Accueil · Méthode · Sites suivis · Documentation | FR/EN · Connexion) -->
+<header class="fixed top-0 inset-x-0 z-50 pt-3 px-4 md:px-6 pointer-events-none">
+<div class="max-w-7xl mx-auto h-16 px-4 md:px-6 flex items-center justify-between pointer-events-auto rounded-xl bg-white/70 backdrop-blur-xl shadow-[0_12px_36px_rgba(27,31,36,0.08)] border border-[#E3DED5]/60">
+<!-- Logo officiel lockup / icône officiel https://lh3.googleusercontent.com/aida-public/AB6AXuDvKUQQb9zuTOmggjhXzeS197XbA50Flsah_2ArHD4tRs2qDLKd4dp7ae8hjIdSGzqgVTTFSBDrqwr2kdtl1jzKI-w9Z4xVdfI3o0YocruncfXhvCHNnqVLLvXfEufHgtAt_4ieQxbbC1K87tv1z63iPiNzVHzLhOFNIjOUHn2ZaztN5UKN8OCCe2FZJshB4XnhdPSjBPkLXYbEVlXvL7G-Ap7w70S5d8puZNQkM6TLZn5WuBshqp3DSxU3KsZv6MxTHy0 -->
+<div class="flex items-center gap-6">
+<a class="flex items-center gap-2.5 focus:outline-none focus:ring-2 focus:ring-[#C2410C] rounded-lg group" href="#">
+<img alt="Audigy" class="w-8 h-8 rounded-lg object-cover shadow-sm" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDvKUQQb9zuTOmggjhXzeS197XbA50Flsah_2ArHD4tRs2qDLKd4dp7ae8hjIdSGzqgVTTFSBDrqwr2kdtl1jzKI-w9Z4xVdfI3o0YocruncfXhvCHNnqVLLvXfEufHgtAt_4ieQxbbC1K87tv1z63iPiNzVHzLhOFNIjOUHn2ZaztN5UKN8OCCe2FZJshB4XnhdPSjBPkLXYbEVlXvL7G-Ap7w70S5d8puZNQkM6TLZn5WuBshqp3DSxU3KsZv6MxTHy0">
+<span class="font-outfit font-bold text-xl tracking-tight text-[#1B1F24]">Audigy</span>
+</a>
+<!-- Menu Desktop : EXACTEMENT 4 items + Accueil implicite / actif -->
+<nav class="hidden md:flex items-center gap-1 font-semibold text-sm">
+<a class="px-3 py-1.5 rounded-lg bg-[#0f5c5a] text-white shadow-sm font-medium" href="#">Accueil</a>
+<a class="px-3 py-1.5 rounded-lg text-[#4A5260] hover:text-[#1B1F24] hover:bg-black/5 transition-colors" href="#methode">Méthode</a>
+<a class="px-3 py-1.5 rounded-lg text-[#4A5260] hover:text-[#1B1F24] hover:bg-black/5 transition-colors" href="#sites-suivis">Sites suivis</a>
+<a class="px-3 py-1.5 rounded-lg text-[#4A5260] hover:text-[#1B1F24] hover:bg-black/5 transition-colors" href="#documentation">Documentation</a>
+</nav>
+</div>
+<!-- Action droite : Toggle FR/EN + Toggle Thème + Connexion (Canon) -->
+<div class="flex items-center gap-3">
+<!-- Toggle Langue sans compte -->
+<div class="flex items-center p-0.5 rounded-lg bg-[#efeeea]/80 border border-[#E3DED5]/60 shadow-xs text-xs font-semibold">
+<button class="px-2 py-1 rounded bg-[#0f5c5a] text-white shadow-xs" type="button">FR</button>
+<button class="px-2 py-1 rounded text-[#4A5260] hover:text-[#1B1F24] transition-colors" type="button">EN</button>
+</div>
+<!-- Toggle Thème -->
+<button aria-label="Basculer le thème" class="w-8 h-8 rounded-lg flex items-center justify-center text-[#4A5260] hover:text-[#1B1F24] hover:bg-black/5 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#C2410C]" type="button">
+<span class="material-symbols-outlined text-[20px]">light_mode</span>
+</button>
+<!-- Connexion (Magic Link) -->
+<a class="inline-flex items-center gap-1.5 px-3 py-1.5 text-sm font-semibold text-[#1B1F24] hover:bg-black/5 rounded-lg transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#C2410C]" href="#connexion">
+<span class="material-symbols-outlined text-[18px] text-[#004342]">login</span>
+<span class="hidden sm:inline">Connexion</span>
+</a>
+<!-- Burger menu mobile -->
+<button aria-label="Ouvrir le menu" class="md:hidden w-8 h-8 rounded-lg flex items-center justify-center text-[#1B1F24] hover:bg-black/5" onclick="toggleMobileMenu()" type="button">
+<span class="material-symbols-outlined text-[22px]">menu</span>
+</button>
+</div>
+</div>
+<!-- Drawer Mobile (5 items exacts de la nav CANON) -->
+<div class="hidden md:hidden max-w-7xl mx-auto mt-2 p-4 rounded-xl bg-white/95 backdrop-blur-2xl shadow-xl border border-[#E3DED5] pointer-events-auto flex flex-col gap-2 font-semibold text-sm" id="mobile-menu">
+<a class="px-3 py-2 rounded-lg bg-[#0f5c5a] text-white" href="#">Accueil</a>
+<a class="px-3 py-2 rounded-lg text-[#4A5260] hover:bg-black/5" href="#methode">Méthode</a>
+<a class="px-3 py-2 rounded-lg text-[#4A5260] hover:bg-black/5" href="#sites-suivis">Sites suivis</a>
+<a class="px-3 py-2 rounded-lg text-[#4A5260] hover:bg-black/5" href="#documentation">Documentation</a>
+<div class="h-px bg-[#E3DED5] my-1"></div>
+<a class="px-3 py-2 rounded-lg text-[#1B1F24] hover:bg-black/5 flex items-center justify-between" href="#connexion">
+<span class="">Connexion</span>
+<span class="material-symbols-outlined text-[18px]">login</span>
+</a>
+</div>
+</header>
+<!-- CONTENU PRINCIPAL -->
+<main class="relative z-10 w-full pt-24 md:pt-28 pb-16">
+<div class="max-w-7xl mx-auto px-4 md:px-6">
+<!-- HERO SECTION -->
+<section class="text-center max-w-3xl mx-auto pt-4 md:pt-8 mb-6 md:mb-8">
+<!-- Badge statut supérieur -->
+<div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/70 backdrop-blur-md shadow-xs border border-[#E3DED5]/80 mb-5">
+<span class="w-2 h-2 rounded-full bg-[#004342] animate-pulse"></span>
+<span class="text-xs font-semibold uppercase tracking-wider text-[#4A5260]">Observatoire indépendant de l'hygiène web</span>
+<span class="text-[#6f7978] text-[10px]">•</span>
+<span class="text-xs font-bold text-[#004342]">Moteur v4.2 actif</span>
+</div>
+<!-- Titre & promesse éditoriale ajustée -->
+<h1 class="font-outfit font-extrabold text-3xl md:text-5xl lg:text-[46px] text-[#1B1F24] tracking-tight leading-[1.15] mb-4">
+          Vérifiez la santé de votre site, gratuitement.
+        </h1>
+<p class="text-base md:text-lg text-[#4A5260] leading-relaxed max-w-2xl mx-auto">
+          Diagnostic instantané de robustesse technique, empreinte environnementale, respect de la vie privée et conformité réglementaire. Passif par défaut. Les tests actifs ne partent que sur un site dont vous prouvez la propriété.
+        </p>
+<p class="text-xs md:text-sm text-[#004342] font-semibold mt-3 p-2.5 rounded-lg bg-white/60 border border-[#E3DED5]/70 max-w-2xl mx-auto leading-relaxed">
+          Particuliers : note globale et priorités immédiates sans compte. Détail complet, plan d'action et brief pour votre assistant IA accessibles avec un compte gratuit.
+        </p>
+</section>
+<!-- BLOC CONDITIONNEL / ÉTAT CACHÉ : « REPRENDRE LE DERNIER AUDIT » (1 audit en mémoire navigateur) -->
+<div class="max-w-4xl mx-auto mb-6 p-3.5 md:p-4 rounded-xl bg-white/80 backdrop-blur-lg border border-[#E3DED5] shadow-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3" id="resume-audit-card">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-lg bg-[#E6EEF8] text-[#1F5FAD] flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[20px]">history</span>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<span class="text-xs font-bold uppercase tracking-wider text-[#1F5FAD]">Audit récent en mémoire</span>
+<span class="text-[11px] text-[#5F6672]">· Navigateur local</span>
+</div>
+<p class="text-sm font-bold text-[#1B1F24]">https://mon-agence-web.fr <span class="font-normal text-[#4A5260] text-xs">(Score 84/100 · Note B)</span></p>
+</div>
+</div>
+<div class="flex items-center gap-2 self-end sm:self-auto">
+<button class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#004342] hover:bg-[#0f5c5a] text-white text-xs font-bold shadow-xs transition-colors" onclick="resumeAudit()" type="button">
+<span class="">Reprendre le rapport</span>
+<span class="material-symbols-outlined text-[15px]">arrow_forward</span>
+</button>
+<button class="w-7 h-7 rounded-md flex items-center justify-center text-[#5F6672] hover:bg-black/5 transition-colors" onclick="dismissResume()" title="Effacer de la mémoire" type="button">
+<span class="material-symbols-outlined text-[16px]">close</span>
+</button>
+</div>
+</div>
+<!-- GRILLE PRINCIPALE 2 COLONNES (Formulaire gauche + Démo interactive droite) -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-8 items-start mb-6">
+<!-- COLONNE GAUCHE (7 cols) : Formulaire d'audit + Garanties didactiques -->
+<div class="lg:col-span-7 flex flex-col gap-6">
+<!-- Panneau Verre Formulaire -->
+<div class="p-6 md:p-8 rounded-2xl bg-white/70 backdrop-blur-xl shadow-[0_18px_48px_rgba(27,31,36,0.08)] border border-[#E3DED5]/80 relative overflow-hidden">
+<form class="flex flex-col gap-4" id="audit-form" onsubmit="event.preventDefault(); triggerAudit();">
+<div class="flex items-center justify-between">
+<label class="text-sm font-bold text-[#1B1F24]" for="url-input">
+                  Adresse du site web à analyser
+                </label>
+<span class="text-xs text-[#4A5260]">
+                  Format attendu : <span class="font-mono text-[#004342] font-semibold">https://domaine.fr</span>
+</span>
+</div>
+<!-- Champ de saisie URL + CTA Pétrole canonique -->
+<div class="flex flex-col sm:flex-row items-stretch gap-1.5 p-1 rounded-xl bg-white shadow-xs border border-[#E3DED5] focus-within:ring-2 focus-within:ring-[#C2410C] transition-all">
+<div class="flex items-center px-3 flex-1 text-[#4A5260]">
+<span class="material-symbols-outlined text-[20px] mr-2 text-[#004342]">link</span>
+<input class="w-full bg-transparent text-sm md:text-base text-[#1B1F24] focus:outline-none placeholder:text-[#5F6672]" id="url-input" placeholder="https://votre-site.fr" required="" type="text" value="https://monsite-exemple.fr">
+</div>
+<button class="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-lg bg-[#004342] text-white font-bold text-sm hover:bg-[#0f5c5a] transition-all duration-200 shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#C2410C]" id="submit-btn" type="submit">
+<span class="">Lancer l'audit gratuit</span>
+<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+</div>
+<!-- Message d'état / Alerte discrète (Format ou site inaccessible) -->
+<div class="hidden items-center gap-2 px-3 py-2 rounded-lg bg-[#FBF0DE] text-[#9A5800] text-xs font-semibold" id="form-feedback">
+<span class="material-symbols-outlined text-[18px]">error_outline</span>
+<span id="feedback-text" class="">Veuillez renseigner une adresse publique accessible en HTTPS.</span>
+</div>
+<!-- LES 8 DOMAINES OFFICIELS (Source Méthode v3 canonique) -->
+<div class="pt-2">
+<p class="text-[11px] font-bold uppercase tracking-wider text-[#4A5260] mb-2 flex items-center justify-between">
+
+
+</p>
+
+<!-- Indication Disponibilité et Réputation hors note -->
+
+</div>
+</form>
+</div>
+<!-- 3 Micro-Garanties didactiques avec formule passif exacte -->
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-3 md:gap-4">
+<div class="p-4 rounded-xl bg-white/70 backdrop-blur-md shadow-xs border border-[#E3DED5]/80 flex items-start gap-3">
+<div class="w-8 h-8 rounded-lg bg-white shadow-xs flex items-center justify-center text-[#004342] shrink-0 border border-[#E3DED5]">
+<span class="material-symbols-outlined text-[20px]">lock_open</span>
+</div>
+<div>
+<h3 class="text-xs font-bold text-[#1B1F24]">Gratuit sans compte</h3>
+<p class="text-xs text-[#4A5260] mt-0.5">Accès direct au rapport sans inscription.</p>
+</div>
+</div>
+<div class="p-4 rounded-xl bg-white/70 backdrop-blur-md shadow-xs border border-[#E3DED5]/80 flex items-start gap-3 sm:col-span-1">
+<div class="w-8 h-8 rounded-lg bg-white shadow-xs flex items-center justify-center text-[#004342] shrink-0 border border-[#E3DED5]">
+<span class="material-symbols-outlined text-[20px]">sensors</span>
+</div>
+<div>
+<h3 class="text-xs font-bold text-[#1B1F24]">Passif par défaut</h3>
+<p class="text-xs text-[#4A5260] mt-0.5 leading-snug">Passif par défaut. Les tests actifs ne partent que sur un site dont vous prouvez la propriété.</p>
+</div>
+</div>
+<div class="p-4 rounded-xl bg-white/70 backdrop-blur-md shadow-xs border border-[#E3DED5]/80 flex items-start gap-3">
+<div class="w-8 h-8 rounded-lg bg-white shadow-xs flex items-center justify-center text-[#004342] shrink-0 border border-[#E3DED5]">
+<span class="material-symbols-outlined text-[20px]">menu_book</span>
+</div>
+<div>
+<h3 class="text-xs font-bold text-[#1B1F24]">Méthode publique</h3>
+<p class="text-xs text-[#4A5260] mt-0.5">Critères documentés et vérifiables.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- COLONNE DROITE (5 cols) : Mockup Rapport Démo Pédagogique -->
+<div class="lg:col-span-5" id="exemple-rapport">
+<div class="p-6 rounded-2xl bg-white/75 backdrop-blur-xl shadow-[0_18px_48px_rgba(27,31,36,0.08)] border border-[#E3DED5]/80 relative">
+<!-- En-tête du Rapport Démo -->
+<div class="flex items-center justify-between pb-3 border-b border-[#E3DED5]/60 mb-4">
+<div>
+<span class="text-[11px] font-bold uppercase tracking-wider text-[#4A5260] block">Exemple de rapport généré</span>
+<span class="text-[10px] font-mono text-[#5F6672]">AUD-2026-8492 · Horodaté</span>
+</div>
+<span class="inline-flex items-center px-2 py-0.5 rounded bg-[#E6EEF8] text-[#1F5FAD] text-[11px] font-bold">
+                Il y a 4 min
+              </span>
+</div>
+<!-- Carte Entité Audité avec Jauge 84 et Note B -->
+<div class="p-4 rounded-xl bg-white shadow-xs border border-[#E3DED5]/80 flex items-center justify-between mb-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-[#efeeea] flex items-center justify-center text-[#004342]">
+<span class="material-symbols-outlined text-[22px]">public</span>
+</div>
+<div>
+<h4 class="font-outfit font-bold text-base text-[#1B1F24] leading-tight">monsite-exemple.fr</h4>
+<p class="text-xs text-[#4A5260]">Boutique &amp; Portfolio</p>
+</div>
+</div>
+<!-- Jauge SVG 84/100 & Badge Note B -->
+<div class="flex items-center gap-2.5">
+<div aria-label="Score global : 84 sur 100" class="relative w-12 h-12 flex items-center justify-center">
+<svg class="w-full h-full transform -rotate-90" viewBox="0 0 48 48">
+<circle class="opacity-40" cx="24" cy="24" fill="none" r="19" stroke="#E3DED5" stroke-width="4"></circle>
+<circle cx="24" cy="24" fill="none" r="19" stroke="#004342" stroke-dasharray="119.38" stroke-dashoffset="19.1" stroke-linecap="round" stroke-width="4"></circle>
+</svg>
+<div class="absolute inset-0 flex items-center justify-center">
+<span class="font-outfit font-bold text-sm text-[#1B1F24]">84</span>
+</div>
+</div>
+<div class="w-11 h-11 rounded-xl bg-[#d6e3ff]/70 flex items-center justify-center border border-[#1d5eac]/20 shadow-xs">
+<span class="font-outfit font-black text-xl text-[#1d5eac]">B</span>
+</div>
+</div>
+</div>
+<!-- Alertes Concrètes (Succès vs Alerte critique) -->
+<div class="flex flex-col gap-2 mb-4">
+<div class="p-2.5 rounded-lg bg-[#E6EEF8]/80 flex items-start gap-2 border border-[#1F5FAD]/20">
+<span class="w-4 h-4 rounded-full bg-[#1F5FAD] text-white flex items-center justify-center text-[10px] shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-[12px]">check</span>
+</span>
+<p class="text-xs text-[#1B1F24] leading-tight">
+<span class="font-bold">Performance optimale :</span> LCP à 1.1s sur mobile 4G mesuré en conditions réelles.
+                </p>
+</div>
+<div class="p-2.5 rounded-lg bg-[#FBE7E5]/80 flex items-start gap-2 border border-[#B3261E]/20">
+<span class="w-4 h-4 rounded bg-[#B3261E] text-white flex items-center justify-center text-[10px] shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-[12px]">priority_high</span>
+</span>
+<p class="text-xs text-[#B3261E] leading-tight">
+<span class="font-bold">1 alerte de sécurité critique :</span> politique CSP absente sur les en-têtes HTTPS.
+                </p>
+</div>
+</div>
+<!-- Bouton vers la page Exemple de rapport démo -->
+<a class="w-full inline-flex items-center justify-center gap-2 py-2.5 px-4 rounded-lg bg-white hover:bg-[#efeeea] text-[#1B1F24] font-bold text-xs border border-[#E3DED5] shadow-xs transition-colors group" href="#modal-demo" onclick="openDemoModal(event)">
+<span class="">Explorer le rapport didactique complet</span>
+<span class="material-symbols-outlined text-[16px] text-[#004342] group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</a>
+</div>
+</div>
+</div>
+<!-- LES 3 LIENS D'EXPLORATION CANONIQUES PLACÉS DIRECTEMENT SOUS LE FORMULAIRE -->
+<div class="p-4 rounded-xl bg-white/75 backdrop-blur-xl border border-[#E3DED5]/80 shadow-xs flex flex-wrap items-center justify-center gap-y-2 gap-x-8 text-sm font-bold mb-16">
+<a class="inline-flex items-center gap-1.5 text-[#004342] hover:text-[#0f5c5a] transition-colors" href="#methode">
+<span class="">Comment ça marche</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+<span class="text-[#E3DED5] hidden sm:inline">•</span>
+<a class="inline-flex items-center gap-1.5 text-[#004342] hover:text-[#0f5c5a] transition-colors" href="#exemple-rapport" onclick="openDemoModal(event)">
+<span class="">Voir un exemple de rapport</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+<span class="text-[#E3DED5] hidden sm:inline">•</span>
+<a class="inline-flex items-center gap-1.5 text-[#004342] hover:text-[#0f5c5a] transition-colors" href="#documentation">
+<span class="">Guide pour corriger</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+</div>
+<!-- SECTION DIDACTIQUE : LES 8 DOMAINES AUDIGY (Source de vérité Méthode) -->
+<section class="mb-16" id="methode">
+<div class="text-center max-w-2xl mx-auto mb-10">
+<span class="text-xs font-bold text-[#004342] uppercase tracking-wider block mb-1">MÉTHODOLOGIE D'ÉVALUATION</span>
+<h2 class="font-outfit font-bold text-2xl md:text-3xl text-[#1B1F24] tracking-tight mb-2">Les 8 domaines Audigy</h2>
+<p class="text-sm text-[#4A5260]">
+            Une évaluation pluridisciplinaire sans concessions, basée sur des standards ouverts de l'industrie web et les réglementations européennes.
+          </p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+<!-- 1 Performance -->
+<div class="p-5 rounded-xl bg-white/70 backdrop-blur-xl shadow-xs border border-[#E3DED5]/80 flex flex-col justify-between hover:shadow-md transition-shadow">
+<div>
+<div class="flex items-center justify-between mb-3">
+<div class="w-9 h-9 rounded-lg bg-[#1d5eac] text-white flex items-center justify-center shadow-xs">
+<span class="material-symbols-outlined text-[20px]">speed</span>
+</div>
+<span class="font-mono text-xs font-bold text-[#4A5260]">01 / 08</span>
+</div>
+<h3 class="font-outfit font-bold text-base text-[#1B1F24] mb-1">1. Performance</h3>
+<p class="text-xs text-[#4A5260] leading-relaxed mb-4">Mesure rigoureuse des Core Web Vitals (LCP, INP, CLS), TTFB serveur et compression Brotli/Gzip.</p>
+</div>
+<div class="pt-3 border-t border-[#E3DED5]/50 flex items-center justify-between text-xs">
+<span class="text-[#5F6672]">Référence</span>
+<span class="font-mono font-bold text-[#1d5eac]">W3C Web Vitals</span>
+</div>
+</div>
+<!-- 2 SEO -->
+<div class="p-5 rounded-xl bg-white/70 backdrop-blur-xl shadow-xs border border-[#E3DED5]/80 flex flex-col justify-between hover:shadow-md transition-shadow">
+<div>
+<div class="flex items-center justify-between mb-3">
+<div class="w-9 h-9 rounded-lg bg-[#0f5c5a] text-white flex items-center justify-center shadow-xs">
+<span class="material-symbols-outlined text-[20px]">travel_explore</span>
+</div>
+<span class="font-mono text-xs font-bold text-[#4A5260]">02 / 08</span>
+</div>
+<h3 class="font-outfit font-bold text-base text-[#1B1F24] mb-1">2. SEO</h3>
+<p class="text-xs text-[#4A5260] leading-relaxed mb-4">Indexabilité, balises meta, canonicals, arborescence sitemap, conformité robots.txt et données structurées.</p>
+</div>
+<div class="pt-3 border-t border-[#E3DED5]/50 flex items-center justify-between text-xs">
+<span class="text-[#5F6672]">Norme</span>
+<span class="font-mono font-bold text-[#0f5c5a]">Open Web Standards</span>
+</div>
+</div>
+<!-- 3 Sécurité -->
+<div class="p-5 rounded-xl bg-white/70 backdrop-blur-xl shadow-xs border border-[#E3DED5]/80 flex flex-col justify-between hover:shadow-md transition-shadow">
+<div>
+<div class="flex items-center justify-between mb-3">
+<div class="w-9 h-9 rounded-lg bg-[#004342] text-white flex items-center justify-center shadow-xs">
+<span class="material-symbols-outlined text-[20px]">shield</span>
+</div>
+<span class="font-mono text-xs font-bold text-[#4A5260]">03 / 08</span>
+</div>
+<h3 class="font-outfit font-bold text-base text-[#1B1F24] mb-1">3. Sécurité</h3>
+<p class="text-xs text-[#4A5260] leading-relaxed mb-4">Contrôle TLS, conformité HSTS, politique CSP stricte, protection contre injections et failles XSS.</p>
+</div>
+<div class="pt-3 border-t border-[#E3DED5]/50 flex items-center justify-between text-xs">
+<span class="text-[#5F6672]">Grade</span>
+<span class="font-mono font-bold text-[#004342]">A+ Mozilla / Qualys</span>
+</div>
+</div>
+<!-- 4 Écologie -->
+<div class="p-5 rounded-xl bg-white/70 backdrop-blur-xl shadow-xs border border-[#E3DED5]/80 flex flex-col justify-between hover:shadow-md transition-shadow">
+<div>
+<div class="flex items-center justify-between mb-3">
+<div class="w-9 h-9 rounded-lg bg-[#226866] text-white flex items-center justify-center shadow-xs">
+<span class="material-symbols-outlined text-[20px]">eco</span>
+</div>
+<span class="font-mono text-xs font-bold text-[#4A5260]">04 / 08</span>
+</div>
+<h3 class="font-outfit font-bold text-base text-[#1B1F24] mb-1">4. Écologie</h3>
+<p class="text-xs text-[#4A5260] leading-relaxed mb-4">Empreinte gCO₂e, poids de page, complexité DOM et passerelle vers questionnaire RGESN.</p>
+</div>
+<div class="pt-3 border-t border-[#E3DED5]/50 flex items-center justify-between text-xs">
+<span class="text-[#5F6672]">Score</span>
+<span class="font-mono font-bold text-[#226866]">EcoIndex A à G</span>
+</div>
+</div>
+<!-- 5 Accessibilité -->
+<div class="p-5 rounded-xl bg-white/70 backdrop-blur-xl shadow-xs border border-[#E3DED5]/80 flex flex-col justify-between hover:shadow-md transition-shadow">
+<div>
+<div class="flex items-center justify-between mb-3">
+<div class="w-9 h-9 rounded-lg bg-[#1d5eac] text-white flex items-center justify-center shadow-xs">
+<span class="material-symbols-outlined text-[20px]">accessibility_new</span>
+</div>
+<span class="font-mono text-xs font-bold text-[#4A5260]">05 / 08</span>
+</div>
+<h3 class="font-outfit font-bold text-base text-[#1B1F24] mb-1">5. Accessibilité</h3>
+<p class="text-xs text-[#4A5260] leading-relaxed mb-4">Contraste colorimétrique, repères ARIA, navigation au clavier et structure sémantique.</p>
+</div>
+<div class="pt-3 border-t border-[#E3DED5]/50 flex items-center justify-between text-xs">
+<span class="text-[#5F6672]">Cadre</span>
+<span class="font-mono font-bold text-[#1d5eac]">WCAG 2.2 / RGAA 4.1</span>
+</div>
+</div>
+<!-- 6 Qualité technique -->
+<div class="p-5 rounded-xl bg-white/70 backdrop-blur-xl shadow-xs border border-[#E3DED5]/80 flex flex-col justify-between hover:shadow-md transition-shadow">
+<div>
+<div class="flex items-center justify-between mb-3">
+<div class="w-9 h-9 rounded-lg bg-[#972d00] text-white flex items-center justify-center shadow-xs">
+<span class="material-symbols-outlined text-[20px]">code</span>
+</div>
+<span class="font-mono text-xs font-bold text-[#4A5260]">06 / 08</span>
+</div>
+<h3 class="font-outfit font-bold text-base text-[#1B1F24] mb-1">6. Qualité technique</h3>
+<p class="text-xs text-[#4A5260] leading-relaxed mb-4">Validité HTML/CSS, détection de librairies obsolètes et croisement avec bases de failles OSV/NVD.</p>
+</div>
+<div class="pt-3 border-t border-[#E3DED5]/50 flex items-center justify-between text-xs">
+<span class="text-[#5F6672]">Base</span>
+<span class="font-mono font-bold text-[#972d00]">OSV / NIST NVD</span>
+</div>
+</div>
+<!-- 7 Vie privée -->
+<div class="p-5 rounded-xl bg-white/70 backdrop-blur-xl shadow-xs border border-[#E3DED5]/80 flex flex-col justify-between hover:shadow-md transition-shadow">
+<div>
+<div class="flex items-center justify-between mb-3">
+<div class="w-9 h-9 rounded-lg bg-[#6f1f00] text-white flex items-center justify-center shadow-xs">
+<span class="material-symbols-outlined text-[20px]">fingerprint</span>
+</div>
+<span class="font-mono text-xs font-bold text-[#4A5260]">07 / 08</span>
+</div>
+<h3 class="font-outfit font-bold text-base text-[#1B1F24] mb-1">7. Vie privée</h3>
+<p class="text-xs text-[#4A5260] leading-relaxed mb-4">Traceurs tiers déposés avant consentement, politiques de cookies et conformité ePrivacy / RGPD.</p>
+</div>
+<div class="pt-3 border-t border-[#E3DED5]/50 flex items-center justify-between text-xs">
+<span class="text-[#5F6672]">Règlement</span>
+<span class="font-mono font-bold text-[#6f1f00]">RGPD / ePrivacy UE</span>
+</div>
+</div>
+<!-- 8 DNS / e-mail -->
+<div class="p-5 rounded-xl bg-white/70 backdrop-blur-xl shadow-xs border border-[#E3DED5]/80 flex flex-col justify-between hover:shadow-md transition-shadow">
+<div>
+<div class="flex items-center justify-between mb-3">
+<div class="w-9 h-9 rounded-lg bg-[#5F6672] text-white flex items-center justify-center shadow-xs">
+<span class="material-symbols-outlined text-[20px]">alternate_email</span>
+</div>
+<span class="font-mono text-xs font-bold text-[#4A5260]">08 / 08</span>
+</div>
+<h3 class="font-outfit font-bold text-base text-[#1B1F24] mb-1">8. DNS / e-mail</h3>
+<p class="text-xs text-[#4A5260] leading-relaxed mb-4">Enregistrements MX, politiques de protection anti-usurpation SPF, DKIM et DMARC strictes.</p>
+</div>
+<div class="pt-3 border-t border-[#E3DED5]/50 flex items-center justify-between text-xs">
+<span class="text-[#5F6672]">Standard</span>
+<span class="font-mono font-bold text-[#5F6672]">IETF RFC 7489</span>
+</div>
+</div>
+</div>
+</section>
+<!-- SECTION DISCRÈTE : CARTE BASSE AUDIGY PRO (Liste exhaustive des exports & liste d'attente sans paiement) -->
+<section class="mb-14" id="pro-card">
+<div class="p-6 md:p-8 rounded-2xl bg-white/80 backdrop-blur-xl border border-[#E3DED5] shadow-xs flex flex-col md:flex-row items-start md:items-center justify-between gap-6 relative overflow-hidden">
+<div class="absolute -right-12 -top-12 w-48 h-48 bg-[#d6e3ff]/30 rounded-full blur-3xl pointer-events-none"></div>
+<div class="max-w-2xl">
+<div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded bg-[#FEF3C7] text-[#92400E] text-[11px] font-bold uppercase tracking-wider mb-2">
+<span class="material-symbols-outlined text-[14px]">star</span>
+<span class="">Bientôt disponible</span>
+</div>
+<h3 class="font-outfit font-bold text-xl md:text-2xl text-[#1B1F24] mb-1.5">
+              Audigy Pro pour les agences et équipes web
+            </h3>
+<p class="text-sm text-[#4A5260] leading-relaxed mb-2.5">
+              Suivi continu multi-sites, historique long (≥ 10 audits), alertes de régression et plafonds d'équipe étendus.
+            </p>
+<div class="flex flex-wrap items-center gap-1.5 text-xs text-[#1B1F24]">
+<span class="font-semibold text-[#4A5260]">Exports inclus :</span>
+<span class="px-2 py-0.5 rounded bg-[#efeeea] font-medium">PDF client soigné</span>
+<span class="px-2 py-0.5 rounded bg-[#efeeea] font-medium">Excel</span>
+<span class="px-2 py-0.5 rounded bg-[#efeeea] font-medium">CSV</span>
+<span class="px-2 py-0.5 rounded bg-[#efeeea] font-medium">Word</span>
+<span class="px-2 py-0.5 rounded bg-[#efeeea] font-mono text-[11px] font-semibold text-[#004342]">JSON &amp; XML (formats dévs)</span>
+</div>
+</div>
+<div class="shrink-0 flex flex-col sm:flex-row items-center gap-3 w-full md:w-auto">
+<a class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3 rounded-lg bg-[#1B1F24] hover:bg-[#004342] text-white text-xs font-bold transition-colors shadow-sm" href="#pro-waitlist" onclick="openProModal(event)">
+<span class="material-symbols-outlined text-[16px]">notifications</span>
+<span class="">Être prévenu du lancement</span>
+</a>
+</div>
+</div>
+</section>
+<!-- BANDEAU CTA FINAL : Appel à l'action clair -->
+<section class="mb-12">
+<div class="p-8 md:p-12 rounded-2xl bg-gradient-to-r from-[#004342] to-[#0f5c5a] text-white shadow-[0_18px_48px_rgba(0,67,66,0.18)] flex flex-col md:flex-row items-center justify-between gap-6">
+<div class="max-w-xl">
+<h2 class="font-outfit font-bold text-2xl md:text-3xl text-white tracking-tight mb-2">
+              Prêt à évaluer la santé de votre site ?
+            </h2>
+<p class="text-sm md:text-base text-[#8fd2cf] leading-relaxed">
+              Le diagnostic est gratuit, sans inscription et sans cookies traceurs. Obtenez votre feuille de route didactique en 15 secondes.
+            </p>
+</div>
+<div class="shrink-0">
+<button class="inline-flex items-center gap-2 px-6 py-3.5 rounded-lg bg-white text-[#004342] hover:bg-[#efeeea] font-bold text-sm shadow-md transition-all" onclick="scrollToTop()">
+<span class="">Tester mon site maintenant</span>
+<span class="material-symbols-outlined text-[18px]">north</span>
+</button>
+</div>
+</div>
+</section>
+</div>
+</main>
+<!-- PIED DE PAGE CANONIQUE (Mentions · Confidentialité · Accessibilité RGAA · CGU · lien « Audigy Pro ») -->
+<footer class="relative z-10 w-full pb-8 px-4 md:px-6">
+<div class="max-w-7xl mx-auto rounded-xl bg-white/70 backdrop-blur-xl p-6 md:p-8 shadow-[0_12px_36px_rgba(27,31,36,0.06)] border border-[#E3DED5]/80 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+<div class="flex flex-col gap-2 max-w-xl">
+<div class="flex items-center gap-2">
+<img alt="Audigy" class="w-6 h-6 rounded-md object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDvKUQQb9zuTOmggjhXzeS197XbA50Flsah_2ArHD4tRs2qDLKd4dp7ae8hjIdSGzqgVTTFSBDrqwr2kdtl1jzKI-w9Z4xVdfI3o0YocruncfXhvCHNnqVLLvXfEufHgtAt_4ieQxbbC1K87tv1z63iPiNzVHzLhOFNIjOUHn2ZaztN5UKN8OCCe2FZJshB4XnhdPSjBPkLXYbEVlXvL7G-Ap7w70S5d8puZNQkM6TLZn5WuBshqp3DSxU3KsZv6MxTHy0">
+<span class="font-outfit font-bold text-base text-[#1B1F24]">Audigy</span>
+<span class="text-xs text-[#5F6672]">· Observatoire de l'hygiène web</span>
+</div>
+<p class="text-xs text-[#4A5260] leading-relaxed">
+          Passif par défaut. Les tests actifs ne partent que sur un site dont vous prouvez la propriété. Référentiels ouverts (MDN Observatory, Lighthouse, EcoIndex). Zéro traceur tiers. Polices auto-hébergées. Horodaté.
+        </p>
+</div>
+<!-- Liens légaux canoniques exacts avec correction RGAA et lien Pro -->
+<nav class="flex flex-wrap items-center gap-x-6 gap-y-2 text-xs font-semibold text-[#4A5260]">
+<a class="hover:text-[#1B1F24] transition-colors" href="#methode">Méthode</a>
+<a class="hover:text-[#1B1F24] transition-colors" href="#mentions-legales">Mentions légales</a>
+<a class="hover:text-[#1B1F24] transition-colors" href="#confidentialite">Confidentialité</a>
+<a class="hover:text-[#1B1F24] transition-colors" href="#accessibilite">Accessibilité (WCAG 2.2 / RGAA 4.1)</a>
+<a class="hover:text-[#1B1F24] transition-colors" href="#cgu">CGU</a>
+<a class="text-[#004342] font-bold hover:underline inline-flex items-center gap-1" href="#pro-waitlist" onclick="openProModal(event)">
+<span class="">Audigy Pro</span>
+<span class="material-symbols-outlined text-[14px]">arrow_outward</span>
+</a>
+</nav>
+</div>
+</footer>
+<!-- MODAL DIDACTIQUE : APERÇU COMPLET D'UN RAPPORT -->
+<div aria-labelledby="demo-title" aria-modal="true" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-[#1B1F24]/50 backdrop-blur-sm" id="demo-modal" role="dialog">
+<div class="w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-2xl bg-white shadow-2xl border border-[#E3DED5] p-6 flex flex-col gap-5">
+<div class="flex items-center justify-between pb-3 border-b border-[#E3DED5]">
+<div class="flex items-center gap-3">
+<span class="w-9 h-9 rounded-lg bg-[#0f5c5a] text-white flex items-center justify-center">
+<span class="material-symbols-outlined text-[20px]">verified</span>
+</span>
+<div>
+<h3 class="font-outfit font-bold text-lg text-[#1B1F24]" id="demo-title">Rapport d'audit didactique : monsite-exemple.fr</h3>
+<p class="text-xs text-[#4A5260]">Horodaté · Passif par défaut</p>
+</div>
+</div>
+<button aria-label="Fermer la modal" class="w-8 h-8 rounded-lg flex items-center justify-center text-[#4A5260] hover:bg-[#efeeea]" onclick="closeDemoModal()">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<!-- Grille des scores par domaine -->
+<div class="grid grid-cols-3 gap-3 p-4 rounded-xl bg-[#efeeea]">
+<div>
+<span class="text-xs text-[#4A5260]">Score Global</span>
+<p class="font-outfit text-xl font-bold text-[#004342]">84 / 100</p>
+</div>
+<div>
+<span class="text-xs text-[#4A5260]">Note</span>
+<p class="font-outfit text-xl font-bold text-[#1d5eac]">B</p>
+</div>
+<div>
+<span class="text-xs text-[#4A5260]">Écoconception</span>
+<p class="font-outfit text-xl font-bold text-[#226866]">B <span class="text-xs font-normal text-[#4A5260]">(1.4g CO₂)</span></p>
+</div>
+</div>
+<!-- Remédiation didactique -->
+<div>
+<h4 class="text-xs font-bold uppercase tracking-wider text-[#1B1F24] mb-2">Recommandation prioritaire identifiée :</h4>
+<div class="p-3.5 rounded-lg bg-[#FBF0DE] text-[#9A5800] text-xs leading-relaxed border border-[#9A5800]/20">
+          Ajoutez la directive <code class="font-mono bg-white px-1.5 py-0.5 rounded text-[#1B1F24]">Content-Security-Policy: default-src 'self'</code> sur votre serveur web pour neutraliser les injections de scripts non autorisés.
+        </div>
+</div>
+<div class="flex justify-end pt-2">
+<button class="px-5 py-2.5 rounded-lg bg-[#004342] text-white font-bold text-xs hover:bg-[#0f5c5a] transition-colors" onclick="closeDemoModal()">
+          Fermer l'aperçu
+        </button>
+</div>
+</div>
+</div>
+<!-- MODAL PRO : LISTE D'ATTENTE "ME PRÉVENIR" (Sans faux tunnel de paiement) -->
+<div aria-labelledby="pro-title" aria-modal="true" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-[#1B1F24]/50 backdrop-blur-sm" id="pro-modal" role="dialog">
+<div class="w-full max-w-md rounded-2xl bg-white shadow-2xl border border-[#E3DED5] p-6 flex flex-col gap-4">
+<div class="flex items-center justify-between pb-3 border-b border-[#E3DED5]">
+<div class="flex items-center gap-2.5">
+<span class="w-8 h-8 rounded-lg bg-[#FEF3C7] text-[#92400E] flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px]">star</span>
+</span>
+<h3 class="font-outfit font-bold text-lg text-[#1B1F24]" id="pro-title">Rejoindre la liste d'attente Pro</h3>
+</div>
+<button aria-label="Fermer" class="w-8 h-8 rounded-lg flex items-center justify-center text-[#4A5260] hover:bg-[#efeeea]" onclick="closeProModal()">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<p class="text-xs text-[#4A5260] leading-relaxed">
+        Soyez informé en avant-première lors de l'ouverture d'Audigy Pro : suivi continu multi-sites, historique long (≥ 10 audits), alertes régulières et exports complets (PDF client, Excel, CSV, Word, JSON, XML).
+      </p>
+<form class="flex flex-col gap-3" onsubmit="event.preventDefault(); submitWaitlist();">
+<div>
+<label class="block text-xs font-bold text-[#1B1F24] mb-1" for="pro-email">Votre adresse e-mail professionnelle</label>
+<input class="w-full px-3 py-2 text-sm rounded-lg border border-[#E3DED5] focus:outline-none focus:ring-2 focus:ring-[#C2410C]" id="pro-email" placeholder="contact@votre-domaine.fr" required="" type="email">
+</div>
+<button class="w-full py-2.5 rounded-lg bg-[#004342] text-white font-bold text-xs hover:bg-[#0f5c5a] transition-colors shadow-sm" id="waitlist-btn" type="submit">
+          Être prévenu du lancement
+        </button>
+</form>
+<div class="hidden p-3 rounded-lg bg-[#E6EEF8] text-[#1F5FAD] text-xs font-semibold text-center" id="waitlist-success">
+        Merci ! Votre adresse a été enregistrée sur la liste d'attente.
+      </div>
+</div>
+</div>
+<!-- SCRIPT LOGIQUE & INTERACTIVITÉ -->
+<script>
+    function scrollToTop() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      document.getElementById('url-input').focus();
+    }
+
+    function toggleMobileMenu() {
+      var menu = document.getElementById('mobile-menu');
+      menu.classList.toggle('hidden');
+    }
+
+    function resumeAudit() {
+      document.getElementById('url-input').value = 'https://mon-agence-web.fr';
+      openDemoModal();
+    }
+
+    function dismissResume() {
+      var card = document.getElementById('resume-audit-card');
+      card.style.display = 'none';
+    }
+
+    function triggerAudit() {
+      var input = document.getElementById('url-input');
+      var feedback = document.getElementById('form-feedback');
+      var submitBtn = document.getElementById('submit-btn');
+
+      if (!input.value || !input.value.trim().startsWith('http')) {
+        feedback.classList.remove('hidden');
+        feedback.classList.add('flex');
+        input.focus();
+        return;
+      }
+
+      feedback.classList.add('hidden');
+      feedback.classList.remove('flex');
+
+      submitBtn.innerHTML = '<span class="material-symbols-outlined text-[18px] animate-spin">sync</span><span>Vérification passive...</span>';
+      submitBtn.disabled = true;
+
+      setTimeout(function() {
+        submitBtn.innerHTML = '<span>Lancer l\'audit gratuit</span><span class="material-symbols-outlined text-[18px]">arrow_forward</span>';
+        submitBtn.disabled = false;
+        openDemoModal();
+      }, 800);
+    }
+
+    function openDemoModal(e) {
+      if (e) e.preventDefault();
+      var modal = document.getElementById('demo-modal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeDemoModal() {
+      var modal = document.getElementById('demo-modal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    function openProModal(e) {
+      if (e) e.preventDefault();
+      var modal = document.getElementById('pro-modal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeProModal() {
+      var modal = document.getElementById('pro-modal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    function submitWaitlist() {
+      var btn = document.getElementById('waitlist-btn');
+      var success = document.getElementById('waitlist-success');
+      btn.disabled = true;
+      btn.innerText = "Enregistrement...";
+      setTimeout(function() {
+        btn.classList.add('hidden');
+        success.classList.remove('hidden');
+      }, 600);
+    }
+  </script>
+
+
+</body></html>
