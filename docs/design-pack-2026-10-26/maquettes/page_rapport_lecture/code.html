@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+
+<html class="h-full bg-[#f8fafc]" lang="fr" style=""><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Audigy — Rapport d'audit de santé web</title>
+<!-- Tailwind CSS CDN avec plugins -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Google Fonts : Inter & JetBrains Mono -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            audigy: {
+              DEFAULT: '#0d4a46',
+              dark: '#083330',
+              deep: '#041f1e',
+              light: '#136762',
+              surface: '#f0fdf9',
+              accent: '#10b981',
+            }
+          }
+        }
+      }
+    }
+  </script>
+<style data-purpose="custom-effects">
+    /* Délicats dégradés et textures subtiles pour un rendu studio haut de gamme */
+    .hero-glow {
+      background: radial-gradient(circle at 10% 20%, rgba(13, 74, 70, 0.04) 0%, transparent 60%);
+    }
+    .score-conic {
+      background: conic-gradient(#0d4a46 0% 84%, #e2e8f0 84% 100%);
+    }
+  </style>
+</head>
+<body class="min-h-full font-sans text-slate-800 antialiased selection:bg-teal-100 selection:text-audigy hero-glow flex flex-col">
+<!-- BEGIN: MainHeader -->
+<header class="sticky top-0 z-40 w-full border-b border-slate-200/80 bg-white/90 backdrop-blur-md">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+<!-- Logo et navigation principale -->
+<div class="flex items-center gap-8">
+<a class="flex items-center gap-2.5 group" href="#">
+<div class="w-8 h-8 rounded-lg bg-audigy text-white flex items-center justify-center font-bold text-lg shadow-sm shadow-audigy/20 group-hover:scale-105 transition-transform">
+            A
+          </div>
+<span class="font-bold text-xl tracking-tight text-slate-900">Audigy</span>
+</a>
+<nav class="hidden md:flex items-center gap-6 text-sm font-medium text-slate-600">
+<a class="hover:text-audigy transition-colors" href="#">Accueil</a>
+<a class="text-audigy font-semibold" href="#">Méthode</a>
+<a class="hover:text-audigy transition-colors" href="#">Sites suivis</a>
+<a class="hover:text-audigy transition-colors" href="#">Documentation</a>
+</nav>
+</div>
+<!-- Contrôles utilisateur & langue -->
+<div class="flex items-center gap-4">
+<!-- Switch langue -->
+<div class="inline-flex items-center rounded-lg border border-slate-200 bg-slate-50 p-0.5 text-xs font-semibold">
+<span class="rounded-md bg-white px-2.5 py-1 text-slate-900 shadow-sm">FR</span>
+<span class="px-2.5 py-1 text-slate-500 hover:text-slate-800 cursor-pointer">EN</span>
+</div>
+<!-- Mode sombre/clair toggle -->
+<button aria-label="Toggle theme" class="p-2 text-slate-500 hover:text-slate-900 rounded-lg hover:bg-slate-100 transition-colors" type="button">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</button>
+<!-- Profil utilisateur -->
+<button aria-label="Profil utilisateur" class="w-8 h-8 rounded-full bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-600 hover:bg-slate-200 transition-colors" type="button">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7 7z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</button>
+</div>
+</div>
+</header>
+<!-- END: MainHeader -->
+<!-- BEGIN: MainContent -->
+<div class="w-full bg-emerald-50 border-b border-emerald-200/80 px-4 sm:px-6 lg:px-8 py-2.5 text-xs text-emerald-800"><div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 font-medium"><div class="flex items-center gap-2"><span class="inline-flex items-center justify-center w-5 h-5 rounded-full bg-emerald-100 text-emerald-800 text-xs">👥</span><span class="font-bold text-emerald-900">Lien équipe · Lecture seule · Partagé pour collaboration</span></div><div class="text-emerald-700 text-[11px] sm:text-xs">Accès complet aux constats et au brief d'optimisation sans authentification requise</div></div></div><main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+<!-- BEGIN: ReportHeaderSection -->
+<!-- En-tête aérée et décongestionnée du rapport d'audit -->
+<section class="bg-white border border-slate-200/90 rounded-2xl p-6 sm:p-8 shadow-sm"><div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6"><div class="space-y-3"><div><div class="flex flex-wrap items-center gap-3"><div class="p-2 bg-teal-50 rounded-xl text-audigy"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg></div><h1 class="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900 font-mono">https://monsite-exemple.fr</h1><span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200/60"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> Audit terminé · Il y a 14 min</span></div></div><p class="text-xs sm:text-sm text-slate-500 font-mono">Protocole d'inspection HTTP/2, RGAA 4.1 &amp; GreenIT · Rapport AUD-2026-8821 · Snapshot horodaté</p><div class="flex flex-wrap items-center gap-4 pt-1 text-xs text-slate-600"><a class="inline-flex items-center gap-1 hover:text-audigy underline decoration-slate-300 underline-offset-4" href="#"><svg class="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg> Questionnaire éco-conception (RGESN)</a></div></div><div class="flex flex-wrap items-center gap-2.5 pt-2 lg:pt-0"><span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 text-slate-700 border border-slate-200"><svg class="w-3.5 h-3.5 text-slate-500" fill="none" stroke="currentColor" viewbox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke-width="2"></circle><line stroke-width="2" x1="12" x2="12" y1="8" y2="12"></line><line stroke-width="2" x1="12" x2="12.01" y1="16" y2="16"></line></svg> Mode lecture seule (Équipe)</span></div></div></section>
+<!-- END: ReportHeaderSection -->
+<!-- BEGIN: ScoreSynthesisSection -->
+<!-- Synthèse principale : Score global et diagnostic pédagogique -->
+<section class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+<!-- Carte Score Global & Métriques (Col 7) -->
+<div class="lg:col-span-7 bg-white border border-slate-200/90 rounded-2xl p-7 flex flex-col justify-between shadow-sm space-y-6">
+<div>
+<!-- Ligne Score + Titre -->
+<div class="flex flex-col sm:flex-row sm:items-center gap-6 pb-6 border-b border-slate-100">
+<!-- Jauge Circulaire Score 84/100 -->
+<div class="relative w-28 h-28 shrink-0 flex items-center justify-center rounded-full p-2.5 score-conic shadow-inner">
+<div class="w-full h-full bg-white rounded-full flex flex-col items-center justify-center">
+<span class="text-3xl font-extrabold text-slate-900 leading-none">84</span>
+<span class="text-[11px] font-medium text-slate-400">/ 100</span>
+</div>
+</div>
+<!-- Titres et Badges -->
+<div class="space-y-2">
+<div class="flex items-center gap-2">
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md text-xs font-semibold bg-emerald-50 text-emerald-800 border border-emerald-200">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>
+                  B
+                </span>
+<span class="inline-flex items-center gap-1 text-xs font-semibold text-emerald-700">
+<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"></path>
+</svg>
+                  BON
+                </span>
+</div>
+<h2 class="text-xl font-bold text-slate-900">
+                3 priorités clés d'amélioration identifiées
+              </h2>
+<p class="text-sm text-slate-600 leading-relaxed">
+                Votre site présente de solides fondamentaux de sécurité et d'indexation, avec quelques ajustements de compression et d'accessibilité à finaliser.
+              </p>
+</div>
+</div>
+<!-- Mention Vie privée -->
+<div class="mt-4 px-4 py-2.5 bg-slate-50 border border-slate-100 rounded-xl flex items-center gap-2.5 text-xs text-slate-500">
+<svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l18 18" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<span class="">Vie privée : Non testé</span>
+</div>
+</div>
+<!-- 3 Métriques clés décongestionnées -->
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
+<!-- Metrique 1 -->
+<div class="p-4 bg-slate-50/80 border border-slate-100 rounded-xl space-y-1">
+<div class="flex items-center gap-1.5 text-xs font-medium text-slate-500">
+<svg class="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M13 10V3L4 14h7v7l9-11h-7z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<span class="">LCP (Vitesse)</span>
+</div>
+<div class="text-xl font-bold text-slate-900 font-mono">2.4s</div>
+<div class="text-[11px] text-amber-600 font-medium">À optimiser (4G)</div>
+</div>
+<!-- Metrique 2 -->
+<div class="p-4 bg-slate-50/80 border border-slate-100 rounded-xl space-y-1">
+<div class="flex items-center gap-1.5 text-xs font-medium text-slate-500">
+<svg class="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<span class="">Eco-Index Digital</span>
+</div>
+<div class="text-xl font-bold text-slate-900 font-mono">72/100</div>
+<div class="text-[11px] text-slate-500">Rang B · 1.12g CO2/vue</div>
+</div>
+<!-- Metrique 3 -->
+<div class="p-4 bg-slate-50/80 border border-slate-100 rounded-xl space-y-1">
+<div class="flex items-center gap-1.5 text-xs font-medium text-slate-500">
+<svg class="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<span class="">Chiffrement TLS</span>
+</div>
+<div class="text-xl font-bold text-emerald-600 font-mono">Valide A+</div>
+<div class="text-[11px] text-slate-500">TLS 1.3 actif</div>
+</div>
+</div>
+</div>
+<!-- Carte Pédagogique Contrastée (Col 5) -->
+<div class="lg:col-span-5 bg-white border border-slate-200/80 rounded-2xl p-7 flex flex-col justify-between shadow-sm space-y-6">
+<div>
+<div class="flex items-center gap-1.5 text-xs font-semibold tracking-wider text-emerald-800 uppercase mb-3">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>
+<span class="">DIAGNOSTIC PÉDAGOGIQUE</span>
+</div>
+<h3 class="text-2xl font-bold tracking-tight text-slate-900 mb-3">
+Comprendre votre score en clair
+</h3>
+<p class="text-sm leading-relaxed text-slate-600 mb-6 font-normal">
+Votre score actuel de <strong class="font-semibold text-slate-900">84/100</strong> reflète une infrastructure solide et sécurisée. L'activation des correctifs recommandés (HSTS et formats d'images modernes) vous permettra d'atteindre facilement l'excellence.
+</p>
+<div class="bg-slate-50/80 border border-slate-100 rounded-xl p-4 flex items-center gap-4">
+<div class="bg-[#a7f3d0]/60 text-slate-900 font-bold text-lg px-3.5 py-2.5 rounded-xl border border-emerald-200/60 flex items-center justify-center shrink-0">
+≥ 90
+</div>
+<div class="space-y-0.5 min-w-0">
+<div class="text-xs font-bold tracking-wider text-slate-800 uppercase flex items-center gap-1.5">
+<svg class="w-4 h-4 text-emerald-700 shrink-0" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<circle cx="12" cy="12" r="9" stroke-width="2"></circle>
+<circle cx="12" cy="12" r="5" stroke-width="2"></circle>
+<circle cx="12" cy="12" fill="currentColor" r="1"></circle>
+</svg>
+<span class="">CIBLE D'HYGIÈNE NUMÉRIQUE</span>
+</div>
+<p class="text-xs text-slate-600 leading-normal">
+Conformité visée : sécurité TLS/CSP, RGAA 4.1 et écoconception.
+</p>
+</div>
+</div>
+</div>
+<div class="flex items-start gap-2.5 pt-4 border-t border-slate-100 text-xs text-slate-600 leading-relaxed">
+<svg class="w-4 h-4 text-emerald-700 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M6 2v4a6 6 0 0 0 4 5.65v.7A6 6 0 0 0 6 18v4h12v-4a6 6 0 0 0-4-5.65v-.7A6 6 0 0 0 18 6V2H6z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<p class="">
+<strong class="font-bold text-slate-800">Résolution estimée : ~50 min</strong> (2 actions rapides, 1 intermédiaire pour atteindre vos objectifs).
+</p>
+</div>
+</div>
+</section>
+<!-- END: ScoreSynthesisSection -->
+<!-- BEGIN: UsefulResourcesBar -->
+<!-- Barre de ressources horizontales élégante -->
+<section class="bg-white border border-slate-200 rounded-xl px-6 py-4 flex flex-col md:flex-row md:items-center justify-between gap-4 text-xs">
+<div class="flex items-center gap-2 font-semibold text-slate-500 uppercase tracking-wider">
+<svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<span class="">RESSOURCES UTILES</span>
+</div>
+<div class="flex flex-wrap items-center gap-6 font-medium text-slate-600">
+<a class="hover:text-audigy transition-colors" href="#">Guide de résolution →</a>
+<a class="hover:text-audigy transition-colors" href="#">Questionnaire éco-conception (RGESN) →</a>
+<a class="hover:text-audigy transition-colors" href="#">Méthode &amp; barème public →</a>
+</div>
+</section>
+<!-- END: UsefulResourcesBar -->
+<!-- BEGIN: PriorityActionsAndAIAssistant -->
+<!-- Double colonne spacieuse : Actions prioritaires et Générateur IA -->
+<section class="gap-8 items-start">
+<!-- Colonne Gauche : 3 Actions prioritaires (Col 7) -->
+<div class="space-y-6 w-full">
+<!-- En-tête de section -->
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+<div>
+<h2 class="text-xl font-bold text-slate-900">3 Actions Prioritaires</h2>
+<p class="text-xs text-slate-500">Classées par impact direct sur la note &amp; la sécurité</p>
+</div>
+<span class="inline-flex self-start sm:self-auto px-2.5 py-1 rounded-md text-xs font-mono font-medium bg-slate-100 text-slate-600 border border-slate-200">
+            Ordre d'impact
+          </span>
+</div>
+<!-- Action 1 -->
+<article class="bg-white border border-slate-200/90 rounded-2xl p-6 shadow-sm hover:border-slate-300 transition-colors space-y-4">
+<div class="flex items-center justify-between">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-semibold bg-rose-50 text-rose-700 border border-rose-200">
+<span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span>
+              1 · CRITIQUE · SÉCURITÉ
+            </span>
+</div>
+<div>
+<h3 class="text-base font-bold text-slate-900">Activer l'en-tête HSTS sur votre serveur</h3>
+<p class="text-sm text-slate-600 mt-1">
+<strong class="font-medium text-slate-700">Pourquoi :</strong> Force le chiffrement strict HTTPS et élimine les risques d'interception man-in-the-middle et de dégradation TLS non sécurisée.
+            </p>
+</div>
+<div class="flex flex-wrap items-center gap-2 text-xs font-mono text-slate-500">
+<span class="px-2.5 py-1 rounded bg-slate-50 border border-slate-200">Rôle : Hébergeur / CDN</span>
+<span class="px-2.5 py-1 rounded bg-slate-50 border border-slate-200">Difficulté : Facile</span>
+<span class="px-2.5 py-1 rounded bg-slate-50 border border-slate-200">HTTP Strict-Transport-Security</span>
+</div>
+<div class="pt-2 flex flex-wrap items-center gap-3">
+<button class="px-3.5 py-2 rounded-lg text-xs font-medium text-slate-700 bg-slate-100 hover:bg-slate-200 transition-colors" type="button">
+              Comment corriger
+            </button>
+</div>
+</article>
+<!-- Action 2 -->
+<article class="bg-white border border-slate-200/90 rounded-2xl p-6 shadow-sm hover:border-slate-300 transition-colors space-y-4">
+<div class="flex items-center justify-between">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-semibold bg-rose-50 text-rose-700 border border-rose-200">
+<span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span>
+              2 · CRITIQUE · PERFORMANCE
+            </span>
+<span class="text-xs font-mono text-slate-400">⏱ 25 min</span>
+</div>
+<div>
+<h3 class="text-base font-bold text-slate-900">Convertir l'image hero de 2.4 Mo en AVIF / WebP</h3>
+<p class="text-sm text-slate-600 mt-1">
+<strong class="font-medium text-slate-700">Pourquoi :</strong> Pénalise lourdement le Largest Contentful Paint (LCP) sur mobile 4G et consomme inutilement de la bande passante carbone.
+            </p>
+</div>
+<div class="flex flex-wrap items-center gap-2 text-xs font-mono text-slate-500">
+<span class="px-2.5 py-1 rounded bg-slate-50 border border-slate-200">Rôle : Développeur Web</span>
+<span class="px-2.5 py-1 rounded bg-slate-50 border border-slate-200">Difficulté : Moyen</span>
+<span class="px-2.5 py-1 rounded bg-slate-50 border border-slate-200">Gain : -1.9s LCP</span>
+</div>
+<div class="pt-2 flex flex-wrap items-center gap-3">
+<button class="px-3.5 py-2 rounded-lg text-xs font-medium text-slate-700 bg-slate-100 hover:bg-slate-200 transition-colors" type="button">
+              Comment corriger
+            </button>
+</div>
+</article>
+<!-- Action 3 -->
+<article class="bg-white border border-slate-200/90 rounded-2xl p-6 shadow-sm hover:border-slate-300 transition-colors space-y-4">
+<div class="flex items-center justify-between">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-semibold bg-amber-50 text-amber-700 border border-amber-200">
+<span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
+              3 · MOYEN · ACCESSIBILITÉ
+            </span>
+<span class="text-xs font-mono text-slate-400">⏱ 10 min</span>
+</div>
+<div>
+<h3 class="text-base font-bold text-slate-900">Associer des étiquettes aria aux champs de formulaires</h3>
+<p class="text-sm text-slate-600 mt-1">
+<strong class="font-medium text-slate-700">Pourquoi :</strong> Inaccessibilité pour les lecteurs d'écran sur la page contact &amp; newsletter. Non-conformité aux critères d'accessibilité RGAA.
+            </p>
+</div>
+<div class="flex flex-wrap items-center gap-2 text-xs font-mono text-slate-500">
+<span class="px-2.5 py-1 rounded bg-slate-50 border border-slate-200">Rôle : Intégrateur</span>
+<span class="px-2.5 py-1 rounded bg-slate-50 border border-slate-200">Difficulté : Facile</span>
+<span class="px-2.5 py-1 rounded bg-slate-50 border border-slate-200">RGAA 11.1</span>
+</div>
+<div class="pt-2 flex flex-wrap items-center gap-3">
+<button class="px-3.5 py-2 rounded-lg text-xs font-medium text-slate-700 bg-slate-100 hover:bg-slate-200 transition-colors" type="button">
+              Comment corriger
+            </button>
+</div>
+</article>
+</div>
+<!-- Colonne Droite : Encadré Assistant IA (Col 5) -->
+</section>
+<!-- END: PriorityActionsAndAIAssistant -->
+<!-- BEGIN: DomainDetailsSection -->
+<!-- 8 Piliers diagnostiques avec filtres et accordéons soignés -->
+<section class="space-y-6">
+<!-- En-tête avec onglets de filtrage -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-2 border-b border-slate-200">
+<div>
+<h2 class="text-2xl font-bold tracking-tight text-slate-900">Détails par domaine</h2>
+<p class="text-xs text-slate-500 mt-1">Les 8 piliers de diagnostic ordonnés de l'audit méthodique Audigy</p>
+</div>
+<div class="flex items-center gap-1.5 text-xs font-semibold">
+<button class="px-3 py-1.5 rounded-lg text-slate-500 hover:text-slate-800 hover:bg-slate-100 transition-colors" type="button">
+            Tous (38)
+          </button>
+<button class="px-3 py-1.5 rounded-lg text-rose-700 bg-rose-50 border border-rose-200" type="button">
+            À corriger uniquement (7)
+          </button>
+<button class="px-3 py-1.5 rounded-lg text-slate-500 hover:text-slate-800 hover:bg-slate-100 transition-colors" type="button">
+            Succès (31)
+          </button>
+</div>
+</div>
+<!-- Liste des 8 Piliers accordéons aérés -->
+<div class="space-y-3">
+<!-- Pilier 1 : Performance -->
+<div class="bg-white border border-slate-200/90 rounded-xl p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:border-slate-300 transition-colors shadow-sm">
+<div class="flex items-center gap-3.5">
+<div class="w-10 h-10 rounded-lg bg-teal-50 border border-teal-100 flex items-center justify-center text-audigy shrink-0">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M13 10V3L4 14h7v7l9-11h-7z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</div>
+<div>
+<h3 class="text-sm font-bold text-slate-900">1. Performance</h3>
+<p class="text-xs text-slate-500">Core Web Vitals, temps de réponse serveur TTFB, compression statique</p>
+</div>
+</div>
+<div class="flex items-center justify-between sm:justify-end gap-6 shrink-0 border-t sm:border-t-0 pt-2 sm:pt-0 border-slate-100">
+<div class="text-right">
+<div class="text-sm font-bold font-mono text-slate-900">84 <span class="text-slate-400 font-normal">/100</span></div>
+<div class="text-[11px] text-slate-500">Rang B • Fluide</div>
+</div>
+<button aria-label="Déplier les détails" class="p-1.5 rounded-lg text-slate-400 hover:bg-slate-100 hover:text-slate-700 transition-colors" type="button">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</button>
+</div>
+</div>
+<!-- Pilier 2 : SEO -->
+<div class="bg-white border border-slate-200/90 rounded-xl p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:border-slate-300 transition-colors shadow-sm">
+<div class="flex items-center gap-3.5">
+<div class="w-10 h-10 rounded-lg bg-slate-50 border border-slate-200 flex items-center justify-center text-slate-600 shrink-0">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</div>
+<div>
+<h3 class="text-sm font-bold text-slate-900">2. SEO</h3>
+<p class="text-xs text-slate-500">Indexabilité, métadonnées OpenGraph, robots.txt, hiérarchie hn</p>
+</div>
+</div>
+<div class="flex items-center justify-between sm:justify-end gap-6 shrink-0 border-t sm:border-t-0 pt-2 sm:pt-0 border-slate-100">
+<div class="text-right">
+<div class="text-sm font-bold font-mono text-slate-900">88 <span class="text-slate-400 font-normal">/100</span></div>
+<div class="text-[11px] text-emerald-600 font-medium">Rang A • Conforme</div>
+</div>
+<button aria-label="Déplier les détails" class="p-1.5 rounded-lg text-slate-400 hover:bg-slate-100 hover:text-slate-700 transition-colors" type="button">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</button>
+</div>
+</div>
+<!-- Pilier 3 : Sécurité -->
+<div class="bg-white border border-rose-200/90 rounded-xl p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:border-rose-300 transition-colors shadow-sm">
+<div class="flex items-center gap-3.5">
+<div class="w-10 h-10 rounded-lg bg-rose-50 border border-rose-100 flex items-center justify-center text-rose-600 shrink-0">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</div>
+<div>
+<h3 class="text-sm font-bold text-slate-900">3. Sécurité</h3>
+<p class="text-xs text-slate-500">HSTS, CSP, X-Frame-Options, Permissions-Policy, certificats TLS</p>
+</div>
+</div>
+<div class="flex items-center justify-between sm:justify-end gap-6 shrink-0 border-t sm:border-t-0 pt-2 sm:pt-0 border-slate-100">
+<div class="text-right">
+<div class="text-sm font-bold font-mono text-slate-900">78 <span class="text-slate-400 font-normal">/100</span></div>
+<div class="text-[11px] text-rose-600 font-medium">2 En-têtes manquants</div>
+</div>
+<button aria-label="Déplier les détails" class="p-1.5 rounded-lg text-slate-400 hover:bg-slate-100 hover:text-slate-700 transition-colors" type="button">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</button>
+</div>
+</div>
+<!-- Pilier 4 : Écologie -->
+<div class="bg-white border border-rose-200/90 rounded-xl p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:border-rose-300 transition-colors shadow-sm">
+<div class="flex items-center gap-3.5">
+<div class="w-10 h-10 rounded-lg bg-emerald-50 border border-emerald-100 flex items-center justify-center text-emerald-600 shrink-0">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</div>
+<div>
+<h3 class="text-sm font-bold text-slate-900">4. Écologie</h3>
+<p class="text-xs text-slate-500">EcoIndex, requêtes DOM, poids de page, barème RGESN</p>
+</div>
+</div>
+<div class="flex items-center justify-between sm:justify-end gap-6 shrink-0 border-t sm:border-t-0 pt-2 sm:pt-0 border-slate-100">
+<div class="text-right">
+<div class="text-sm font-bold font-mono text-slate-900">52 <span class="text-slate-400 font-normal">/100</span></div>
+<div class="text-[11px] text-rose-600 font-medium">Poids lourd (3.8 Mo)</div>
+</div>
+<button aria-label="Déplier les détails" class="p-1.5 rounded-lg text-slate-400 hover:bg-slate-100 hover:text-slate-700 transition-colors" type="button">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</button>
+</div>
+</div>
+<!-- Pilier 5 : Accessibilité -->
+<div class="bg-white border border-slate-200/90 rounded-xl p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:border-slate-300 transition-colors shadow-sm">
+<div class="flex items-center gap-3.5">
+<div class="w-10 h-10 rounded-lg bg-slate-50 border border-slate-200 flex items-center justify-center text-slate-600 shrink-0">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7 7z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</div>
+<div>
+<h3 class="text-sm font-bold text-slate-900">5. Accessibilité</h3>
+<p class="text-xs text-slate-500">Moteur axe-core, contrastes WCAG AA, balisage formulaire et landmarks</p>
+</div>
+</div>
+<div class="flex items-center justify-between sm:justify-end gap-6 shrink-0 border-t sm:border-t-0 pt-2 sm:pt-0 border-slate-100">
+<div class="text-right">
+<div class="text-sm font-bold font-mono text-slate-900">81 <span class="text-slate-400 font-normal">/100</span></div>
+<div class="text-[11px] text-slate-500">Rang B • 3 correctifs</div>
+</div>
+<button aria-label="Déplier les détails" class="p-1.5 rounded-lg text-slate-400 hover:bg-slate-100 hover:text-slate-700 transition-colors" type="button">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</button>
+</div>
+</div>
+<!-- Pilier 6 : Qualité technique -->
+<div class="bg-white border border-slate-200/90 rounded-xl p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:border-slate-300 transition-colors shadow-sm">
+<div class="flex items-center gap-3.5">
+<div class="w-10 h-10 rounded-lg bg-slate-50 border border-slate-200 flex items-center justify-center text-slate-600 shrink-0">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</div>
+<div>
+<h3 class="text-sm font-bold text-slate-900">6. Qualité technique</h3>
+<p class="text-xs text-slate-500">Validation HTML, W3C, gestion des erreurs console JS, liens brisés</p>
+</div>
+</div>
+<div class="flex items-center justify-between sm:justify-end gap-6 shrink-0 border-t sm:border-t-0 pt-2 sm:pt-0 border-slate-100">
+<div class="text-right">
+<div class="text-sm font-bold font-mono text-slate-900">85 <span class="text-slate-400 font-normal">/100</span></div>
+<div class="text-[11px] text-emerald-600 font-medium">0 erreur fatale</div>
+</div>
+<button aria-label="Déplier les détails" class="p-1.5 rounded-lg text-slate-400 hover:bg-slate-100 hover:text-slate-700 transition-colors" type="button">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</button>
+</div>
+</div>
+<!-- Pilier 7 : Vie privée -->
+<div class="bg-white border border-slate-200/90 rounded-xl p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:border-slate-300 transition-colors shadow-sm">
+<div class="flex items-center gap-3.5">
+<div class="w-10 h-10 rounded-lg bg-slate-50 border border-slate-200 flex items-center justify-center text-slate-400 shrink-0">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l18 18" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</div>
+<div>
+<h3 class="text-sm font-bold text-slate-900">7. Vie privée</h3>
+<p class="text-xs text-slate-500">Neutralisé dans la note globale pour préserver l'objectivité passive</p>
+</div>
+</div>
+<div class="flex items-center justify-between sm:justify-end gap-6 shrink-0 border-t sm:border-t-0 pt-2 sm:pt-0 border-slate-100">
+<div class="text-right">
+<div class="text-xs font-mono font-bold text-slate-600 bg-slate-100 px-2 py-0.5 rounded">Non testé</div>
+</div>
+<button aria-label="Déplier les détails" class="p-1.5 rounded-lg text-slate-400 hover:bg-slate-100 hover:text-slate-700 transition-colors" type="button">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</button>
+</div>
+</div>
+<!-- Pilier 8 : DNS / e-mail -->
+<div class="bg-white border border-slate-200/90 rounded-xl p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:border-slate-300 transition-colors shadow-sm">
+<div class="flex items-center gap-3.5">
+<div class="w-10 h-10 rounded-lg bg-teal-50 border border-teal-100 flex items-center justify-center text-audigy shrink-0">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</div>
+<div>
+<h3 class="text-sm font-bold text-slate-900">8. DNS / e-mail</h3>
+<p class="text-xs text-slate-500">Enregistrements de protection contre l'usurpation (SPF, DKIM, DMARC)</p>
+</div>
+</div>
+<div class="flex items-center justify-between sm:justify-end gap-6 shrink-0 border-t sm:border-t-0 pt-2 sm:pt-0 border-slate-100">
+<div class="text-right">
+<div class="text-sm font-bold font-mono text-slate-900">95 <span class="text-slate-400 font-normal">/100</span></div>
+<div class="text-[11px] text-emerald-600 font-medium">Rang A+ • Protégé</div>
+</div>
+<button aria-label="Déplier les détails" class="p-1.5 rounded-lg text-slate-400 hover:bg-slate-100 hover:text-slate-700 transition-colors" type="button">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</button>
+</div>
+</div>
+</div>
+</section>
+<!-- END: DomainDetailsSection -->
+<!-- BEGIN: ComplementaryInfrastructureSection -->
+<!-- Indicateurs d'infrastructure hors note globale -->
+<section class="space-y-4">
+<h3 class="text-xs font-mono font-bold tracking-wider uppercase text-slate-400">
+        INDICATEURS D'INFRASTRUCTURE COMPLÉMENTAIRES (HORS NOTE GLOBALE)
+      </h3>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<!-- Carte Infra 1 -->
+<div class="bg-white border border-slate-200/90 rounded-xl p-5 flex items-center justify-between shadow-sm">
+<div class="flex items-center gap-3">
+<div class="p-2.5 rounded-lg bg-slate-50 border border-slate-100 text-slate-600">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M13 10V3L4 14h7v7l9-11h-7z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</div>
+<div>
+<div class="text-sm font-bold text-slate-900">Disponibilité &amp; Uptime</div>
+<p class="text-xs text-slate-500">Sonde de surveillance 30 jours</p>
+</div>
+</div>
+<div class="text-right">
+<div class="text-base font-bold font-mono text-emerald-600">99.94%</div>
+<div class="text-[11px] text-slate-400">Sans coupure</div>
+</div>
+</div>
+<!-- Carte Infra 2 -->
+<div class="bg-white border border-slate-200/90 rounded-xl p-5 flex items-center justify-between shadow-sm">
+<div class="flex items-center gap-3">
+<div class="p-2.5 rounded-lg bg-slate-50 border border-slate-100 text-slate-600">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</div>
+<div>
+<div class="text-sm font-bold text-slate-900">Réputation de domaine &amp; IP</div>
+<p class="text-xs text-slate-500">Vérification Spamhaus / SURBL</p>
+</div>
+</div>
+<div class="text-right">
+<div class="text-base font-bold font-mono text-slate-900">Clean / 0 Blacklist</div>
+<div class="text-[11px] text-emerald-600 font-medium">Haut indice de confiance</div>
+</div>
+</div>
+</div>
+</section>
+<!-- END: ComplementaryInfrastructureSection -->
+<!-- BEGIN: ProNewsletterSection -->
+<!-- Bloc conversion / inscription Audigy Pro -->
+<section class="bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 shadow-sm space-y-6">
+<div class="max-w-3xl space-y-2">
+<div class="flex items-center gap-2">
+<span class="inline-block px-2.5 py-0.5 rounded text-[11px] font-bold font-mono bg-teal-50 text-audigy border border-teal-200 uppercase">
+            PROCHAINEMENT
+          </span>
+<h2 class="text-lg sm:text-xl font-bold text-slate-900">Audigy Pro — Me prévenir</h2>
+</div>
+<p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+          Inscrivez-vous sur la liste d'attente prioritaire pour être averti du lancement de la surveillance automatisée en continu, des alertes de régression et des rapports multi-domaines.
+        </p>
+</div>
+<!-- Formulaire d'inscription -->
+<form class="flex flex-col sm:flex-row gap-3 max-w-xl" onsubmit="event.preventDefault();">
+<input class="flex-1 rounded-xl border border-slate-300 px-4 py-2.5 text-xs text-slate-900 placeholder:text-slate-400 focus:border-audigy focus:ring-1 focus:ring-audigy outline-none font-mono" placeholder="votre-email@entreprise.fr" required="" type="email"/>
+<button class="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-slate-950 hover:bg-slate-800 text-white text-xs font-semibold shrink-0 transition-colors shadow-sm" type="submit">
+<svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<span class="">Me prévenir</span>
+</button>
+</form>
+<!-- Métadonnées techniques du snapshot en bas de carte -->
+<div class="pt-4 border-t border-slate-100 flex flex-wrap items-center gap-y-2 gap-x-6 text-[11px] font-mono text-slate-500">
+<div class="">URL auditée : <span class="text-slate-700">https://monsite-exemple.fr</span></div>
+<div class="text-slate-300 hidden sm:inline">|</div>
+<div class="">Date &amp; heure : <span class="text-slate-700">17 mai 2026, 14:32 (Europe/Paris)</span></div>
+<div class="text-slate-300 hidden sm:inline">|</div>
+<div class="flex items-center gap-1.5 text-slate-700">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+          Sonde Paris-CDG (FR) active
+        </div>
+</div>
+</section>
+<!-- END: ProNewsletterSection -->
+</main>
+<!-- END: MainContent -->
+<!-- BEGIN: MainFooter -->
+<footer class="mt-12 border-t border-slate-200/90 bg-white">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-6">
+<!-- Ligne supérieure Footer -->
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
+<div class="space-y-1">
+<div class="flex items-center gap-2">
+<span class="font-bold text-slate-900 tracking-tight text-lg">Audigy</span>
+<span class="px-1.5 py-0.5 rounded text-[10px] font-mono font-medium bg-slate-100 text-slate-600">v3.4</span>
+</div>
+<p class="text-xs text-slate-500">Observatoire indépendant d'hygiène numérique</p>
+</div>
+<nav class="flex flex-wrap items-center gap-6 text-xs font-medium text-slate-600">
+<a class="hover:text-audigy transition-colors" href="#">Mentions légales</a>
+<a class="hover:text-audigy transition-colors" href="#">Confidentialité</a>
+<a class="hover:text-audigy transition-colors" href="#">Conditions d'utilisation (CGU)</a>
+<a class="hover:text-audigy transition-colors" href="#">Accessibilité</a>
+<a class="hover:text-audigy transition-colors inline-flex items-center gap-1" href="#">Audigy Pro ↗</a>
+</nav>
+</div>
+<!-- Ligne inférieure Footer -->
+<div class="pt-6 border-t border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs text-slate-400">
+<p class="">© 2026 Audigy. Tous droits réservés.</p>
+<p class="">Outil gratuit. Hébergement souverain neutre en carbone</p>
+</div>
+</div>
+</footer>
+<!-- END: MainFooter -->
+<!-- BEGIN: FloatingActionBar -->
+<!-- END: FloatingActionBar -->
+</body></html>

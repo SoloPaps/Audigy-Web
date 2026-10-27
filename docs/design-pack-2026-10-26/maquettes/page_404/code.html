@@ -1,0 +1,321 @@
+<!DOCTYPE html><html class="h-full bg-slate-50/50" lang="fr" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Questionnaire éco-conception (RGESN) - Audigy</title>
+<!-- Tailwind CSS CDN with forms and container queries -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'Plus Jakarta Sans', 'system-ui', '-apple-system', 'sans-serif'],
+          },
+          colors: {
+            audigy: {
+              brand: '#0a3530',
+              brandHover: '#072421',
+              mint: '#3db89e',
+              mintSoft: '#ebfbf6',
+              mintBorder: '#d1fae5',
+              tagBg: '#ddf7ef',
+              tagText: '#107569',
+            }
+          },
+          boxShadow: {
+            'card': '0 1px 3px 0 rgba(0, 0, 0, 0.04), 0 1px 2px -1px rgba(0, 0, 0, 0.03)',
+            'card-hover': '0 8px 25px -4px rgba(10, 53, 48, 0.06), 0 4px 10px -3px rgba(0, 0, 0, 0.03)',
+          }
+        }
+      }
+    }
+  </script>
+<style data-purpose="custom-typography">
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap');
+    body {
+      font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+  </style>
+<style data-purpose="layout-backgrounds">
+    .tech-bg {
+      background-color: #f8fafc;
+      background-image: 
+        radial-gradient(at 100% 0%, rgba(209, 250, 229, 0.28) 0px, transparent 50%),
+        radial-gradient(at 0% 20%, rgba(240, 253, 250, 0.5) 0px, transparent 40%);
+    }
+  </style>
+<meta content="web_standard" name="shell-type">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600;700&amp;display=swap" data-snapdom="injected-import"></head>
+<body class="min-tech-bg text-slate-800 flex flex-col min-h-screen selection:bg-teal-100 selection:text-teal-900">
+<!-- BEGIN: MainHeader -->
+<header class="w-full bg-white/95 backdrop-blur-md border-b border-slate-200/80 sticky top-0 z-30 shadow-xs" data-purpose="header-navigation">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+<!-- Brand Logo -->
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-xl bg-audigy-brand flex items-center justify-center text-white shadow-sm ring-1 ring-audigy-brand/20">
+<svg class="w-6 h-6 text-[#3db89e]" fill="currentColor" viewBox="0 0 24 24">
+<path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15h-2v-6h2v6zm0-8h-2V7h2v2zm5 8h-2v-4h2v4zm0-6h-2V7h2v4z"></path>
+</svg>
+</div>
+<div>
+<span class="text-xl font-bold tracking-tight text-slate-900 leading-none block">Audigy</span>
+<span class="text-xs font-medium text-slate-500 tracking-wide mt-0.5 block">Santé &amp; Hygiène Web</span>
+</div>
+</div>
+<!-- Center Links Navigation -->
+<nav aria-label="Menu principal" class="hidden md:flex items-center gap-9">
+<a class="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors" href="#">Accueil</a>
+<a class="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors" href="#">Méthode</a>
+<a class="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors" href="#">Sites suivis</a>
+<a class="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors" href="#">Documentation</a>
+</nav>
+<!-- Utility Right Actions -->
+<div class="flex items-center gap-4">
+<!-- Language Switcher -->
+<div class="flex items-center bg-slate-100/90 p-1 rounded-lg border border-slate-200/70 text-xs font-semibold">
+<span class="px-2.5 py-1 rounded bg-white text-slate-900 shadow-2xs">FR</span>
+<span class="px-2.5 py-1 text-slate-500 cursor-pointer hover:text-slate-800 transition-colors">EN</span>
+</div>
+<!-- Light Theme Toggle -->
+<button aria-label="Thème clair actif" class="p-2 text-slate-500 hover:text-slate-800 hover:bg-slate-100 rounded-lg transition-colors" type="button">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</button>
+<!-- Login Button -->
+<a class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-audigy-brand hover:bg-audigy-brandHover text-white text-sm font-medium transition-all shadow-sm" href="#">
+<span class="">Connexion</span>
+<svg class="w-4 h-4 text-slate-200" fill="currentColor" viewBox="0 0 20 20">
+<path clip-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" fill-rule="evenodd"></path>
+</svg>
+</a>
+</div>
+</div>
+</header>
+<!-- END: MainHeader -->
+<!-- BEGIN: BreadcrumbNavigation -->
+<div class="max-w-5xl mx-auto w-full px-4 sm:px-6 lg:px-8 pt-7 pb-3" data-purpose="breadcrumb">
+<div class="flex items-center gap-2 text-sm font-medium text-slate-500">
+<a class="hover:text-slate-800 transition-colors flex items-center gap-1.5 group" href="#">
+<svg class="w-4 h-4 transition-transform group-hover:-translate-x-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<path d="M10 19l-7-7m0 0l7-7m-7 7h18" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<span class="">Rapport d'audit</span>
+</a>
+<span class="text-slate-400 font-normal">/</span>
+<span class="text-slate-700 font-semibold truncate">Questionnaire éco-conception (RGESN)</span>
+</div>
+</div>
+<!-- END: BreadcrumbNavigation -->
+<!-- BEGIN: MainContent -->
+<main class="flex-grow max-w-5xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-5 pb-16"><div class="flex flex-col w-full">
+<div class="relative overflow-hidden py-8 sm:py-14 space-y-12">
+<div class="pointer-events-none absolute -top-24 left-1/2 -translate-x-1/2 w-[720px] h-[360px] bg-gradient-to-b from-emerald-100/60 via-teal-50/40 to-transparent blur-3xl opacity-70"></div>
+<section class="relative max-w-3xl mx-auto text-center space-y-7">
+<div class="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-emerald-50 text-emerald-800 text-xs font-semibold tracking-wide shadow-xs">
+<span class="inline-block w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+<span class="tracking-widest">ERREUR HTTP 404</span>
+<span class="opacity-40">•</span>
+<span class="font-medium text-emerald-900">PAGE&nbsp; INTROUVABLE</span>
+</div>
+<div class="space-y-4">
+<div class="flex items-center justify-center gap-4 select-none">
+<span class="text-7xl sm:text-9xl font-black tracking-tighter text-slate-200/80 leading-none">4</span>
+<div class="relative w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-gradient-to-br from-emerald-100 to-teal-50 flex items-center justify-center shadow-inner">
+<svg class="w-8 h-8 sm:w-10 sm:h-10 text-emerald-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<path d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"></path>
+</svg>
+<div class="absolute -bottom-1 -right-1 px-1.5 py-0.5 rounded-md bg-white text-[10px] font-mono font-bold text-emerald-700 shadow-xs">0 byte</div>
+</div>
+<span class="text-7xl sm:text-9xl font-black tracking-tighter text-slate-200/80 leading-none">4</span>
+</div>
+<h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tight leading-tight">
+          Cette page s'est évaporée du serveur.
+        </h1>
+<p class="text-base sm:text-lg text-slate-600 leading-relaxed max-w-2xl mx-auto font-normal">
+          L'adresse demandée n'existe pas, a été déplacée ou le lien suivi comporte un probleme.<br>&nbsp;<span class="font-medium text-slate-800">Pas d'inquiétude :</span> aucun diagnostic ni donnée de votre espace n'a été altéré.<br><br></p>
+</div>
+<div class="flex flex-wrap items-center justify-center gap-3 pt-2">
+<a class="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-[#0a3530] hover:bg-[#072421] text-white text-sm font-semibold tracking-wide shadow-md transition-all" href="#">
+<span class="">Retourner à l'accueil</span>
+<svg class="w-4 h-4 text-emerald-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<path d="M14 5l7 7m0 0l-7 7m7-7H3" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</a>
+<a class="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-white hover:bg-slate-50 text-slate-800 text-sm font-semibold shadow-card hover:shadow-card-hover transition-all" href="#">
+<svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<path d="M13 10V3L4 14h7v7l9-11h-7z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<span class="">Lancer un audit gratuit</span>
+</a>
+<button class="inline-flex items-center justify-center gap-2 px-4 py-3 rounded-full text-slate-600 hover:text-slate-900 hover:bg-slate-100 text-sm font-medium transition-colors cursor-pointer" onclick="window.history.back()" type="button">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<path d="M10 19l-7-7m0 0l7-7m-7 7h18" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<span class="">Page précédente</span>
+</button>
+</div>
+</section>
+<section class="max-w-2xl mx-auto w-full">
+
+
+</section>
+<section class="space-y-4 pt-4">
+<div class="flex items-center justify-between">
+<div class="space-y-0.5">
+<span class="text-xs font-bold text-emerald-800 tracking-wider uppercase"><br>Repères &amp; Navigation</span>
+<h2 class="text-lg font-bold text-slate-900">Points d'accès rapides</h2>
+</div>
+
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<a class="group relative bg-white rounded-2xl p-5 shadow-card hover:shadow-card-hover transition-all flex items-start gap-4" href="#">
+<div class="w-11 h-11 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center shrink-0 group-hover:bg-[#0a3530] group-hover:text-white transition-colors shadow-2xs">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</div>
+<div class="space-y-1 min-w-0">
+<div class="flex items-center justify-between gap-2">
+<h3 class="text-sm font-bold text-slate-900 group-hover:text-emerald-800 transition-colors truncate">Accueil &amp; Audit instantané</h3>
+<svg class="w-4 h-4 text-slate-300 group-hover:text-emerald-700 transition-colors shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</div>
+<p class="text-xs text-slate-500 leading-relaxed font-normal">
+              Évaluez gratuitement la santé, la sécurité et l'empreinte de votre site.
+            </p>
+</div>
+</a>
+<a class="group relative bg-white rounded-2xl p-5 shadow-card hover:shadow-card-hover transition-all flex items-start gap-4" href="#">
+<div class="w-11 h-11 rounded-xl bg-teal-50 text-teal-700 flex items-center justify-center shrink-0 group-hover:bg-[#0a3530] group-hover:text-white transition-colors shadow-2xs">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</div>
+<div class="space-y-1 min-w-0">
+<div class="flex items-center justify-between gap-2">
+<h3 class="text-sm font-bold text-slate-900 group-hover:text-teal-800 transition-colors truncate">Méthode des 8 domaines</h3>
+<svg class="w-4 h-4 text-slate-300 group-hover:text-teal-700 transition-colors shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</div>
+<p class="text-xs text-slate-500 leading-relaxed font-normal">
+              Découvrez les référentiels publics (RGESN, RGAA, Core Web Vitals, TLS).
+            </p>
+</div>
+</a>
+<a class="group relative bg-white rounded-2xl p-5 shadow-card hover:shadow-card-hover transition-all flex items-start gap-4" href="#">
+<div class="w-11 h-11 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center shrink-0 group-hover:bg-[#0a3530] group-hover:text-white transition-colors shadow-2xs">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</div>
+<div class="space-y-1 min-w-0">
+<div class="flex items-center justify-between gap-2">
+<h3 class="text-sm font-bold text-slate-900 group-hover:text-emerald-800 transition-colors truncate">Surveillance &amp; Sites suivis</h3>
+<svg class="w-4 h-4 text-slate-300 group-hover:text-emerald-700 transition-colors shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</div>
+<p class="text-xs text-slate-500 leading-relaxed font-normal">
+              Accédez à vos plateformes monitorées et à vos derniers rapports horodatés.
+            </p>
+</div>
+</a>
+<a class="group relative bg-white rounded-2xl p-5 shadow-card hover:shadow-card-hover transition-all flex items-start gap-4" href="#">
+<div class="w-11 h-11 rounded-xl bg-teal-50 text-teal-700 flex items-center justify-center shrink-0 group-hover:bg-[#0a3530] group-hover:text-white transition-colors shadow-2xs">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<path d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</div>
+<div class="space-y-1 min-w-0">
+<div class="flex items-center justify-between gap-2">
+<h3 class="text-sm font-bold text-slate-900 group-hover:text-teal-800 transition-colors truncate">Assistance &amp; Contact souverain</h3>
+<svg class="w-4 h-4 text-slate-300 group-hover:text-teal-700 transition-colors shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</div>
+<p class="text-xs text-slate-500 leading-relaxed font-normal">
+              Besoin d'aide technique ou de signaler un lien brisé à notre équipe.
+            </p>
+</div>
+</a>
+</div>
+</section>
+<section class="bg-gradient-to-r from-emerald-50/70 via-white to-teal-50/50 rounded-2xl p-5 sm:p-6 shadow-card flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+<div class="flex items-start gap-3.5">
+<div class="w-9 h-9 rounded-xl bg-emerald-100/80 text-emerald-800 flex items-center justify-center shrink-0 mt-0.5 shadow-2xs">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</div>
+<div class="space-y-1">
+<div class="text-xs font-bold text-emerald-950 uppercase tracking-wide">
+            Signalement automatique zéro traceur
+          </div>
+<p class="text-xs text-slate-600 leading-relaxed max-w-2xl font-normal">
+            Cette anomalie de routage est enregistrée de façon strictement anonyme et passive sans cookies tiers pour nous aider à maintenir la santé de la plateforme.
+          </p>
+</div>
+</div>
+<a class="inline-flex items-center gap-1.5 text-xs font-semibold text-emerald-800 hover:text-emerald-950 transition-colors whitespace-nowrap self-end md:self-center" href="mailto:audigy.web@outlook.fr">
+<span class="">Contacter le support direct (audigy.web@outlook.fr)</span>
+<svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">
+<path clip-rule="evenodd" d="M5.22 14.78a.75.75 0 001.06 0l7.22-7.22v5.69a.75.75 0 001.5 0v-7.5a.75.75 0 00-.75-.75h-7.5a.75.75 0 000 1.5h5.69l-7.22 7.22a.75.75 0 000 1.06z" fill-rule="evenodd"></path>
+</svg>
+</a>
+</section>
+</div>
+</div></main>
+<!-- END: MainContent -->
+<!-- BEGIN: MainFooter -->
+<footer class="w-full bg-white border-t border-slate-200/80 mt-auto pt-10 pb-8 text-xs text-slate-500" data-purpose="site-footer">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+<!-- Upper Footer Grid -->
+<div class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 pb-6 border-b border-slate-100">
+<!-- Left Brand & Mission -->
+<div class="space-y-2 max-w-xl">
+<div class="flex items-center gap-2.5">
+<span class="text-base font-bold text-slate-900 tracking-tight">Audigy</span>
+<span class="px-1.5 py-0.5 text-[10px] font-bold tracking-wide rounded bg-slate-100 text-slate-600 border border-slate-200/80">V2.6</span>
+</div>
+<p class="text-slate-500 font-normal">
+            Observatoire indépendant de santé publique numérique. Aucune donnée commerciale stockée.
+          </p>
+<div class="flex items-center gap-2 pt-1 font-mono text-[11px] text-slate-600">
+<span class="inline-block w-2 h-2 rounded-full bg-emerald-500 shadow-xs"></span>
+<span class="">Hébergement souverain neutre en carbone</span>
+</div>
+</div>
+<!-- Right Legal Navigation Links -->
+<nav aria-label="Liens légaux" class="flex flex-wrap items-center gap-x-6 gap-y-2 text-slate-600 text-xs font-medium">
+<a class="hover:text-slate-900 transition-colors" href="#">Mentions légales</a>
+<a class="hover:text-slate-900 transition-colors" href="#">Confidentialité</a>
+<a class="hover:text-slate-900 transition-colors" href="#">Conditions d'utilisation (CGU)</a>
+<a class="hover:text-slate-900 transition-colors" href="#">Accessibilité</a>
+<a class="hover:text-slate-900 inline-flex items-center gap-1 font-semibold text-audigy-brand transition-colors" href="#">
+<span class="">Audigy Pro</span>
+<svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">
+<path clip-rule="evenodd" d="M5.22 14.78a.75.75 0 001.06 0l7.22-7.22v5.69a.75.75 0 001.5 0v-7.5a.75.75 0 00-.75-.75h-7.5a.75.75 0 000 1.5h5.69l-7.22 7.22a.75.75 0 000 1.06z" fill-rule="evenodd"></path>
+</svg>
+</a>
+</nav>
+</div>
+<!-- Bottom System & Copyright Row -->
+<div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 font-mono text-[11px] text-slate-400">
+<div class="">
+          Copyright © 2026 Audigy. Passif par défaut. Outil gratuit. Aucun traceur tiers. Polices auto-hébergées.
+        </div>
+<div class="tracking-wider">
+          SYNCHRO_UTC 2026-04-18 10:42:00
+        </div>
+</div>
+</div>
+</footer>
+<!-- END: MainFooter -->
+
+
+</body></html>

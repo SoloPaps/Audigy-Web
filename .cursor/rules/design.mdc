@@ -17,3 +17,10 @@ alwaysApply: false
 - Ton : vouvoiement, ≤ 20 mots/phrase, constat puis conséquence puis action.
 - Copie produit : 8 domaines unifiés ; « passif par défaut » ; « horodaté » ; jargon hors couche 1 ; « votre assistant IA » (pas modèles datés). Voir `docs/FONCTIONNEMENT.md` §10.
 - Avant merge : checklist §9 + axe 0 violation. `prefers-reduced-motion` coupe le mouvement.
+
+## Implémentation pages (2026-10-27)
+
+- Body : HTML+PNG maquette **pixel-perfect** (`docs/design-pack-2026-10-26/maquettes/`).
+- Shell : AppHeader/footer/logo/Inter partagés — `01-REGLES-STRICTES.md`.
+- Agents : shell → 1/page → motion — `CURSOR-IMPL.md`.
+- Anims lourdes : phase motion seulement ; `prefers-reduced-motion`.

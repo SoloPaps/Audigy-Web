@@ -1,0 +1,520 @@
+<!DOCTYPE html><html class="h-full scroll-smooth" lang="fr" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Audigy — Vérifiez la santé de votre site, gratuitement</title>
+<!-- Tailwind CSS CDN with Forms & Container Queries -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Configuration -->
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#F4F9F6',
+              100: '#E6F2EC',
+              600: '#145A4A',
+              700: '#0F473A',
+              800: '#0B382E',
+              900: '#07261F',
+              950: '#041B16'
+            },
+            surface: {
+              paper: '#FBF9F5',
+              subtle: '#F6F3EE',
+              card: '#FFFFFF',
+              border: '#E8E3DB',
+              borderLight: '#EFECE6'
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
+            mono: ['JetBrains Mono', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'monospace']
+          },
+          boxShadow: {
+            'soft': '0 2px 10px -2px rgba(20, 32, 28, 0.04), 0 1px 3px -1px rgba(20, 32, 28, 0.03)',
+            'card': '0 8px 24px -6px rgba(20, 32, 28, 0.06), 0 2px 6px -1px rgba(20, 32, 28, 0.02)',
+            'float': '0 16px 36px -10px rgba(11, 40, 34, 0.12), 0 4px 12px -2px rgba(11, 40, 34, 0.04)'
+          }
+        }
+      }
+    }
+  </script>
+<!-- Custom Base & Micro-Styling -->
+<style data-purpose="base-styling">
+    body {
+      background-color: #F8F6F2;
+      color: #1A2321;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    ::selection {
+      background-color: #D1E7DD;
+      color: #07261F;
+    }
+  </style>
+</head>
+<body class="min-h-full flex flex-col font-sans antialiased text-[#1A2321] selection:bg-brand-100" style="background-color: rgb(248, 246, 242); background-image: radial-gradient(at 15% 10%, rgba(214, 237, 255, 0.45) 0px, transparent 55%), radial-gradient(at 85% 15%, rgba(230, 245, 238, 0.4) 0px, transparent 50%), radial-gradient(at 50% 40%, rgba(254, 245, 232, 0.35) 0px, transparent 60%), linear-gradient(to right, rgba(16, 42, 35, 0.025) 1px, transparent 1px), linear-gradient(rgba(16, 42, 35, 0.025) 1px, transparent 1px); background-size: 100% 100%, 100% 100%, 100% 100%, 32px 32px, 32px 32px; background-attachment: fixed;">
+<!-- BEGIN: SiteHeader -->
+<header class="w-full bg-[#FAF8F5]/90 backdrop-blur-md border-b border-surface-border sticky top-0 z-50 transition-all">
+<div class="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+<!-- Brand & Canonical Navigation -->
+<div class="flex items-center gap-8">
+<a aria-label="Accueil Audigy" class="flex items-center gap-2.5 group focus:outline-none focus:ring-2 focus:ring-brand-700 rounded-md py-1" href="#">
+<!-- Logo glyph -->
+<div class="w-7 h-7 rounded-md bg-[#0F3B32] text-white flex items-center justify-center font-bold text-sm tracking-tight shadow-sm">
+<svg class="w-4 h-4 text-emerald-300" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24">
+<path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+</svg>
+</div>
+<span class="text-xl font-bold tracking-tight text-[#0D231E]">Audigy</span>
+</a>
+<!-- Main Nav items -->
+<nav aria-label="Navigation principale" class="hidden md:flex items-center gap-1.5">
+<a class="px-3 py-1.5 rounded-full text-xs sm:text-sm font-semibold bg-[#113B32] text-white shadow-sm" href="#">Accueil</a>
+<a class="px-3 py-1.5 rounded-full text-xs sm:text-sm font-medium text-[#4A5752] hover:text-[#0D231E] hover:bg-[#EFECE5] transition-colors" href="#">Méthode</a>
+<a class="px-3 py-1.5 rounded-full text-xs sm:text-sm font-medium text-[#4A5752] hover:text-[#0D231E] hover:bg-[#EFECE5] transition-colors" href="#">Sites suivis</a>
+<a class="px-3 py-1.5 rounded-full text-xs sm:text-sm font-medium text-[#4A5752] hover:text-[#0D231E] hover:bg-[#EFECE5] transition-colors" href="#">Documentation</a>
+</nav>
+</div>
+<!-- Action items & Language -->
+<div class="flex items-center gap-3">
+<!-- Language Switcher -->
+<div aria-label="Choix de la langue" class="inline-flex items-center bg-[#EAE5DC] p-0.5 rounded-md text-xs font-semibold text-[#505D58]" role="group">
+<span class="px-2 py-0.5 rounded bg-[#113B32] text-white shadow-xs">FR</span>
+<span class="px-2 py-0.5 text-[#5A6863]">EN</span>
+</div>
+<!-- Theme Toggle -->
+<button aria-label="Changer de thème" class="p-2 text-[#5A6863] hover:text-[#142823] hover:bg-[#EBE7DF] rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-brand-700" type="button">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+<circle cx="12" cy="12" r="5"></circle>
+<path d="M12 1v2m0 18v2M4.22 4.22l1.42 1.42m12.72 12.72l1.42 1.42M1 12h2m18 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</button>
+<!-- Connexion CTA -->
+<a class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs sm:text-sm font-medium text-[#1A2E28] hover:text-[#0A1B17] bg-[#EFEBE3] hover:bg-[#E5E0D6] border border-[#DDD7CC] rounded-lg transition-all shadow-xs focus:outline-none focus:ring-2 focus:ring-brand-700" href="#">
+<svg class="w-3.5 h-3.5 text-[#4E5E58]" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+<path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4M10 17l5-5-5-5M15 12H3" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+<span class="">Connexion</span>
+</a>
+</div>
+</div>
+</header>
+<!-- END: SiteHeader -->
+<!-- BEGIN: MainContent -->
+<main class="flex-1 max-w-[1240px] mx-auto w-full px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-12 sm:space-y-16">
+<!-- BEGIN: HeroSection -->
+<section aria-labelledby="hero-title" class="text-center max-w-4xl mx-auto space-y-6 pt-2">
+<!-- Top Status Pill -->
+<div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#EAE5DB] border border-[#DDD7CB] text-[11px] sm:text-xs font-semibold uppercase tracking-wider text-[#354842]"><span class="inline-block w-1.5 h-1.5 rounded-full bg-emerald-600 animate-pulse"></span><span class="">Observatoire de l'hygiène web</span></div>
+<!-- Main Headline -->
+<h1 class="text-3xl sm:text-5xl lg:text-[54px] font-black tracking-tight text-[#0E2620] leading-[1.12]" id="hero-title">
+        Vérifiez la santé de votre site, gratuitement.
+      </h1>
+<!-- Subtitle Description -->
+<p class="text-base sm:text-lg text-[#445650] max-w-3xl mx-auto leading-relaxed font-normal">
+        Diagnostic instantané de robustesse technique, empreinte environnementale, respect de la vie privée et conformité réglementaire. Passif par défaut. Les tests actifs ne partent que sur un site dont vous prouvez la propriété.
+      </p>
+<!-- Informative Box -->
+<div class="bg-[#F1ECE3] border border-[#DDD7CD] rounded-xl px-5 py-3.5 text-xs sm:text-[13px] text-[#334641] max-w-3xl mx-auto leading-relaxed shadow-xs">
+        Particuliers : note globale et priorités immédiates sans compte. Détail complet, plan d'action et brief pour votre assistant IA accessibles avec un compte gratuit.
+      </div>
+</section>
+<!-- END: HeroSection -->
+<!-- BEGIN: MemoryToastNotification -->
+<div class="max-w-4xl mx-auto w-full">
+<div class="bg-[#EBF3FB] border border-[#CDE1F4] rounded-xl p-3.5 sm:px-5 sm:py-3 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs sm:text-sm text-[#183B56] shadow-soft">
+<div class="flex items-center gap-3">
+<div class="w-7 h-7 rounded-full bg-[#D4E8FB] flex items-center justify-center shrink-0 text-[#1D63A6]">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+<path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</div>
+<div>
+<span class="font-bold tracking-wide uppercase text-[11px] text-[#1E5285]">AUDIT RÉCENT EN MÉMOIRE</span>
+<span class="text-[#4E7599] text-[11px] font-normal ml-1">• Navigateur local</span>
+<div class="font-medium text-[#0F2D44] mt-0.5">https://mon-agence-web.fr <span class="text-[#3F6688] font-normal">(Score 54/100 • Note B)</span></div>
+</div>
+</div>
+<div class="flex items-center gap-2 self-end sm:self-center">
+<a class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#0F3B32] hover:bg-[#0A2A23] text-white rounded-lg text-xs font-semibold transition-colors shadow-xs" href="#">
+            Reprendre le rapport →
+          </a>
+<button aria-label="Fermer la notification" class="p-1.5 text-[#5A82A6] hover:text-[#133758] rounded-md transition-colors" type="button">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+<path d="M6 18L18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</button>
+</div>
+</div>
+</div>
+<!-- END: MemoryToastNotification -->
+<!-- BEGIN: AuditConsoleAndPreview -->
+<section aria-label="Console d'analyse et exemple" class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start max-w-[1240px] mx-auto">
+<!-- Left Column: Form & Trust Cards (7 cols) -->
+<div class="lg:col-span-7 space-y-6">
+<!-- Primary Form Card -->
+<div class="bg-white border border-surface-border rounded-2xl p-6 sm:p-7 shadow-card">
+<form class="space-y-4" onsubmit="return false;">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+<label class="text-sm font-bold text-[#142D26]" for="url-input">Adresse du site web à analyser</label>
+<span class="text-xs font-mono text-[#667772]">Format attendu : https://domaine.fr</span>
+</div>
+<div class="flex flex-col sm:flex-row items-stretch gap-3">
+<div class="relative flex-1">
+<div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#758680]">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+<path d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</div>
+<input class="w-full pl-10 pr-4 py-3 bg-[#FBF9F6] border border-[#DDD7CD] rounded-xl text-sm font-medium text-[#112420] placeholder-[#8C9C96] focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand-700 focus:border-brand-700 transition-all shadow-xs" id="url-input" placeholder="https://monsite-exemple.fr" type="url">
+</div>
+<button class="inline-flex items-center justify-center gap-2 px-6 py-3 bg-[#0F3B32] hover:bg-[#0A2A23] text-white font-semibold text-sm rounded-xl transition-all shadow-sm shrink-0 focus:outline-none focus:ring-2 focus:ring-brand-700" type="submit">
+<span class="">Lancer l'audit gratuit</span>
+<span class="">→</span>
+</button>
+</div>
+</form>
+</div>
+<!-- 3 Feature Assurance Cards -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+<!-- Card 1 -->
+<div class="bg-white/80 border border-surface-border rounded-xl p-4 shadow-soft flex flex-col justify-between">
+<div>
+<div class="w-8 h-8 rounded-lg bg-[#F0ECE4] text-[#2D473E] flex items-center justify-center mb-3">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+<rect height="11" rx="2" ry="2" width="18" x="3" y="11"></rect>
+<path d="M7 11V7a5 5 0 0110 0v4"></path>
+</svg>
+</div>
+<h3 class="text-xs font-bold text-[#142C26] mb-1">Gratuit sans compte</h3>
+<p class="text-[11px] text-[#556963] leading-relaxed">Note globale et premières priorités sans inscription.</p>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="bg-white/80 border border-surface-border rounded-xl p-4 shadow-soft flex flex-col justify-between">
+<div>
+<div class="w-8 h-8 rounded-lg bg-[#F0ECE4] text-[#2D473E] flex items-center justify-center mb-3">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+<path d="M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.141 0M1.394 9.393c5.857-5.857 15.355-5.857 21.213 0" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</div>
+<h3 class="text-xs font-bold text-[#142C26] mb-1">Passif par défaut</h3>
+<p class="text-[11px] text-[#556963] leading-relaxed">Passif par défaut. Les tests actifs ne partent que sur un site dont vous prouvez la propriété.</p>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="bg-white/80 border border-surface-border rounded-xl p-4 shadow-soft flex flex-col justify-between">
+<div>
+<div class="w-8 h-8 rounded-lg bg-[#F0ECE4] text-[#2D473E] flex items-center justify-center mb-3">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+<path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</div>
+<h3 class="text-xs font-bold text-[#142C26] mb-1">Méthode publique</h3>
+<p class="text-[11px] text-[#556963] leading-relaxed">Critères documentés et vérifiables.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Live Report Preview Card (5 cols) -->
+<div class="lg:col-span-5">
+<div class="bg-white border border-surface-border rounded-2xl p-6 shadow-card space-y-5">
+<!-- Report Header -->
+<div class="flex items-center justify-between border-b border-[#F0ECE4] pb-4">
+<div>
+<span class="text-[11px] font-bold tracking-wider uppercase text-[#354842] block">EXEMPLE DE RAPPORT GÉNÉRÉ</span>
+<span class="text-[11px] font-mono text-[#7B8B86]">AUD-2026-8492 • Horodaté</span>
+</div>
+<span class="inline-flex items-center px-2 py-0.5 rounded bg-[#EBF4FF] text-[#1E5691] text-[11px] font-semibold">Exemple indicatif</span>
+</div>
+<!-- Target Site Identity & Scores -->
+<div class="flex items-center justify-between gap-4 py-1">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-xl bg-[#E8F3EE] flex items-center justify-center text-[#114036] shrink-0 border border-[#CDE2D8]">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+<circle cx="12" cy="12" r="10"></circle>
+<path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</div>
+<div>
+<h4 class="text-sm font-bold text-[#102923]">monsite-exemple.fr</h4>
+<p class="text-xs text-[#5E726B]">Boutique &amp; Portfolio</p>
+</div>
+</div>
+<!-- Score badging -->
+<div class="flex items-center gap-2">
+<div class="w-10 h-10 rounded-full border-2 border-[#124238] flex items-center justify-center font-bold text-xs text-[#124238] bg-[#F2F8F5]">54</div>
+<div class="w-9 h-9 rounded-lg bg-[#EBF4FF] text-[#1B5794] font-black text-sm flex items-center justify-center border border-[#CFE1F5]">
+                B
+              </div>
+</div>
+</div>
+<!-- Highlight Status Bullets -->
+<div class="space-y-2.5 pt-1"><div class="bg-[#F0FAF4] border border-[#C4ECD6] rounded-xl p-3 flex items-start gap-2.5 text-xs text-[#0F4C30]"><svg class="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"></path></svg><span class="leading-relaxed"><strong>Temps de chargement initial :</strong> indicateurs de base mesurés.</span></div><div class="bg-[#FEF2F2] border border-[#FDC8C8] rounded-xl p-3 flex items-start gap-2.5 text-xs text-[#991B1B]"><svg class="w-4 h-4 text-red-600 shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" stroke-linecap="round" stroke-linejoin="round"></path></svg><span class="leading-relaxed"><strong>Sécurité HTTP :</strong> en-têtes de protection recommandés à renforcer.</span></div></div>
+<!-- Deep-dive link button -->
+<div class="pt-2">
+<a class="w-full py-2.5 px-4 rounded-xl border border-[#DDD7CD] hover:border-[#BFCBBE] bg-[#FAF8F5] hover:bg-[#F2EFE8] text-xs font-semibold text-[#18352F] flex items-center justify-center gap-1.5 transition-colors" href="#"><span class="">Voir un exemple de synthèse</span><span class="">→</span></a>
+</div>
+</div>
+</div>
+</section>
+<!-- END: AuditConsoleAndPreview -->
+<!-- BEGIN: QuickLinksRow -->
+<div class="py-2 flex items-center justify-center">
+<nav aria-label="Liens rapides et documentation" class="inline-flex flex-wrap items-center justify-center gap-1 sm:gap-2 bg-white/90 backdrop-blur-sm border border-[#DDD7CC] rounded-full px-4 sm:px-6 py-2 sm:py-2.5 shadow-soft">
+<a class="px-3 py-1 text-xs sm:text-sm font-semibold text-[#2D453E] hover:text-[#0D241E] hover:bg-[#F3EFE7] rounded-full transition-all flex items-center gap-1" href="#">
+<span class="">Comment ça marche</span>
+<span class="text-xs">→</span>
+</a>
+<span aria-hidden="true" class="text-[#D3CBC0] select-none px-1">•</span>
+<a class="px-3 py-1 text-xs sm:text-sm font-semibold text-[#2D453E] hover:text-[#0D241E] hover:bg-[#F3EFE7] rounded-full transition-all flex items-center gap-1" href="#">
+<span class="">Voir un exemple de rapport</span>
+<span class="text-xs">→</span>
+</a>
+<span aria-hidden="true" class="text-[#D3CBC0] select-none px-1">•</span>
+<a class="px-3 py-1 text-xs sm:text-sm font-semibold text-[#2D453E] hover:text-[#0D241E] hover:bg-[#F3EFE7] rounded-full transition-all flex items-center gap-1" href="#">
+<span class="">Guide pour corriger</span>
+<span class="text-xs">→</span>
+</a>
+</nav>
+</div>
+<!-- END: QuickLinksRow -->
+<!-- BEGIN: EightDomainsSection -->
+<section aria-labelledby="domains-title" class="space-y-10 pt-6">
+<!-- Section Header -->
+<div class="text-center max-w-2xl mx-auto space-y-2">
+<span class="text-xs font-bold uppercase tracking-widest text-[#40544E]">MÉTHODOLOGIE D'ÉVALUATION</span>
+<h2 class="text-2xl sm:text-3xl font-extrabold text-[#0D241E] tracking-tight" id="domains-title">
+          Les 8 domaines Audigy
+        </h2>
+<p class="text-xs sm:text-sm text-[#52645F] leading-relaxed">Une évaluation basée sur les standards ouverts du web et les réglementations européennes.</p>
+</div>
+<!-- 8 Pillars Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
+<!-- Pillar 01: Performance -->
+<article class="bg-white border border-surface-border rounded-2xl p-5 shadow-soft hover:shadow-card transition-shadow flex flex-col justify-between">
+<div class="space-y-3">
+<div class="flex items-center justify-between">
+<div class="w-9 h-9 rounded-xl bg-[#EBF4FF] text-[#1E5691] border border-[#CFE1F5] flex items-center justify-center shadow-xs"><svg class="w-4 h-4 text-[#1D63A6]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M13 10V3L4 14h7v7l9-11h-7z" stroke-linecap="round" stroke-linejoin="round"></path></svg></div>
+<span class="text-xs font-mono font-bold text-[#647771]">01 / 08</span>
+</div>
+<h3 class="text-sm font-bold text-[#102822]">1. Performance</h3>
+<p class="text-xs text-[#526560] leading-relaxed">
+              Mesure rigoureuse des Core Web Vitals (LCP, INP, CLS), TTFB serveur et compression Brotli/Gzip.
+            </p>
+</div>
+<div class="pt-5 mt-4 border-t border-[#F2EEE6] flex items-center justify-between text-[11px]">
+<span class="text-[#758782]">Référence</span>
+<span class="font-mono font-bold text-[#103028]">W3C Web Vitals</span>
+</div>
+</article>
+<!-- Pillar 02: SEO -->
+<article class="bg-white border border-surface-border rounded-2xl p-5 shadow-soft hover:shadow-card transition-shadow flex flex-col justify-between">
+<div class="space-y-3">
+<div class="flex items-center justify-between">
+<div class="w-9 h-9 rounded-xl bg-[#E8F3EE] text-[#0F4C30] border border-[#CDE2D8] flex items-center justify-center shadow-xs"><svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" x2="16.65" y1="21" y2="16.65"></line></svg></div>
+<span class="text-xs font-mono font-bold text-[#647771]">02 / 08</span>
+</div>
+<h3 class="text-sm font-bold text-[#102822]">2. SEO</h3>
+<p class="text-xs text-[#526560] leading-relaxed">
+              Indexabilité, balises meta, canonicals, arborescence sitemap, conformité robots.txt et données structurées.
+            </p>
+</div>
+<div class="pt-5 mt-4 border-t border-[#F2EEE6] flex items-center justify-between text-[11px]">
+<span class="text-[#758782]">Norme</span>
+<span class="font-mono font-bold text-[#103028]">Open Web Standards</span>
+</div>
+</article>
+<!-- Pillar 03: Sécurité -->
+<article class="bg-white border border-surface-border rounded-2xl p-5 shadow-soft hover:shadow-card transition-shadow flex flex-col justify-between">
+<div class="space-y-3">
+<div class="flex items-center justify-between">
+<div class="w-9 h-9 rounded-xl bg-[#EBF3FB] text-[#183B56] border border-[#CDE1F4] flex items-center justify-center shadow-xs"><svg class="w-4 h-4 text-[#1B5794]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke-linecap="round" stroke-linejoin="round"></path></svg></div>
+<span class="text-xs font-mono font-bold text-[#647771]">03 / 08</span>
+</div>
+<h3 class="text-sm font-bold text-[#102822]">3. Sécurité</h3>
+<p class="text-xs text-[#526560] leading-relaxed">
+              Contrôle TLS, conformité HSTS, politique CSP stricte, protection contre injections et failles XSS.
+            </p>
+</div>
+<div class="pt-5 mt-4 border-t border-[#F2EEE6] flex items-center justify-between text-[11px]"><span class="text-[#758782]">Référentiel</span><span class="font-mono font-bold text-[#103028]">Bonnes pratiques TLS/CSP</span></div>
+</article>
+<!-- Pillar 04: Écologie -->
+<article class="bg-white border border-surface-border rounded-2xl p-5 shadow-soft hover:shadow-card transition-shadow flex flex-col justify-between">
+<div class="space-y-3">
+<div class="flex items-center justify-between">
+<div class="w-9 h-9 rounded-xl bg-[#F0FAF4] text-[#114036] border border-[#C4ECD6] flex items-center justify-center shadow-xs"><svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M2 22s5-2 9-6c4-4 7-9 7-14 0 0-5 2-9 6-4 4-7 9-7 14z" stroke-linecap="round" stroke-linejoin="round"></path><path d="M9 16c2-2 5-3 8-3" stroke-linecap="round" stroke-linejoin="round"></path></svg></div>
+<span class="text-xs font-mono font-bold text-[#647771]">04 / 08</span>
+</div>
+<h3 class="text-sm font-bold text-[#102822]">4. Écologie</h3>
+<p class="text-xs text-[#526560] leading-relaxed">
+              Empreinte gCO₂e, poids de page, complexité DOM et passerelle vers questionnaire RGESN.
+            </p>
+</div>
+<div class="pt-5 mt-4 border-t border-[#F2EEE6] flex items-center justify-between text-[11px]">
+<span class="text-[#758782]">Score</span>
+<span class="font-mono font-bold text-[#103028]">EcoIndex A à G</span>
+</div>
+</article>
+<!-- Pillar 05: Accessibilité -->
+<article class="bg-white border border-surface-border rounded-2xl p-5 shadow-soft hover:shadow-card transition-shadow flex flex-col justify-between">
+<div class="space-y-3">
+<div class="flex items-center justify-between">
+<div class="w-9 h-9 rounded-xl bg-[#FEF9E7] text-[#8C6D07] border border-[#F3E6B8] flex items-center justify-center shadow-xs"><svg class="w-4 h-4 text-[#8C6D07]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="4.5" r="2.5"></circle><path d="M5 9h14M12 9v11m-3-6l3 6 3-6" stroke-linecap="round" stroke-linejoin="round"></path></svg></div>
+<span class="text-xs font-mono font-bold text-[#647771]">05 / 08</span>
+</div>
+<h3 class="text-sm font-bold text-[#102822]">5. Accessibilité</h3>
+<p class="text-xs text-[#526560] leading-relaxed">
+              Contraste colorimétrique, repères ARIA, navigation au clavier et structure sémantique.
+            </p>
+</div>
+<div class="pt-5 mt-4 border-t border-[#F2EEE6] flex items-center justify-between text-[11px]">
+<span class="text-[#758782]">Cadre</span>
+<span class="font-mono font-bold text-[#103028]">WCAG 2.2 / RGAA 4.1</span>
+</div>
+</article>
+<!-- Pillar 06: Qualité technique -->
+<article class="bg-white border border-surface-border rounded-2xl p-5 shadow-soft hover:shadow-card transition-shadow flex flex-col justify-between">
+<div class="space-y-3">
+<div class="flex items-center justify-between">
+<div class="w-9 h-9 rounded-xl bg-[#FEF2F2] text-[#991B1B] border border-[#FDC8C8] flex items-center justify-center shadow-xs"><svg class="w-4 h-4 text-red-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg></div>
+<span class="text-xs font-mono font-bold text-[#647771]">06 / 08</span>
+</div>
+<h3 class="text-sm font-bold text-[#102822]">6. Qualité technique</h3>
+<p class="text-xs text-[#526560] leading-relaxed">
+              Validité HTML/CSS, détection de librairies obsolètes et croisement avec bases de failles OSV/NVD.
+            </p>
+</div>
+<div class="pt-5 mt-4 border-t border-[#F2EEE6] flex items-center justify-between text-[11px]">
+<span class="text-[#758782]">Base</span>
+<span class="font-mono font-bold text-[#103028]">OSV / NIST NVD</span>
+</div>
+</article>
+<!-- Pillar 07: Vie privée -->
+<article class="bg-white border border-surface-border rounded-2xl p-5 shadow-soft hover:shadow-card transition-shadow flex flex-col justify-between">
+<div class="space-y-3">
+<div class="flex items-center justify-between">
+<div class="w-9 h-9 rounded-xl bg-[#FBF9F6] text-[#991B1B] border border-[#DDD7CD] flex items-center justify-center shadow-xs"><svg class="w-4 h-4 text-[#991B1B]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 11c0 3.517-1.009 6.799-2.753 9.571m-3.44-2.04l.054-.09A13.916 13.916 0 008 11a4 4 0 118 0c0 1.017-.07 2.019-.203 3m-2.118 6.844A21.88 21.88 0 0015.171 17m3.839 1.132c.645-2.012 1-4.148 1-6.356A10 10 0 0012 2a10 10 0 00-9.846 8.3" stroke-linecap="round" stroke-linejoin="round"></path></svg></div>
+<span class="text-xs font-mono font-bold text-[#647771]">07 / 08</span>
+</div>
+<h3 class="text-sm font-bold text-[#102822]">7. Vie privée</h3>
+<p class="text-xs text-[#526560] leading-relaxed">
+              Traceurs tiers déposés avant consentement, politiques de cookies et conformité ePrivacy / RGPD.
+            </p>
+</div>
+<div class="pt-5 mt-4 border-t border-[#F2EEE6] flex items-center justify-between text-[11px]">
+<span class="text-[#758782]">Règlement</span>
+<span class="font-mono font-bold text-[#103028]">RGPD / ePrivacy UE</span>
+</div>
+</article>
+<!-- Pillar 08: DNS / e-mail -->
+<article class="bg-white border border-surface-border rounded-2xl p-5 shadow-soft hover:shadow-card transition-shadow flex flex-col justify-between">
+<div class="space-y-3">
+<div class="flex items-center justify-between">
+<div class="w-9 h-9 rounded-xl bg-[#D4E8FB] text-[#183B56] border border-[#CDE1F4] flex items-center justify-center shadow-xs"><svg class="w-4 h-4 text-[#1E5285]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"></circle><path d="M16 8v5a3 3 0 0 0 6 0v-1a10 10 0 1 0-3.92 7.94" stroke-linecap="round" stroke-linejoin="round"></path></svg></div>
+<span class="text-xs font-mono font-bold text-[#647771]">08 / 08</span>
+</div>
+<h3 class="text-sm font-bold text-[#102822]">8. DNS / e-mail</h3>
+<p class="text-xs text-[#526560] leading-relaxed">
+              Enregistrements MX, politiques de protection anti-usurpation SPF, DKIM et DMARC strictes.
+            </p>
+</div>
+<div class="pt-5 mt-4 border-t border-[#F2EEE6] flex items-center justify-between text-[11px]"><span class="text-[#758782]">Standard</span><span class="font-mono font-bold text-[#103028]">Standards SPF / DMARC</span></div>
+</article>
+</div>
+</section>
+<!-- END: EightDomainsSection -->
+<!-- BEGIN: AudigyProTeaser -->
+<section aria-labelledby="pro-banner-title" class="bg-white border border-surface-border rounded-2xl p-6 sm:p-8 shadow-card flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
+<div class="space-y-3 max-w-2xl">
+<div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-[#FEF9E7] border border-[#F3E6B8] text-[11px] font-bold text-[#8C6D07] uppercase tracking-wider">
+<span class="">☆</span>
+<span class="">BIENTÔT DISPONIBLE</span>
+</div>
+<h3 class="text-xl sm:text-2xl font-black text-[#0E2620] tracking-tight" id="pro-banner-title">
+          Audigy Pro pour les agences et équipes web
+        </h3>
+<p class="text-xs sm:text-sm text-[#4E615B] leading-relaxed">
+          Suivi continu multi-sites, historique long (≥ 10 audits), alertes de régression et plafonds d'équipe étendus.
+        </p>
+<!-- Badges list -->
+<div class="flex flex-wrap items-center gap-2 pt-1 text-xs text-[#3E524D]">
+<span class="font-semibold">Exports inclus :</span>
+<span class="px-2 py-0.5 rounded-md bg-[#F4F1E9] border border-[#E4DEC3] text-[11px] font-medium">PDF client soigné</span>
+<span class="px-2 py-0.5 rounded-md bg-[#F4F1E9] border border-[#E4DEC3] text-[11px] font-medium">Excel</span>
+<span class="px-2 py-0.5 rounded-md bg-[#F4F1E9] border border-[#E4DEC3] text-[11px] font-medium">CSV</span>
+<span class="px-2 py-0.5 rounded-md bg-[#F4F1E9] border border-[#E4DEC3] text-[11px] font-medium">Word</span>
+<span class="px-2 py-0.5 rounded-md bg-[#F4F1E9] border border-[#E4DEC3] text-[11px] font-mono text-[#2B4B42]">JSON &amp; XML</span>
+</div>
+</div>
+<div class="shrink-0 self-stretch lg:self-center flex items-center">
+<button class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-[#132E27] hover:bg-[#0C211C] text-white text-xs sm:text-sm font-semibold transition-all shadow-sm focus:outline-none focus:ring-2 focus:ring-brand-700" type="button">
+<svg class="w-4 h-4 text-emerald-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+<path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+<span class="">Être prévenu du lancement</span>
+</button>
+</div>
+</section>
+<!-- END: AudigyProTeaser -->
+<!-- BEGIN: FinalCallToAction -->
+<section aria-labelledby="cta-bottom-title" class="bg-[#0B382E] text-white rounded-2xl p-8 sm:p-12 shadow-float flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
+<div class="space-y-3 max-w-xl">
+<h2 class="text-2xl sm:text-3xl font-black tracking-tight leading-tight" id="cta-bottom-title">
+          Prêt à évaluer la santé de votre site ?
+        </h2>
+<p class="text-sm sm:text-base text-emerald-100/90 leading-relaxed font-normal">Le diagnostic est gratuit, sans inscription et sans cookies traceurs. Obtenez vos premières priorités immédiatement.</p>
+</div>
+<div class="shrink-0 self-stretch sm:self-auto">
+<a class="inline-flex w-full sm:w-auto items-center justify-center gap-2 px-6 py-3.5 bg-white hover:bg-[#F2FAF6] text-[#0A3027] font-bold text-sm rounded-xl transition-all shadow-md focus:outline-none focus:ring-2 focus:ring-white" href="#url-input">
+<span class="">Tester mon site maintenant</span>
+<span class="text-base">↑</span>
+</a>
+</div>
+</section>
+<!-- END: FinalCallToAction -->
+</main>
+<!-- END: MainContent -->
+<!-- BEGIN: SiteFooter -->
+<footer class="w-full bg-[#FAF8F5] border-t border-surface-border mt-16">
+<div class="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-6">
+<!-- Brand & Disclaimers -->
+<div class="space-y-2">
+<div class="flex items-center gap-2">
+<!-- Logo glyph -->
+<div class="w-5 h-5 rounded bg-[#0F3B32] text-white flex items-center justify-center font-bold text-xs">
+<svg class="w-3 h-3 text-emerald-300" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+<path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+</svg>
+</div>
+<span class="font-bold text-sm text-[#0C241E]">Audigy</span>
+<span class="text-xs text-[#62756F]">• Observatoire de l'hygiène web</span>
+</div>
+<p class="text-xs text-[#5D6F69] max-w-4xl leading-relaxed">
+          Passif par défaut. Les tests actifs ne partent que sur un site dont vous prouvez la propriété. Référentiels ouverts (MDN Observatory, Lighthouse, EcoIndex). Zéro traceur tiers. Polices auto-hébergées. Horodaté.
+        </p>
+</div>
+<!-- Legal Links & Pro Outbound -->
+<div class="pt-4 border-t border-[#EDE8DF] flex flex-wrap items-center justify-between gap-4 text-xs font-medium text-[#465953]">
+<div class="flex flex-wrap items-center gap-4 sm:gap-6">
+<a class="hover:text-black transition-colors" href="#">Méthode</a>
+<a class="hover:text-black transition-colors" href="#">Mentions légales</a>
+<a class="hover:text-black transition-colors" href="#">Confidentialité</a>
+<a class="hover:text-black transition-colors" href="#">Accessibilité (WCAG 2.2 / RGAA 4.1)</a>
+<a class="hover:text-black transition-colors" href="#">CGU</a>
+</div>
+<div>
+<a class="inline-flex items-center gap-1 font-bold text-[#0E352C] hover:underline" href="#">
+<span class="">Audigy Pro</span>
+<span class="text-xs">↗</span>
+</a>
+</div>
+</div>
+</div>
+</footer>
+<!-- END: SiteFooter -->
+
+
+</body></html>

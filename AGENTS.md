@@ -33,8 +33,9 @@ Produit décidé : `docs/FONCTIONNEMENT.md` (26 octobre 2026).
 - Charte clair : `docs/DESIGN.md` (fusion MonScore × Arc Soft, PR #66). Sombre gelé : §2.4.
 - Avant toute UI (chrome, nav, logo, thème) : `docs/design-pack-2026-10-26/01-REGLES-STRICTES.md`. En conflit avec une maquette Stitch, ce fichier **gagne**.
 - Index pack : `docs/design-pack-2026-10-26/00-LISEZ-MOI.md`.
-- **Stitch est gelé.** Ne pas le relancer. Cursor reste proche des checklists `02-PAGES.md`, pas un calque 1:1.
-- **Maquettes (images lisibles).** Les PNG `docs/design-pack-2026-10-26/maquettes/**/screen.png` sont des modèles visuels à **ouvrir en même temps que le code** (hiérarchie, sections). On implémente les fonctionnalités de `docs/FONCTIONNEMENT.md` et `docs/etapes-refonte/` sur le code existant. En conflit, `01-REGLES-STRICTES.md` gagne. Ignorer les PNG invalides ou ≤ 100 octets (`maquettes/README.md`, `SCREEN-INVALID.txt`).
+- Mode implémentation Cursor (agents, pixel-perfect body, anims) : `docs/design-pack-2026-10-26/CURSOR-IMPL.md`.
+- **Stitch est gelé.** Ne pas le relancer. Body = pixel-perfect HTML+PNG maquette ; chrome = `01-REGLES-STRICTES.md` + `CURSOR-IMPL.md`.
+- **Maquettes (images lisibles).** Les PNG `docs/design-pack-2026-10-26/maquettes/**/screen.png` et les `code.html` sont la référence **body pixel-perfect** (ouvrir PNG + HTML ensemble). On implémente les fonctionnalités de `docs/FONCTIONNEMENT.md` et `docs/etapes-refonte/` sur le code existant. En conflit, `01-REGLES-STRICTES.md` gagne. Ignorer les PNG invalides ou ≤ 100 octets (`maquettes/README.md`, `SCREEN-INVALID.txt`).
 - **Règles produit nouvelles** (pas déduites des pixels) : 2 sites / 1 lien, soft-gate, brief IA gratuit avec compte, Pro plus tard, vie privée option C. Source : `docs/FONCTIONNEMENT.md`.
 - Un seul `AppHeader`. Libellés : **Accueil · Méthode · Sites suivis · Documentation** | **FR/EN** · **Connexion**. Drawer mobile = ces 5 items + FR/EN.
 - INTERDIT en nav : Audit actif, Historique, Générateur Brief (famille B), item Progression, Blog/Actu, bottom-bar Diagnostic · Méthode · Sites · Compte.

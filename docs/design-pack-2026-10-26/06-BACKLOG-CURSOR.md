@@ -1,40 +1,52 @@
-# Audigy — Backlog Cursor (post-Stitch gelé)
+# Backlog Cursor (chrome + pages)
 
-**Contrainte :** forfait **Pro épuisé le 26 octobre 2026** (Europe/Paris).  
-Pas d’agent Cloud / on-demand / gros refactor sans **OK owner**.
+Ordre : **shell → pages (1 agent / page) → motion**. Voir `CURSOR-IMPL.md`.
 
-DoD global : nav canon partout · logos assets · dark tokens + toggle anti-FOUC · checklists `02-PAGES.md` · contraste AA · pas de famille B / bottom Diagnostic.
-
----
-
-## P0 — Bloquants chrome
+## P0 — Shell (1 agent)
 
 | ID | Tâche | DoD |
 |----|-------|-----|
-| P0.1 | `AppHeader` unique + drawer mobile 5 items | Libellés Accueil · Méthode · Sites suivis · Documentation · Connexion (+ FR/EN) sur **toutes** les pages |
-| P0.2 | Purger nav interdite | Plus d’Audit actif / Historique / Générateur Brief / item Progression / Blog / bottom Diagnostic·… |
-| P0.3 | Logo officiel | Uniquement `assets/logo-icon.jpg` + `logo-lockup.jpg` |
-| P0.4 | Dark tokens + toggle | Variables `04-THEME-DARK.md` ; refs PNG respectées ; anti-FOUC |
-| P0.5 | Ignorer PNG FIFE 28 o | Ne pas bloquer sur `screen.png` rapport mobile |
+| P0.1 | AppHeader + footer partagés | Nav Accueil·Méthode·Sites·Doc \| FR/EN · thème · Connexion/Compte ; footer Mentions·Conf·A11y·CGU·Pro·©2026·V3.4 |
+| P0.2 | Purger nav interdite | Plus Audit actif / Historique / Générateur Brief / item Progression / Blog / bottom Diagnostic |
+| P0.3 | Logo + Inter | Assets officiels ; titre « Audigy » seul |
+| P0.4 | Dark tokens + toggle | `04-THEME-DARK.md` ; anti-FOUC |
 
-## P1 — Parité features pages cœur
+## P1 — Pages (1 agent chacune)
+
+Chaque agent reçoit `maquettes/<dossier>/code.html` + `screen.png` + nits copy.
+
+Ordre suggéré : Accueil → Progression → Rapport audit → Soft/exemple → Lien équipe → Sites → Compte → Connexion → Magic → Vérifier → Demande → Acceptation → Méthode → Pro → Historique → Éco → Guide → Brief modal → Légales → 404.
+
+| ID | Dossier maquette | DoD |
+|----|------------------|-----|
+| P1.accueil | `page_accueil` | Body pixel-perfect + shell partagé |
+| P1.progression | `page_progression` | idem |
+| P1.rapport | `page_rapport_audit` | Note, 3 prio, Rien/Vérif/Fix, brief Copier prompt |
+| P1.exemple | `page_exemple_rapport` | Démo / soft-gate-like |
+| P1.equipe | `page_rapport_lecture` | Lecture seule, pas CTAs owner |
+| P1.sites | `page_site_suivi` | Quotas 2/1 |
+| P1.compte | `page_compte` | |
+| P1.connexion | `page_connexion` | |
+| P1.magic | `page_lien_email_envoye` | |
+| P1.verifier | `page_verifier_propriete` | Page complète |
+| P1.demande | `interface_demande_acces` | Modale |
+| P1.accept | `page_acceptation_acces` | Page e-mail |
+| P1.methode | `page_methode_bareme` | 8 domaines |
+| P1.pro | `page_pro` | Waitlist |
+| P1.histo | `pages_historique_monsite` | Pro |
+| P1.eco | `page_ecologie` | |
+| P1.guide | `interface_guide_correction` | |
+| P1.brief | `interface_promptIA` | Modale |
+| P1.legales | mentions / conf / CGU / a11y | |
+| P1.404 | `page_404` | Title 404 correct |
+
+## P2 — Motion (1 agent)
 
 | ID | Tâche | DoD |
 |----|-------|-----|
-| P1.1 | Accueil 8 domaines + 3 liens | Checklist § Accueil |
-| P1.2 | Rapport MonScore + brief | Note A–F, 3 priorités, Rien/Vérif/Fix, 8 domaines, filtres, ~résolution, copy+toast, AUDIGY-FIXES.md, barre bas |
-| P1.3 | Progression OK + 403 | D+M ; sans item Progression en nav |
-| P1.4 | Soft-gate + Connexion + Vérifier + Éco + Guide | Nav canon ; pas bottom-bar alt |
-| P1.5 | Skip links + focus AA | Au minimum Accueil / Rapport / Progression |
-
-## P2 — Shell restant
-
-| ID | Tâche | DoD |
-|----|-------|-----|
-| P2.1 | Méthode, Sites, Compte | Contenu + nav |
-| P2.2 | Légales (Mentions, Conf, A11y, CGU) | Contenu + nav D+M |
-| P2.3 | Light Arc Soft polish | Alignement PR #66 / tokens `03` sans casser rapport scannable |
+| P2.1 | Accueil / hero | Scroll léger type Attio/Lenis + lumières discrètes ; `prefers-reduced-motion` |
+| P2.2 | Jauge / progression | Wow ciblé seulement |
 
 ## Hors backlog immédiat
 
-Voir `07-PLUS-TARD.md` (multi-sites+GSC, bugs nov., go-live).
+Voir `07-PLUS-TARD.md` (GSC données, alertes Pro UI, pastille Accès partagés Sites optionnelle).

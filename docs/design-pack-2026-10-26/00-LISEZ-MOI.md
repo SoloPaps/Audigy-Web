@@ -43,3 +43,5 @@ Ne pas lancer d’agent / CloudAgent / on-demand **sans OK explicite** de l’ow
 
 - Compte multi-sites + Google Search Console (voir `07-PLUS-TARD.md`).
 - Calque pixel-perfect des maquettes. Les règles produit sont dans `docs/FONCTIONNEMENT.md`.
+
+- **Cursor (agents / pixel-perfect / anims)** : [`CURSOR-IMPL.md`](CURSOR-IMPL.md)

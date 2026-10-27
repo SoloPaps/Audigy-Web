@@ -1,0 +1,563 @@
+<!DOCTYPE html><html class="h-full bg-[#f8fafc]" lang="fr" style=""><svg class="inline-defs-container" aria-hidden="true" style="position:absolute;width:0;height:0;overflow:hidden"></svg><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Diagnostic approfondi en cours - Audigy</title>
+<!-- Tailwind CSS CDN with plugins -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind configuration -->
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#f0fdf9',
+              100: '#ccfbf1',
+              200: '#99f6e4',
+              500: '#14b8a6',
+              700: '#0f766e',
+              800: '#115e59',
+              900: '#0f4c4a',
+              950: '#0a3836',
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+            mono: ['JetBrains Mono', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+<!-- Custom animations & minor refinements -->
+<style data-purpose="custom-animations">
+    @keyframes spin-slow {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    .animate-spin-slow {
+      animation: spin-slow 8s linear infinite;
+    }
+    @keyframes pulse-subtle {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.65; }
+    }
+    .animate-pulse-subtle {
+      animation: pulse-subtle 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+  </style>
+</head>
+<body class="min-h-full flex flex-col font-sans text-slate-800 antialiased selection:bg-brand-100 selection:text-brand-900">
+<!-- BEGIN: NavigationHeader -->
+<header class="w-full bg-white/80 backdrop-blur-md border-b border-slate-200/80 sticky top-0 z-50">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+<!-- Brand Logo & Descriptor -->
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-lg bg-[#0f4c4a] flex items-center justify-center text-white font-bold shadow-sm shadow-brand-900/20">
+<svg class="w-4 h-4 text-emerald-300" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+<path d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</div>
+<div>
+<span class="text-base font-bold tracking-tight text-slate-900 block leading-tight">Audigy</span>
+</div>
+</div>
+<!-- Navigation links -->
+<nav class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-600">
+<a class="hover:text-slate-950 transition-colors" href="#">Accueil</a>
+<a class="hover:text-slate-950 transition-colors" href="#">Méthode</a>
+<a class="hover:text-slate-950 transition-colors" href="#">Sites suivis</a>
+<a class="hover:text-slate-950 transition-colors" href="#">Documentation</a>
+</nav>
+<!-- Right actions (Language, Theme, Auth) -->
+<div class="flex items-center gap-3">
+<!-- Language Switcher -->
+<div class="flex items-center border border-slate-200 rounded-lg p-0.5 text-xs font-semibold text-slate-600 bg-slate-50/50">
+<span class="px-2 py-1 rounded bg-white text-slate-900 shadow-xs">FR</span>
+<span class="px-2 py-1 text-slate-400 hover:text-slate-700 cursor-pointer">EN</span>
+</div>
+<!-- Theme Toggle Button -->
+<button aria-label="Toggle theme" class="p-2 text-slate-500 hover:text-slate-800 hover:bg-slate-100 rounded-lg transition-colors" type="button">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+<circle cx="12" cy="12" r="5"></circle>
+<line x1="12" x2="12" y1="1" y2="3"></line>
+<line x1="12" x2="12" y1="21" y2="23"></line>
+<line x1="4.22" x2="5.64" y1="4.22" y2="5.64"></line>
+<line x1="18.36" x2="19.78" y1="18.36" y2="19.78"></line>
+<line x1="1" x2="3" y1="12" y2="12"></line>
+<line x1="21" x2="23" y1="12" y2="12"></line>
+<line x1="4.22" x2="5.64" y1="19.78" y2="18.36"></line>
+<line x1="18.36" x2="19.78" y1="5.64" y2="4.22"></line>
+</svg>
+</button>
+<!-- Connexion CTA -->
+<a class="inline-flex items-center justify-center px-3.5 py-1.5 text-xs font-medium bg-slate-900 hover:bg-slate-800 text-white rounded-lg transition-colors shadow-xs" href="#">
+          Connexion
+        </a>
+<!-- Profile Avatar Button -->
+<button aria-label="Profil utilisateur" class="w-8 h-8 rounded-lg bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-600 hover:bg-slate-200 transition-colors" type="button">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+<path d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</button>
+</div>
+</div>
+</header>
+<!-- END: NavigationHeader -->
+<!-- BEGIN: MainContent -->
+<main class="flex-1 w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
+<!-- Outer Card Shell with subtle backdrop filter -->
+<div class="bg-white rounded-3xl border border-slate-200/90 shadow-sm p-6 sm:p-10 space-y-10">
+<!-- BEGIN: HeroSection -->
+<section class="flex flex-col items-center text-center space-y-5">
+<!-- Target URL Pill & Live Analysis Status -->
+<div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-slate-100 border border-slate-200/80 text-xs font-mono text-slate-700">
+<span class="w-2 h-2 rounded-full bg-slate-400"></span>
+<svg class="w-3.5 h-3.5 text-slate-500 -mr-0.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+<rect height="11" rx="2" ry="2" width="18" x="3" y="11"></rect>
+<path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+</svg>
+<span class="font-medium text-slate-900 tracking-tight">https://mon-agence-web.fr</span>
+<span class="text-slate-300">·</span>
+<span class="px-2 py-0.5 rounded-full bg-emerald-100/90 text-emerald-800 text-[10px] font-bold tracking-wider uppercase font-sans">
+            ANALYSE EN DIRECT
+          </span>
+</div>
+<!-- Radial Progress Gauge (88%) -->
+<div class="relative w-36 h-36 flex items-center justify-center mt-2 select-none"><div class="absolute inset-0 rounded-full bg-gradient-to-tr from-teal-500/10 via-emerald-400/15 to-transparent blur-md pointer-events-none"></div><div class="absolute inset-2.5 rounded-full bg-white shadow-xs border border-slate-100 pointer-events-none"></div><svg class="w-full h-full -rotate-90 transform relative z-10 overflow-visible" viewBox="0 0 120 120"><defs><linearGradient id="auditProgressGradient" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#0d9488"></stop><stop offset="50%" stop-color="#14b8a6"></stop><stop offset="100%" stop-color="#10b981"></stop></linearGradient><filter id="gaugeAmbientGlow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="3" stdDeviation="3.5" flood-color="#10b981" flood-opacity="0.3"></feDropShadow></filter></defs><circle cx="60" cy="60" r="50" fill="none" stroke="#f1f5f9" stroke-width="6"></circle><circle cx="60" cy="60" r="43" fill="none" stroke="#f8fafc" stroke-width="1.5" stroke-dasharray="2 4"></circle><circle class="transition-all duration-1000 ease-out" cx="60" cy="60" r="50" fill="none" stroke="url(#auditProgressGradient)" stroke-width="6" stroke-linecap="round" stroke-dasharray="314.159" stroke-dashoffset="37.699" filter="url(#gaugeAmbientGlow)"></circle><g transform="rotate(316.8 60 60)"><circle cx="110" cy="60" r="3.5" fill="#ffffff" stroke="#10b981" stroke-width="2.5"></circle></g></svg><div class="absolute inset-0 flex flex-col items-center justify-center z-20 pointer-events-none"><div class="flex items-center gap-1 mb-0.5"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span><svg class="w-3.5 h-3.5 text-teal-700" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg></div><div class="text-3xl font-extrabold tracking-tight text-slate-800 flex items-baseline leading-none">88<span class="text-xs font-bold text-teal-700/80 ml-0.5">%</span></div></div></div>
+<!-- Main Title and Passive Crawler Notice -->
+<div class="max-w-2xl space-y-2">
+<h1 class="text-2xl sm:text-3xl font-bold tracking-tight text-slate-950">
+            Diagnostic approfondi en cours d'exécution...
+          </h1>
+<p class="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+            Notre analyse passive évalue les signaux publics sans injecter de charge ni dégrader les performances du site cible.
+          </p>
+</div>
+</section>
+<!-- END: HeroSection -->
+<!-- BEGIN: GlobalProgressCard -->
+<section class="bg-slate-50/80 rounded-2xl border border-slate-200/90 p-5 space-y-3.5">
+<div class="flex flex-wrap items-center justify-between gap-2 text-xs">
+<div class="flex items-center gap-2">
+<span class="font-bold text-slate-950 text-sm">Progression globale</span>
+<span class="text-slate-300">/</span>
+<span class="font-semibold text-teal-800 bg-teal-50 px-2 py-0.5 rounded border border-teal-200/60">Phase 3 sur 4 active</span>
+</div>
+<div class="flex items-center gap-2.5 font-medium text-slate-600">
+<span class="flex items-center gap-1.5">
+<svg class="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<circle cx="12" cy="12" r="10" stroke-width="2"></circle>
+<polyline points="12 6 12 12 16 14" stroke-width="2"></polyline>
+</svg>
+              Temps estimé restant : ~25 secondes
+            </span>
+<span class="bg-teal-100 text-teal-800 text-[11px] font-bold px-2 py-0.5 rounded">
+              88%
+            </span>
+</div>
+</div>
+<!-- Horizontal Bar with Petrol Teal fill -->
+<div class="w-full bg-slate-200 rounded-full h-2 overflow-hidden">
+<div class="bg-[#0f4c4a] h-2 rounded-full transition-all duration-700 ease-out" style="width: 88%"></div>
+</div>
+<!-- Metadata underneath bar -->
+<div class="flex items-center justify-between text-[11px] text-slate-500 font-mono pt-0.5">
+<div class="flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-teal-600 inline-block"></span>
+<span class="">Vérifications passives en cours</span>
+</div>
+<div class="">
+            Horodatage UTC actif : 14:18:39 UTC
+          </div>
+</div>
+</section>
+<!-- END: GlobalProgressCard -->
+<!-- BEGIN: ChronologicalSequenceSection -->
+<section class="space-y-4">
+<div class="flex items-center justify-between">
+<div>
+<h2 class="text-base font-bold text-slate-950">Séquence chronologique de l'audit</h2>
+<p class="text-xs text-slate-500">4 étapes séquentielles indépendantes pour garantir l'intégrité de la mesure</p>
+</div>
+<span class="text-[11px] font-mono font-medium text-teal-800 bg-teal-50 border border-teal-200/70 px-2.5 py-1 rounded">
+            Exécution pas à pas
+          </span>
+</div>
+<!-- 4 Phase Cards Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3.5">
+<!-- Phase 01: Validated -->
+<div class="bg-white rounded-xl border border-slate-200 p-4 flex flex-col justify-between space-y-3">
+<div>
+<div class="flex items-center justify-between mb-2">
+<span class="text-[10px] font-mono font-bold text-slate-600 bg-slate-100 px-2 py-0.5 rounded">PHASE 01</span>
+<span class="text-[11px] font-medium text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full flex items-center gap-1">
+                  ✓ 100%
+                </span>
+</div>
+<h3 class="text-xs font-bold text-slate-900 leading-snug">Résolution DNS &amp; Infra</h3>
+<p class="text-[11px] text-slate-500 mt-1 leading-relaxed">
+                Vérification TLS 1.3, validité certificat, routage DNS et IPv4/IPv6.<br><br></p>
+</div>
+<div class="pt-2 border-t border-slate-100 flex items-center justify-between text-[11px] font-mono text-slate-500">
+<span class="text-emerald-700 font-sans font-medium">Validé</span>
+<span class="">Contrôles validés</span>
+</div>
+</div>
+<!-- Phase 02: Validated -->
+<div class="bg-white rounded-xl border border-slate-200 p-4 flex flex-col justify-between space-y-3">
+<div>
+<div class="flex items-center justify-between mb-2">
+<span class="text-[10px] font-mono font-bold text-slate-600 bg-slate-100 px-2 py-0.5 rounded">PHASE 02</span>
+<span class="text-[11px] font-medium text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full flex items-center gap-1">
+                  ✓ 100%
+                </span>
+</div>
+<h3 class="text-xs font-bold text-slate-900 leading-snug">Inspection HTTP &amp; En-têtes</h3>
+<p class="text-[11px] text-slate-500 mt-1 leading-relaxed">
+                Sondes HSTS, Content-Security-Policy, compression Brotli, sécurité de transport.
+              </p>
+</div>
+<div class="pt-2 border-t border-slate-100 flex items-center justify-between text-[11px] font-mono text-slate-500">
+<span class="text-emerald-700 font-sans font-medium">Validé</span>
+<span class="">Contrôles validés</span>
+</div>
+</div>
+<!-- Phase 03: In Progress (Active) -->
+<div class="bg-teal-50/20 rounded-xl border-2 border-teal-800/80 p-4 flex flex-col justify-between space-y-3 shadow-xs">
+<div>
+<div class="flex items-center justify-between mb-2">
+<span class="text-[10px] font-mono font-bold text-teal-900 bg-teal-100/70 px-2 py-0.5 rounded">PHASE 03</span>
+<span class="text-[11px] font-medium text-teal-800 bg-teal-100 px-2 py-0.5 rounded-full flex items-center gap-1">
+<svg class="w-2.5 h-2.5 animate-spin" fill="none" viewBox="0 0 24 24">
+<circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+<path class="opacity-75" d="M4 12a8 8 0 018-8v8H4z" fill="currentColor"></path>
+</svg>
+                  En cours (78%)
+                </span>
+</div>
+<h3 class="text-xs font-bold text-teal-950 leading-snug">DOM, RGAA &amp; Signaux Web</h3>
+<p class="text-[11px] text-slate-600 mt-1 leading-relaxed">
+                Contraste RGAA, balisage ARIA, Core Web Vitals (LCP, CLS) et score EcoIndex.
+              </p>
+</div>
+<div class="pt-2 border-t border-teal-200/50 flex items-center justify-between text-[11px] font-mono text-slate-600">
+<span class="text-teal-900 font-sans font-medium">En inspection</span>
+<span class="">Contrôles en cours</span>
+</div>
+</div>
+<!-- Phase 04: Pending -->
+<div class="bg-white rounded-xl border border-slate-200/70 p-4 flex flex-col justify-between space-y-3 opacity-75">
+<div>
+<div class="flex items-center justify-between mb-2">
+<span class="text-[10px] font-mono font-bold text-slate-400 bg-slate-100 px-2 py-0.5 rounded">PHASE 04</span>
+<span class="text-[11px] font-medium text-slate-500 bg-slate-100 px-2 py-0.5 rounded-full flex items-center gap-1">
+                  ⏱ En attente
+                </span>
+</div>
+<h3 class="text-xs font-bold text-slate-700 leading-snug">Synthèse &amp; Calcul Rapport</h3>
+<p class="text-[11px] text-slate-400 mt-1 leading-relaxed">
+                Agrégation des notes, brief de remédiation priorisé et horodaté.
+              </p>
+</div>
+<div class="pt-2 border-t border-slate-100 flex items-center justify-between text-[11px] font-mono text-slate-400">
+<span class="font-sans">Prochaine étape</span>
+<span class="">En attente</span>
+</div>
+</div>
+</div>
+</section>
+<!-- END: ChronologicalSequenceSection -->
+<!-- BEGIN: WafAlertBanner -->
+<section class="bg-rose-50/60 border border-rose-200/80 rounded-2xl p-5">
+<div class="flex flex-col md:flex-row md:items-start gap-4">
+<!-- Icon -->
+<div class="w-10 h-10 rounded-xl bg-rose-100 text-rose-700 flex items-center justify-center shrink-0">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+<path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</div>
+<!-- Body -->
+<div class="flex-1 space-y-3">
+<div class="flex flex-wrap items-center gap-2">
+<h3 class="text-xs sm:text-sm font-bold text-slate-900">
+                Accès partiel détecté (Code HTTP 403 / Pare-feu WAF actif)
+              </h3>
+<span class="bg-[#5c2a1e] text-white text-[10px] font-bold px-2 py-0.5 rounded tracking-wide uppercase">
+                MITIGATION ACTIVE
+              </span>
+</div>
+<p class="text-xs text-slate-600 leading-relaxed">
+              Certains endpoints bloquent la collecte passive. Audigy continue sur les vérifications DNS, TLS, en-têtes et métriques publiques sans fausser le diagnostic global.
+            </p>
+<!-- Actions row -->
+<div class="flex flex-wrap items-center justify-between gap-3 pt-1">
+<div class="flex flex-wrap items-center gap-2">
+<button class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold bg-[#4a1c14] hover:bg-[#39150f] text-white rounded-lg transition-colors shadow-xs" type="button">
+<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+<path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"></path>
+</svg>
+                  Relancer avec délai étendu
+                </button>
+<button class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium bg-white hover:bg-slate-50 text-slate-700 border border-slate-300 rounded-lg transition-colors shadow-xs" type="button">
+<svg class="w-3.5 h-3.5 text-slate-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+<rect height="13" rx="2" ry="2" width="13" x="9" y="9"></rect>
+<path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+</svg>
+                  Copier la liste blanche IP (CIDR)
+                </button>
+</div>
+<a class="text-xs font-medium text-slate-700 hover:text-slate-950 flex items-center gap-1" href="#">
+                Guide de diagnostic et méthode <span aria-hidden="true" class="">→</span>
+</a>
+</div>
+</div>
+</div>
+</section>
+<!-- END: WafAlertBanner -->
+<!-- BEGIN: EvaluationDomainsSection -->
+<section class="space-y-4">
+<div class="flex flex-wrap items-center justify-between gap-2">
+<div class="flex items-center gap-2.5">
+<h2 class="text-base font-bold text-slate-950">Domaines d'évaluation en continu</h2>
+<span class="text-[11px] font-mono text-slate-600 bg-slate-100 px-2 py-0.5 rounded border border-slate-200">
+              8 Domaines Audigy
+            </span>
+</div>
+<!-- Status legend -->
+<div class="flex flex-wrap items-center gap-3 text-[11px] text-slate-500 font-mono">
+<span class="flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span> 4 Validés</span>
+<span class="flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-teal-600"></span> 1 En cours</span>
+<span class="flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-slate-400"></span> 2 En attente</span>
+<span class="flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-slate-300"></span> 1 Non testé</span>
+</div>
+</div>
+<!-- 8 Domains Grid (2x4) -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+<!-- 01 Performance -->
+<div class="bg-white rounded-xl border border-slate-200 p-4 space-y-2.5">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="w-6 h-6 rounded bg-teal-100/70 text-teal-800 text-[10px] font-mono font-bold flex items-center justify-center">01</span>
+<span class="text-xs font-bold text-slate-900">Performance</span>
+</div>
+<span class="text-[11px] font-medium text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full">✓ Validé</span>
+</div>
+<p class="text-[11px] text-slate-600">LCP 1.8s, compression Brotli, signaux Web Vitals au vert</p>
+<div class="flex items-center justify-between text-[11px] font-mono text-slate-500 pt-1 border-t border-slate-100">
+<span class="">Core Web Vitals optimisés</span>
+<span class="font-bold text-slate-800">Score 96/100</span>
+</div>
+</div>
+<!-- 02 SEO -->
+<div class="bg-white rounded-xl border border-slate-200 p-4 space-y-2.5">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="w-6 h-6 rounded bg-teal-100/70 text-teal-800 text-[10px] font-mono font-bold flex items-center justify-center">02</span>
+<span class="text-xs font-bold text-slate-900">SEO</span>
+</div>
+<span class="text-[11px] font-medium text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full">✓ Validé</span>
+</div>
+<p class="text-[11px] text-slate-600">Indexabilité, sitemap, balises meta canonical &amp; JSON-LD</p>
+<div class="flex items-center justify-between text-[11px] font-mono text-slate-500 pt-1 border-t border-slate-100">
+<span class="">Balisage technique conforme</span>
+<span class="font-bold text-slate-800">100% crawlable</span>
+</div>
+</div>
+<!-- 03 Sécurité -->
+<div class="bg-white rounded-xl border border-slate-200 p-4 space-y-2.5">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="w-6 h-6 rounded bg-teal-100/70 text-teal-800 text-[10px] font-mono font-bold flex items-center justify-center">03</span>
+<span class="text-xs font-bold text-slate-900">Sécurité</span>
+</div>
+<span class="text-[11px] font-medium text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full">✓ Validé</span>
+</div>
+<p class="text-[11px] text-slate-600">TLS 1.3 certifié, HSTS présent, CSP défensive</p>
+<div class="flex items-center justify-between text-[11px] font-mono text-slate-500 pt-1 border-t border-slate-100">
+<span class="">Transport chiffré &amp; en-têtes durcis</span>
+<span class="font-bold text-slate-800">Certificat valide</span>
+</div>
+</div>
+<!-- 04 Écologie -->
+<div class="bg-white rounded-xl border border-slate-200 p-4 space-y-2.5">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="w-6 h-6 rounded bg-teal-100/70 text-teal-800 text-[10px] font-mono font-bold flex items-center justify-center">04</span>
+<span class="text-xs font-bold text-slate-900">Écologie</span>
+</div>
+<span class="text-[11px] font-medium text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full">✓ Validé</span>
+</div>
+<p class="text-[11px] text-slate-600">Score EcoIndex B, empreinte gCO2e réduite, sobriété DOM</p>
+<div class="flex items-center justify-between text-[11px] font-mono text-slate-500 pt-1 border-t border-slate-100">
+<span class="">Poids transféré contenu</span>
+<span class="font-bold text-slate-800">Basse empreinte</span>
+</div>
+</div>
+<!-- 05 Accessibilité (Active) -->
+<div class="bg-white rounded-xl border-2 border-teal-800/80 p-4 space-y-2.5 shadow-xs">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="w-6 h-6 rounded bg-[#0f4c4a] text-white text-[10px] font-mono font-bold flex items-center justify-center">05</span>
+<span class="text-xs font-bold text-slate-900">Accessibilité</span>
+</div>
+<span class="text-[11px] font-medium text-teal-800 bg-teal-100 px-2 py-0.5 rounded-full flex items-center gap-1">
+<svg class="w-2.5 h-2.5 animate-spin" fill="none" viewBox="0 0 24 24">
+<circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+<path class="opacity-75" d="M4 12a8 8 0 018-8v8H4z" fill="currentColor"></path>
+</svg>
+                En cours (75%)
+              </span>
+</div>
+<p class="text-[11px] text-slate-600">Vérification contrastes WCAG 2.2 et balises ARIA</p>
+<div class="flex items-center justify-between text-[11px] font-mono text-slate-600 pt-1 border-t border-slate-100">
+<span class="">Analyse du DOM en direct</span>
+<span class="font-bold text-teal-900">18/24 vérifiés</span>
+</div>
+</div>
+<!-- 06 Qualité technique -->
+<div class="bg-white rounded-xl border border-slate-200/70 p-4 space-y-2.5 opacity-80">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="w-6 h-6 rounded bg-slate-100 text-slate-500 text-[10px] font-mono font-bold flex items-center justify-center">06</span>
+<span class="text-xs font-bold text-slate-700">Qualité technique</span>
+</div>
+<span class="text-[11px] font-medium text-slate-500 bg-slate-100 px-2 py-0.5 rounded-full">⏱ En attente</span>
+</div>
+<p class="text-[11px] text-slate-500">Absence d'erreurs console, conformité syntaxique HTML5</p>
+<div class="flex items-center justify-between text-[11px] font-mono text-slate-400 pt-1 border-t border-slate-100">
+<span class="">Analyse syntaxique &amp; scripts</span>
+<span class="">En file d'attente</span>
+</div>
+</div>
+<!-- 07 Vie privée -->
+<div class="bg-white rounded-xl border border-slate-200/70 p-4 space-y-2.5 opacity-80">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="w-6 h-6 rounded bg-slate-100 text-slate-500 text-[10px] font-mono font-bold flex items-center justify-center">07</span>
+<span class="text-xs font-bold text-slate-700">Vie privée</span>
+</div>
+<span class="text-[11px] font-medium text-slate-500 bg-slate-100 px-2 py-0.5 rounded-full">⊘ Non testé</span>
+</div>
+<p class="text-[11px] text-slate-500">Audit passif sans cookies tiers ni traçage</p>
+<div class="flex items-center justify-between text-[11px] font-mono text-slate-400 pt-1 border-t border-slate-100">
+<span class="">Politique cookies &amp; trackers</span>
+<span class="">Évaluation différée</span>
+</div>
+</div>
+<!-- 08 DNS / e-mail -->
+<div class="bg-white rounded-xl border border-slate-200/70 p-4 space-y-2.5 opacity-80">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="w-6 h-6 rounded bg-slate-100 text-slate-500 text-[10px] font-mono font-bold flex items-center justify-center">08</span>
+<span class="text-xs font-bold text-slate-700">DNS / e-mail</span>
+</div>
+<span class="text-[11px] font-medium text-slate-500 bg-slate-100 px-2 py-0.5 rounded-full">⏱ En attente</span>
+</div>
+<p class="text-[11px] text-slate-500">Enregistrements SPF, DKIM, DMARC et serveurs MX</p>
+<div class="flex items-center justify-between text-[11px] font-mono text-slate-400 pt-1 border-t border-slate-100">
+<span class="">Vérifications de messagerie sécurisée</span>
+<span class="">En file d'attente</span>
+</div>
+</div>
+</div>
+</section>
+<!-- END: EvaluationDomainsSection -->
+<!-- BEGIN: GuaranteeBanner -->
+<section class="bg-slate-50 rounded-xl border border-slate-200/70 px-4 py-3 flex flex-wrap items-center justify-between gap-3 text-xs text-slate-600 font-mono">
+<div class="flex items-center gap-2">
+<svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+<path d="M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+<span class="">🛡 Analyse passive · Aucun test d'intrusion destructeur · Respect strict du RGPD</span>
+</div>
+<span class="text-slate-400">Méthode Audigy</span>
+</section>
+<!-- END: GuaranteeBanner -->
+<!-- BEGIN: BottomActions -->
+<section class="flex flex-wrap items-center justify-between gap-3 pt-2">
+<button class="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-semibold text-slate-600 hover:text-slate-900 border border-slate-300 hover:bg-slate-50 rounded-xl transition-colors shadow-xs" type="button">
+          ✕ Interrompre l'analyse
+        </button>
+<button class="inline-flex items-center gap-2 px-5 py-2.5 text-xs font-semibold bg-[#0f4c4a] hover:bg-[#0a3836] text-white rounded-xl transition-all shadow-md shadow-teal-900/10 hover:shadow-teal-900/20" type="button">
+<svg class="w-4 h-4 text-emerald-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+<path d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+          Consulter le rapport partiel en direct
+        </button>
+</section>
+<!-- END: BottomActions -->
+</div>
+</main>
+<!-- END: MainContent -->
+<!-- BEGIN: MainFooter -->
+<footer class="w-full bg-[#f1f5f9]/70 border-t border-slate-200 mt-12 text-slate-600 text-xs">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8">
+<!-- Top Grid: Brand & Link columns -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+<!-- Brand identity column -->
+<div class="space-y-3">
+<div class="flex items-center gap-2.5">
+<div class="w-7 h-7 rounded-lg bg-[#0f4c4a] flex items-center justify-center text-white font-bold">
+<svg class="w-3.5 h-3.5 text-emerald-300" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+<path d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</div>
+<div>
+<span class="text-sm font-bold text-slate-900 block leading-tight">Audigy</span>
+</div>
+</div>
+<p class="text-slate-500 leading-relaxed text-[11px]">
+            Observatoire de l'hygiène numérique. Aucune donnée commerciale stockée.
+          </p>
+<div class="inline-flex items-center gap-1.5 px-2 py-1 rounded bg-slate-200/70 text-slate-700 text-[10px] font-mono">
+            ⚡ Sonde passive active · Traçabilité vérifiée
+          </div>
+</div>
+<!-- Navigation column -->
+<div class="space-y-2.5">
+<h4 class="font-bold text-slate-900 text-xs">Navigation</h4>
+<ul class="space-y-1.5 text-slate-500">
+<li class=""><a class="hover:text-slate-900 transition-colors" href="#">Accueil</a></li>
+<li class=""><a class="hover:text-slate-900 transition-colors" href="#">Méthode</a></li>
+<li class=""><a class="hover:text-slate-900 transition-colors" href="#">Sites suivis</a></li>
+<li class=""><a class="hover:text-slate-900 transition-colors" href="#">Documentation</a></li>
+</ul>
+</div>
+<!-- Légal & Éthique column -->
+<div class="space-y-2.5">
+<h4 class="font-bold text-slate-900 text-xs">Légal &amp; Éthique</h4>
+<ul class="space-y-1.5 text-slate-500">
+<li class=""><a class="hover:text-slate-900 transition-colors" href="#">Mentions légales</a></li>
+<li class=""><a class="hover:text-slate-900 transition-colors" href="#">Confidentialité</a></li>
+<li class=""><a class="hover:text-slate-900 transition-colors" href="#">Conditions d'utilisation (CGU)</a></li>
+<li class=""><a class="hover:text-slate-900 transition-colors" href="#">Accessibilité (WCAG AA)</a></li>
+<li class=""><a class="hover:text-slate-900 transition-colors inline-flex items-center gap-0.5" href="#">Audigy Pro <span class="text-[10px]">↗</span></a></li>
+</ul>
+</div>
+<!-- Assistance column -->
+<div class="space-y-2.5">
+<h4 class="font-bold text-slate-900 text-xs">Assistance</h4>
+<ul class="space-y-1.5 text-slate-500">
+<li class=""><a class="hover:text-slate-900 transition-colors" href="#">Contact &amp; Support</a></li>
+<li class="flex items-center gap-1.5 text-slate-600 font-mono text-[11px] pt-1">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span> Sonde passive active
+            </li>
+</ul>
+</div>
+</div>
+<!-- Bottom Bar -->
+<div class="pt-6 border-t border-slate-200/80 flex flex-wrap items-center justify-between gap-3 text-[11px] font-mono text-slate-500">
+<div class="">
+          © 2026 Audigy. Passif par défaut. Outil gratuit. Aucun traceur tiers. Polices auto-hébergées. Horodaté.
+        </div>
+<div class="bg-teal-50 text-teal-800 border border-teal-200/60 px-2.5 py-0.5 rounded font-sans text-[11px] font-medium">
+          Hébergement UE
+        </div>
+</div>
+</div>
+</footer>
+<!-- END: MainFooter -->
+
+
+</body></html>

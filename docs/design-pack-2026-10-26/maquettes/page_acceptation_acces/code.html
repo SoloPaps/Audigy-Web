@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+
+<html class="h-full bg-[#f8fafc]" lang="fr">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Audigy - Traiter la demande d'accès (exemple.fr)</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              DEFAULT: '#0a3530',
+              hover: '#072622',
+              light: '#e6f3f0',
+              accent: '#0d9488',
+              surface: '#f8fafc',
+            }
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 20;
+      vertical-align: middle;
+    }
+  </style>
+</head>
+<body class="min-h-full flex flex-col font-sans text-slate-800 antialiased bg-[#f8fafc]">
+<!-- Header standard connecté Audigy -->
+<header class="w-full bg-white border-b border-slate-200 sticky top-0 z-30">
+<div class="max-w-[1240px] mx-auto px-6 h-16 flex items-center justify-between">
+<!-- Logo + Marque (Logo A officiel seul + mot « Audigy » sans tagline) -->
+<div class="flex items-center space-x-8">
+<a class="flex items-center space-x-2.5 text-slate-900 group" href="#">
+<div class="w-8 h-8 rounded bg-[#0a3530] text-white flex items-center justify-center font-bold text-lg shadow-sm">
+            A
+          </div>
+<span class="text-xl font-bold tracking-tight text-[#0a3530]">Audigy</span>
+</a>
+<!-- Navigation principale -->
+<nav class="hidden md:flex items-center space-x-1 text-sm font-medium text-slate-600">
+<a class="px-3.5 py-1.5 rounded-md hover:text-slate-900 hover:bg-slate-100 transition-colors" href="#">Accueil</a>
+<a class="px-3.5 py-1.5 rounded-md hover:text-slate-900 hover:bg-slate-100 transition-colors" href="#">Méthode</a>
+<a class="px-3.5 py-1.5 rounded-md text-[#0a3530] bg-[#e6f3f0] font-semibold transition-colors" href="#">Sites suivis</a>
+<a class="px-3.5 py-1.5 rounded-md hover:text-slate-900 hover:bg-slate-100 transition-colors" href="#">Documentation</a>
+</nav>
+</div>
+<!-- Actions utilisateur : Langue + Thème + Profil Compte (connecté) -->
+<div class="flex items-center space-x-4 text-xs">
+<div class="flex items-center text-slate-500 font-semibold space-x-1">
+<span class="text-slate-900 font-bold">FR</span>
+<span>·</span>
+<span class="hover:text-slate-900 cursor-pointer">EN</span>
+</div>
+<button aria-label="Basculer thème" class="p-1.5 text-slate-500 hover:text-slate-900 rounded-md hover:bg-slate-100 transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">light_mode</span>
+</button>
+<!-- Compte connecté -->
+<a class="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-md bg-[#0a3530] text-white font-medium text-xs hover:bg-[#072622] transition-colors shadow-sm" href="#">
+<span>Compte</span>
+<span class="material-symbols-outlined text-[16px]">person</span>
+</a>
+</div>
+</div>
+</header>
+<!-- Contenu Principal -->
+<main class="flex-grow max-w-[1240px] w-full mx-auto px-6 py-8">
+<!-- Fil d'Ariane discret -->
+<nav aria-label="Breadcrumb" class="flex items-center space-x-2 text-xs font-medium text-slate-500 mb-6">
+<a class="hover:text-slate-900 flex items-center gap-1 transition-colors" href="#">
+<span class="material-symbols-outlined text-[15px]">arrow_back</span>
+<span>Sites suivis</span>
+</a>
+<span class="text-slate-300">/</span>
+<span class="text-slate-600">exemple.fr</span>
+<span class="text-slate-300">/</span>
+<span class="text-slate-900 font-semibold">Demande d’accès</span>
+</nav>
+<!-- En-tête de page -->
+<div class="mb-8 pb-6 border-b border-slate-200"><div class="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-2"><div class="space-y-2.5"><div class="flex flex-wrap items-center gap-2.5"><h1 class="text-2xl md:text-3xl font-bold tracking-tight text-slate-900">Une personne demande l’accès</h1><div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-slate-100/80 border border-slate-200 text-xs font-medium text-slate-700"><span class="material-symbols-outlined text-[14px] text-slate-500">public</span><span>exemple.fr</span></div><div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-xs font-semibold text-emerald-800"><span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span><span class="material-symbols-outlined text-[14px] text-emerald-600">verified</span><span>Propriété vérifiée</span></div></div><p class="text-sm text-slate-600 max-w-3xl leading-relaxed">Lecture seule — détail du rapport et brief. Pas de partage, pas d’exports, pas de réglages pour le demandeur.</p></div></div></div>
+<!-- Layout en 2 colonnes (Zone centrale de décision + Panneau contextuel de gouvernance / Autres états) -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+<!-- Colonne principale (7 colonnes) : Carte de demande à traiter -->
+<div class="lg:col-span-8 space-y-6"><section class="bg-white rounded-xl border border-slate-200/90 shadow-xs overflow-hidden"><div class="px-6 py-5 bg-slate-50/60 border-b border-slate-200/80 flex flex-wrap items-center justify-between gap-4"><div class="flex items-center gap-3.5"><div class="w-10 h-10 rounded-full bg-[#0a3530] text-white flex items-center justify-center font-bold text-sm tracking-wider shadow-xs">DA</div><div><div class="text-[11px] font-semibold uppercase tracking-wider text-slate-400">Demandeur</div><div class="flex items-center gap-2 mt-0.5"><span class="text-base font-bold text-slate-900">dev@agence.fr</span><span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-medium bg-slate-100 text-slate-700 border border-slate-200">Compte Audigy</span></div></div></div><div class="text-right"><div class="text-[11px] uppercase tracking-wider text-slate-400 font-semibold">Date de la demande</div><div class="text-xs font-medium text-slate-600 flex items-center justify-end gap-1 mt-0.5"><span class="material-symbols-outlined text-[14px] text-slate-400">schedule</span><span>27 oct. 2026 · 21:15</span></div></div></div><div class="p-6 md:p-8 space-y-6"><div><div class="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2.5 flex items-center gap-1.5"><span class="material-symbols-outlined text-[15px] text-slate-400">format_quote</span><span>Message du demandeur</span></div><div class="p-4 rounded-lg bg-slate-50/70 border-l-4 border-[#0a3530] text-sm text-slate-700 italic leading-relaxed">« Bonjour, j’audite le site pour la refonte… »</div></div><div class="bg-amber-50/60 border border-amber-200/80 rounded-lg p-4"><div class="flex items-start gap-3"><span class="material-symbols-outlined text-amber-700 text-[20px] shrink-0 mt-0.5">info</span><div class="text-xs text-amber-900 leading-relaxed"><span class="font-semibold block mb-0.5">Rappel sur le périmètre accordé :</span>Accepter créera un accès lien équipe (lecture seule) pour cette personne. Vous pourrez le retirer plus tard depuis Sites suivis.</div></div></div><div class="rounded-lg border border-slate-200/90 overflow-hidden text-xs"><div class="bg-slate-50/80 px-4 py-3 font-semibold text-slate-700 border-b border-slate-200/90 flex justify-between items-center"><span>Droit accordé avec ce lien équipe</span><span>Statut pour dev@agence.fr</span></div><div class="divide-y divide-slate-100"><div class="px-4 py-3.5 flex items-center justify-between text-slate-700 bg-white hover:bg-slate-50/40 transition-colors"><span class="flex items-center gap-2.5"><span class="material-symbols-outlined text-emerald-600 text-[18px]">check_circle</span><span class="font-medium">Consultation intégrale du rapport d'audit et métriques</span></span><span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">Autorisé (lecture seule)</span></div><div class="px-4 py-3.5 flex items-center justify-between text-slate-700 bg-white hover:bg-slate-50/40 transition-colors"><span class="flex items-center gap-2.5"><span class="material-symbols-outlined text-emerald-600 text-[18px]">check_circle</span><span class="font-medium">Consultation du brief IA de correction technique</span></span><span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">Autorisé</span></div><div class="px-4 py-3.5 flex items-center justify-between text-slate-500 bg-slate-50/60"><span class="flex items-center gap-2.5"><span class="material-symbols-outlined text-slate-400 text-[18px]">block</span><span>Partage public, export de données ou modification des sondes</span></span><span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-medium bg-slate-100 text-slate-500 border border-slate-200">Strictement verrouillé</span></div></div></div><div class="pt-4 border-t border-slate-200/80 flex flex-col sm:flex-row items-center justify-between gap-4"><div class="flex items-center gap-3 w-full sm:w-auto"><button class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg bg-[#0a3530] text-white text-sm font-semibold hover:bg-[#072622] transition-colors shadow-xs focus:outline-none focus:ring-2 focus:ring-[#0a3530]/20" type="button"><span class="material-symbols-outlined text-[18px]">check</span><span>Accepter l’accès lecture seule</span></button><button class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-white border border-rose-300 text-rose-700 text-sm font-semibold hover:bg-rose-50 transition-colors focus:outline-none focus:ring-2 focus:ring-rose-200" type="button"><span class="material-symbols-outlined text-[18px]">close</span><span>Refuser</span></button></div><a class="text-xs font-medium text-slate-500 hover:text-slate-900 transition-colors underline-offset-4 hover:underline py-1" href="#">Retour à Sites suivis</a></div></div></section><section class="bg-white rounded-xl border border-slate-200/90 p-5 shadow-xs"><div class="flex items-start gap-4"><div class="w-9 h-9 rounded-lg bg-amber-100 text-amber-800 flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-[20px]">lock</span></div><div class="flex-grow space-y-2"><div class="flex items-center justify-between"><h3 class="text-sm font-bold text-slate-900">Variante : Si votre compte n’avait pas encore vérifié le domaine</h3><span class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">État conditionnel</span></div><p class="text-xs text-slate-600 leading-relaxed">Pour accepter, vérifiez d’abord que vous contrôlez <strong class="text-slate-800">exemple.fr</strong>. Les boutons d’acceptation restent inactifs tant que la preuve n'a pas été validée.</p><div class="pt-1.5 flex flex-wrap items-center gap-3"><a class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-md bg-slate-100 hover:bg-slate-200 border border-slate-300 text-xs font-semibold text-slate-800 transition-colors" href="#"><span class="material-symbols-outlined text-[15px]">shield_person</span><span>Vérifier la propriété</span></a><span class="text-[11px] text-slate-500 italic">(Bouton « Accepter » grisé et verrouillé jusqu'à détection du jeton)</span></div></div></div></section></div>
+<!-- Colonne latérale (4 colonnes) : Autres états + Gouvernance technique souveraine -->
+<div class="lg:col-span-4 space-y-6"><section class="bg-white rounded-xl border border-slate-200/90 p-6 shadow-xs"><div class="flex items-center gap-2 mb-3.5"><span class="w-2 h-2 rounded-full bg-emerald-500"></span><h2 class="text-xs font-bold uppercase tracking-wider text-slate-500">Autres états possibles</h2></div><div class="p-4 rounded-lg bg-emerald-50/70 border border-emerald-200 space-y-3"><div class="flex items-center gap-2"><span class="material-symbols-outlined text-emerald-700 text-[18px]">verified</span><span class="text-xs font-bold text-emerald-900">Accès accordé</span></div><p class="text-xs text-emerald-800 leading-relaxed">Le lien d'accès en lecture seule a été activé pour <strong class="font-semibold">dev@agence.fr</strong>. Aucun partage ni export n'est possible de son côté.</p><div class="pt-1"><a class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-white border border-emerald-300 text-xs font-semibold text-emerald-900 hover:bg-emerald-100 transition-colors shadow-xs" href="#"><span>Voir sur Sites suivis</span><span class="material-symbols-outlined text-[14px]">arrow_forward</span></a></div><div class="text-[11px] text-emerald-700/80">Liste des accès lecture seule consultable et révocable sous la fiche du site.</div></div><div class="mt-3.5 p-3.5 rounded-lg bg-slate-50 border border-slate-200 text-xs text-slate-600"><div class="font-semibold text-slate-800 mb-1 flex items-center gap-1.5"><span class="material-symbols-outlined text-slate-500 text-[15px]">cancel</span><span>Demande déclinée</span></div><span>La demande est clôturée sans avertissement extérieur intrusif. Le demandeur reste sur sa vue restreinte actuelle.</span></div></section><section class="bg-white rounded-xl border border-slate-200/90 p-6 shadow-xs space-y-4"><div class="flex items-center gap-2"><span class="material-symbols-outlined text-[#0a3530] text-[20px]">shield</span><h2 class="text-xs font-bold uppercase tracking-wider text-slate-700">Contrôle &amp; Confidentialité</h2></div><div class="space-y-3 text-xs text-slate-600 leading-relaxed"><div class="flex items-start gap-2.5"><span class="material-symbols-outlined text-emerald-600 text-[16px] shrink-0 mt-0.5">check</span><span><strong>Zéro transfert de données :</strong> Aucun identifiant serveur ou jeton critique n'est communiqué au tiers demandeur.</span></div><div class="flex items-start gap-2.5"><span class="material-symbols-outlined text-emerald-600 text-[16px] shrink-0 mt-0.5">check</span><span><strong>Droit de révocation immédiat :</strong> Vous pouvez désactiver cet accès équipe à tout instant en un clic depuis votre tableau de bord.</span></div><div class="flex items-start gap-2.5"><span class="material-symbols-outlined text-emerald-600 text-[16px] shrink-0 mt-0.5">check</span><span><strong>Périmètre borné :</strong> La personne n'accède qu'aux explications didactiques et au brief de remédiation du rapport.</span></div></div><div class="pt-3.5 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500"><span>Réf. demande : <span class="font-mono text-slate-700">req_948f2a1b7e</span></span><span class="text-emerald-700 font-medium">Actif &amp; sécurisé</span></div></section></div>
+</div>
+</main>
+<!-- Footer réglementaire officiel Audigy V3.4 -->
+<footer class="w-full bg-white border-t border-slate-200 mt-12 py-6 text-xs text-slate-500">
+<div class="max-w-[1240px] mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4">
+<!-- Signature marque -->
+<div class="flex items-center space-x-2">
+<div class="w-5 h-5 rounded bg-[#0a3530] text-white flex items-center justify-center font-bold text-xs">
+          A
+        </div>
+<span class="font-semibold text-slate-800">Audigy</span>
+<span class="text-slate-400">·</span>
+<span class="px-1.5 py-0.5 rounded bg-slate-100 text-slate-600 font-mono text-[10px]">V3.4</span>
+<span class="text-slate-400">·</span>
+<span>© 2026 Audigy. Outil souverain neutre en carbone.</span>
+</div>
+<!-- Liens légaux obligatoires -->
+<div class="flex flex-wrap items-center gap-x-5 gap-y-2 text-slate-500">
+<a class="hover:text-slate-900 transition-colors" href="#">Mentions légales</a>
+<a class="hover:text-slate-900 transition-colors" href="#">Confidentialité</a>
+<a class="hover:text-slate-900 transition-colors" href="#">Accessibilité (WCAG 2.2 / RGAA 4.1)</a>
+<a class="hover:text-slate-900 transition-colors" href="#">Conditions d'utilisation (CGU)</a>
+<a class="hover:text-slate-900 font-medium flex items-center gap-1 text-[#0a3530] transition-colors" href="#">
+<span>Audigy Pro</span>
+<span class="material-symbols-outlined text-[13px]">north_east</span>
+</a>
+</div>
+</div>
+</footer>
+</body>
+</html>
