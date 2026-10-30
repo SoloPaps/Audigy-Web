@@ -8,14 +8,28 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 const DOSSIER = 'securite-local';
 const JOURNAL = `${DOSSIER}/JOURNAL.md`;
 const ETAT = `${DOSSIER}/etat.json`;
-const ORDRE = ['critical', 'high', 'medium', 'low', 'warning', 'note', 'error', 'inconnue'];
+const ORDRE = [
+  'critical',
+  'high',
+  'medium',
+  'low',
+  'warning',
+  'note',
+  'error',
+  'inconnue',
+];
 
 function depot() {
   const arg = process.argv[2];
   if (arg) return arg;
-  const url = execFileSync('git', ['remote', 'get-url', 'origin'], { encoding: 'utf8' }).trim();
+  const url = execFileSync('git', ['remote', 'get-url', 'origin'], {
+    encoding: 'utf8',
+  }).trim();
   const m = url.match(/github\.com[:/]([^/]+\/[^/.]+)/);
-  if (!m) throw new Error(`Dépôt GitHub introuvable dans « ${url} ». Passe-le en argument.`);
+  if (!m)
+    throw new Error(
+      `Dépôt GitHub introuvable dans « ${url} ». Passe-le en argument.`,
+    );
   return m[1];
 }
 
@@ -25,7 +39,11 @@ function lire(chemin) {
     const sortie = execFileSync(
       'gh',
       ['api', '--paginate', chemin, '--jq', '.[] | tojson'],
-      { encoding: 'utf8', maxBuffer: 64 * 1024 * 1024, stdio: ['ignore', 'pipe', 'pipe'] },
+      {
+        encoding: 'utf8',
+        maxBuffer: 64 * 1024 * 1024,
+        stdio: ['ignore', 'pipe', 'pipe'],
+      },
     );
     const items = sortie
       .split('\n')
@@ -34,7 +52,10 @@ function lire(chemin) {
     return { items };
   } catch (e) {
     const brut = `${e.stderr ?? ''}${e.message ?? ''}`;
-    return { erreur: brut.split('\n').find((l) => l.trim() !== '') ?? 'erreur inconnue' };
+    return {
+      erreur:
+        brut.split('\n').find((l) => l.trim() !== '') ?? 'erreur inconnue',
+    };
   }
 }
 
@@ -77,8 +98,12 @@ function normaliser(source, a) {
 function comptes(alertes) {
   const par = {};
   for (const a of alertes) par[a.gravite] = (par[a.gravite] ?? 0) + 1;
-  const cles = Object.keys(par).sort((x, y) => ORDRE.indexOf(x) - ORDRE.indexOf(y));
-  return cles.length === 0 ? 'aucune' : cles.map((c) => `${par[c]} ${c}`).join(' · ');
+  const cles = Object.keys(par).sort(
+    (x, y) => ORDRE.indexOf(x) - ORDRE.indexOf(y),
+  );
+  return cles.length === 0
+    ? 'aucune'
+    : cles.map((c) => `${par[c]} ${c}`).join(' · ');
 }
 
 function main() {
@@ -100,15 +125,21 @@ function main() {
   // Rien ne répond : on n'écrit pas un relevé « 0 alerte » trompeur.
   if (problemes.length === sources.length) {
     for (const p of problemes) console.log(`⚠ ${p}`);
-    console.log('Aucune source accessible : journal non modifié. Vérifie `gh auth status`.');
+    console.log(
+      'Aucune source accessible : journal non modifié. Vérifie `gh auth status`.',
+    );
     process.exitCode = 1;
     return;
   }
 
   mkdirSync(DOSSIER, { recursive: true });
-  const avant = existsSync(ETAT) ? JSON.parse(readFileSync(ETAT, 'utf8')) : null;
+  const avant = existsSync(ETAT)
+    ? JSON.parse(readFileSync(ETAT, 'utf8'))
+    : null;
   const ids = toutes.map((a) => a.id);
-  const nouvelles = avant ? toutes.filter((a) => !avant.ids.includes(a.id)) : [];
+  const nouvelles = avant
+    ? toutes.filter((a) => !avant.ids.includes(a.id))
+    : [];
   const corrigees = avant ? avant.ids.filter((i) => !ids.includes(i)) : [];
 
   const maintenant = new Date();
@@ -129,12 +160,19 @@ function main() {
   lignes.push('');
 
   if (toutes.length > 0) {
-    lignes.push('| Gravité | Source | Alerte | Lieu | Lien |', '|---|---|---|---|---|');
-    const tri = [...toutes].sort((x, y) => ORDRE.indexOf(x.gravite) - ORDRE.indexOf(y.gravite));
+    lignes.push(
+      '| Gravité | Source | Alerte | Lieu | Lien |',
+      '|---|---|---|---|---|',
+    );
+    const tri = [...toutes].sort(
+      (x, y) => ORDRE.indexOf(x.gravite) - ORDRE.indexOf(y.gravite),
+    );
     for (const a of tri) {
       const nouveau = nouvelles.some((n) => n.id === a.id) ? ' 🆕' : '';
       const titre = a.titre.replaceAll('|', '/').replaceAll('\n', ' ');
-      lignes.push(`| ${a.gravite}${nouveau} | ${a.source} | ${titre} | ${a.lieu} | ${a.url} |`);
+      lignes.push(
+        `| ${a.gravite}${nouveau} | ${a.source} | ${titre} | ${a.lieu} | ${a.url} |`,
+      );
     }
     lignes.push('');
   }
@@ -142,9 +180,13 @@ function main() {
   const entete = existsSync(JOURNAL)
     ? ''
     : '# Journal de sécurité (local, jamais commité)\n';
-  writeFileSync(JOURNAL, `${existsSync(JOURNAL) ? readFileSync(JOURNAL, 'utf8') : entete}${lignes.join('\n')}\n`);
+  writeFileSync(
+    JOURNAL,
+    `${existsSync(JOURNAL) ? readFileSync(JOURNAL, 'utf8') : entete}${lignes.join('\n')}\n`,
+  );
   // Relevé partiel : on garde l'ancien état pour ne pas fausser « nouvelles / corrigées ».
-  if (problemes.length === 0) writeFileSync(ETAT, JSON.stringify({ date, ids }, null, 2));
+  if (problemes.length === 0)
+    writeFileSync(ETAT, JSON.stringify({ date, ids }, null, 2));
 
   console.log(`Journal mis à jour : ${JOURNAL}`);
   console.log(`Ouvertes : ${toutes.length} (${comptes(toutes)})`);
