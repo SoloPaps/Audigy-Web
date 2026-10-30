@@ -1,12 +1,23 @@
 name: ci
 
 on:
-  pull_request:
   push:
-    branches: [main]
+    branches: ['**']
+    # Pas de CI complète si seuls des fichiers sans effet sur le code changent.
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
+      - '.cursor/**'
+      - '.cursorignore'
+      - '.cursorindexingignore'
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
 
 permissions:
-  contents: write  # Modifié de 'read' à 'write' pour autoriser l'auto-commit
+  contents: write  # nécessaire à l'auto-commit des corrections
 
 jobs:
   check:
@@ -17,6 +28,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           persist-credentials: true
+          ref: ${{ github.ref_name }}
           fetch-depth: 0
 
       - name: pnpm
@@ -42,12 +54,94 @@ jobs:
       - name: Chromium
         run: pnpm --filter @audigy/web exec playwright install --with-deps chromium
 
-      - name: Check & Auto-Fix
-        run: |
-          pnpm check --write || true
+      # 1) Corrections automatiques sûres (knip, Biome).
+      #    Jamais sur main : on corrige sur la branche de test, puis on merge.
+      # Code mort : retire seulement les exports/types inutilisés.
+      # Ne supprime ni fichiers ni dépendances (--fix-type limité).
+      # Un échec de knip ne bloque pas : les vérifications plus bas tranchent.
+      - name: Auto-fix (knip, exports inutilisés)
+        if: github.ref_name != 'main'
+        run: pnpm dlx knip@5 --fix --fix-type exports,types || true
 
-      - name: Commit automatic corrections if any
+      # Ensuite : Biome remet le format propre.
+      - name: Auto-fix (Biome)
+        if: github.ref_name != 'main'
+        run: pnpm format
+
+      - name: Commit des corrections
+        if: github.ref_name != 'main'
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "🤖 [CI Auto-Fix] Correction automatique des erreurs de vérification"
-          branch: ${{ github.head_ref || github.ref_name }}
+          commit_message: "🤖 [CI Auto-Fix] Corrections automatiques (knip, Biome)"
+          branch: ${{ github.ref_name }}
+          # Le token par défaut ne peut pas modifier .github/workflows
+          file_pattern: '. :!.github/workflows'
+
+      # 2) Vérifications : chacune s'exécute même si une précédente échoue,
+      #    pour voir toutes les erreurs d'un coup.
+      - name: guard
+        id: guard
+        continue-on-error: true
+        run: pnpm guard
+
+      - name: lint
+        id: lint
+        continue-on-error: true
+        run: pnpm lint
+
+      - name: copy-lint
+        id: copy_lint
+        continue-on-error: true
+        run: pnpm copy-lint
+
+      - name: typecheck
+        id: typecheck
+        continue-on-error: true
+        run: pnpm typecheck
+
+      - name: test
+        id: test
+        continue-on-error: true
+        run: pnpm test
+
+      - name: build
+        id: build
+        continue-on-error: true
+        run: pnpm build
+
+      - name: self-audit
+        id: self_audit
+        continue-on-error: true
+        run: pnpm self-audit
+
+      - name: test:ui
+        id: test_ui
+        continue-on-error: true
+        run: pnpm test:ui
+
+      - name: test:a11y
+        id: test_a11y
+        continue-on-error: true
+        run: pnpm test:a11y
+
+      # 3) Résumé : échoue si au moins une vérification a échoué.
+      - name: Résumé
+        if: always()
+        env:
+          RESULTS: >-
+            guard=${{ steps.guard.outcome }}
+            lint=${{ steps.lint.outcome }}
+            copy-lint=${{ steps.copy_lint.outcome }}
+            typecheck=${{ steps.typecheck.outcome }}
+            test=${{ steps.test.outcome }}
+            build=${{ steps.build.outcome }}
+            self-audit=${{ steps.self_audit.outcome }}
+            test:ui=${{ steps.test_ui.outcome }}
+            test:a11y=${{ steps.test_a11y.outcome }}
+        run: |
+          failed=0
+          for r in $RESULTS; do
+            echo "$r"
+            case "$r" in *=failure) failed=1 ;; esac
+          done
+          exit $failed
