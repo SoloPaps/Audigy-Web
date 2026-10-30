@@ -40,19 +40,34 @@ jobs:
     timeout-minutes: 15
     container:
       image: semgrep/semgrep:latest
+    permissions:
+      contents: read
+      security-events: write # publier les alertes dans l'onglet Security
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
           persist-credentials: false
-      - name: Semgrep
+      - name: Semgrep (rapport SARIF)
         run: >-
-          semgrep scan --metrics=off --error
+          semgrep scan --metrics=off --sarif --output semgrep.sarif
           --config p/security-audit
           --config p/javascript
           --config p/typescript
           --config p/owasp-top-ten
           --exclude fixtures --exclude pnpm-lock.yaml
+      - name: Publier dans l'onglet Security
+        if: always() && hashFiles('semgrep.sarif') != ''
+        uses: github/codeql-action/upload-sarif@v4
+        with:
+          sarif_file: semgrep.sarif
+          category: semgrep
+      - name: Rapport téléchargeable
+        if: always() && hashFiles('semgrep.sarif') != ''
+        uses: actions/upload-artifact@v4
+        with:
+          name: rapport-semgrep
+          path: semgrep.sarif
 
   dependencies:
     name: Dépendances vulnérables
@@ -70,8 +85,25 @@ jobs:
         with:
           node-version-file: .nvmrc
           cache: pnpm
-      - name: Audit (échoue à partir de "high")
-        run: pnpm audit --audit-level=high
+      - name: Audit (rapport + échec à partir de "high")
+        run: |
+          pnpm audit --audit-level=high | tee audit.txt
+          exit "${PIPESTATUS[0]}"
+      - name: Résumé dans l'interface du lancement
+        if: always()
+        run: |
+          {
+            echo '## Audit des dépendances'
+            echo '```'
+            cat audit.txt 2>/dev/null || echo 'aucun rapport'
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+      - name: Rapport téléchargeable
+        if: always() && hashFiles('audit.txt') != ''
+        uses: actions/upload-artifact@v4
+        with:
+          name: rapport-dependances
+          path: audit.txt
 
   workflows:
     name: Workflows GitHub (actionlint)
