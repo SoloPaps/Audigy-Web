@@ -1,0 +1,44 @@
+name: codeql
+
+# Analyse de sécurité en profondeur (suivi des données jusqu'aux endroits
+# dangereux). Les alertes apparaissent dans l'onglet Security et sur les PR.
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  schedule:
+    - cron: '23 4 * * 1' # chaque lundi : nouvelles règles
+  workflow_dispatch:
+
+concurrency:
+  group: codeql-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: read
+      security-events: write # publier les alertes
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Init CodeQL
+        uses: github/codeql-action/init@v4
+        with:
+          languages: javascript-typescript
+          # Jeu de règles le plus large : sécurité étendue + qualité.
+          queries: security-extended,security-and-quality
+
+      - name: Analyse
+        uses: github/codeql-action/analyze@v4
+        with:
+          category: /language:javascript-typescript
