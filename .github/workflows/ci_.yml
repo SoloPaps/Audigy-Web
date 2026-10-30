@@ -1,0 +1,53 @@
+name: ci
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write  # Modifié de 'read' à 'write' pour autoriser l'auto-commit
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+          fetch-depth: 0
+
+      - name: pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+
+      - name: Install
+        run: pnpm install --frozen-lockfile
+
+      - name: Supabase CLI
+        run: |
+          curl -fsSL -o /tmp/supabase.tar.gz https://github.com/supabase/cli/releases/download/v2.122.0/supabase_linux_amd64.tar.gz
+          sudo tar -xzf /tmp/supabase.tar.gz -C /usr/local/bin
+
+      - name: Supabase local
+        run: supabase start --yes -x realtime,imgproxy,postgres-meta,studio,edge-runtime,logflare,vector,supavisor
+
+      - name: Chromium
+        run: pnpm --filter @audigy/web exec playwright install --with-deps chromium
+
+      - name: Check & Auto-Fix
+        run: |
+          pnpm check --write || true
+
+      - name: Commit automatic corrections if any
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "🤖 [CI Auto-Fix] Correction automatique des erreurs de vérification"
+          branch: ${{ github.head_ref || github.ref_name }}
