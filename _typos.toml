@@ -1,0 +1,10 @@
+# Config de crate-ci/typos : on exclut ce qui contient des fautes volontaires
+# ou du contenu généré, pour ne rien casser.
+[files]
+extend-exclude = [
+  "fixtures/**",
+  "pnpm-lock.yaml",
+  "supabase/**",
+  "netlify/**",
+  "*.svg",
+]
