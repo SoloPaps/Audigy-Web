@@ -3,13 +3,6 @@ name: ci
 on:
   push:
     branches: ['**']
-    # Pas de CI complète si seuls des fichiers sans effet sur le code changent.
-    paths-ignore:
-      - '**.md'
-      - 'docs/**'
-      - '.cursor/**'
-      - '.cursorignore'
-      - '.cursorindexingignore'
   workflow_dispatch:
 
 concurrency:
