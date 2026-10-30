@@ -1,0 +1,120 @@
+name: security
+
+# Détection complémentaire à CodeQL. Ne modifie jamais le code :
+# les corrections passent par des PR (Dependabot) qui doivent réussir le CI.
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  schedule:
+    - cron: '47 4 * * 1'
+  workflow_dispatch:
+
+concurrency:
+  group: security-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  secrets:
+    name: Secrets (gitleaks)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout (historique complet)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: gitleaks
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  semgrep:
+    name: Règles de sécurité (Semgrep)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    container:
+      image: semgrep/semgrep:latest
+    permissions:
+      contents: read
+      security-events: write # publier les alertes dans l'onglet Security
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Semgrep (rapport SARIF)
+        run: >-
+          semgrep scan --metrics=off --sarif --output semgrep.sarif
+          --config p/security-audit
+          --config p/javascript
+          --config p/typescript
+          --config p/owasp-top-ten
+          --exclude fixtures --exclude pnpm-lock.yaml
+      - name: Publier dans l'onglet Security
+        if: always() && hashFiles('semgrep.sarif') != ''
+        uses: github/codeql-action/upload-sarif@v4
+        with:
+          sarif_file: semgrep.sarif
+          category: semgrep
+      - name: Rapport téléchargeable
+        if: always() && hashFiles('semgrep.sarif') != ''
+        uses: actions/upload-artifact@v4
+        with:
+          name: rapport-semgrep
+          path: semgrep.sarif
+
+  dependencies:
+    name: Dépendances vulnérables
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: pnpm
+        uses: pnpm/action-setup@v4
+      - name: Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+      - name: Audit (rapport + échec à partir de "high")
+        run: |
+          pnpm audit --audit-level=high | tee audit.txt
+          exit "${PIPESTATUS[0]}"
+      - name: Résumé dans l'interface du lancement
+        if: always()
+        run: |
+          {
+            echo '## Audit des dépendances'
+            echo '```'
+            cat audit.txt 2>/dev/null || echo 'aucun rapport'
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+      - name: Rapport téléchargeable
+        if: always() && hashFiles('audit.txt') != ''
+        uses: actions/upload-artifact@v4
+        with:
+          name: rapport-dependances
+          path: audit.txt
+
+  workflows:
+    name: Workflows GitHub (actionlint)
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: actionlint
+        uses: docker://rhysd/actionlint:1.7.7
+        with:
+          args: -color
