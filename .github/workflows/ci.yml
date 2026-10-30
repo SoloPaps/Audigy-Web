@@ -22,6 +22,7 @@ jobs:
         with:
           persist-credentials: true
           ref: ${{ github.ref_name }}
+          fetch-depth: 0
 
       - name: pnpm
         uses: pnpm/action-setup@v4
@@ -46,7 +47,7 @@ jobs:
       - name: Chromium
         run: pnpm --filter @audigy/web exec playwright install --with-deps chromium
 
-      # 1) Corrections automatiques sûres (knip, typos, Biome).
+      # 1) Corrections automatiques sûres (knip, Biome).
       #    Jamais sur main : on corrige sur la branche de test, puis on merge.
       # Code mort : retire seulement les exports/types inutilisés.
       # Ne supprime ni fichiers ni dépendances (--fix-type limité).
@@ -55,15 +56,7 @@ jobs:
         if: github.ref_name != 'main'
         run: pnpm dlx knip@5 --fix --fix-type exports,types || true
 
-      # Fautes de frappe courantes (config dans _typos.toml).
-      - name: Auto-fix (typos)
-        if: github.ref_name != 'main'
-        uses: crate-ci/typos@v1
-        with:
-          write_changes: true
-        continue-on-error: true
-
-      # En dernier : Biome remet le format propre après les deux étapes précédentes.
+      # Ensuite : Biome remet le format propre.
       - name: Auto-fix (Biome)
         if: github.ref_name != 'main'
         run: pnpm format
@@ -72,8 +65,10 @@ jobs:
         if: github.ref_name != 'main'
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "🤖 [CI Auto-Fix] Corrections automatiques (knip, typos, Biome)"
+          commit_message: "🤖 [CI Auto-Fix] Corrections automatiques (knip, Biome)"
           branch: ${{ github.ref_name }}
+          # Le token par défaut ne peut pas modifier .github/workflows
+          file_pattern: '. :!.github/workflows'
 
       # 2) Vérifications : chacune s'exécute même si une précédente échoue,
       #    pour voir toutes les erreurs d'un coup.
