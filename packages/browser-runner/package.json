@@ -29,7 +29,7 @@
   },
   "devDependencies": {
     "@playwright/test": "^1.64.1",
-    "@types/qrcode": "1.5.5",
+    "@types/qrcode": "1.5.6",
     "replaywebpage": "2.5.4"
   }
 }
