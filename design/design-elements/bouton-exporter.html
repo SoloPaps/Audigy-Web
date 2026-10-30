@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Split Button Export Pro</title>
+    <style>
+        /* Styles généraux pour la démo */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #0f172a;
+            color: #f8fafc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        /* Conteneur principal du composant */
+        .export-dropdown-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        /* Le Split Button (bouton scindé) */
+        .split-btn {
+            display: flex;
+            align-items: center;
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+            transition: all 0.2s ease;
+        }
+
+        .split-btn:hover {
+            box-shadow: 0 6px 16px rgba(37, 99, 235, 0.4);
+        }
+
+        /* Bouton principal (partie gauche) */
+        .btn-main {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: transparent;
+            border: none;
+            color: white;
+            padding: 10px 16px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            border-top-left-radius: 8px;
+            border-bottom-left-radius: 8px;
+            transition: background 0.2s;
+        }
+
+        .btn-main:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Séparateur vertical discret */
+        .btn-divider {
+            width: 1px;
+            height: 24px;
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Bouton déclencheur de la liste (partie droite avec flèche) */
+        .btn-toggle {
+            background: transparent;
+            border: none;
+            color: white;
+            padding: 10px 12px;
+            cursor: pointer;
+            border-top-right-radius: 8px;
+            border-bottom-right-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+        }
+
+        .btn-toggle:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .arrow-icon {
+            transition: transform 0.2s ease;
+        }
+
+        /* Rotation de la flèche quand ouvert */
+        .export-dropdown-container.active .arrow-icon {
+            transform: rotate(180deg);
+        }
+
+        /* Menu déroulant des formats */
+        .dropdown-menu {
+            position: absolute;
+            top: calc(100% + 8px);
+            right: 0;
+            width: 220px;
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-8px);
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+            z-index: 100;
+            overflow: hidden;
+            padding: 6px;
+        }
+
+        /* État ouvert du menu */
+        .export-dropdown-container.active .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        /* Éléments de la liste */
+        .dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 12px;
+            color: #cbd5e1;
+            text-decoration: none;
+            font-size: 13px;
+            border-radius: 6px;
+            transition: all 0.15s ease;
+        }
+
+        .dropdown-item:hover {
+            background: #334155;
+            color: #ffffff;
+        }
+
+        /* Icônes de format stylisées */
+        .file-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .file-icon.pdf { background: rgba(239, 68, 68, 0.15); color: #f87171; }
+        .file-icon.csv { background: rgba(16, 185, 129, 0.15); color: #34d399; }
+        .file-icon.json { background: rgba(245, 158, 11, 0.15); color: #fbbf24; }
+        .file-icon.xlsx { background: rgba(59, 130, 246, 0.15); color: #60a5fa; }
+
+        .file-title {
+            display: block;
+            font-weight: 500;
+            color: #f8fafc;
+        }
+
+        .file-desc {
+            display: block;
+            font-size: 11px;
+            color: #94a3b8;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="export-dropdown-container" id="exportDropdown">
+        <!-- Le Bouton Scindé -->
+        <div class="split-btn">
+            <button class="btn-main" onclick="handleDefaultExport()">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                <span>Exporter</span>
+            </button>
+            <div class="btn-divider"></div>
+            <button class="btn-toggle" id="toggleBtn" aria-label="Plus d'options d'export">
+                <svg class="arrow-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </button>
+        </div>
+
+        <!-- Le Menu Déroulant -->
+        <div class="dropdown-menu">
+            <a href="#" class="dropdown-item" onclick="selectFormat('PDF')">
+                <span class="file-icon pdf">PDF</span>
+                <div>
+                    <span class="file-title">Document PDF</span>
+                    <span class="file-desc">Rapport mis en page</span>
+                </div>
+            </a>
+            <a href="#" class="dropdown-item" onclick="selectFormat('CSV')">
+                <span class="file-icon csv">CSV</span>
+                <div>
+                    <span class="file-title">Fichier CSV</span>
+                    <span class="file-desc">Données tabulaires brutes</span>
+                </div>
+            </a>
+            <a href="#" class="dropdown-item" onclick="selectFormat('JSON')">
+                <span class="file-icon json">JSON</span>
+                <div>
+                    <span class="file-title">Données JSON</span>
+                    <span class="file-desc">Structure pour API</span>
+                </div>
+            </a>
+            <a href="#" class="dropdown-item" onclick="selectFormat('Excel')">
+                <span class="file-icon xlsx">XLSX</span>
+                <div>
+                    <span class="file-title">Classeur Excel</span>
+                    <span class="file-desc">Tableur modifiable</span>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <script>
+        const container = document.getElementById('exportDropdown');
+        const toggleBtn = document.getElementById('toggleBtn');
+
+        // Ouvrir / Fermer au clic sur la flèche
+        toggleBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            container.classList.toggle('active');
+        });
+
+        // Fermer le menu si on clique en dehors
+        document.addEventListener('click', () => {
+            container.classList.remove('active');
+        });
+
+        // Fonctions d'action (à relier à ton code métier)
+        function handleDefaultExport() {
+            alert('Exportation par défaut lancée !');
+            container.classList.remove('active');
+        }
+
+        function selectFormat(format) {
+            alert(`Exportation au format ${format} lancée !`);
+            container.classList.remove('active');
+        }
+    </script>
+</body>
+</html>

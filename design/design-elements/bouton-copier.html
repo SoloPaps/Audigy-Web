@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bouton Copier - Thème Audixio</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #0b0f19;
+            color: #f8fafc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* Conteneur principal */
+        .copy-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        /* Le Bouton aux couleurs Audixio */
+        .audixio-copy-btn {
+            position: relative;
+            background: #111827;
+            color: #f8fafc;
+            border: 1px solid #1f2937;
+            padding: 12px 22px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            outline: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            overflow: hidden;
+        }
+
+        /* Effet de lueur inspiré du dégradé du logo (Teal -> Turquoise -> Pêche/Chaud) */
+        .audixio-copy-btn::before {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            border-radius: 13px;
+            background: linear-gradient(135deg, #0d9488, #14b8a6, #fdba74);
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .audixio-copy-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(20, 184, 166, 0.25);
+            border-color: transparent;
+        }
+
+        .audixio-copy-btn:hover::before {
+            opacity: 1;
+        }
+
+        .audixio-copy-btn:active {
+            transform: translateY(0);
+        }
+
+        /* Contenu interne */
+        .btn-content {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Gestion des icônes */
+        .icon-wrapper {
+            position: relative;
+            width: 18px;
+            height: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .icon {
+            position: absolute;
+            width: 18px;
+            height: 18px;
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .copy-icon {
+            opacity: 1;
+            transform: scale(1);
+            color: #2dd4bf; /* Rappel de la couleur teal du logo */
+        }
+
+        .check-icon {
+            opacity: 0;
+            transform: scale(0.5) rotate(-45deg);
+            color: #34d399;
+        }
+
+        /* --- ÉTAT COPIÉ --- */
+        .audixio-copy-btn.copied {
+            background: #042f2e;
+            border-color: #0d9488;
+            box-shadow: 0 0 20px rgba(13, 148, 136, 0.35);
+        }
+
+        .audixio-copy-btn.copied::before {
+            opacity: 0;
+        }
+
+        .audixio-copy-btn.copied .copy-icon {
+            opacity: 0;
+            transform: scale(0.5) rotate(45deg);
+        }
+
+        .audixio-copy-btn.copied .check-icon {
+            opacity: 1;
+            transform: scale(1) rotate(0deg);
+        }
+
+        /* Infobulle (Tooltip) élégante */
+        .tooltip {
+            position: absolute;
+            bottom: calc(100% + 12px);
+            left: 50%;
+            transform: translateX(-50%) translateY(6px);
+            background: #111827;
+            color: #f8fafc;
+            padding: 6px 12px;
+            font-size: 12px;
+            font-weight: 500;
+            border-radius: 6px;
+            border: 1px solid #0d9488;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            pointer-events: none;
+        }
+
+        .tooltip::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 4px;
+            border-style: solid;
+            border-color: #111827 transparent transparent transparent;
+        }
+
+        .copy-container.show-tooltip .tooltip {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(0);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="copy-container" id="copyContainer">
+        <!-- Infobulle -->
+        <div class="tooltip">Copié avec succès !</div>
+
+        <!-- Bouton -->
+        <button class="audixio-copy-btn" id="copyBtn" onclick="triggerCopy()">
+            <div class="btn-content">
+                <div class="icon-wrapper">
+                    <!-- Icône Copier -->
+                    <svg class="icon copy-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                    </svg>
+                    <!-- Icône Check -->
+                    <svg class="icon check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                </div>
+                <span id="btnText">Copier le code</span>
+            </div>
+        </button>
+    </div>
+
+    <!-- Texte source à copier -->
+    <span id="textSource" style="display: none;">https://audixio.fr</span>
+
+    <script>
+        function triggerCopy() {
+            const textToCopy = document.getElementById('textSource').innerText;
+            const btn = document.getElementById('copyBtn');
+            const btnText = document.getElementById('btnText');
+            const container = document.getElementById('copyContainer');
+
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                btn.classList.add('copied');
+                container.classList.add('show-tooltip');
+                btnText.innerText = 'Copié !';
+
+                setTimeout(() => {
+                    btn.classList.remove('copied');
+                    container.classList.remove('show-tooltip');
+                    btnText.innerText = 'Copier le code';
+                }, 2200);
+            }).catch(err => {
+                console.error('Erreur de copie :', err);
+            });
+        }
+    </script>
+</body>
+</html>
