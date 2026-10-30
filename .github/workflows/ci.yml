@@ -18,17 +18,17 @@ jobs:
     timeout-minutes: 30
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           persist-credentials: true
           ref: ${{ github.ref_name }}
           fetch-depth: 0
 
       - name: pnpm
-        uses: pnpm/action-setup@v4
+        uses: pnpm/action-setup@v6
 
       - name: Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           node-version-file: .nvmrc
           cache: pnpm
@@ -63,7 +63,7 @@ jobs:
 
       - name: Commit des corrections
         if: github.ref_name != 'main'
-        uses: stefanzweifel/git-auto-commit-action@v5
+        uses: stefanzweifel/git-auto-commit-action@v7
         with:
           commit_message: "🤖 [CI Auto-Fix] Corrections automatiques (knip, Biome)"
           branch: ${{ github.ref_name }}
