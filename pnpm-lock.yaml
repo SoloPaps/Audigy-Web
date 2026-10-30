@@ -181,8 +181,8 @@ importers:
         specifier: 4.0.0
         version: 4.0.0
       canonicalize:
-        specifier: 2.0.0
-        version: 2.0.0
+        specifier: 5.1.0
+        version: 5.1.0
       pkijs:
         specifier: 4.0.1
         version: 4.0.1(asn1js@4.0.0)
@@ -1764,8 +1764,10 @@ packages:
     resolution: {integrity: sha512-L28STB170nwWS63UjtlEOE3dldQApaJXZkOI1uMFfzf3rRuPegHaHesyee+YxQ+W6SvRDQV6UrdOdRiR153wJg==}
     engines: {node: '>=6'}
 
-  canonicalize@2.0.0:
-    resolution: {integrity: sha512-ulDEYPv7asdKvqahuAY35c1selLdzDwHqugK92hfkzvlDCwXRRelDkR+Er33md/PtnpqHemgkuDPanZ4fiYZ8w==}
+  canonicalize@5.1.0:
+    resolution: {integrity: sha512-bab9+WefZljqQ8jT0qRwVmTyzAUU63K97QIQD3agynIBrb6sa5M2eAy8Hv8K3p4V9+ONVYZKtGYl4Dg+/5Gumw==}
+    engines: {node: '>=22'}
+    hasBin: true
 
   ccount@2.0.1:
     resolution: {integrity: sha512-eyrF0jiFpY+3drT6383f1qhkbGsLSifNAjA61IUjZjmLCWjItY6LB9ft9YhoDgwfmclB2zhu51Lc7+95b8NRAg==}
@@ -4931,7 +4933,7 @@ snapshots:
 
   camelcase@5.3.1: {}
 
-  canonicalize@2.0.0: {}
+  canonicalize@5.1.0: {}
 
   ccount@2.0.1: {}
 
