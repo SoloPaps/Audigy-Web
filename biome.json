@@ -9,6 +9,7 @@
     "includes": [
       "**",
       "!docs",
+      "!.github",
       "!**/*.md",
       "!pnpm-lock.yaml",
       "!fixtures/sites",
