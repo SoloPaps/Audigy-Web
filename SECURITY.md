@@ -6,7 +6,7 @@ Merci de **ne pas ouvrir d'issue publique** pour une faille de sécurité.
 
 Utilise le signalement privé de GitHub :
 **Security → Report a vulnerability**
-(https://github.com/SoloPaps/Audigy-Web/security/advisories/new).
+(https://github.com/SoloPaps/Audixio/security/advisories/new).
 
 Ton message reste visible uniquement par les mainteneurs jusqu'à la publication d'un correctif.
 

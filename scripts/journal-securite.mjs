@@ -3,7 +3,7 @@
 // Le dossier securite-local/ est ignoré par Git : rien n'est jamais publié.
 // Usage : pnpm securite:journal [propriétaire/dépôt]
 import { execFileSync } from 'node:child_process';
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 
 const DOSSIER = 'securite-local';
 const JOURNAL = `${DOSSIER}/JOURNAL.md`;
@@ -106,6 +106,17 @@ function comptes(alertes) {
     : cles.map((c) => `${par[c]} ${c}`).join(' · ');
 }
 
+// Lit un fichier d'un seul coup : null s'il n'existe pas. On évite
+// « existsSync puis readFileSync » (condition de course, alerte CodeQL).
+function lireOuNull(chemin) {
+  try {
+    return readFileSync(chemin, 'utf8');
+  } catch (e) {
+    if (e.code === 'ENOENT') return null;
+    throw e;
+  }
+}
+
 function main() {
   const repo = depot();
   const sources = [
@@ -133,9 +144,8 @@ function main() {
   }
 
   mkdirSync(DOSSIER, { recursive: true });
-  const avant = existsSync(ETAT)
-    ? JSON.parse(readFileSync(ETAT, 'utf8'))
-    : null;
+  const etatBrut = lireOuNull(ETAT);
+  const avant = etatBrut === null ? null : JSON.parse(etatBrut);
   const ids = toutes.map((a) => a.id);
   const nouvelles = avant
     ? toutes.filter((a) => !avant.ids.includes(a.id))
@@ -177,13 +187,9 @@ function main() {
     lignes.push('');
   }
 
-  const entete = existsSync(JOURNAL)
-    ? ''
-    : '# Journal de sécurité (local, jamais commité)\n';
-  writeFileSync(
-    JOURNAL,
-    `${existsSync(JOURNAL) ? readFileSync(JOURNAL, 'utf8') : entete}${lignes.join('\n')}\n`,
-  );
+  const precedent =
+    lireOuNull(JOURNAL) ?? '# Journal de sécurité (local, jamais commité)\n';
+  writeFileSync(JOURNAL, `${precedent}${lignes.join('\n')}\n`);
   // Relevé partiel : on garde l'ancien état pour ne pas fausser « nouvelles / corrigées ».
   if (problemes.length === 0)
     writeFileSync(ETAT, JSON.stringify({ date, ids }, null, 2));
