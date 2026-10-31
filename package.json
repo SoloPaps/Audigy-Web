@@ -23,6 +23,7 @@
     "build": "node scripts/build.mjs",
     "build:functions": "node scripts/build-functions.ts",
     "self-audit": "tsx scripts/self-audit.ts",
+    "securite:journal": "node scripts/journal-securite.mjs",
     "check": "pnpm guard && pnpm lint && pnpm copy-lint && pnpm typecheck && pnpm test && pnpm build && pnpm self-audit && pnpm test:ui && pnpm test:a11y"
   },
   "dependencies": {

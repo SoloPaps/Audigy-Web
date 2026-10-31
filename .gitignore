@@ -16,3 +16,5 @@ supabase/.temp/
 # Dumps locaux de la CLI d'audit. Jamais commités.
 /solo-audit*.json
 /solo-audit*.jsonl
+# Journal de sécurité local : jamais commité (détail des failles).
+securite-local/
