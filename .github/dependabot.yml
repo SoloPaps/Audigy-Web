@@ -12,7 +12,7 @@ updates:
       minor-and-patch:
         update-types: [minor, patch]
     ignore:
-      # `astro check` ne gère pas encore TypeScript 7 : on reste sur la 6.x.
+      # `astro check` (apps/web) ne gère pas encore TypeScript 7 : apps/web reste en 6.x.
       # À retirer quand Astro prend en charge TypeScript 7.
       - dependency-name: typescript
         update-types: ['version-update:semver-major']
