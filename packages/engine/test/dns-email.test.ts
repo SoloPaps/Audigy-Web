@@ -1026,7 +1026,9 @@ describe('textes, fiches et méthode', () => {
 
   it('la grille est écrite dans la méthode, avec les poids', () => {
     const methode = readFileSync(
-      fileURLToPath(new URL('../../../docs/METHODE.md', import.meta.url)),
+      fileURLToPath(
+        new URL('../../../docs/produit/METHODE.md', import.meta.url),
+      ),
       'utf8',
     );
     expect(methode).toContain('github.io');

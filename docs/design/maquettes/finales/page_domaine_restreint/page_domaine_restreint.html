@@ -1,0 +1,1168 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sécurité (accès restreint) – exemple.fr | Audixio</title>
+<meta name="description" content="Les constats de sécurité de exemple.fr sont réservés au propriétaire du site. Vérifiez gratuitement la propriété du domaine pour débloquer le détail, la note complète et les actions correctives.">
+<!-- Page de rapport propre à un site : hors des moteurs de recherche. -->
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#EDE8F5">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%233D52A0'/%3E%3Cpath d='M16 6 6 11l10 5 10-5-10-5zM6 21l10 5 10-5M6 16l10 5 10-5' fill='none' stroke='%23FFFFFF' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Rapport exemple.fr", "item": "https://www.audixio.fr/rapport/exemple.fr" },
+    { "@type": "ListItem", "position": 2, "name": "Sécurité (Restreint)" }
+  ]
+}
+</script>
+
+<script>
+(function () {
+  var d = document.documentElement; d.classList.add('has-js');
+  if (!matchMedia('(prefers-reduced-motion: reduce)').matches) d.classList.add('js');
+})();
+</script>
+
+<style>
+/* ==========================================================
+   AUDIXIO — Détail d'un domaine (état restreint)
+   Palette : indigo #3D52A0 · bleu #7091E6 · brume #ADBBDA · lilas #EDE8F5 · encre #1E2A55
+   ========================================================== */
+@property --spin{syntax:"<angle>";inherits:false;initial-value:0deg}
+:root{
+  color-scheme: light;
+  --lilac:#EDE8F5; --mist:#ADBBDA; --blue:#7091E6;
+  --ink:#1E2A55; --ink-2:#3A4672; --muted:#59648F; --navy:#17204A;
+  --primary:#3D52A0; --primary-h:#2F4084; --on-primary:#FFFFFF; --focus:#3D52A0;
+  --white:#FFFFFF; --paper:#F8F7FC;
+  --line:rgba(61,82,160,.15); --line-strong:rgba(61,82,160,.28); --tint:rgba(61,82,160,.07);
+  --ok:#067647; --ok-bg:#D6F2E3; --ok-line:rgba(6,118,71,.3);
+  --warn:#8A4B08; --warn-bg:#FBE8C8;
+  --err:#B42318;
+  --sh-1:0 1px 2px rgba(23,32,74,.05);
+  --sh-2:0 1px 2px rgba(23,32,74,.05),0 18px 40px -24px rgba(61,82,160,.36);
+  --sh-3:0 2px 4px rgba(23,32,74,.05),0 44px 80px -38px rgba(23,32,74,.45);
+  --r-m:20px; --r-l:28px;
+  --gut:clamp(1.25rem,5vw,2.5rem);
+  --font:Inter,"Segoe UI Variable Text","Segoe UI",system-ui,-apple-system,"Helvetica Neue",Roboto,Arial,sans-serif;
+  --mono:ui-monospace,"SF Mono","Cascadia Mono",Menlo,Consolas,monospace;
+  --sec:clamp(4.5rem,9vw,8rem);
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-padding-top:96px;-webkit-text-size-adjust:100%;background:var(--paper)}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+body{margin:0;min-height:100vh;display:flex;flex-direction:column;font-family:var(--font);font-size:1.0625rem;line-height:1.65;color:var(--ink);background:var(--paper);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+img,svg{display:block;max-width:100%}
+a{color:inherit}
+p,h1,h2,h3,h4,ul,ol,figure,pre{margin:0;padding:0}
+ul,ol{list-style:none}
+h1,h2,h3,h4{font-weight:720;letter-spacing:-.03em;line-height:1.1;text-wrap:balance}
+button,input{font:inherit;color:inherit}
+::selection{background:var(--mist);color:var(--ink)}
+:focus-visible{outline:3px solid var(--focus);outline-offset:3px;border-radius:8px}
+.sr-only{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+.skip{position:absolute;left:1rem;top:-4rem;z-index:200;background:var(--primary);color:#fff;padding:.75rem 1.1rem;border-radius:12px;font-weight:700;text-decoration:none}
+.skip:focus{top:1rem}
+.wrap{width:100%;max-width:1200px;margin-inline:auto;padding-inline:var(--gut)}
+.ico{width:1.25rem;height:1.25rem;flex:none;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.section{padding-block:var(--sec)}
+.eyebrow{font-size:.95rem;font-weight:650;color:var(--primary)}
+.h2{font-size:clamp(1.8rem,3.4vw,2.7rem);letter-spacing:-.035em}
+.sec-title{display:flex;align-items:center;gap:1rem;flex-wrap:wrap}
+.sec-title .t-ico{width:48px;height:48px;border-radius:14px;background:var(--tint);color:var(--primary);display:grid;place-items:center;flex:none}
+.sec-title .t-ico .ico{width:1.4rem;height:1.4rem}
+
+/* Barre de progression de lecture */
+.progress{position:fixed;left:0;top:0;right:0;height:3px;z-index:120;background:transparent;pointer-events:none}
+.progress i{display:block;height:100%;width:100%;transform:scaleX(0);transform-origin:0 50%;background:linear-gradient(90deg,var(--blue),var(--primary))}
+
+/* ---------- Révélations ---------- */
+.js .rv{opacity:0;transform:translateY(22px);transition:opacity .9s cubic-bezier(.2,.7,.2,1),transform .9s cubic-bezier(.2,.7,.2,1);transition-delay:var(--d,0s)}
+.js .rv.from-left{transform:translateX(-28px)}
+.js .rv.from-right{transform:translateX(28px)}
+.js .rv.in{opacity:1;transform:none}
+
+/* ---------- Boutons ---------- */
+.btn{position:relative;overflow:hidden;display:inline-flex;align-items:center;justify-content:center;gap:.65rem;min-height:54px;padding:.85rem 1.7rem;border-radius:15px;border:1.5px solid transparent;font-weight:650;font-size:1rem;text-decoration:none;cursor:pointer;white-space:nowrap;transition:background-color .2s,border-color .2s,box-shadow .2s,color .2s,transform .25s cubic-bezier(.2,.7,.2,1)}
+.btn .ico{transition:transform .25s}
+.btn:hover .ico.down{transform:translateY(3px)}
+.btn:hover .ico.go{transform:translateX(3px)}
+.btn-primary{background:var(--primary);color:var(--on-primary);box-shadow:0 1px 2px rgba(23,32,74,.2),0 16px 30px -14px var(--primary)}
+.btn-primary:hover{background:var(--primary-h)}
+.btn-primary[disabled]{cursor:progress;opacity:.85}
+.btn-ghost{background:var(--white);border-color:var(--line-strong);color:var(--ink)}
+.btn-ghost:hover{border-color:var(--primary);color:var(--primary)}
+.btn-ok{background:var(--ok);color:#fff;box-shadow:0 16px 30px -14px var(--ok)}
+.btn-ok:hover{background:#05603A}
+.btn-sm{min-height:44px;padding:.55rem 1.1rem;font-size:.92rem;border-radius:12px}
+.shimmer::after{content:"";position:absolute;top:0;bottom:0;left:0;width:45%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.34),transparent);transform:translateX(-130%) skewX(-18deg);animation:shimmer 3.6s ease-in-out infinite}
+@keyframes shimmer{0%,55%{transform:translateX(-130%) skewX(-18deg)}100%{transform:translateX(330%) skewX(-18deg)}}
+.ripple{position:absolute;border-radius:50%;background:rgba(255,255,255,.45);transform:scale(0);animation:rip .7s ease-out forwards;pointer-events:none}
+@keyframes rip{to{transform:scale(1);opacity:0}}
+
+/* ---------- En-tête + fil d'Ariane ---------- */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.crumbs-bar{border-top:1px solid var(--line-soft,rgba(61,82,160,.1))}
+.crumbs{display:flex;align-items:center;justify-content:space-between;gap:1rem;min-height:52px}
+.crumbs ol{display:flex;align-items:center;gap:.55rem;font-size:.92rem;color:var(--muted);min-width:0;flex-wrap:wrap}
+.crumbs ol .ico{width:1rem;height:1rem}
+.crumbs a{text-decoration:none;color:var(--primary);font-weight:600}
+.crumbs a:hover{text-decoration:underline;text-underline-offset:4px}
+.crumbs [aria-current]{color:var(--ink);font-weight:650}
+.crumbs .sep{opacity:.5}
+.back{display:inline-flex;align-items:center;gap:.45rem;font-weight:650;font-size:.92rem;color:var(--primary);text-decoration:none;padding:.4rem .2rem;white-space:nowrap}
+.back:hover{text-decoration:underline;text-underline-offset:4px}
+.back .ico{width:1rem;height:1rem;transition:transform .2s}
+.back:hover .ico{transform:translateX(-3px)}
+@media (max-width:880px){
+  
+  
+  
+  
+  
+  .crumbs ol li:first-child .txt{display:none}
+}
+@media (max-width:560px){.back .t{display:none}}
+
+/* ---------- Héros ---------- */
+.hero{position:relative;overflow:hidden;isolation:isolate;padding:clamp(2rem,4vw,3rem) 0 clamp(4rem,8vw,7rem);
+  background:
+    radial-gradient(900px 520px at 8% -10%,rgba(112,145,230,.28),transparent 62%),
+    radial-gradient(760px 520px at 96% 10%,rgba(173,187,218,.6),transparent 62%),
+    linear-gradient(180deg,var(--lilac) 0%,#F4F2FA 70%,var(--paper) 100%)}
+.hero-glow{position:absolute;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(420px circle at var(--mx,70%) var(--my,40%),rgba(112,145,230,.20),transparent 62%)}
+.notice{display:flex;gap:1rem;align-items:flex-start;padding:1.1rem 1.3rem;border-radius:18px;background:rgba(255,255,255,.72);border:1px solid var(--line);box-shadow:var(--sh-1)}
+.notice .n-ico{width:44px;height:44px;border-radius:13px;background:var(--warn-bg);color:var(--warn);display:grid;place-items:center;flex:none;transition:background-color .6s,color .6s}
+.notice strong{display:inline;font-size:1rem;letter-spacing:-.01em}
+.notice .tag{margin-left:.5rem;vertical-align:middle}
+.notice p{margin-top:.3rem;font-size:.97rem;color:var(--ink-2);max-width:92ch}
+.tag{display:inline-flex;align-items:center;gap:.35rem;padding:.22rem .7rem;border-radius:999px;background:var(--warn-bg);color:var(--warn);font-size:.8rem;font-weight:700;white-space:nowrap;transition:background-color .6s,color .6s}
+.tag .ico{width:.85rem;height:.85rem;stroke-width:2.6}
+.is-ok .notice .n-ico{background:var(--ok-bg);color:var(--ok)}
+.is-ok .tag{background:var(--ok-bg);color:var(--ok)}
+.hero-grid{display:grid;grid-template-columns:minmax(0,1.02fr) minmax(0,.98fr);gap:clamp(2rem,5vw,5rem);align-items:center;margin-top:clamp(2rem,4vw,3.5rem)}
+.status-pill{display:inline-flex;align-items:center;gap:.6rem;padding:.42rem 1.05rem;border-radius:999px;background:rgba(255,255,255,.8);border:1px solid var(--line);font-size:.9rem;font-weight:600;color:var(--ink-2);box-shadow:var(--sh-1)}
+.status-pill i{position:relative;width:8px;height:8px;border-radius:50%;background:#E0A63A;transition:background-color .6s}
+.status-pill i::after{content:"";position:absolute;inset:-5px;border-radius:50%;border:2px solid currentColor;color:#E0A63A;opacity:0;animation:beat 2.6s ease-out infinite;transition:color .6s}
+.is-ok .status-pill i{background:var(--ok)}
+.is-ok .status-pill i::after{color:var(--ok)}
+@keyframes beat{0%{transform:scale(.4);opacity:.7}70%,100%{transform:scale(1.6);opacity:0}}
+.title-row{display:flex;align-items:center;gap:1.25rem;flex-wrap:wrap;margin-top:1.75rem}
+.dom-tile{width:68px;height:68px;border-radius:20px;background:var(--primary);color:#fff;display:grid;place-items:center;box-shadow:0 18px 30px -16px var(--primary);transition:background-color .6s,box-shadow .6s}
+.dom-tile .ico{width:1.9rem;height:1.9rem}
+.is-ok .dom-tile{background:var(--ok);box-shadow:0 18px 30px -16px var(--ok)}
+h1{font-size:clamp(2.8rem,6.6vw,5rem);letter-spacing:-.048em;line-height:1;font-weight:750}
+h1 .ch{display:inline-block}
+.js h1 .ch{opacity:0;transform:translateY(.5em) rotateX(-60deg);animation:chIn .9s cubic-bezier(.2,.8,.2,1) forwards;animation-delay:calc(var(--k)*55ms + 120ms)}
+@keyframes chIn{to{opacity:1;transform:none}}
+.lock-tag{font-size:.9rem;padding:.35rem .9rem}
+.subtitle{margin-top:1.5rem;font-size:clamp(1.1rem,1.7vw,1.35rem);font-weight:600;color:var(--ink);letter-spacing:-.015em;max-width:30ch;line-height:1.35}
+.hero-p{margin-top:1.25rem;color:var(--ink-2);font-size:1.12rem;max-width:52ch}
+.hero-cta{margin-top:2.5rem;display:flex;flex-wrap:wrap;gap:1rem 1.5rem;align-items:center}
+.hero-cta .note{display:inline-flex;align-items:center;gap:.5rem;font-size:.92rem;color:var(--muted);font-weight:600}
+.hero-cta .note .ico{width:1rem;height:1rem;color:var(--ok);stroke-width:2.8}
+@media (max-width:960px){.hero-grid{grid-template-columns:minmax(0,1fr)}}
+
+/* ---------- Scène 3D ---------- */
+.scene-wrap{position:relative}
+.scene{position:relative;width:100%;max-width:560px;margin-inline:auto;aspect-ratio:1/1;perspective:1100px}
+.halo{position:absolute;inset:8%;border-radius:50%;background:radial-gradient(circle,rgba(112,145,230,.55),rgba(112,145,230,0) 66%);filter:blur(8px);animation:glow 4.6s ease-in-out infinite;transition:background .8s}
+@keyframes glow{0%,100%{opacity:.55;transform:scale(1)}50%{opacity:1;transform:scale(1.06)}}
+.is-ok .halo{background:radial-gradient(circle,rgba(47,163,107,.5),rgba(47,163,107,0) 66%)}
+.ripples i{position:absolute;inset:22%;border-radius:50%;border:1.5px solid rgba(61,82,160,.32);opacity:0;animation:ripple 5.2s ease-out infinite}
+.ripples i:nth-child(2){animation-delay:1.7s}.ripples i:nth-child(3){animation-delay:3.4s}
+@keyframes ripple{0%{transform:scale(.55);opacity:.8}100%{transform:scale(1.5);opacity:0}}
+.tilt{position:absolute;inset:0;transform-style:preserve-3d;transform:rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg))}
+.floaty{position:absolute;inset:0;transform-style:preserve-3d;animation:float 7s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0) rotateY(-9deg) rotateX(3deg)}50%{transform:translateY(-14px) rotateY(9deg) rotateX(-2deg)}}
+.shield3d{position:absolute;left:50%;top:50%;width:42%;aspect-ratio:200/240;transform:translate(-50%,-50%);transform-style:preserve-3d}
+.layer{position:absolute;inset:0;transform:translateZ(calc(var(--i) * -2.7px));filter:brightness(calc(1 - var(--i) * .034))}
+.layer svg{width:100%;height:100%}
+.layer path{fill:#3D52A0;stroke:rgba(255,255,255,.10);stroke-width:1;transition:fill .9s}
+.is-ok .layer path{fill:#16875A}
+.face{position:absolute;inset:0;transform:translateZ(1px)}
+.face svg{width:100%;height:100%;overflow:visible}
+.face .f-ok{opacity:0;transition:opacity .9s}
+.is-ok .face .f-ok{opacity:1}
+.beam{animation:beam 4.8s ease-in-out infinite}
+@keyframes beam{0%{transform:translateY(-70px)}60%,100%{transform:translateY(300px)}}
+[data-state="scanning"] .beam{animation-duration:1.1s}
+.lockwrap{position:absolute;left:50%;top:50%;width:56%;aspect-ratio:1;transform:translate3d(-50%,-46%,34px);filter:drop-shadow(0 14px 14px rgba(23,32,74,.45))}
+.lockwrap svg{width:100%;height:100%;overflow:visible}
+.shackle{transform-box:fill-box;transform-origin:0% 100%;transition:transform .9s cubic-bezier(.3,1.5,.5,1)}
+.is-ok .shackle{transform:translateY(-16px) rotate(-26deg)}
+[data-state="scanning"] .shackle{animation:jiggle .5s ease-in-out infinite}
+@keyframes jiggle{0%,100%{transform:rotate(0)}25%{transform:rotate(-2.5deg)}75%{transform:rotate(2.5deg)}}
+.body-lock{transition:fill .8s}
+.ring{position:absolute;left:50%;top:50%;border-radius:50%;border:1.5px dashed rgba(61,82,160,.42);transform-style:preserve-3d}
+.ring.r1{width:92%;aspect-ratio:1;margin:-46% 0 0 -46%;animation:ring1 18s linear infinite}
+.ring.r2{width:74%;aspect-ratio:1;margin:-37% 0 0 -37%;border-style:solid;border-color:rgba(112,145,230,.32);animation:ring2 24s linear infinite}
+@keyframes ring1{from{transform:rotateX(74deg) rotateZ(0)}to{transform:rotateX(74deg) rotateZ(360deg)}}
+@keyframes ring2{from{transform:rotateX(62deg) rotateY(16deg) rotateZ(360deg)}to{transform:rotateX(62deg) rotateY(16deg) rotateZ(0)}}
+[data-state="scanning"] .ring.r1{animation-duration:3.2s}
+[data-state="scanning"] .ring.r2{animation-duration:4.2s}
+.bead{position:absolute;left:50%;top:-6px;width:12px;height:12px;margin-left:-6px;border-radius:50%;background:var(--blue);box-shadow:0 0 16px 4px rgba(112,145,230,.85)}
+.ring.r2 .bead{top:auto;bottom:-6px;background:#fff;box-shadow:0 0 14px 3px rgba(255,255,255,.9),0 0 0 3px rgba(112,145,230,.5)}
+.is-ok .bead{background:#2FA36B;box-shadow:0 0 16px 4px rgba(47,163,107,.8)}
+.chip3d{position:absolute;display:flex;align-items:center;gap:.45rem;padding:.5rem .85rem;border-radius:999px;background:rgba(255,255,255,.94);border:1px solid var(--line);box-shadow:0 14px 24px -12px rgba(23,32,74,.4);font-weight:700;font-size:.82rem;color:var(--ink);transform:translate3d(0,0,var(--z,60px));animation:chipf 5.4s ease-in-out infinite;animation-delay:var(--dl,0s);white-space:nowrap}
+.chip3d .ico{width:.95rem;height:.95rem;stroke-width:2.6;color:var(--warn)}
+.chip3d .ok{display:none;color:var(--ok)}
+.is-ok .chip3d .lk{display:none}.is-ok .chip3d .ok{display:block}
+@keyframes chipf{0%,100%{transform:translate3d(0,0,var(--z,60px))}50%{transform:translate3d(0,-10px,var(--z,60px))}}
+.chip3d.c1{left:2%;top:20%;--z:90px}
+.chip3d.c2{right:0;top:36%;--z:60px;--dl:-1.8s}
+.chip3d.c3{left:8%;bottom:16%;--z:80px;--dl:-3.2s}
+[data-state="scanning"] .chip3d{animation-name:chipPulse;animation-duration:.9s}
+@keyframes chipPulse{0%,100%{transform:translate3d(0,0,var(--z,60px)) scale(1)}50%{transform:translate3d(0,-4px,var(--z,60px)) scale(1.08)}}
+.scene-badges{position:absolute;left:50%;bottom:1%;transform:translateX(-50%);display:flex;align-items:center;gap:.7rem;padding:.5rem .6rem .5rem 1rem;border-radius:999px;background:rgba(255,255,255,.88);border:1px solid var(--line);box-shadow:var(--sh-2);white-space:nowrap;font-size:.88rem;font-weight:650}
+.scene-badges .ico{width:1rem;height:1rem;color:var(--primary)}
+.scene-badges em{font-style:normal;padding:.25rem .7rem;border-radius:999px;background:var(--tint);color:var(--primary);font-size:.8rem;font-weight:700}
+.is-ok .scene-badges em{background:var(--ok-bg);color:var(--ok)}
+@media (max-width:560px){.chip3d{font-size:.74rem;padding:.4rem .7rem}.scene-badges{font-size:.8rem}}
+.burst{position:absolute;inset:0;pointer-events:none;border-radius:50%}
+.is-ok .shield3d{animation:flip 1.5s cubic-bezier(.3,.8,.2,1)}
+@keyframes flip{0%{transform:translate(-50%,-50%) rotateY(0)}60%{transform:translate(-50%,-50%) rotateY(380deg) scale(1.12)}100%{transform:translate(-50%,-50%) rotateY(360deg) scale(1)}}
+
+/* ---------- Pourquoi c'est masqué ---------- */
+.why{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:clamp(2.5rem,6vw,6rem);align-items:center}
+.why p{color:var(--ink-2);font-size:1.12rem}
+.why p + p{margin-top:1.25rem}
+.why .copy{margin-top:2rem}
+.doc{position:relative;border-radius:var(--r-l);background:var(--white);border:1px solid var(--line);box-shadow:var(--sh-3);overflow:hidden}
+.doc-bar{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:1rem 1.5rem;background:#F4F3FA;border-bottom:1px solid var(--line)}
+.doc-bar strong{font-size:.97rem;letter-spacing:-.01em}
+.doc-bar small{font-size:.82rem;color:var(--muted)}
+.doc-body{position:relative;padding:1.75rem 1.5rem 2rem;display:grid;gap:1.1rem}
+.d-line{display:grid;grid-template-columns:34px 1fr;gap:1rem;align-items:center}
+.d-line .dot{width:34px;height:34px;border-radius:10px;background:var(--tint);display:grid;place-items:center;color:var(--primary)}
+.d-line .dot .ico{width:1rem;height:1rem}
+.d-line .bars{display:grid;gap:.55rem}
+.redact{position:relative;height:13px;border-radius:7px;background:#CBD2EA;overflow:hidden}
+.redact i{position:absolute;inset:0;border-radius:7px;background:linear-gradient(90deg,#1E2A55,#3A4672);transform-origin:0 50%;transform:scaleX(1)}
+.js .doc:not(.in) .redact i{transform:scaleX(0)}
+.redact i{transition:transform .9s cubic-bezier(.2,.8,.2,1);transition-delay:calc(var(--k,0) * 110ms + 350ms)}
+.redact::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.28),transparent);transform:translateX(-100%);animation:sweep 4.2s ease-in-out infinite;animation-delay:calc(var(--k,0) * 220ms)}
+@keyframes sweep{0%,60%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
+.stamp{position:absolute;right:1.5rem;top:5.4rem;display:flex;align-items:center;gap:.6rem;padding:.6rem 1.1rem;border:2.5px solid var(--primary);border-radius:14px;color:var(--primary);background:rgba(255,255,255,.92);font-weight:800;font-size:.95rem;letter-spacing:-.01em;transform:rotate(-8deg);box-shadow:0 18px 30px -18px rgba(61,82,160,.6)}
+.stamp .ico{width:1.15rem;height:1.15rem;stroke-width:2.6}
+.js .doc:not(.in) .stamp{opacity:0;transform:rotate(-24deg) scale(1.9)}
+.stamp{transition:opacity .35s ease 1.4s,transform .6s cubic-bezier(.3,1.6,.5,1) 1.4s}
+@media (max-width:960px){.why{grid-template-columns:minmax(0,1fr)}.stamp{top:4.9rem;right:1rem}}
+
+/* ---------- Ce qui a été analysé ---------- */
+.checks-head{display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+.count-pill{display:inline-flex;align-items:center;gap:.5rem;padding:.45rem 1rem;border-radius:999px;background:var(--white);border:1px solid var(--line);font-weight:650;font-size:.92rem;color:var(--ink-2);box-shadow:var(--sh-1)}
+.count-pill b{color:var(--primary);font-size:1.05rem}
+.checks{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1.25rem;margin-top:2.5rem}
+.check{--spin:0deg;position:relative;display:flex;flex-direction:column;gap:1.1rem;padding:2rem;border-radius:var(--r-l);background:var(--white);border:1px solid var(--line);box-shadow:var(--sh-1);overflow:hidden;transition:transform .35s cubic-bezier(.2,.7,.2,1),box-shadow .35s}
+.check::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:1.5px;background:conic-gradient(from var(--spin),transparent 0 55%,var(--blue) 75%,var(--primary) 90%,transparent 100%);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:0;transition:opacity .4s;pointer-events:none}
+.check::after{content:"";position:absolute;inset:0;background:radial-gradient(320px circle at var(--px,50%) var(--py,0%),rgba(112,145,230,.16),transparent 60%);opacity:0;transition:opacity .35s;pointer-events:none}
+.check:hover{transform:translateY(-4px);box-shadow:var(--sh-2)}
+.check:hover::before{opacity:1;animation:spinB 3.5s linear infinite}
+.check:hover::after{opacity:1}
+@keyframes spinB{to{--spin:360deg}}
+.check .c-ico{width:56px;height:56px;border-radius:17px;background:var(--tint);color:var(--primary);display:grid;place-items:center;position:relative;z-index:1;transition:background-color .6s,color .6s}
+.check .c-ico .ico{width:1.55rem;height:1.55rem}
+.check h3{font-size:1.2rem;letter-spacing:-.02em;position:relative;z-index:1}
+.check p{color:var(--ink-2);font-size:1rem;position:relative;z-index:1}
+.pend{margin-top:auto;display:inline-flex;align-items:center;gap:.5rem;align-self:flex-start;padding:.45rem .95rem;border-radius:999px;background:var(--warn-bg);color:var(--warn);font-size:.85rem;font-weight:700;position:relative;z-index:1;transition:background-color .6s,color .6s}
+.pend .ico{width:.95rem;height:.95rem;stroke-width:2.4}
+.pend .ok{display:none}
+.is-ok .pend{background:var(--ok-bg);color:var(--ok)}
+.is-ok .pend .lk{display:none}.is-ok .pend .ok{display:block}
+.is-ok .check .c-ico{background:var(--ok-bg);color:var(--ok)}
+.pend .t-ok{display:none}.is-ok .pend .t-wait{display:none}.is-ok .pend .t-ok{display:inline}
+@media (max-width:960px){.checks{grid-template-columns:minmax(0,1fr)}.check{padding:1.6rem}}
+
+/* ---------- Débloquer ---------- */
+.unlock-card{position:relative;overflow:hidden;margin-top:2.5rem;border-radius:32px;background:var(--white);border:1px solid var(--line);box-shadow:var(--sh-3);padding:clamp(1.75rem,4.5vw,4rem)}
+.unlock-card::before{content:"";position:absolute;left:0;right:0;top:0;height:6px;background:linear-gradient(90deg,var(--primary),var(--blue),var(--mist),var(--blue),var(--primary));background-size:220% 100%;animation:slide 6s linear infinite}
+@keyframes slide{to{background-position:220% 0}}
+.unlock-card::after{content:"";position:absolute;right:-120px;top:-140px;width:420px;height:420px;border-radius:50%;background:radial-gradient(circle,rgba(173,187,218,.45),transparent 66%);pointer-events:none}
+.unlock-card > *{position:relative;z-index:1}
+.uc-head h3{font-size:clamp(1.5rem,2.8vw,2.1rem);letter-spacing:-.035em;max-width:24ch}
+.uc-head p{margin-top:1rem;color:var(--ink-2);font-size:1.1rem;max-width:56ch}
+.uc-grid{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:clamp(2rem,5vw,4.5rem);margin-top:clamp(2.5rem,5vw,3.5rem);align-items:start}
+
+/* Étapes */
+.steps{position:relative;display:grid;gap:2.25rem;padding-left:0}
+.steps::before{content:"";position:absolute;left:25px;top:26px;bottom:26px;width:2px;background:var(--line-strong);border-radius:2px}
+.steps::after{content:"";position:absolute;left:25px;top:26px;width:2px;height:var(--fill,0px);max-height:calc(100% - 52px);background:linear-gradient(180deg,var(--blue),var(--primary));border-radius:2px;transition:height .5s cubic-bezier(.2,.7,.2,1)}
+.step{position:relative;display:grid;grid-template-columns:52px minmax(0,1fr);gap:1.25rem;align-items:start;opacity:.62;transition:opacity .4s}
+.step.on,.step.done{opacity:1}
+.step-n{width:52px;height:52px;border-radius:50%;background:var(--white);border:2px solid var(--line-strong);color:var(--muted);display:grid;place-items:center;font-weight:750;font-size:1.15rem;transition:background-color .4s,border-color .4s,color .4s,box-shadow .4s,transform .4s}
+.step.on .step-n{border-color:var(--primary);color:var(--primary);box-shadow:0 0 0 6px rgba(61,82,160,.12);transform:scale(1.04)}
+.step.done .step-n{background:var(--ok);border-color:var(--ok);color:#fff}
+.step-n .ico{display:none;width:1.3rem;height:1.3rem;stroke-width:3}
+.step.done .step-n span{display:none}.step.done .step-n .ico{display:block}
+.step h4{font-size:1.18rem;letter-spacing:-.02em;padding-top:.8rem}
+.step p{margin-top:.45rem;color:var(--ink-2);font-size:1rem;max-width:40ch}
+
+/* Console de vérification */
+.console{border-radius:var(--r-l);background:var(--navy);color:#fff;overflow:hidden;box-shadow:0 40px 70px -40px rgba(23,32,74,.8)}
+.con-head{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:1.1rem 1.5rem;border-bottom:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.04)}
+.con-title{display:flex;align-items:center;gap:.8rem;font-weight:700;font-size:.98rem}
+.keyico{width:38px;height:38px;border-radius:12px;background:rgba(112,145,230,.22);color:#BFCDF7;display:grid;place-items:center}
+.keyico .ico{width:1.2rem;height:1.2rem;transition:transform .8s cubic-bezier(.3,1.4,.5,1)}
+.console.running .keyico .ico{transform:rotate(90deg)}
+.con-tags{display:flex;gap:.5rem;flex-wrap:wrap;justify-content:flex-end}
+.con-tags span{padding:.25rem .7rem;border-radius:999px;background:rgba(255,255,255,.1);font-size:.78rem;font-weight:650;color:#D5DEFA}
+.con-body{padding:1.5rem}
+.seg{display:flex;flex-wrap:wrap;gap:4px;padding:4px;border-radius:14px;background:rgba(255,255,255,.08);width:100%}
+.seg button{flex:1 1 auto;display:inline-flex;align-items:center;justify-content:center;gap:.45rem;min-height:44px;padding:.5rem .8rem;border:0;border-radius:11px;background:transparent;color:#C9D4F5;font-weight:650;font-size:.92rem;cursor:pointer;transition:background-color .25s,color .25s}
+.seg button:hover{color:#fff}
+.seg button[aria-selected="true"]{background:#fff;color:var(--primary)}
+.seg button:focus-visible{outline-color:#fff}
+.seg .rec{padding:.1rem .5rem;border-radius:999px;background:var(--ok-bg);color:var(--ok);font-size:.72rem;font-weight:750;white-space:nowrap}
+.how{padding:1.1rem 7.5rem 0 1.25rem;font-size:.9rem;line-height:1.6;color:#C9D4F5}
+.how + .code-meta{padding-top:.8rem}
+.how strong{color:#fff;font-weight:650}
+.code-meta{padding-right:7.5rem}
+.gbtn{margin:1rem 1.25rem 0;background:#fff;color:var(--primary);min-height:48px}
+.gbtn:hover{background:var(--lilac)}
+.gbtn svg{width:1.15rem;height:1.15rem}
+.retry-help{margin-top:1rem;padding:1rem 1.2rem;border-radius:14px;background:rgba(251,232,200,.1);border:1px solid rgba(251,232,200,.35);color:#F3DDB8;font-size:.9rem}
+.retry-help[hidden]{display:none}
+.retry-help strong{color:#fff}
+.retry-help ul{margin-top:.4rem;display:grid;gap:.2rem;list-style:disc;padding-left:1.2rem}
+.uc-notes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1.25rem;margin-top:clamp(2.5rem,5vw,3.5rem)}
+.uc-note{padding:1.5rem;border-radius:var(--r-m);background:var(--paper);border:1px solid var(--line)}
+.uc-note h4{display:flex;align-items:center;gap:.6rem;font-size:1.08rem;letter-spacing:-.02em}
+.uc-note h4 .ico{color:var(--primary)}
+.uc-note p{margin-top:.6rem;color:var(--ink-2);font-size:.97rem}
+@media (max-width:960px){.uc-notes{grid-template-columns:minmax(0,1fr)}}
+.code-wrap{position:relative;margin-top:1.25rem;border-radius:16px;background:#0E1535;border:1px solid rgba(255,255,255,.1)}
+.code-meta{display:grid;grid-template-columns:auto 1fr;gap:.35rem 1.25rem;padding:1.1rem 1.25rem 0;font-size:.82rem;color:#A9B7E6}
+.code-meta b{color:#fff;font-weight:650;font-family:var(--mono)}
+.code{display:block;margin:.9rem 0 0;padding:.9rem 1.25rem 1.25rem;font-family:var(--mono);font-size:.88rem;line-height:1.6;color:#DCE4FF;overflow-x:auto;white-space:pre;border-top:1px dashed rgba(255,255,255,.12)}
+.code .k{color:#8FB0FF}.code .s{color:#8EE3B5}.code .t{color:#F6C98D}
+button.copy{position:absolute;right:.7rem;top:.7rem;min-height:36px;padding:.35rem .8rem;border-radius:10px;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.08);color:#fff;font-weight:650;font-size:.8rem;cursor:pointer;display:inline-flex;align-items:center;gap:.4rem;transition:background-color .2s}
+button.copy:hover{background:rgba(255,255,255,.18)}
+button.copy .ico{width:.9rem;height:.9rem}
+button.copy:focus-visible{outline-color:#fff}
+.log{margin-top:1.25rem;min-height:5.2rem;font-family:var(--mono);font-size:.84rem;line-height:1.7;color:#B9C6F0}
+.log div{display:flex;gap:.6rem;align-items:flex-start;animation:logIn .35s ease both}
+.log .good{color:#8EE3B5}
+@keyframes logIn{from{opacity:0;transform:translateX(-8px)}to{opacity:1;transform:none}}
+.log .sp{width:.9rem;height:.9rem;margin-top:.3rem;border-radius:50%;border:2px solid rgba(255,255,255,.25);border-top-color:#8FB0FF;animation:spin .7s linear infinite;flex:none}
+@keyframes spin{to{transform:rotate(360deg)}}
+.con-actions{display:flex;flex-wrap:wrap;gap:1rem 1.5rem;align-items:center;margin-top:1.5rem}
+.con-actions .btn-primary{background:#fff;color:var(--primary);box-shadow:0 16px 30px -16px rgba(0,0,0,.6)}
+.con-actions .btn-primary:hover{background:var(--lilac)}
+.con-actions .btn-ok{background:var(--ok);color:#fff}
+.guide{display:inline-flex;align-items:center;gap:.5rem;font-weight:650;color:#D5DEFA;text-decoration:none;padding:.5rem 0;font-size:.97rem}
+.guide:hover{color:#fff;text-decoration:underline;text-underline-offset:5px}
+.guide .ico{width:1rem;height:1rem;transition:transform .2s}
+.guide:hover .ico{transform:translateX(3px)}
+.success{margin-top:1.5rem;padding:1.25rem 1.4rem;border-radius:16px;background:rgba(47,163,107,.16);border:1px solid rgba(47,163,107,.45);color:#D7F7E6}
+.success[hidden]{display:none}
+.success h4{font-size:1.1rem;color:#fff;display:flex;align-items:center;gap:.6rem;letter-spacing:-.015em}
+.success h4 .ico{width:1.3rem;height:1.3rem;color:#7CE2AE;stroke-width:3}
+.success p{margin-top:.5rem;font-size:.95rem}
+.success .demo{margin-top:.6rem;font-size:.85rem;color:#A9E9C8}
+.success .btn{margin-top:1.1rem}
+@media (max-width:960px){.uc-grid{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:560px){.con-head{flex-direction:column;align-items:flex-start}.con-tags{justify-content:flex-start}button.copy{position:static;margin:.8rem 0 0 1.25rem}.how,.code-meta{padding-right:1.25rem}.gbtn{width:calc(100% - 2.5rem);white-space:normal}.seg button{flex:1 1 40%}}
+
+/* ---------- Navigation entre domaines ---------- */
+.pager{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1.25rem}
+.pg{display:flex;align-items:center;gap:1.25rem;padding:1.5rem 1.75rem;border-radius:var(--r-m);background:var(--white);border:1px solid var(--line);text-decoration:none;box-shadow:var(--sh-1);transition:transform .3s cubic-bezier(.2,.7,.2,1),box-shadow .3s,border-color .3s}
+.pg:hover{transform:translateY(-3px);box-shadow:var(--sh-2);border-color:var(--primary)}
+.pg .arr{width:48px;height:48px;border-radius:50%;background:var(--tint);color:var(--primary);display:grid;place-items:center;flex:none;transition:background-color .25s,color .25s,transform .25s}
+.pg:hover .arr{background:var(--primary);color:#fff}
+.pg.prev:hover .arr{transform:translateX(-4px)}.pg.next:hover .arr{transform:translateX(4px)}
+.pg small{display:block;font-size:.85rem;color:var(--muted);font-weight:600}
+.pg strong{display:block;font-size:1.12rem;letter-spacing:-.02em;margin-top:.15rem}
+.pg .txt{flex:1;min-width:0}
+.pg.next{flex-direction:row-reverse;text-align:right}
+.grade{display:inline-grid;place-items:center;width:2.4rem;height:2.4rem;border-radius:.75rem;font-weight:780;font-size:1.05rem;flex:none}
+.g-b{background:#DDE4F8;color:#2B3B85}
+.g-c{background:var(--warn-bg);color:var(--warn)}
+.back-all{display:flex;justify-content:center;margin-top:2.5rem}
+@media (max-width:760px){.pager{grid-template-columns:minmax(0,1fr)}.pg{padding:1.25rem}}
+
+/* ---------- Pied de page ---------- */
+
+
+
+
+
+
+
+/* Canvas de confettis */
+#confetti{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:150}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+  .tilt{transform:none!important}
+}
+@media print{.scene-wrap,.progress,#confetti{display:none}}
+</style>
+<style id="ax-surface">
+:root{--ax-edge:clamp(12px,3vw,32px);--ax-r:28px;--ax-max:1240px;--ax-bd:#ADBBDA;--ax-sf:#EDE8F5}
+
+/* AX-SURFACE */
+.crumbs-bar{border-top:0;margin-top:8px}
+.crumbs a,.back{display:inline-flex;align-items:center;min-height:44px}
+.back{min-width:44px;justify-content:center}
+button.copy,.guide{min-height:44px}
+@media (max-width:400px){.scene-badges{max-width:calc(100% - 12px);font-size:.68rem;gap:.35rem;padding:.35rem .4rem .35rem .65rem}.scene-badges .ico{display:none}.scene-badges em{font-size:.66rem;padding:.2rem .45rem}}
+.back-all .btn{white-space:normal;text-align:center;max-width:100%}
+.crumbs ol li:first-child .txt{display:inline}.crumbs ol li:first-child .sr-only{display:none}
+.hero{margin:0 var(--ax-edge);border-radius:var(--ax-r);border:1px solid rgba(173,187,218,.6)}
+@media (min-width:1305px){.hero{max-width:var(--ax-max);margin-inline:auto;width:100%}}
+@media (max-width:480px){.hero .wrap{padding-inline:16px}}
+body{padding-bottom:0}
+.pend{white-space:nowrap;max-width:100%}
+@media (max-width:400px){.pend{font-size:.8rem;padding:.45rem .8rem;gap:.4rem}}
+
+/* AX-LINKS: liens designes (cartes / pilules) */
+</style>
+</head>
+
+<body>
+<a class="skip" href="#contenu">Aller au contenu principal</a>
+<div class="progress" aria-hidden="true"><i id="progress"></i></div>
+<canvas id="confetti" aria-hidden="true"></canvas>
+
+<!-- AUDIXIO NAV START — chrome partagé (canon NAV-CANON-desktop-et-mobile.md). Coller tel quel dans chaque page de design/maquettes/finales/<page>/ -->
+<style>
+.axn,.axn *,.axn-top{box-sizing:border-box}
+.axn{--axn-p:#3D52A0;--axn-ph:#1E2A55;--axn-ac:#7091E6;--axn-sec:#8697C4;--axn-bd:#ADBBDA;--axn-sf:#EDE8F5;--axn-tx:#1E2A55;--axn-tx2:#4A5585;--axn-font:Inter,"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;
+  position:sticky;top:0;z-index:1000;padding:14px clamp(12px,3vw,32px);font-family:var(--axn-font);transition:padding .3s cubic-bezier(.16,1,.3,1)}
+.axn-bar{max-width:1240px;margin:0 auto;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:16px;height:64px;padding:0 10px 0 20px;background:rgba(255,255,255,.92);-webkit-backdrop-filter:blur(14px) saturate(1.4);backdrop-filter:blur(14px) saturate(1.4);border:1px solid var(--axn-bd);border-radius:999px;box-shadow:0 1px 2px rgba(30,42,85,.04);transition:height .3s cubic-bezier(.16,1,.3,1),box-shadow .3s,border-color .3s}
+.axn.is-scrolled{padding-top:8px;padding-bottom:8px}
+.axn.is-scrolled .axn-bar{height:56px;box-shadow:0 10px 30px -12px rgba(30,42,85,.28),0 1px 2px rgba(30,42,85,.06);border-color:rgba(173,187,218,.7)}
+.axn-logo{display:inline-flex;align-items:center;justify-self:start;border-radius:10px;text-decoration:none}
+.axn-logo img{display:block;height:34px;width:auto;max-width:none}
+.axn-logo .axn-logo-m{display:none}
+.axn-links{display:flex;gap:4px;margin:0;padding:0;list-style:none}
+.axn-links a{position:relative;display:block;padding:9px 16px;border-radius:999px;font-size:15px;font-weight:550;line-height:1.2;color:var(--axn-tx2);text-decoration:none;transition:color .2s,background-color .2s}
+.axn-links a::after{content:"";position:absolute;left:16px;right:16px;bottom:5px;height:2px;border-radius:2px;background:var(--axn-ac);transform:scaleX(0);transform-origin:left;transition:transform .25s cubic-bezier(.16,1,.3,1)}
+.axn-links a:hover{color:var(--axn-tx)}
+.axn-links a:hover::after{transform:scaleX(1)}
+.axn-links a[aria-current="page"]{color:var(--axn-p);font-weight:650;background:var(--axn-sf)}
+.axn-links a[aria-current="page"]::after{display:none}
+.axn-tools{display:flex;align-items:center;justify-content:flex-end;gap:10px}
+.axn-lang{display:inline-flex;padding:3px;border:1px solid var(--axn-bd);border-radius:999px;background:#fff}
+.axn-lang a,.axn-lang span{display:grid;place-items:center;min-width:36px;height:30px;padding:0 8px;border-radius:999px;font-size:13px;font-weight:650;color:var(--axn-tx2);text-decoration:none;transition:background-color .2s,color .2s}
+.axn-lang [aria-current]{background:var(--axn-sf);color:var(--axn-p)}
+.axn-lang a:hover{color:var(--axn-tx);background:#F6F4FB}
+.axn-theme{display:grid;place-items:center;width:40px;height:40px;border:1px solid var(--axn-bd);border-radius:999px;background:#fff;color:var(--axn-tx);cursor:pointer;transition:background-color .2s,transform .3s cubic-bezier(.34,1.56,.64,1)}
+.axn-theme:hover{background:var(--axn-sf);transform:rotate(-18deg)}
+.axn-cta{display:inline-flex;align-items:center;gap:8px;height:42px;padding:0 18px;border-radius:999px;background:var(--axn-p);color:#fff;font-size:15px;font-weight:600;text-decoration:none;box-shadow:0 6px 16px -8px rgba(61,82,160,.7);transition:background-color .2s,transform .2s,box-shadow .2s}
+.axn-cta:hover{background:var(--axn-ph);transform:translateY(-1px);box-shadow:0 10px 20px -10px rgba(30,42,85,.8)}
+.axn svg,.axn-top svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.axn a:focus-visible,.axn button:focus-visible,.axn-top:focus-visible{outline:3px solid var(--axn-ac,#7091E6);outline-offset:3px}
+/* Mobile (<=900px) : burger + panneau déroulant ; back-to-top */
+.axn-burger,.axn-sheet,.axn-scrim,.axn-top{display:none}
+@media (max-width:900px){
+  .axn{padding:10px 12px}
+  .axn.is-scrolled{padding-top:6px;padding-bottom:6px}
+  .axn-bar{position:relative;z-index:2;grid-template-columns:auto 1fr;height:58px;padding:0 8px 0 12px;border-radius:20px}
+  .axn.is-scrolled .axn-bar{height:54px}
+  .axn-bar>nav,.axn-bar>.axn-tools{display:none}
+  .axn-logo img.axn-logo-d{height:32px}
+}
+@media (max-width:329px){
+  .axn-logo .axn-logo-d{display:none}
+  .axn-logo .axn-logo-m{display:block;height:36px}
+}
+@media (max-width:900px){
+  .axn-burger{display:grid;place-items:center;justify-self:end;width:44px;height:44px;border:1px solid var(--axn-bd);border-radius:14px;background:#fff;color:var(--axn-tx);cursor:pointer;transition:background-color .2s}
+  .axn-burger:hover{background:var(--axn-sf)}
+  .axn-burger i{position:relative;display:block;width:20px;height:14px}
+  .axn-burger i b{position:absolute;left:0;width:100%;height:2px;border-radius:2px;background:currentColor;transition:transform .35s cubic-bezier(.65,0,.35,1),opacity .2s,top .35s cubic-bezier(.65,0,.35,1)}
+  .axn-burger i b:nth-child(1){top:0}.axn-burger i b:nth-child(2){top:6px}.axn-burger i b:nth-child(3){top:12px}
+  .axn.is-open .axn-burger i b:nth-child(1){top:6px;transform:rotate(45deg)}
+  .axn.is-open .axn-burger i b:nth-child(2){opacity:0;transform:scaleX(.2)}
+  .axn.is-open .axn-burger i b:nth-child(3){top:6px;transform:rotate(-45deg)}
+  .axn-scrim{display:block;position:fixed;inset:0;z-index:0;background:rgba(30,42,85,.28);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s}
+  .axn.is-open .axn-scrim{opacity:1;visibility:visible}
+  .axn-sheet{display:block;position:absolute;z-index:1;left:12px;right:12px;top:calc(100% - 4px);max-height:calc(100dvh - 90px);overflow:auto;padding:14px;background:#fff;border:1px solid var(--axn-bd);border-radius:22px;box-shadow:0 30px 60px -24px rgba(30,42,85,.45);opacity:0;visibility:hidden;transform:translateY(-10px) scale(.98);transform-origin:top center;transition:opacity .25s,transform .35s cubic-bezier(.16,1,.3,1),visibility .35s}
+  .axn.is-open .axn-sheet{opacity:1;visibility:visible;transform:none}
+  .axn-sheet ul{margin:0;padding:0;list-style:none}
+  .axn-sheet li,.axn-sheet .axn-row,.axn-sheet .axn-cta{opacity:0;transform:translateY(8px);transition:opacity .3s,transform .4s cubic-bezier(.16,1,.3,1)}
+  .axn.is-open .axn-sheet li,.axn.is-open .axn-sheet .axn-row,.axn.is-open .axn-sheet .axn-cta{opacity:1;transform:none;transition-delay:calc(60ms + var(--i,0)*45ms)}
+  .axn-sheet ul a{display:flex;align-items:center;justify-content:space-between;padding:14px 14px;border-radius:14px;font-size:17px;font-weight:600;color:var(--axn-tx);text-decoration:none;transition:background-color .2s,color .2s}
+  .axn-sheet ul a::after{content:"";width:8px;height:8px;border-top:2px solid var(--axn-sec);border-right:2px solid var(--axn-sec);transform:rotate(45deg);transition:transform .2s}
+  .axn-sheet ul a:hover{background:#F6F4FB}
+  .axn-sheet ul a:hover::after{transform:translateX(3px) rotate(45deg)}
+  .axn-sheet ul a[aria-current="page"]{background:var(--axn-sf);color:var(--axn-p)}
+  .axn-row{display:flex;align-items:center;justify-content:space-between;margin:10px 4px 12px;padding-top:14px;border-top:1px solid var(--axn-sf)}
+  .axn-sheet .axn-cta{display:flex;justify-content:center;width:100%;height:48px;font-size:16px}
+  .axn-top{display:grid;place-items:center;position:fixed;right:16px;bottom:calc(20px + env(safe-area-inset-bottom));z-index:999;width:48px;height:48px;border-radius:16px;border:1px solid #ADBBDA;background:#fff;color:#1E2A55;box-shadow:0 8px 22px -10px rgba(30,42,85,.4);cursor:pointer;opacity:0;visibility:hidden;transform:translateY(12px) scale(.9);transition:opacity .25s,transform .3s cubic-bezier(.34,1.56,.64,1),visibility .25s}
+  .axn-top.is-on{opacity:1;visibility:visible;transform:none}
+  .axn-top svg{width:22px;height:22px;stroke-width:2.2}
+}
+@media (prefers-reduced-motion:reduce){.axn,.axn *,.axn-top{transition:none!important;transition-delay:0s!important}}
+@media print{.axn,.axn-top{display:none!important}}
+</style>
+<header class="axn" id="top">
+  <div class="axn-bar">
+    <a class="axn-logo" href="../page_accueil/page_accueil.html" aria-label="Audixio — accueil"><img class="axn-logo-d" src="../../../logos/audixio-logo-pc-clair.svg" alt="" width="107" height="34" decoding="async"><img class="axn-logo-m" src="../../../logos/audixio-logo-mobile-clair.svg" alt="" width="36" height="36" decoding="async"></a>
+    <nav aria-label="Navigation principale">
+      <ul class="axn-links">
+        <li><a href="../page_accueil/page_accueil.html">Accueil</a></li>
+        <li><a href="../page_methode_bareme/page_methode_bareme.html">Méthode</a></li>
+        <li><a href="../page_site_suivi/page_site_suivi.html" aria-current="page">Sites suivis</a></li>
+        <li><a href="../page_pro/page_pro.html">Tarifs</a></li>
+      </ul>
+    </nav>
+    <div class="axn-tools">
+      <div class="axn-lang" role="group" aria-label="Langue">
+        <span lang="fr" aria-current="true">FR</span>
+        <a href="#" lang="en" hreflang="en" aria-label="EN — English">EN</a>
+      </div>
+      <button class="axn-theme" type="button" aria-label="Passer en thème sombre" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
+      <a class="axn-cta" href="../interface_connexion/interface_connexion.html"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg><span class="axn-cta-txt">Connexion</span></a>
+    </div>
+    <button class="axn-burger" type="button" aria-expanded="false" aria-controls="axn-menu" aria-label="Ouvrir le menu"><i aria-hidden="true"><b></b><b></b><b></b></i></button>
+  </div>
+  <div class="axn-scrim" aria-hidden="true"></div>
+  <div class="axn-sheet" id="axn-menu" role="dialog" aria-modal="true" aria-label="Menu" inert>
+    <nav aria-label="Navigation principale (mobile)">
+      <ul>
+        <li style="--i:0"><a href="../page_accueil/page_accueil.html">Accueil</a></li>
+        <li style="--i:1"><a href="../page_methode_bareme/page_methode_bareme.html">Méthode</a></li>
+        <li style="--i:2"><a href="../page_site_suivi/page_site_suivi.html" aria-current="page">Sites suivis</a></li>
+        <li style="--i:3"><a href="../page_pro/page_pro.html">Tarifs</a></li>
+      </ul>
+    </nav>
+    <div class="axn-row" style="--i:4">
+      <div class="axn-lang" role="group" aria-label="Langue">
+        <span lang="fr" aria-current="true">FR</span>
+        <a href="#" lang="en" hreflang="en" aria-label="EN — English">EN</a>
+      </div>
+      <button class="axn-theme" type="button" aria-label="Passer en thème sombre" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
+    </div>
+    <div class="axn-cta-wrap"><a class="axn-cta" style="--i:5" href="../interface_connexion/interface_connexion.html"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg><span>Connexion</span></a></div>
+  </div>
+</header>
+<button class="axn-top" type="button" aria-label="Remonter en haut"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
+<script>
+(function(){
+  var hdr=document.querySelector('.axn');if(!hdr)return;
+  var here=location.pathname.split('/').pop();
+  document.querySelectorAll('.axn-links a,.axn-sheet ul a').forEach(function(a){
+    var f=(a.getAttribute('href')||'').split('/').pop();
+    if(f&&f!=='#'&&f===here)a.setAttribute('aria-current','page');
+  });
+  var cta=hdr.querySelector('.axn-cta');/* état session : passer data-session="1" sur <html> => "Compte" */
+  if(document.documentElement.dataset.session==='1'){hdr.querySelectorAll('.axn-cta span').forEach(function(s){s.textContent='Compte';});}
+  hdr.querySelectorAll('.axn-theme').forEach(function(th){th.addEventListener('click',function(){/* thème sombre : non implémenté (maquette light) */var p=th.getAttribute('aria-pressed')==='true';th.setAttribute('aria-pressed',String(!p));});});
+  var bg=hdr.querySelector('.axn-burger'),sh=document.getElementById('axn-menu'),sc=hdr.querySelector('.axn-scrim');
+  function setMenu(o,back){if(!bg||!sh)return;hdr.classList.toggle('is-open',o);bg.setAttribute('aria-expanded',String(o));bg.setAttribute('aria-label',o?'Fermer le menu':'Ouvrir le menu');
+    if(o){sh.removeAttribute('inert');document.documentElement.style.overflow='hidden';document.body.style.overflow='hidden';setTimeout(function(){var f=sh.querySelector('a,button');f&&f.focus();},50);}
+    else{sh.setAttribute('inert','');document.documentElement.style.overflow='';document.body.style.overflow='';if(back)bg.focus();}}
+  bg&&bg.addEventListener('click',function(){setMenu(!hdr.classList.contains('is-open'),true);});
+  sc&&sc.addEventListener('click',function(){setMenu(false,true);});
+  sh&&sh.addEventListener('click',function(e){if(e.target.closest('a'))setMenu(false,false);});
+  document.addEventListener('keydown',function(e){if(!hdr.classList.contains('is-open'))return;
+    if(e.key==='Escape'){e.preventDefault();setMenu(false,true);return;}
+    if(e.key==='Tab'){var f=[bg].concat([].slice.call(sh.querySelectorAll('a[href],button'))),i=f.indexOf(document.activeElement);
+      if(e.shiftKey&&(i<=0)){e.preventDefault();f[f.length-1].focus();}else if(!e.shiftKey&&(i===f.length-1||i<0)){e.preventDefault();f[0].focus();}}});
+  matchMedia('(min-width: 901px)').addEventListener('change',function(m){if(m.matches)setMenu(false,false);});
+  var top=document.querySelector('.axn-top'),rm=matchMedia('(prefers-reduced-motion: reduce)');
+  function onS(){var y=scrollY;hdr.classList.toggle('is-scrolled',y>8);top&&top.classList.toggle('is-on',y>innerHeight*.9);}
+  addEventListener('scroll',onS,{passive:true});onS();
+  top&&top.addEventListener('click',function(){scrollTo({top:0,behavior:rm.matches?'auto':'smooth'});var t=hdr.querySelector('.axn-logo');t&&t.focus({preventScroll:true});});
+})();
+</script>
+<!-- AUDIXIO NAV END -->
+<main id="contenu">
+<div class="crumbs-bar">
+    <div class="wrap crumbs">
+      <nav aria-label="Fil d'Ariane">
+        <ol>
+          <li><a href="../page_rapport_hub/page_rapport_hub.html"><span class="txt">Rapport exemple.fr</span><span class="sr-only">Rapport exemple.fr</span></a></li>
+          <li class="sep" aria-hidden="true"><svg class="ico" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></li>
+          <li><span aria-current="page">Sécurité (Restreint)</span></li>
+        </ol>
+      </nav>
+      <a class="back" href="../page_rapport_hub/page_rapport_hub.html" aria-label="Retour au rapport"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg><span class="t">Retour au rapport</span></a>
+    </div>
+  </div>
+
+
+  <!-- ===== Héros du domaine ===== -->
+  <section class="hero" id="hero" aria-labelledby="h1">
+    <div class="hero-glow" aria-hidden="true"></div>
+    <div class="wrap">
+      <div class="notice rv">
+        <span class="n-ico" aria-hidden="true"><svg class="ico" viewBox="0 0 24 24"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></span>
+        <div>
+          <strong id="notice-title">Domaine restreint · Détail réservé au propriétaire</strong><span class="tag" id="notice-tag"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg><span>Accès limité</span></span>
+          <p>Pour protéger le site, les constats détaillés de ce domaine sont masqués au public et réservés au propriétaire de exemple.fr. Audixio affiche ce qui est testé, jamais le détail des faiblesses.</p>
+        </div>
+      </div>
+
+      <div class="hero-grid">
+        <div>
+          <p class="status-pill rv" style="--d:.05s"><i aria-hidden="true"></i><span id="pill-text">Site non vérifié · exemple.fr</span></p>
+
+          <div class="title-row">
+            <span class="dom-tile rv" style="--d:.1s" aria-hidden="true"><svg class="ico" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span>
+            <h1 id="h1" aria-label="Sécurité"><span aria-hidden="true" id="h1-chars">Sécurité</span></h1>
+            <span class="tag lock-tag rv" style="--d:.5s" id="lock-tag"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg><span>Verrouillé</span></span>
+          </div>
+
+          <p class="subtitle rv" style="--d:.2s">Audit passif de l'infrastructure et des protocoles de protection web</p>
+          <p class="hero-p rv" style="--d:.28s">Les points de contrôle sont visibles par tous ; le résultat détaillé de chaque test, lui, n'est montré qu'au propriétaire vérifié du domaine.</p>
+
+          <div class="hero-cta rv" style="--d:.36s">
+            <a class="btn btn-primary shimmer magnetic" id="hero-cta" href="#debloquer">
+              <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+              Vérifier la propriété pour débloquer
+              <svg class="ico down" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M6 13l6 6 6-6"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- Scène 3D -->
+        <div class="scene-wrap rv from-right" style="--d:.15s">
+          <div class="scene" id="scene" data-state="locked" role="img" aria-label="Illustration : un bouclier de sécurité verrouillé par un cadenas, entouré d'anneaux orbitaux">
+            <div class="halo"></div>
+            <div class="ripples"><i></i><i></i><i></i></div>
+            <div class="tilt" id="tilt">
+              <div class="floaty">
+                <div class="ring r1"><span class="bead"></span></div>
+                <div class="ring r2"><span class="bead"></span></div>
+
+                <div class="shield3d" id="shield3d">
+                  <!-- Les couches d'épaisseur sont ajoutées par le script -->
+                  <div class="face">
+                    <svg viewBox="0 0 200 240" aria-hidden="true">
+                      <defs>
+                        <linearGradient id="gFace" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6F86DA"/><stop offset=".5" stop-color="#3D52A0"/><stop offset="1" stop-color="#27357F"/></linearGradient>
+                        <linearGradient id="gOk" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4FD39B"/><stop offset=".5" stop-color="#16875A"/><stop offset="1" stop-color="#0B5E3B"/></linearGradient>
+                        <linearGradient id="gGloss" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".55"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+                        <linearGradient id="gBeam" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".85" stop-color="#fff" stop-opacity=".45"/><stop offset="1" stop-color="#fff" stop-opacity=".9"/></linearGradient>
+                        <clipPath id="shClip"><path d="M100 8 L184 40 V118 C184 176 146 214 100 232 C54 214 16 176 16 118 V40 Z"/></clipPath>
+                      </defs>
+                      <path d="M100 8 L184 40 V118 C184 176 146 214 100 232 C54 214 16 176 16 118 V40 Z" fill="url(#gFace)"/>
+                      <path class="f-ok" d="M100 8 L184 40 V118 C184 176 146 214 100 232 C54 214 16 176 16 118 V40 Z" fill="url(#gOk)"/>
+                      <path d="M100 24 L170 50 V118 C170 168 138 200 100 216 C62 200 30 168 30 118 V50 Z" fill="none" stroke="#fff" stroke-opacity=".28" stroke-width="2"/>
+                      <path d="M100 8 L184 40 V118 C184 130 182 142 178 152 C150 120 100 96 16 108 V40 Z" fill="url(#gGloss)" opacity=".32"/>
+                      <g clip-path="url(#shClip)"><rect class="beam" x="0" y="0" width="200" height="70" fill="url(#gBeam)" opacity=".5"/></g>
+                    </svg>
+                  </div>
+                  <div class="lockwrap">
+                    <svg viewBox="0 0 120 120" aria-hidden="true">
+                      <g class="shackle"><path d="M38 54 V38 a22 22 0 0 1 44 0 V54" fill="none" stroke="#fff" stroke-width="11" stroke-linecap="round"/></g>
+                      <rect class="body-lock" x="24" y="52" width="72" height="54" rx="14" fill="#fff"/>
+                      <circle cx="60" cy="74" r="8" fill="#3D52A0"/><rect x="56.5" y="76" width="7" height="14" rx="3.5" fill="#3D52A0"/>
+                    </svg>
+                  </div>
+                </div>
+
+                <div class="chip3d c1"><svg class="ico lk" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg><svg class="ico ok" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 13l4 4L19 7"/></svg>HTTPS</div>
+                <div class="chip3d c2"><svg class="ico lk" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg><svg class="ico ok" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 13l4 4L19 7"/></svg>HSTS</div>
+                <div class="chip3d c3"><svg class="ico lk" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg><svg class="ico ok" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 13l4 4L19 7"/></svg>X-Frame-Options</div>
+              </div>
+            </div>
+            <div class="scene-badges"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>Ce qui est testé, pas les failles<em>Détail réservé</em></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Pourquoi c'est masqué ===== -->
+  <section class="section" aria-labelledby="why-title">
+    <div class="wrap why">
+      <div>
+        <div class="sec-title rv">
+          <span class="t-ico" aria-hidden="true"><svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg></span>
+          <h2 class="h2" id="why-title">Comprendre pourquoi c'est masqué</h2>
+        </div>
+        <div class="copy">
+          <p class="rv" style="--d:.08s">Audixio suit une démarche de divulgation responsable : on montre publiquement ce qui est testé (HTTPS, HSTS, X-Frame-Options…), jamais le détail des faiblesses. Publier la liste précise des réglages manquants pourrait aider une personne malveillante à cibler le site.</p>
+          <p class="rv" style="--d:.16s">Une fois la propriété vérifiée, vous accédez aux constats détaillés, à la note complète et aux actions correctives du domaine Sécurité, ainsi qu'aux autres informations restreintes du rapport.</p>
+        </div>
+      </div>
+
+      <div class="doc rv from-right" id="doc" aria-hidden="true">
+        <div class="doc-bar"><strong>Constats de sécurité</strong><small>exemple.fr</small></div>
+        <div class="doc-body">
+          <div class="d-line"><span class="dot"><svg class="ico" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span><div class="bars"><span class="redact" style="--k:0;width:64%"><i></i></span><span class="redact" style="--k:1;width:92%"><i></i></span></div></div>
+          <div class="d-line"><span class="dot"><svg class="ico" viewBox="0 0 24 24"><path d="M12 9v4m0 4h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg></span><div class="bars"><span class="redact" style="--k:2;width:48%"><i></i></span><span class="redact" style="--k:3;width:84%"><i></i></span><span class="redact" style="--k:4;width:70%"><i></i></span></div></div>
+          <div class="d-line"><span class="dot"><svg class="ico" viewBox="0 0 24 24"><path d="m16 18 6-6-6-6M8 6l-6 6 6 6"/></svg></span><div class="bars"><span class="redact" style="--k:5;width:78%"><i></i></span><span class="redact" style="--k:6;width:56%"><i></i></span></div></div>
+          <div class="d-line"><span class="dot"><svg class="ico" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span><div class="bars"><span class="redact" style="--k:7;width:88%"><i></i></span><span class="redact" style="--k:8;width:60%"><i></i></span></div></div>
+        </div>
+        <div class="stamp"><svg class="ico" viewBox="0 0 24 24"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>Réservé au propriétaire</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Ce qui a été analysé ===== -->
+  <section class="section" style="padding-top:0" aria-labelledby="checks-title">
+    <div class="wrap">
+      <div class="checks-head">
+        <div class="sec-title rv">
+          <span class="t-ico" aria-hidden="true"><svg class="ico" viewBox="0 0 24 24"><path d="M9 11l3 3 8-8M20 12v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h9"/></svg></span>
+          <h2 class="h2" id="checks-title">Ce qui a été analysé (aperçu)</h2>
+        </div>
+        <p class="count-pill rv" style="--d:.1s"><b id="count">3</b> vérifications prêtes</p>
+      </div>
+
+      <div class="checks">
+        <article class="check rv" style="--d:0s">
+          <span class="c-ico" aria-hidden="true"><svg class="ico" viewBox="0 0 24 24"><path d="M12 2l2.4 2.1 3.2-.2.9 3.1 2.7 1.8-1 3.1 1 3.1-2.7 1.8-.9 3.1-3.2-.2L12 22l-2.4-2.1-3.2.2-.9-3.1-2.7-1.8 1-3.1-1-3.1 2.7-1.8.9-3.1 3.2.2L12 2z"/><path d="m9 12 2 2 4-4"/></svg></span>
+          <h3>Certificat de sécurité HTTPS</h3>
+          <p>Validité de la chaîne de confiance TLS, algorithmes et dates de renouvellement.</p>
+          <span class="pend"><svg class="ico lk" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg><svg class="ico ok" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 13l4 4L19 7"/></svg><span class="t-wait">En attente de vérification</span><span class="t-ok">Prêt à consulter</span></span>
+        </article>
+        <article class="check rv" style="--d:.1s">
+          <span class="c-ico" aria-hidden="true"><svg class="ico" viewBox="0 0 24 24"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M9 14l2 2 4-4"/></svg></span>
+          <h3>En-têtes de protection du navigateur</h3>
+          <p>Directives HSTS, protections contre le détournement de clics (X-Frame-Options) et les injections.</p>
+          <span class="pend"><svg class="ico lk" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg><svg class="ico ok" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 13l4 4L19 7"/></svg><span class="t-wait">En attente de vérification</span><span class="t-ok">Prêt à consulter</span></span>
+        </article>
+        <article class="check rv" style="--d:.2s">
+          <span class="c-ico" aria-hidden="true"><svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg></span>
+          <h3>Règles d'accès aux contenus</h3>
+          <p>Contrôle des politiques de restriction des ressources externes et fuite d'informations d'en-tête serveur.</p>
+          <span class="pend"><svg class="ico lk" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg><svg class="ico ok" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 13l4 4L19 7"/></svg><span class="t-wait">En attente de vérification</span><span class="t-ok">Prêt à consulter</span></span>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Débloquer le rapport ===== -->
+  <section class="section" style="padding-top:0" id="debloquer" aria-labelledby="unlock-title">
+    <div class="wrap">
+      <div class="sec-title rv">
+        <span class="t-ico" aria-hidden="true"><svg class="ico" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg></span>
+        <h2 class="h2" id="unlock-title">Débloquer le rapport</h2>
+      </div>
+
+      <div class="unlock-card rv" id="unlock-card">
+        <div class="uc-head">
+          <h3>Prouver que exemple.fr vous appartient</h3>
+          <p>Gratuit, et sans modification visible du site. Choisissez la méthode qui vous convient : en général quelques minutes ; un enregistrement DNS peut prendre plus longtemps à se propager.</p>
+        </div>
+
+        <div class="uc-grid">
+          <!-- Étapes -->
+          <ol class="steps" id="steps">
+            <li class="step on" data-step="1">
+              <span class="step-n" aria-hidden="true"><span>1</span><svg class="ico" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>
+              <div><h4>Choisir la méthode</h4><p>Google Search Console (recommandé si le site y figure déjà), enregistrement DNS TXT, balise méta ou fichier sur le site.</p></div>
+            </li>
+            <li class="step" data-step="2">
+              <span class="step-n" aria-hidden="true"><span>2</span><svg class="ico" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>
+              <div><h4>Vérification par Audixio</h4><p>Audixio vérifie lui-même la preuve sur votre site, votre DNS ou votre Search Console. En général quelques minutes ; le DNS peut demander plus de temps.</p></div>
+            </li>
+            <li class="step" data-step="3">
+              <span class="step-n" aria-hidden="true"><span>3</span><svg class="ico" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>
+              <div><h4>Accès au détail</h4><p>Consultez les constats détaillés, la note complète (A à F) et les actions correctives recommandées.</p></div>
+            </li>
+          </ol>
+
+          <!-- Console de vérification -->
+          <div class="console" id="console" data-token="a1f3-9c7e-42b8">
+            <div class="con-head">
+              <span class="con-title"><span class="keyico" aria-hidden="true"><svg class="ico" viewBox="0 0 24 24"><circle cx="7.5" cy="15.5" r="4.5"/><path d="M10.7 12.3 21 2m-3 3 3 3m-5-1 2 2"/></svg></span>Preuve de propriété</span>
+              <span class="con-tags"><span>Gratuit</span><span>Jeton unique</span></span>
+            </div>
+            <div class="con-body">
+              <div class="seg" role="tablist" aria-label="Méthode de vérification">
+                <button type="button" role="tab" id="m-gsc" aria-selected="true" aria-controls="code-gsc">Google Search Console <span class="rec">Recommandé</span></button>
+                <button type="button" role="tab" id="m-dns" aria-selected="false" aria-controls="code-dns" tabindex="-1">DNS TXT</button>
+                <button type="button" role="tab" id="m-meta" aria-selected="false" aria-controls="code-meta" tabindex="-1">Balise méta</button>
+                <button type="button" role="tab" id="m-file" aria-selected="false" aria-controls="code-file" tabindex="-1">Fichier HTML</button>
+                <button type="button" role="tab" id="m-wk" aria-selected="false" aria-controls="code-wk" tabindex="-1">Fichier .well-known</button>
+              </div>
+
+              <div class="code-wrap">
+                <div id="code-gsc" role="tabpanel" aria-labelledby="m-gsc" tabindex="0">
+                  <p class="how"><strong>Comment :</strong> connectez votre compte Google. Audixio vérifie en lecture seule que exemple.fr figure dans votre Search Console avec le rôle de propriétaire. Simple et rapide si le site y est déjà. Vous pouvez révoquer cet accès en lecture seule à tout moment depuis votre compte Google.</p>
+                  <div class="code-meta"><span>Accès</span><b>Lecture seule</b><span>Rôle requis</span><b>Propriétaire</b></div>
+                  <a class="btn gbtn" id="gsc-btn" href="../page_verifier_propriete/page_verifier_propriete.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#4285F4" d="M22.6 12.3c0-.8-.1-1.5-.2-2.3H12v4.3h5.9a5 5 0 0 1-2.2 3.3v2.8h3.6c2.1-1.9 3.3-4.8 3.3-8.1z"/><path fill="#34A853" d="M12 23c3 0 5.5-1 7.3-2.7l-3.6-2.8c-1 .7-2.2 1.1-3.7 1.1-2.9 0-5.3-1.9-6.2-4.5H2.1v2.9A11 11 0 0 0 12 23z"/><path fill="#FBBC05" d="M5.8 14.1a6.6 6.6 0 0 1 0-4.2V7H2.1a11 11 0 0 0 0 10z"/><path fill="#EA4335" d="M12 5.4c1.6 0 3.1.6 4.2 1.6l3.2-3.2A11 11 0 0 0 2.1 7l3.7 2.9C6.7 7.3 9.1 5.4 12 5.4z"/></svg>Continuer avec Google</a>
+                  <pre class="code" tabindex="0" aria-label="Propriété recherchée dans Search Console"><span class="k">propriété</span>=<span class="s">exemple.fr</span></pre>
+                </div>
+                <div id="code-dns" role="tabpanel" aria-labelledby="m-dns" tabindex="0" hidden>
+                  <p class="how"><strong>Où :</strong> chez votre registrar ou hébergeur DNS, ajoutez un enregistrement TXT à la racine du domaine. La propagation peut prendre plus longtemps que les autres méthodes.</p>
+                  <div class="code-meta"><span>Type</span><b>TXT</b><span>Nom</span><b>@</b></div>
+                  <pre class="code" tabindex="0" aria-label="Valeur de l'enregistrement TXT"><span class="k">audixio-verification</span>=<span class="s" data-token-slot>a1f3-9c7e-42b8</span></pre>
+                </div>
+                <div id="code-meta" role="tabpanel" aria-labelledby="m-meta" tabindex="0" hidden>
+                  <p class="how"><strong>Où :</strong> collez la balise dans le &lt;head&gt; de la page d'accueil. Elle n'apparaît pas aux visiteurs.</p>
+                  <div class="code-meta"><span>Où</span><b>&lt;head&gt; de la page d'accueil</b></div>
+                  <pre class="code" tabindex="0" aria-label="Balise méta à coller dans le code HTML">&lt;<span class="t">meta</span> <span class="k">name</span>=<span class="s">"audixio-verification"</span> <span class="k">content</span>=<span class="s" data-token-slot-q>"a1f3-9c7e-42b8"</span>&gt;</pre>
+                </div>
+                <div id="code-file" role="tabpanel" aria-labelledby="m-file" tabindex="0" hidden>
+                  <p class="how"><strong>Où :</strong> créez ce fichier à la racine du site, accessible publiquement, avec le jeton pour seul contenu.</p>
+                  <div class="code-meta"><span>Adresse</span><b>exemple.fr/audixio-<span data-token-slot>a1f3-9c7e-42b8</span>.html</b></div>
+                  <pre class="code" tabindex="0" aria-label="Contenu du fichier HTML"><span class="s" data-token-slot>a1f3-9c7e-42b8</span></pre>
+                </div>
+                <div id="code-wk" role="tabpanel" aria-labelledby="m-wk" tabindex="0" hidden>
+                  <p class="how"><strong>Où :</strong> créez ce fichier texte dans le dossier .well-known du site, avec le jeton pour seul contenu.</p>
+                  <div class="code-meta"><span>Adresse</span><b>exemple.fr/.well-known/audixio-verification.txt</b></div>
+                  <pre class="code" tabindex="0" aria-label="Contenu du fichier audixio-verification.txt"><span class="s" data-token-slot>a1f3-9c7e-42b8</span></pre>
+                </div>
+                <span class="sr-only" id="copy-what">Copie le contenu de la méthode sélectionnée</span>
+                <button class="copy" id="copy" type="button" aria-describedby="copy-what"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span id="copy-t">Copier</span></button>
+              </div>
+
+              <div class="log" id="log" role="log" aria-live="polite" aria-label="Journal de vérification"></div>
+
+              <div class="success" id="success" hidden tabindex="-1">
+                <h4><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 13l4 4L19 7"/></svg>Propriété vérifiée</h4>
+                <p>Les constats, la note complète et les actions correctives du domaine Sécurité sont accessibles. Gardez la preuve en place : Audixio peut la revérifier.</p>
+                <p class="demo" id="demo-note">Démonstration : aucune vérification réelle n'a été effectuée sur ce prototype.</p>
+                <a class="btn btn-ok btn-sm" href="../page_rapport_domaine/page_rapport_domaine.html">Ouvrir le rapport de sécurité<svg class="ico go" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+              </div>
+
+              <div class="retry-help" id="retry-help" hidden>
+                <strong>La preuve n'a pas été trouvée ?</strong> Causes fréquentes :
+                <ul>
+                  <li>délai de propagation DNS (cela peut prendre du temps) ;</li>
+                  <li>cache du site ou d'un CDN qui sert une ancienne version ;</li>
+                  <li>mauvaise page ou mauvais emplacement du fichier ;</li>
+                  <li>faute de frappe dans le jeton ou le nom.</li>
+                </ul>
+              </div>
+
+              <div class="con-actions" id="con-actions">
+                <button class="btn btn-primary" id="verify" type="button">
+                  <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+                  <span id="verify-t">Vérifier la propriété du site</span>
+                </button>
+                <a class="guide" href="../page_verifier_propriete/page_verifier_propriete.html#methodes">Consulter le guide pas à pas<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="uc-notes">
+          <div class="uc-note"><h4><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 7.6-1.7"/></svg>Ce que la vérification débloque</h4><p>Les constats détaillés, la note complète et les actions correctives du domaine Sécurité, ainsi que les autres informations restreintes du rapport.</p></div>
+          <div class="uc-note"><h4><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="7.5" cy="15.5" r="4.5"/><path d="M10.7 12.3 21 2m-3 3 3 3m-5-1 2 2"/></svg>Un jeton unique</h4><p>Le jeton est propre à votre compte et à ce domaine. Audixio le vérifie lui-même sur le site ou le DNS, et le revérifie avant tout test actif.</p></div>
+          <div class="uc-note"><h4><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>Gardez la preuve en place</h4><p>Après la vérification, laissez l'enregistrement, la balise ou le fichier en place : Audixio peut la revérifier. Gratuit, sans modification visible du site.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Navigation entre domaines ===== -->
+  <section style="padding-bottom:var(--sec)" aria-label="Autres domaines du rapport">
+    <div class="wrap">
+      <nav class="pager" aria-label="Navigation entre les domaines">
+        <a class="pg prev rv" href="../page_rapport_domaine/page_rapport_domaine.html">
+          <span class="arr" aria-hidden="true"><svg class="ico" viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></span>
+          <span class="txt"><small>Domaine précédent</small><strong>SEO &amp; Indexabilité</strong></span>
+          <span class="grade g-b"><span class="sr-only">Note </span>B</span>
+        </a>
+        <a class="pg next rv" style="--d:.1s" href="../page_rapport_domaine/page_rapport_domaine.html">
+          <span class="arr" aria-hidden="true"><svg class="ico" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+          <span class="txt"><small>Domaine suivant</small><strong>Écologie &amp; Empreinte</strong></span>
+          <span class="grade g-c"><span class="sr-only">Note </span>C</span>
+        </a>
+      </nav>
+      <div class="back-all rv">
+        <a class="btn btn-ghost" href="../page_rapport_hub/page_rapport_hub.html">Retour au rapport d'audit complet<svg class="ico down" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M6 13l6 6 6-6"/></svg></a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- AUDIXIO FOOTER START — footer compact (canon FOOTER-CANON-compact.md). Coller tel quel. -->
+<style>
+.axf{box-sizing:border-box;margin-top:auto;padding:0 clamp(12px,3vw,32px) 24px;font-family:Inter,"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;color:#4A5585}
+.axf *{box-sizing:border-box}
+.axf-in{max-width:1240px;margin:0 auto;padding:36px clamp(20px,4vw,48px) 22px;background:#fff;border:1px solid #ADBBDA;border-radius:28px}
+.axf-top{display:flex;justify-content:space-between;align-items:flex-start;gap:24px 48px;flex-wrap:wrap;padding-bottom:24px;border-bottom:1px solid #EDE8F5}
+.axf-brand{display:flex;align-items:center;gap:10px}
+.axf-logo{min-height:44px;--h:26px;display:inline-flex;border-radius:8px}
+.axf-logo img{display:block;height:26px;width:auto;max-width:none}
+.axf-v{padding:2px 8px;border:1px solid #ADBBDA;border-radius:6px;background:#EDE8F5;color:#1E2A55;font-size:11.5px;font-weight:700;letter-spacing:.04em}
+.axf-about{margin:10px 0 0;font-size:14px;line-height:1.5;color:#4A5585;max-width:44ch}
+.axf-links{display:flex;flex-wrap:wrap;gap:6px 22px;margin:4px 0 0;padding:0;list-style:none}
+.axf-links a{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:4px;padding:6px 0;min-height:44px;min-width:44px;font-size:14px;font-weight:500;color:#1E2A55;text-decoration:none}
+.axf-links a::after{content:"";position:absolute;left:0;right:0;bottom:2px;height:1.5px;background:#7091E6;transform:scaleX(0);transform-origin:left;transition:transform .25s cubic-bezier(.16,1,.3,1)}
+.axf-links a:hover::after{transform:scaleX(1)}
+.axf-links a.axf-pro{font-weight:700;color:#3D52A0}
+.axf-links svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.axf-bot{display:flex;justify-content:space-between;gap:8px 24px;flex-wrap:wrap;padding-top:18px;font-size:12.5px;color:#4A5585}
+.axf a:focus-visible{outline:3px solid #7091E6;outline-offset:3px;border-radius:6px}
+@media (max-width:900px){
+  .axf{padding-bottom:calc(84px + env(safe-area-inset-bottom))}
+  .axf-in{padding:26px 20px 18px;border-radius:22px}
+  .axf-links{gap:2px 18px}
+}
+@media (prefers-reduced-motion:reduce){.axf *{transition:none!important}}
+/* CTA breathing room */.btn:not(.btn-sm){padding:14px 24px;gap:11px;letter-spacing:normal;line-height:1.3}.btn .ico{flex:none}@media(max-width:600px){.btn:not(.btn-sm){white-space:normal;text-align:center;min-height:48px;max-width:100%}}
+</style>
+<footer class="axf">
+  <div class="axf-in">
+    <div class="axf-top">
+      <div>
+        <div class="axf-brand">
+          <a class="axf-logo" href="../page_accueil/page_accueil.html" aria-label="Audixio — accueil"><img src="../../../logos/audixio-logo-pc-clair.svg" alt="" width="82" height="26" loading="lazy" decoding="async"></a>
+          <span class="axf-v">V3.4</span>
+        </div>
+        <p class="axf-about">Observatoire indépendant de l’hygiène web. Aucune donnée commerciale stockée.</p>
+      </div>
+      <nav aria-label="Liens légaux">
+        <ul class="axf-links">
+          <li><a href="../page_mentions_legales/page_mentions_legales.html">Mentions légales</a></li>
+          <li><a href="../page_politique_confidentialite/page_politique_confidentialite.html">Confidentialité</a></li>
+          <li><a href="../page_accessibilite/page_accessibilite.html">Accessibilité</a></li>
+          <li><a href="../page_conditions_utilisation/page_conditions_utilisation.html">CGU</a></li>
+          <li><a href="../page_ecologie/page_ecologie.html">Écoconception</a></li>
+          <li><a href="../page_robot_audixio/page_robot_audixio.html">Robot Audixio</a></li>
+          <li><a href="../interface_bandeau_cookies/interface_bandeau_cookies.html">Cookies</a></li>
+          <li><a class="axf-pro" href="../page_pro/page_pro.html">Audixio Pro<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 17 17 7M8 7h9v9"/></svg></a></li>
+        </ul>
+      </nav>
+    </div>
+    <div class="axf-bot">
+      <p style="margin:0">© 2026 Audixio · Passif par défaut · Outil gratuit · Aucun traceur tiers · Polices auto-hébergées</p>
+    </div>
+  </div>
+</footer>
+<!-- AUDIXIO FOOTER END -->
+
+<script>
+(() => {
+  'use strict';
+  const $  = (s, c = document) => c.querySelector(s);
+  const $$ = (s, c = document) => [...c.querySelectorAll(s)];
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const wait = ms => new Promise(r => setTimeout(r, ms));
+  const root = document.documentElement;
+
+  /* ---------- Menu, en-tête, progression ---------- */
+  const prog = $('#progress');
+  let sTick = false;
+  const onScroll = () => {
+    const max = document.documentElement.scrollHeight - innerHeight;
+    prog.style.transform = 'scaleX(' + (max > 0 ? Math.min(1, scrollY / max) : 0) + ')';
+    updateSteps(); sTick = false;
+  };
+  addEventListener('scroll', () => { if (!sTick) { sTick = true; requestAnimationFrame(onScroll); } }, { passive: true });
+
+  /* ---------- Titre : apparition lettre par lettre ---------- */
+  const h1c = $('#h1-chars');
+  if (root.classList.contains('js')) {
+    const txt = h1c.textContent; h1c.textContent = '';
+    [...txt].forEach((c, k) => { const s = document.createElement('span'); s.className = 'ch'; s.style.setProperty('--k', k); s.textContent = c; h1c.appendChild(s); });
+  }
+
+  /* ---------- Révélations ---------- */
+  const rv = $$('.rv');
+  if (!root.classList.contains('js')) rv.forEach(el => el.classList.add('in'));
+  else {
+    const io = new IntersectionObserver(en => en.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: .12, rootMargin: '0px 0px -5% 0px' });
+    rv.forEach(el => io.observe(el));
+    setTimeout(() => rv.forEach(el => el.classList.add('in')), 4500);
+  }
+
+  /* ---------- Scène 3D : couches d'épaisseur + inclinaison au pointeur ---------- */
+  const shield = $('#shield3d'), face = $('.face', shield);
+  const D = 'M100 8 L184 40 V118 C184 176 146 214 100 232 C54 214 16 176 16 118 V40 Z';
+  if (!reduce) {
+    for (let i = 13; i >= 1; i--) {
+      const l = document.createElement('div'); l.className = 'layer'; l.style.setProperty('--i', i);
+      l.innerHTML = '<svg viewBox="0 0 200 240" aria-hidden="true"><path d="' + D + '"/></svg>';
+      shield.insertBefore(l, face);
+    }
+  }
+  const scene = $('#scene'), tilt = $('#tilt'), hero = $('#hero');
+  let tx = 0, ty = 0, cx = 0, cy = 0, sceneOn = true, raf = 0;
+  new IntersectionObserver(en => { sceneOn = en[0].isIntersecting; if (sceneOn) loop(); }).observe(scene);
+  if (!reduce) {
+    hero.addEventListener('pointermove', e => {
+      const r = scene.getBoundingClientRect();
+      tx = Math.max(-1, Math.min(1, (e.clientX - (r.left + r.width / 2)) / (innerWidth * .45))) * 18;
+      ty = Math.max(-1, Math.min(1, (e.clientY - (r.top + r.height / 2)) / (innerHeight * .45))) * -12;
+      hero.style.setProperty('--mx', (e.clientX / innerWidth * 100).toFixed(1) + '%');
+      hero.style.setProperty('--my', ((e.clientY - hero.getBoundingClientRect().top) / hero.offsetHeight * 100).toFixed(1) + '%');
+    });
+    hero.addEventListener('pointerleave', () => { tx = 0; ty = 0; });
+  }
+  function loop() {
+    if (reduce || !sceneOn) { raf = 0; return; }
+    cx += (tx - cx) * .08; cy += (ty - cy) * .08;
+    tilt.style.setProperty('--ry', cx.toFixed(2) + 'deg'); tilt.style.setProperty('--rx', cy.toFixed(2) + 'deg');
+    raf = requestAnimationFrame(loop);
+  }
+  loop();
+
+  /* ---------- Bouton magnétique + ondulation ---------- */
+  $$('.magnetic').forEach(b => {
+    if (reduce || !matchMedia('(pointer: fine)').matches) return;
+    b.addEventListener('pointermove', e => { const r = b.getBoundingClientRect(); b.style.transform = 'translate(' + ((e.clientX - r.left - r.width / 2) * .12).toFixed(1) + 'px,' + ((e.clientY - r.top - r.height / 2) * .22).toFixed(1) + 'px)'; });
+    b.addEventListener('pointerleave', () => { b.style.transform = ''; });
+  });
+  $$('.btn').forEach(b => b.addEventListener('pointerdown', e => {
+    if (reduce) return;
+    const r = b.getBoundingClientRect(), s = Math.max(r.width, r.height) * 2;
+    const rp = document.createElement('span'); rp.className = 'ripple';
+    rp.style.cssText = 'width:' + s + 'px;height:' + s + 'px;left:' + (e.clientX - r.left - s / 2) + 'px;top:' + (e.clientY - r.top - s / 2) + 'px';
+    b.appendChild(rp); setTimeout(() => rp.remove(), 700);
+  }));
+
+  /* ---------- Cartes : lueur qui suit le pointeur ---------- */
+  $$('.check').forEach(c => c.addEventListener('pointermove', e => {
+    const r = c.getBoundingClientRect();
+    c.style.setProperty('--px', (e.clientX - r.left) + 'px'); c.style.setProperty('--py', (e.clientY - r.top) + 'px');
+  }));
+
+  /* ---------- Documents : déclenchement des caviardages ---------- */
+  const doc = $('#doc');
+  if (doc) { const io2 = new IntersectionObserver(en => { if (en[0].isIntersecting) { doc.classList.add('in'); io2.disconnect(); } }, { threshold: .35 }); io2.observe(doc); setTimeout(() => doc.classList.add('in'), 5000); }
+
+  /* ---------- Compteur ---------- */
+  const count = $('#count');
+  if (!reduce) {
+    const target = +count.textContent; count.textContent = '0';
+    const io3 = new IntersectionObserver(en => { if (en[0].isIntersecting) { io3.disconnect(); let n = 0; const t = setInterval(() => { n++; count.textContent = n; if (n >= target) clearInterval(t); }, 260); } }, { threshold: .6 });
+    io3.observe(count);
+  }
+
+  /* ---------- Étapes : progression liée au défilement et à l'état ---------- */
+  const steps = $$('.step'), stepsEl = $('#steps');
+  let stepState = 1; /* 1 = méthode, 2 = validation, 3 = accès */
+  function paintSteps() {
+    steps.forEach((s, i) => { s.classList.toggle('done', i + 1 < stepState || (stepState === 4)); s.classList.toggle('on', i + 1 === stepState); });
+    const last = steps[Math.min(stepState, 3) - 1];
+    const top = stepsEl.getBoundingClientRect().top;
+    const y = last.getBoundingClientRect().top - top + 26;
+    stepsEl.style.setProperty('--fill', (stepState === 4 ? stepsEl.offsetHeight - 52 : y - 26) + 'px');
+  }
+  function updateSteps() { /* léger parallaxe de la ligne : recalcul si la mise en page change */ paintSteps(); }
+  paintSteps(); addEventListener('resize', paintSteps);
+
+  /* ---------- Console : méthodes, copie ---------- */
+  const consoleEl = $('#console'), token = consoleEl.dataset.token;
+  $$('[data-token-slot]').forEach(e => e.textContent = token);
+  $$('[data-token-slot-q]').forEach(e => e.textContent = '"' + token + '"');
+  const tabs = $$('.seg [role="tab"]'), panelsM = {}; tabs.forEach(t => panelsM[t.id] = $('#' + t.getAttribute('aria-controls')));
+  let method = 'gsc';
+  function selectMethod(id, focus) {
+    tabs.forEach(t => { const on = t.id === id; t.setAttribute('aria-selected', String(on)); t.tabIndex = on ? 0 : -1; panelsM[t.id].hidden = !on; });
+    method = id.slice(2);
+    if (focus) $('#' + id).focus();
+  }
+  tabs.forEach(t => t.addEventListener('click', () => selectMethod(t.id, false)));
+  $('.seg').addEventListener('keydown', e => {
+    const i = tabs.findIndex(t => t === document.activeElement); if (i < 0) return;
+    if (['ArrowRight', 'ArrowDown'].includes(e.key)) { e.preventDefault(); selectMethod(tabs[(i + 1) % tabs.length].id, true); }
+    if (['ArrowLeft', 'ArrowUp'].includes(e.key)) { e.preventDefault(); selectMethod(tabs[(i - 1 + tabs.length) % tabs.length].id, true); }
+    if (e.key === 'Home') { e.preventDefault(); selectMethod(tabs[0].id, true); }
+    if (e.key === 'End') { e.preventDefault(); selectMethod(tabs[tabs.length - 1].id, true); }
+  });
+  const copyBtn = $('#copy'), copyT = $('#copy-t');
+  copyBtn.addEventListener('click', async () => {
+    const txt = { gsc: 'exemple.fr', dns: 'audixio-verification=' + token, meta: '<meta name="audixio-verification" content="' + token + '">', file: token, wk: token }[method];
+    try { await navigator.clipboard.writeText(txt); }
+    catch (e) { const ta = document.createElement('textarea'); ta.value = txt; ta.style.cssText = 'position:fixed;opacity:0'; document.body.appendChild(ta); ta.select(); try { document.execCommand('copy'); } catch (_) {} ta.remove(); }
+    copyT.textContent = 'Copié'; setTimeout(() => copyT.textContent = 'Copier', 1800);
+  });
+
+  /* ---------- Confettis ---------- */
+  const cv = $('#confetti'), cx2 = cv.getContext('2d');
+  function confetti(ox, oy) {
+    if (reduce) return;
+    const dpr = Math.min(2, devicePixelRatio || 1); cv.width = innerWidth * dpr; cv.height = innerHeight * dpr; cx2.setTransform(dpr, 0, 0, dpr, 0, 0);
+    const cols = ['#3D52A0', '#7091E6', '#ADBBDA', '#2FA36B', '#F2C14E', '#FFFFFF'];
+    const P = Array.from({ length: 150 }, () => { const a = Math.random() * Math.PI * 2, v = 5 + Math.random() * 9; return { x: ox, y: oy, vx: Math.cos(a) * v, vy: Math.sin(a) * v - 5, w: 6 + Math.random() * 7, h: 4 + Math.random() * 5, r: Math.random() * 6, vr: (Math.random() - .5) * .4, c: cols[(Math.random() * cols.length) | 0], life: 0 }; });
+    let f = 0;
+    (function tick() {
+      cx2.clearRect(0, 0, innerWidth, innerHeight);
+      P.forEach(p => { p.vy += .28; p.vx *= .985; p.x += p.vx; p.y += p.vy; p.r += p.vr; p.life++; cx2.save(); cx2.globalAlpha = Math.max(0, 1 - p.life / 130); cx2.translate(p.x, p.y); cx2.rotate(p.r); cx2.fillStyle = p.c; cx2.fillRect(-p.w / 2, -p.h / 2, p.w, p.h); cx2.restore(); });
+      if (++f < 135) requestAnimationFrame(tick); else cx2.clearRect(0, 0, innerWidth, innerHeight);
+    })();
+  }
+
+  /* ---------- Vérification de propriété ---------- */
+  const verifyBtn = $('#verify'), verifyT = $('#verify-t'), log = $('#log'), success = $('#success'), actions = $('#con-actions');
+  let busy = false, done = false;
+  const addLog = (txt, cls, spin) => {
+    const d = document.createElement('div'); if (cls) d.className = cls;
+    d.innerHTML = (spin ? '<span class="sp"></span>' : '<span>›</span>') + '<span></span>'; d.lastChild.textContent = txt; log.appendChild(d); return d;
+  };
+  function setState(s) { scene.dataset.state = s; }
+  function unlockUI() {
+    done = true; root.classList.add('is-ok'); setState('unlocked');
+    $('#pill-text').textContent = 'Propriété vérifiée · exemple.fr';
+    $('#lock-tag span').textContent = 'Débloqué';
+    $('#lock-tag svg').innerHTML = '<path d="M5 13l4 4L19 7"/>';
+    $('#notice-tag span').textContent = 'Accès autorisé';
+    $('#notice-tag svg').innerHTML = '<path d="M5 13l4 4L19 7"/>';
+    $('#notice-title').textContent = 'Domaine débloqué · Détail accessible';
+    $('#count').nextSibling.textContent = ' vérifications prêtes';
+    stepState = 4; paintSteps();
+    actions.hidden = true; success.hidden = false;
+    const r = scene.getBoundingClientRect(); confetti(r.left + r.width / 2, r.top + r.height / 2);
+    success.focus({ preventScroll: true });
+  }
+  async function runDemo() {
+    const lines = {
+      gsc: ['Lecture seule de vos propriétés Search Console…', 'Recherche de exemple.fr avec le rôle propriétaire…', 'Preuve de propriété détectée.'],
+      dns: ['Résolution DNS de exemple.fr…', 'Lecture des enregistrements TXT…', 'Preuve de propriété détectée.'],
+      meta: ['Chargement de la page d\'accueil…', 'Recherche de la balise audixio-verification…', 'Preuve de propriété détectée.'],
+      file: ['Lecture de exemple.fr/audixio-' + token + '.html…', 'Comparaison avec votre jeton…', 'Preuve de propriété détectée.'],
+      wk: ['Lecture de exemple.fr/.well-known/audixio-verification.txt…', 'Comparaison avec votre jeton…', 'Preuve de propriété détectée.']
+    }[method];
+    for (let i = 0; i < lines.length; i++) {
+      const last = i === lines.length - 1;
+      const row = addLog(lines[i], last ? 'good' : '', !last);
+      await wait(reduce ? 0 : 750);
+      if (!last) { row.firstChild.outerHTML = '<span>✓</span>'; }
+    }
+    await wait(reduce ? 0 : 350);
+    unlockUI();
+  }
+  window.Audixio = {
+    /* À appeler par le moteur réel quand la preuve est validée */
+    unlock() { if (!done) { $('#demo-note').hidden = true; unlockUI(); } },
+    fail(msg) { busy = false; verifyBtn.disabled = false; verifyT.textContent = 'Réessayer'; verifyBtn.removeAttribute('aria-busy'); $('#retry-help').hidden = false; setState('locked'); consoleEl.classList.remove('running'); log.innerHTML = ''; addLog(msg || 'Preuve de propriété introuvable pour le moment.', ''); stepState = 1; paintSteps(); }
+  };
+  verifyBtn.addEventListener('click', () => {
+    if (busy || done) return;
+    busy = true; verifyBtn.disabled = true; verifyBtn.setAttribute('aria-busy', 'true'); verifyT.textContent = 'Vérification en cours…';
+    log.innerHTML = ''; $('#retry-help').hidden = true; consoleEl.classList.add('running'); setState('scanning'); stepState = 2; paintSteps();
+    /* Point d'entrée pour le vrai moteur :
+       document.addEventListener('audixio:verify', e => { e.preventDefault(); lancerVerification(e.detail); });
+       puis appeler window.Audixio.unlock() ou window.Audixio.fail('message'). */
+    const ev = new CustomEvent('audixio:verify', { detail: { site: 'exemple.fr', method, token }, cancelable: true });
+    if (document.dispatchEvent(ev)) runDemo();
+  });
+
+  /* Bouton du héros : défilement + mise en évidence */
+  $('#hero-cta').addEventListener('click', e => {
+    e.preventDefault();
+    $('#unlock-card').scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' });
+    setTimeout(() => verifyBtn.focus({ preventScroll: true }), reduce ? 0 : 700);
+  });
+})();
+</script>
+</body>
+</html>

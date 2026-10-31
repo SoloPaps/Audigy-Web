@@ -1,6 +1,13 @@
-# Méthode de notation Audigy — version 2026.1
+> **Notation vivante (version 2026.1)** — ne pas contredire `docs/00-DECISIONS.md` / `FONCTIONNEMENT.md` :  
+> vie privée = tests **partiels HTTP/HTML** en béta (pas DDG Tracker Radar, pas navigateur d’audit requis) ; A11y = lettre A–F + « mesure automatique / partielle » ; soft-gate PARTIEL + domaines sensibles Verrouillés.
+# Méthode de notation Audixio — version 2026.1
 
-Cette page décrit comment Audigy calcule ses notes. Toute modification de pondération ou de règle crée une nouvelle version. La version est enregistrée sur chaque audit (`method_version`).
+> **Mise à jour du 29/10/2026 (réorganisation des docs)** — ces décisions priment sur le texte ci-dessous (détail : [00-DECISIONS.md](../00-DECISIONS.md)) :
+> - Notes **A à F** (E et F ajoutées). Pas de /100.
+
+*(Marque produit : **Audixio**.)*
+
+Cette page décrit comment Audixio calcule ses notes. Toute modification de pondération ou de règle crée une nouvelle version. La version est enregistrée sur chaque audit (`method_version`).
 
 ## 1. Résultat d'un test
 
@@ -27,7 +34,7 @@ Le test n'est pas compté, et la raison est affichée (« Nous n'avons pas pu te
 - délai dépassé (30 s par défaut, propre à chaque test sinon) ;
 - erreur pendant le test, ou résultat inutilisable.
 
-Les tests qui demandent un navigateur (vie privée, poids réel de la page) passent par un navigateur d'audit séparé. Pendant son travail, l'audit est « partiel ». Audigy l'attend au plus 10 minutes. S'il ne répond pas, ces tests sont « Non testé », avec la raison, et l'audit se termine.
+Les tests qui demandent un navigateur (vie privée, poids réel de la page) passent par un navigateur d'audit séparé. Pendant son travail, l'audit est « partiel ». Audixio l'attend au plus 10 minutes. S'il ne répond pas, ces tests sont « Non testé », avec la raison, et l'audit se termine.
 
 Un test passif fait seulement ce que ferait un visiteur ou un moteur de recherche. Un test actif (chemins non liés, énumération TLS, crawl étendu) exige un site vérifié.
 
@@ -66,11 +73,11 @@ Pour les mêmes réponses du site et des sources, le rapport est identique, quel
 
 ## 8. Sécurité passive
 
-Onze tests passifs, version 2026.1. La grille s'inspire de [MDN HTTP Observatory](https://developer.mozilla.org/en-US/observatory/docs/tests_and_scoring) (méthode Mozilla du 27 février 2024, modificateurs sur une base de 100). Audigy ne soustrait pas ces points : chaque test vaut Réussi (1), À améliorer (0,5) ou Problème (0), avec le poids ci-dessous.
+Onze tests passifs, version 2026.1. La grille s'inspire de [MDN HTTP Observatory](https://developer.mozilla.org/en-US/observatory/docs/tests_and_scoring) (méthode Mozilla du 27 février 2024, modificateurs sur une base de 100). Audixio ne soustrait pas ces points : chaque test vaut Réussi (1), À améliorer (0,5) ou Problème (0), avec le poids ci-dessous.
 
 Correspondance utilisée, sauf mention :
 
-| Modificateur Observatory | Statut Audigy |
+| Modificateur Observatory | Statut Audixio |
 |---|---|
 | 0 ou positif | Réussi |
 | de −5 à −10 | À améliorer |
@@ -84,7 +91,7 @@ Le test suit les redirections comme un visiteur. Il ne distingue pas une redirec
 | securite.hsts | 3 | En-tête présent sur la réponse chiffrée, `max-age` d'au moins 15768000 secondes (six mois). `includeSubDomains` n'est pas exigé. | `max-age` positif mais inférieur à six mois. | En-tête absent, illisible, `max-age` à 0 (la protection est effacée), ou page finale non chiffrée. |
 | securite.csp | 3 | Politique lisible. Scripts et objets limités, sans `unsafe-inline` (sauf jeton ou empreinte), sans `unsafe-eval`, sans `http:`, `https:` seul, `data:` ni `*`. `unsafe-inline` seulement pour les styles reste Réussi : Observatory le compte 0. Le constat note alors `styleLoose`. | Seulement `unsafe-eval`, ou images et médias autorisés en `http:`. | Politique absente, illisible, ou scripts ou objets trop ouverts. |
 | securite.xcto | 1 | Valeur `nosniff`. | En-tête absent. | Valeur présente mais autre que `nosniff`. |
-| securite.frames | 2 | `frame-ancestors` vaut `none`, `self` ou une liste d'origines explicite, ou `X-Frame-Options` vaut `DENY` ou `SAMEORIGIN`. Si les deux existent, `frame-ancestors` l'emporte. | `ALLOW-FROM` seul. Observatory met 0 ; Audigy met À améliorer, car les navigateurs actuels ignorent cette forme. | Rien, valeur inconnue, ou `frame-ancestors` trop ouvert (`*`, `http:`, `https:`). |
+| securite.frames | 2 | `frame-ancestors` vaut `none`, `self` ou une liste d'origines explicite, ou `X-Frame-Options` vaut `DENY` ou `SAMEORIGIN`. Si les deux existent, `frame-ancestors` l'emporte. | `ALLOW-FROM` seul. Observatory met 0 ; Audixio met À améliorer, car les navigateurs actuels ignorent cette forme. | Rien, valeur inconnue, ou `frame-ancestors` trop ouvert (`*`, `http:`, `https:`). |
 | securite.referrer | 1 | `no-referrer`, `same-origin`, `strict-origin` ou `strict-origin-when-cross-origin`. En-tête absent : Réussi (Observatory 0), le constat le dit. La dernière valeur reconnue l'emporte. | `no-referrer-when-downgrade`, `origin`, `origin-when-cross-origin` ou `unsafe-url`. | En-tête présent sans aucune valeur reconnue. |
 | securite.permissions | 1 | `camera`, `microphone` et `geolocation` sont cités et aucun n'est ouvert à tous (`*`). | En-tête absent, ou l'une de ces trois fonctions n'est pas citée. | Syntaxe illisible, ou l'une de ces fonctions vaut `*`. |
 | securite.cookies | 3 | Aucune trace, ou toutes sont `Secure`, celles de session sont `HttpOnly`, et `SameSite` vaut `Strict`, `Lax` ou `None` avec `Secure`. L'absence de `SameSite` reste Réussi (Observatory 0). | `Secure` manque, mais la réponse est chiffrée et HSTS dure au moins six mois. | Trace posée hors chiffrement, session sans `Secure` ou sans `HttpOnly`, `SameSite` invalide, jeton anti-CSRF sans `SameSite`, ou préfixe `__Host-` / `__Secure-` contredit. La valeur de la trace n'est pas conservée. |
@@ -253,7 +260,7 @@ Les critères 6.2 et 6.3 relisent les mêmes notes que la performance, avec les 
 
 Cinq tests passifs, version 2026.1. Ils lisent les pages publiques liées, comme un visiteur. Le parcours reste dans la portée demandée. Un audit sur un chemin ne sort pas de ce chemin.
 
-Le fichier robots est lu à la racine du domaine, y compris quand l’audit porte sur un chemin. Le robot annoncé est AudigyBot. S’il n’a pas de groupe, la règle générale s’applique. Une adresse interdite n’est pas demandée. Si ce fichier ne répond pas, les tests sont Non testé.
+Le fichier robots est lu à la racine du domaine, y compris quand l’audit porte sur un chemin. Le robot annoncé est AudixioBot. S’il n’a pas de groupe, la règle générale s’applique. Une adresse interdite n’est pas demandée. Si ce fichier ne répond pas, les tests sont Non testé.
 
 Au plus 50 pages sont lues. Une page est une adresse de dossier, une adresse sans extension, ou un document `.html`, `.htm` ou `.xhtml`. Les autres fichiers du même site sont ensuite vérifiés comme des liens, sans être parcourus. Les liens vers un autre site sont sondés ensuite, sans télécharger le fichier, 30 au plus. Le rythme est d’une requête par seconde et par hôte. Le budget passif de 50 requêtes n’est jamais dépassé : le parcours s’arrête, et seuls les éléments déjà lus sont notés.
 
@@ -287,7 +294,7 @@ Ce qui est lu : les en-têtes `Server`, `X-Powered-By`, `X-AspNet-Version`, `X-A
 
 **Cache.** Une réponse réussie d’OSV, de NVD ou du catalogue est réutilisée le même jour (UTC), soit 24 heures au plus. La clé est la base, le paquet, la version et le jour. Un échec n’est pas mémorisé. Un réessai a lieu sur erreur réseau, 408, 429 ou 5xx. Un second 429, ou un 403 de NVD, est un quota : le test est Non testé.
 
-**Prudence.** Le constat dit « version possiblement vulnérable ». Audigy compare un numéro ; il ne teste pas la faille. Une faille propre au serveur d’un cadriciel peut ne pas toucher un site statique. Un paquet de distribution (commentaire ou suffixe Ubuntu, Debian, CentOS, Red Hat, `fips`…) est au plus À améliorer : ces distributions corrigent souvent sans changer le numéro. Pour l’annonce des versions, seuls les en-têtes comptent. La balise generator est relevée sans pénalité.
+**Prudence.** Le constat dit « version possiblement vulnérable ». Audixio compare un numéro ; il ne teste pas la faille. Une faille propre au serveur d’un cadriciel peut ne pas toucher un site statique. Un paquet de distribution (commentaire ou suffixe Ubuntu, Debian, CentOS, Red Hat, `fips`…) est au plus À améliorer : ces distributions corrigent souvent sans changer le numéro. Pour l’annonce des versions, seuls les en-têtes comptent. La balise generator est relevée sans pénalité.
 
 | Identifiant | Poids | Réussi | À améliorer | Problème |
 |---|---|---|---|---|
@@ -299,9 +306,9 @@ Ce qui est lu : les en-têtes `Server`, `X-Powered-By`, `X-AspNet-Version`, `X-A
 
 Sept tests passifs, version 2026.1. Quatre lisent le rapport du navigateur d’audit, déposé une seule fois dans `ctx.shared` sous la clé `browser`. Le schéma est `BrowserAuditResult` (version 1, zod) : traces sans valeur, requêtes, plateformes détectées et intitulés des boutons au premier niveau. Le navigateur ne clique pas. Si le rapport indique une interaction, ou s’il manque ou est illisible, le test est Non testé. Sans navigateur, ces quatre tests ne partent pas.
 
-Les trois autres lisent l’accueil, puis au plus deux pages liées du même périmètre. Le fichier robots est respecté pour AudigyBot. Une page hors portée n’est pas demandée.
+Les trois autres lisent l’accueil, puis au plus deux pages liées du même périmètre. Le fichier robots est respecté pour AudixioBot. Une page hors portée n’est pas demandée.
 
-La liste de traceurs vient de DuckDuckGo Tracker Radar, fichier `domain_summary.json`, commit `a54ee0ccc2a90192123341f4842d2884d1832dc3`. Licence vérifiée le 24 octobre 2026 : CC BY-NC-SA 4.0. Seuls les noms de domaine valides sont gardés (`packages/engine/data/trackers/`). Un hôte compte s’il est dans la liste ou si un de ses parents y est. Le bandeau reconnu (tarteaucitron, Axeptio, Didomi, Cookiebot, OneTrust) n’est pas compté comme traceur.
+**MAJ owner 28 oct 2026 soir :** Tracker Radar DuckDuckGo **pas** au lancement / bêta (licence) ; en bêta on utilise seulement les tests partiels HTTP/HTML (Set-Cookie, scripts évidents, CMP connus, liens cookies), libellés partiel/automatique. Historique technique ci-dessous : la liste de traceurs vient de DuckDuckGo Tracker Radar, fichier `domain_summary.json`, commit `a54ee0ccc2a90192123341f4842d2884d1832dc3`. Licence vérifiée le 24 octobre 2026 : CC BY-NC-SA 4.0. Seuls les noms de domaine valides sont gardés (`packages/engine/data/trackers/`). Un hôte compte s’il est dans la liste ou si un de ses parents y est. Le bandeau reconnu (tarteaucitron, Axeptio, Didomi, Cookiebot, OneTrust) n’est pas compté comme traceur.
 
 Un script ou une police est tiers s’il ne partage pas le site de la page. `www` est ignoré. Les suffixes de plateforme (`github.io`, `netlify.app`, et quelques autres) gardent le nom juste devant. Ce n’est pas la liste publique complète des suffixes.
 
@@ -333,7 +340,7 @@ Un code 200 ne suffit pas. Beaucoup de sites renvoient la page d’accueil pour 
 
 ## 17. Réputation
 
-Un seul test, version 2026.1. Il ne part que si une clé Places est configurée sur le serveur. Sans cette clé, le domaine n’est pas noté et la section est masquée. Le navigateur ne contacte pas Google : il passe par Audigy.
+Un seul test, version 2026.1. Il ne part que si une clé Places est configurée sur le serveur. Sans cette clé, le domaine n’est pas noté et la section est masquée. Le navigateur ne contacte pas Google : il passe par Audixio.
 
 La personne cherche un lieu, puis confirme la fiche. L’audit lit ensuite la note moyenne et le nombre d’avis. Le texte des avis n’est ni demandé ni stocké. La réponse est gardée sept jours.
 
