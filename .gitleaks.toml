@@ -1,0 +1,20 @@
+# Config gitleaks : règles par défaut + exceptions ciblées pour de FAUSSES valeurs.
+# Les vraies clés restent détectées partout ailleurs.
+title = "Audixio gitleaks"
+
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Fausses valeurs de démonstration (tests et maquettes)."
+regexTarget = "line"
+regexes = [
+  # Tests : clés / jetons factices.
+  '''AIzaSyTEST''',
+  '''brevo-test''',
+  '''ghp_jeton''',
+  '''anon-cle-''',
+  '''const (KEY|JWT) = '(MIIBIjANBg|eyJhbGciOi)''',
+  # Maquettes HTML : jeton d'exemple affiché dans l'écran.
+  '''data-token''',
+]
