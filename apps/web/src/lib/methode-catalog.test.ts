@@ -5,7 +5,10 @@ import { describe, expect, it } from 'vitest';
 import { parseMethodeCatalog } from './methode-catalog.js';
 
 const markdown = readFileSync(
-  join(dirname(fileURLToPath(import.meta.url)), '../../../../docs/produit/METHODE.md'),
+  join(
+    dirname(fileURLToPath(import.meta.url)),
+    '../../../../docs/produit/METHODE.md',
+  ),
   'utf8',
 );
 

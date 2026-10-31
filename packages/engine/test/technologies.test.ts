@@ -328,7 +328,9 @@ describe('signatures retire.js', () => {
         expect(hash).toMatch(/^[0-9a-f]{40}$/);
     }
     const methode = readFileSync(
-      fileURLToPath(new URL('../../../docs/produit/METHODE.md', import.meta.url)),
+      fileURLToPath(
+        new URL('../../../docs/produit/METHODE.md', import.meta.url),
+      ),
       'utf8',
     );
     expect(methode).toContain(SIGNATURES.commit);
@@ -1168,7 +1170,9 @@ describe('texte, fiches et méthode', () => {
   it('chaque check a une fiche, et la grille est dans la méthode', async () => {
     const sheets = await loadFixes(fileFixStore(FIXES_FR_DIR));
     const methode = readFileSync(
-      fileURLToPath(new URL('../../../docs/produit/METHODE.md', import.meta.url)),
+      fileURLToPath(
+        new URL('../../../docs/produit/METHODE.md', import.meta.url),
+      ),
       'utf8',
     );
     for (const name of ['OSV', 'NVD', 'KEV', 'retire.js']) {

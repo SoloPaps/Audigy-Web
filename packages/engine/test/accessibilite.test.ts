@@ -374,7 +374,9 @@ describe('textes, fiche et méthode', () => {
   it('la fiche et la méthode décrivent le check', async () => {
     const sheets = await loadFixes(fileFixStore(FIXES_FR_DIR));
     const methode = readFileSync(
-      fileURLToPath(new URL('../../../docs/produit/METHODE.md', import.meta.url)),
+      fileURLToPath(
+        new URL('../../../docs/produit/METHODE.md', import.meta.url),
+      ),
       'utf8',
     );
     const sheet = sheets.get('accessibilite.lighthouse');
