@@ -1531,7 +1531,7 @@ describe('textes, fiches et méthode', () => {
   it('chaque check a une fiche netlify, github_pages et generic', async () => {
     const sheets = await loadFixes(fileFixStore(FIXES_FR_DIR));
     const methode = readFileSync(
-      fileURLToPath(new URL('../../../docs/METHODE.md', import.meta.url)),
+      fileURLToPath(new URL('../../../docs/produit/METHODE.md', import.meta.url)),
       'utf8',
     );
     expect(methode).toContain('vingt adresses');

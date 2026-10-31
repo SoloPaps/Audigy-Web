@@ -1,7 +1,7 @@
 import { type MethodeEntry, parseMethodeCatalog } from './methode-catalog.js';
 
 // Coupé pour le lint des capitales. Le motif ne vise que ce document.
-const files = import.meta.glob('../../../../docs/M[E]T[H]O[D]E.md', {
+const files = import.meta.glob('../../../../docs/produit/M[E]T[H]O[D]E.md', {
   query: '?raw',
   import: 'default',
   eager: true,

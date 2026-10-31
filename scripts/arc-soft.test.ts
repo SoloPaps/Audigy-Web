@@ -121,7 +121,7 @@ describe('coquille', () => {
 describe('plafond et charte', () => {
   it('porte l’accueil à 700 Ko et cite Outfit dans la charte', () => {
     expect(HOME_MAX_BYTES).toBe(700_000);
-    const design = text('docs/DESIGN.md');
+    const design = text('docs/design/DESIGN.md');
     expect(design).toContain('Outfit');
     expect(design).toContain('700');
     expect(design).toContain('0 18px 48px rgb(27 31 36 / 0.10)');
