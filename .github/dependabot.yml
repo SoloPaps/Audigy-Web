@@ -16,6 +16,10 @@ updates:
       # À retirer quand Astro prend en charge TypeScript 7.
       - dependency-name: typescript
         update-types: ['version-update:semver-major']
+      # @types/node doit suivre la version de Node utilisée (.nvmrc : 22).
+      # La 26 décrit des API de Node 26 et casse le typecheck (JsonWebKey, etc.).
+      - dependency-name: '@types/node'
+        update-types: ['version-update:semver-major']
   - package-ecosystem: github-actions
     directory: /
     schedule:
