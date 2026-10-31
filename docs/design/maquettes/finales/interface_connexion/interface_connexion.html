@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Audixio · Connexion / Inscription</title>
+<meta name="description" content="Maquette : interface de connexion et d'inscription Audixio (e-mail + mot de passe, Google, GitHub).">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#EDE8F5">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#EDE8F5;--card:rgba(255,255,255,.9);--input:#F8F7FC;--line:#ADBBDA;--soft:rgba(61,82,160,.15);
+--primary:#3D52A0;--primary-h:#1E2A55;--accent:#7091E6;--lav:#8697C4;--text:#1E2A55;--muted:#4A5585;
+--err:#B42318;--warn:#B54708;--ok:#067647;--out:cubic-bezier(.16,1,.3,1);
+--shadow:0 30px 60px -15px rgba(61,82,160,.28),0 0 0 1px rgba(61,82,160,.06)}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{min-height:100%}
+html{overflow-x:clip}
+body{font-family:Inter,"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--text);background:var(--bg);
+min-height:100vh;display:flex;justify-content:center;align-items:center;padding:24px 12px;position:relative;overflow-x:hidden;perspective:1000px}
+/* Fond : page d'accueil floutée (interface = pas de chrome complet) */
+.backdrop{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+.backdrop iframe{width:100%;height:100%;border:0;filter:blur(14px) saturate(.9);transform:scale(1.06);opacity:.75}
+.veil{position:fixed;inset:0;z-index:0;background:linear-gradient(135deg,rgba(237,232,245,.72),rgba(173,187,218,.45))}
+.orb{position:fixed;border-radius:50%;z-index:0;pointer-events:none;animation:floatOrb 12s ease-in-out infinite alternate}
+.orb.o1{width:600px;height:600px;top:-150px;left:-150px;background:radial-gradient(circle,rgba(112,145,230,.22) 0%,rgba(134,151,196,.10) 50%,transparent 70%)}
+.orb.o2{width:500px;height:500px;bottom:-150px;right:-150px;animation-duration:15s;animation-direction:alternate-reverse;background:radial-gradient(circle,rgba(61,82,160,.16) 0%,rgba(112,145,230,.06) 60%,transparent 80%)}
+@keyframes floatOrb{0%{transform:translate(0,0) scale(1)}50%{transform:translate(60px,40px) scale(1.1)}100%{transform:translate(-40px,80px) scale(.95)}}
+.auth-card{position:relative;z-index:1;width:100%;max-width:440px;background:var(--card);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+border:1px solid var(--soft);border-radius:24px;padding:40px 36px 28px;box-shadow:var(--shadow);transform-style:preserve-3d;
+transition:transform .1s ease-out;animation:cardIn .8s var(--out) both}
+@keyframes cardIn{from{opacity:0;transform:translateY(30px) scale(.95)}to{opacity:1;transform:none}}
+.auth-card::before{content:"";position:absolute;top:0;left:0;right:0;height:4px;border-radius:24px 24px 0 0;
+background:linear-gradient(90deg,var(--primary),var(--accent),var(--lav),var(--primary));background-size:300% 100%;animation:gShift 6s ease infinite}
+@keyframes gShift{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+.close{position:absolute;top:14px;right:14px;width:44px;height:44px;display:grid;place-items:center;border-radius:12px;color:var(--muted);text-decoration:none;transition:background .2s,color .2s}
+.close:hover{background:rgba(61,82,160,.08);color:var(--primary)}
+.close svg{width:20px;height:20px}
+.brand{text-align:center;margin-bottom:26px}
+.brand a{display:inline-block}
+.brand img{height:34px;width:auto}
+.brand p{font-size:14px;color:var(--muted);margin-top:10px}
+.tabs{position:relative;display:flex;background:var(--input);border:1px solid var(--soft);border-radius:14px;padding:4px;margin-bottom:26px}
+.tab-ind{position:absolute;top:4px;left:4px;width:calc(50% - 4px);height:calc(100% - 8px);background:#fff;border-radius:10px;box-shadow:0 4px 12px rgba(61,82,160,.14);transition:transform .35s var(--out);z-index:1}
+.tab{flex:1;position:relative;z-index:2;background:none;border:0;padding:11px 6px;min-height:44px;font:600 13px/1.2 Inter,"Segoe UI",system-ui,sans-serif;color:var(--muted);cursor:pointer;transition:color .3s}
+.tab[aria-selected="true"]{color:var(--text)}
+.view{display:none;opacity:0;transform:translateY(12px);transition:opacity .4s ease,transform .4s ease}
+.view.on{display:block}.view.vin{opacity:1;transform:none}
+.social{display:flex;gap:12px;margin-bottom:22px}
+.sbtn{flex:1;min-width:0;display:flex;align-items:center;justify-content:center;gap:10px;min-height:46px;background:var(--input);border:1px solid var(--soft);color:var(--text);padding:12px 8px;border-radius:12px;font:600 13px Inter,"Segoe UI",system-ui,sans-serif;cursor:pointer;transition:all .25s ease}
+.sbtn:hover{border-color:var(--primary);background:#fff;transform:translateY(-2px);box-shadow:0 6px 15px rgba(61,82,160,.12)}
+.div{display:flex;align-items:center;margin-bottom:22px;color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:1.5px;font-weight:700}
+.div::before,.div::after{content:"";flex:1;border-bottom:1px solid var(--soft)}
+.div::before{margin-right:12px}.div::after{margin-left:12px}
+.fg{margin-bottom:16px}
+.lbl{display:block;font-size:13px;font-weight:600;margin-bottom:6px}
+.ic{position:relative;display:flex;align-items:center}
+.in{width:100%;min-height:46px;background:var(--input);border:1px solid var(--line);border-radius:12px;padding:12px 48px 12px 14px;font:400 15px Inter,"Segoe UI",system-ui,sans-serif;color:var(--text);outline:none;transition:all .25s ease}
+.in:focus{border-color:var(--primary);box-shadow:0 0 0 4px rgba(61,82,160,.14);background:#fff}
+.in[aria-invalid="true"]{border-color:var(--err)}
+.eye{position:absolute;right:4px;width:40px;height:40px;display:grid;place-items:center;background:none;border:0;border-radius:10px;color:var(--muted);cursor:pointer;transition:color .2s}
+.eye:hover{color:var(--primary)}
+.meter{height:5px;background:var(--soft);border-radius:3px;margin-top:10px;overflow:hidden}
+.bar{height:100%;width:0;border-radius:3px;transition:width .4s var(--out),background-color .4s}
+.mtxt{font-size:11px;color:var(--muted);margin-top:5px;text-align:right;font-weight:500}
+.hint{font-size:12px;color:var(--muted);margin-top:6px}
+.opts{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:20px;font-size:13px}
+.chk{display:flex;align-items:flex-start;gap:8px;color:var(--muted);cursor:pointer;line-height:1.45}
+.chk input{accent-color:var(--primary);width:16px;height:16px;margin-top:2px;flex:none}
+a.lk,button.lk{color:var(--primary);font-weight:600;text-decoration:none;background:none;border:0;font:inherit;font-weight:600;cursor:pointer;padding:0}
+a.lk:hover,button.lk:hover{text-decoration:underline;color:var(--primary-h)}
+.cta{position:relative;width:100%;min-height:48px;background:linear-gradient(135deg,var(--primary),var(--accent));color:#fff;border:0;border-radius:12px;padding:14px;font:700 14px/1.2 Inter,"Segoe UI",system-ui,sans-serif;cursor:pointer;overflow:hidden;box-shadow:0 6px 20px rgba(61,82,160,.3);transition:transform .25s var(--out),box-shadow .25s}
+.cta::after{content:"";position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:linear-gradient(60deg,transparent,rgba(255,255,255,.28),transparent);transform:rotate(30deg) translateX(-100%);transition:transform .8s ease-in-out}
+.cta:hover{transform:translateY(-2px);box-shadow:0 10px 25px rgba(61,82,160,.4)}
+.cta:hover::after{transform:rotate(30deg) translateX(100%)}
+.cta:active{transform:none}
+.back{display:inline-flex;align-items:center;gap:6px;margin-bottom:14px;font-size:13px}
+.vh{font-size:18px;font-weight:800;margin-bottom:6px}
+.vp{font-size:14px;color:var(--muted);line-height:1.5;margin-bottom:18px}
+.status{margin-top:14px;font-size:13px;line-height:1.45;border-radius:12px;padding:0;max-height:0;overflow:hidden;transition:max-height .4s var(--out),padding .3s}
+.status.show{padding:10px 12px;max-height:120px;background:rgba(6,118,71,.08);color:var(--ok);border:1px solid rgba(6,118,71,.2)}
+.status.err.show{background:rgba(180,35,24,.06);color:var(--err);border-color:rgba(180,35,24,.2)}
+.mailic{width:64px;height:64px;margin:0 auto 14px;border-radius:20px;display:grid;place-items:center;background:rgba(61,82,160,.08);color:var(--primary);animation:pop .6s var(--out) both}
+@keyframes pop{from{transform:scale(.6);opacity:0}to{transform:none;opacity:1}}
+.center{text-align:center}
+.legal{margin-top:22px;padding-top:16px;border-top:1px solid var(--soft);font-size:12px;color:var(--muted);text-align:center;line-height:1.6}
+.legal a{color:var(--muted);text-decoration:underline;text-underline-offset:2px}
+.legal a:hover{color:var(--primary)}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+@media (max-width:480px){.auth-card{padding:34px 18px 22px;border-radius:20px}.auth-card::before{border-radius:20px 20px 0 0}.social{gap:8px}.sbtn{gap:6px;font-size:12.5px}}
+@media (max-width:360px){.brand p{font-size:13px}.tab{font-size:12.5px}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="backdrop" aria-hidden="true"><iframe src="../page_accueil/page_accueil.html" tabindex="-1" title="" loading="lazy"></iframe></div>
+<div class="veil" aria-hidden="true"></div>
+<div class="orb o1" aria-hidden="true"></div><div class="orb o2" aria-hidden="true"></div>
+
+<main class="auth-card" id="card" aria-labelledby="ttl">
+  <a class="close" href="../page_accueil/page_accueil.html" aria-label="Fermer et revenir à l'accueil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></a>
+  <div class="brand">
+    <a href="../page_accueil/page_accueil.html" aria-label="Audixio — accueil"><img src="../../../logos/audixio-logo-pc-clair.svg" alt="" width="107" height="34"></a>
+    <h1 id="ttl" class="sr-only">Connexion à Audixio</h1>
+    <p id="sub">Accédez à vos sites suivis et à vos rapports</p>
+  </div>
+
+  <div class="tabs" role="tablist" aria-label="Choisir">
+    <div class="tab-ind" id="ind" aria-hidden="true"></div>
+    <button class="tab" role="tab" id="t-login" aria-selected="true" aria-controls="v-login" data-v="login">Se connecter</button>
+    <button class="tab" role="tab" id="t-signup" aria-selected="false" aria-controls="v-signup" data-v="signup" tabindex="-1">Créer un compte</button>
+  </div>
+
+  <!-- CONNEXION -->
+  <section class="view on vin" id="v-login" role="tabpanel" aria-labelledby="t-login">
+    <div class="social">
+      <button class="sbtn" type="button" data-oauth="Google"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.17z"/><path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.11-6.72-4.95H1.2v3.15C3.18 21.32 7.23 24 12 24z"/><path fill="#FBBC05" d="M5.28 14.25c-.25-.72-.38-1.5-.38-2.25s.13-1.53.38-2.25V6.6H1.2C.44 8.14 0 9.99 0 12s.44 3.86 1.2 5.4l4.08-3.15z"/><path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.23 0 3.18 2.68 1.2 6.6l4.08 3.15c.95-2.84 3.6-4.95 6.72-4.95z"/></svg>Google</button>
+      <button class="sbtn" type="button" data-oauth="GitHub"><svg width="18" height="18" viewBox="0 0 24 24" fill="#1E2A55" aria-hidden="true"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>GitHub</button>
+    </div>
+    <div class="div">ou avec votre e-mail</div>
+    <form novalidate data-form="login">
+      <div class="fg"><label class="lbl" for="le">Adresse e-mail</label><div class="ic"><input class="in" type="email" id="le" autocomplete="email" placeholder="nom@exemple.fr" required></div></div>
+      <div class="fg"><label class="lbl" for="lp">Mot de passe</label><div class="ic"><input class="in" type="password" id="lp" autocomplete="current-password" placeholder="Votre mot de passe" required><button type="button" class="eye" data-eye="lp" aria-label="Afficher le mot de passe" aria-pressed="false"></button></div></div>
+      <div class="opts"><label class="chk"><input type="checkbox"> Rester connecté</label><a class="lk" style="display:inline-flex;align-items:center;min-height:44px" href="../page_reinitialisation_mot_de_passe/page_reinitialisation_mot_de_passe.html">Mot de passe oublié ?</a></div>
+      <button class="cta" type="submit">Se connecter</button>
+      <p class="status" role="status" aria-live="polite"></p>
+    </form>
+  </section>
+
+  <!-- INSCRIPTION -->
+  <section class="view" id="v-signup" role="tabpanel" aria-labelledby="t-signup">
+    <div class="social">
+      <button class="sbtn" type="button" data-oauth="Google"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.17z"/><path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.11-6.72-4.95H1.2v3.15C3.18 21.32 7.23 24 12 24z"/><path fill="#FBBC05" d="M5.28 14.25c-.25-.72-.38-1.5-.38-2.25s.13-1.53.38-2.25V6.6H1.2C.44 8.14 0 9.99 0 12s.44 3.86 1.2 5.4l4.08-3.15z"/><path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.23 0 3.18 2.68 1.2 6.6l4.08 3.15c.95-2.84 3.6-4.95 6.72-4.95z"/></svg>Google</button>
+      <button class="sbtn" type="button" data-oauth="GitHub"><svg width="18" height="18" viewBox="0 0 24 24" fill="#1E2A55" aria-hidden="true"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>GitHub</button>
+    </div>
+    <div class="div">ou avec votre e-mail</div>
+    <form novalidate data-form="signup">
+      <div class="fg"><label class="lbl" for="se">Adresse e-mail</label><div class="ic"><input class="in" type="email" id="se" autocomplete="email" placeholder="nom@exemple.fr" required></div></div>
+      <div class="fg"><label class="lbl" for="sp">Mot de passe</label><div class="ic"><input class="in" type="password" id="sp" autocomplete="new-password" placeholder="10 caractères minimum" minlength="10" required aria-describedby="mt"><button type="button" class="eye" data-eye="sp" aria-label="Afficher le mot de passe" aria-pressed="false"></button></div>
+        <div class="meter" aria-hidden="true"><div class="bar" id="bar"></div></div><p class="mtxt" id="mt" aria-live="polite">Saisissez un mot de passe</p></div>
+      <div class="opts"><label class="chk"><input type="checkbox" id="cgu" required><span>J'accepte les <a class="lk" href="../page_conditions_utilisation/page_conditions_utilisation.html">CGU</a> et j'ai lu la <a class="lk" href="../page_politique_confidentialite/page_politique_confidentialite.html">politique de confidentialité</a>.</span></label></div>
+      <button class="cta" type="submit">Créer mon compte</button>
+      <p class="status" role="status" aria-live="polite"></p>
+    </form>
+  </section>
+
+  <!-- MOT DE PASSE OUBLIÉ -->
+
+  <!-- E-MAIL DE CONFIRMATION ENVOYÉ -->
+  <section class="view center" id="v-verify" aria-labelledby="vh">
+    <div class="mailic" aria-hidden="true"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg></div>
+    <h2 class="vh" id="vh">Confirmez votre adresse</h2>
+    <p class="vp">Nous avons envoyé un e-mail de confirmation à <strong id="vmail">votre adresse</strong>. Cliquez sur le lien qu'il contient pour activer votre compte, puis connectez-vous.</p>
+    <button class="cta" type="button" data-go="login">J'ai confirmé, me connecter</button>
+    <p class="vp" style="margin:14px 0 0;font-size:13px">Rien reçu ? Vérifiez vos indésirables ou <button type="button" class="lk" id="resend">renvoyer l'e-mail</button>.</p>
+    <p class="status" role="status" aria-live="polite" id="rs"></p>
+  </section>
+
+  <p class="legal"><a href="../page_accueil/page_accueil.html">Accueil</a> · <a href="../page_conditions_utilisation/page_conditions_utilisation.html">CGU</a> · <a href="../page_politique_confidentialite/page_politique_confidentialite.html">Confidentialité</a><br>Connexion par e-mail + mot de passe, Google ou GitHub. Aucun traceur.</p>
+</main>
+
+<script>
+(() => {
+  const $ = (s, c = document) => c.querySelector(s), $$ = (s, c = document) => [...c.querySelectorAll(s)];
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const EYE = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>';
+  const EYE_OFF = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><path d="M1 1l22 22"/></svg>';
+  const subs = { login: "Accédez à vos sites suivis et à vos rapports", signup: "Créez votre compte gratuit en quelques secondes", verify: "Dernière étape : confirmer votre e-mail" };
+  const ind = $('#ind'), tabs = $('.tabs');
+  function show(v) {
+    const cur = $('.view.on'), next = $('#v-' + v);
+    if (cur === next) return;
+    $$('.tab').forEach(t => { const on = t.dataset.v === v; t.setAttribute('aria-selected', on); t.tabIndex = on ? 0 : -1; });
+    if (v === 'login' || v === 'signup') { tabs.hidden = false; ind.style.transform = v === 'signup' ? 'translateX(100%)' : 'none'; } else tabs.hidden = true;
+    $('#sub').textContent = subs[v];
+    cur.classList.remove('vin');
+    setTimeout(() => { cur.classList.remove('on'); next.classList.add('on'); requestAnimationFrame(() => requestAnimationFrame(() => next.classList.add('vin'))); const f = next.querySelector('input,button.cta'); if (f && v !== 'verify') f.focus({ preventScroll: true }); }, reduce ? 0 : 200);
+  }
+  $$('.tab').forEach(t => t.addEventListener('click', () => show(t.dataset.v)));
+  tabs.addEventListener('keydown', e => { if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') { const v = $('#t-login').getAttribute('aria-selected') === 'true' ? 'signup' : 'login'; show(v); $('#t-' + v).focus(); } });
+  $$('[data-go]').forEach(b => b.addEventListener('click', () => show(b.dataset.go)));
+  $$('[data-eye]').forEach(b => { b.innerHTML = EYE; b.addEventListener('click', () => { const i = $('#' + b.dataset.eye), on = i.type === 'password'; i.type = on ? 'text' : 'password'; b.innerHTML = on ? EYE_OFF : EYE; b.setAttribute('aria-pressed', on); b.setAttribute('aria-label', on ? 'Masquer le mot de passe' : 'Afficher le mot de passe'); }); });
+  $('#sp').addEventListener('input', e => { const p = e.target.value; let s = 0; if (p.length >= 10) s += 25; if (/[A-Z]/.test(p)) s += 25; if (/[0-9]/.test(p)) s += 25; if (/[^A-Za-z0-9]/.test(p)) s += 25;
+    const bar = $('#bar'), t = $('#mt'); bar.style.width = s + '%';
+    const L = [[0, 'transparent', 'Saisissez un mot de passe'], [25, '#B42318', 'Faible'], [50, '#B54708', 'Moyen'], [75, '#7091E6', 'Bon'], [100, '#067647', 'Très solide']];
+    const r = L.find(x => s <= x[0]); bar.style.backgroundColor = r[1]; t.textContent = p && p.length < 10 ? 'Trop court (10 caractères minimum)' : r[2]; });
+  const say = (el, msg, err) => { el.textContent = msg; el.classList.toggle('err', !!err); el.classList.add('show'); };
+  $$('form').forEach(f => f.addEventListener('submit', e => {
+    e.preventDefault(); const st = $('.status', f), em = $('input[type=email]', f), kind = f.dataset.form;
+    $$('.in', f).forEach(i => i.removeAttribute('aria-invalid'));
+    if (!em.value || !em.checkValidity()) { em.setAttribute('aria-invalid', 'true'); em.focus(); return say(st, "Saisissez une adresse e-mail valide.", true); }
+    const pw = $('input[type=password],input#lp,input#sp', f);
+    if (kind === 'login' && !$('#lp').value) { $('#lp').setAttribute('aria-invalid', 'true'); $('#lp').focus(); return say(st, "Saisissez votre mot de passe.", true); }
+    if (kind === 'signup') {
+      if ($('#sp').value.length < 10) { $('#sp').setAttribute('aria-invalid', 'true'); $('#sp').focus(); return say(st, "Le mot de passe doit faire au moins 10 caractères.", true); }
+      if (!$('#cgu').checked) { $('#cgu').focus(); return say(st, "Acceptez les CGU pour créer votre compte.", true); }
+      $('#vmail').textContent = em.value; return show('verify');
+    }
+    say(st, "Connexion… (maquette : redirection vers vos sites suivis)");
+  }));
+  $$('[data-oauth]').forEach(b => b.addEventListener('click', () => { const st = $('.status', b.closest('.view')); say(st, 'Redirection vers ' + b.dataset.oauth + '… (maquette)'); }));
+  $('#resend').addEventListener('click', () => say($('#rs'), "E-mail renvoyé. Patientez 60 s avant un nouvel envoi."));
+  /* Tilt 3D (souris fine seulement) */
+  const card = $('#card');
+  if (!reduce && matchMedia('(hover:hover) and (pointer:fine)').matches) {
+    document.addEventListener('mousemove', e => { const x = (innerWidth / 2 - e.clientX) / 45, y = (innerHeight / 2 - e.clientY) / 45; card.style.transform = `rotateY(${x}deg) rotateX(${-y}deg)`; });
+    document.addEventListener('mouseleave', () => { card.style.transition = 'transform .5s ease'; card.style.transform = 'none'; });
+    card.addEventListener('mouseenter', () => { card.style.transition = 'none'; });
+  }
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') location.href = '../page_accueil/page_accueil.html'; });
+})();
+</script>
+</body>
+</html>

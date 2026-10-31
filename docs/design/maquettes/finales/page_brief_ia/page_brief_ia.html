@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Configurer votre prompt IA : brief de remédiation | Audixio</title>
+<meta name="description" content="Personnalisez le brief envoyé à Cursor, ChatGPT ou Claude : pour chaque constat de l'audit d'atelier-martin.fr, choisissez d'ignorer, de vérifier ou de corriger. Aperçu Markdown en direct.">
+<!-- Page de configuration privée : passez en "noindex, nofollow" si vous ne voulez pas l'indexer -->
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#3D52A0">
+<meta name="color-scheme" content="light">
+<!-- TODO : renseigner l'URL canonique réelle -->
+<!-- <link rel="canonical" href="https://VOTRE-DOMAINE/rapport/assistant-ia/configuration"> -->
+<meta property="og:type" content="website">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:site_name" content="Audixio">
+<meta property="og:title" content="Configurer votre prompt IA | Audixio">
+<meta property="og:description" content="Choisissez ce que l'IA doit ignorer, vérifier ou corriger, et obtenez un brief Markdown prêt à coller.">
+<meta name="twitter:card" content="summary">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[
+ {"@type":"BreadcrumbList","itemListElement":[
+  {"@type":"ListItem","position":1,"name":"Rapport atelier-martin.fr"},
+  {"@type":"ListItem","position":2,"name":"Assistant IA"},
+  {"@type":"ListItem","position":3,"name":"Configuration du brief"}]},
+ {"@type":"WebPage","name":"Configuration de votre prompt IA","inLanguage":"fr-FR",
+  "description":"Personnalisez le brief de remédiation transmis à vos assistants IA, constat par constat.",
+  "isPartOf":{"@type":"WebSite","name":"Audixio"}}
+]}
+</script>
+<style>
+:root{
+  --bg1:#EDE8F5;--bg2:#ADBBDA;
+  --surface:rgba(255,255,255,.76);--solid:#fff;
+  --text:#1E2A55;--muted:#4A5585;
+  --primary:#3D52A0;--primary-hover:#1E2A55;--teal:#7091E6;
+  --focus:#3D52A0;
+  --peach:#ADBBDA;--peach2:#7091E6;--warn:#B54708;
+  --line:rgba(61,82,160,.18);
+  --shadow:0 1px 2px rgba(30,42,85,.05),0 14px 36px -14px rgba(61,82,160,.24);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:5.5rem}
+body{margin:0;font-family:"Hanken Grotesk",system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--text);line-height:1.75;background:linear-gradient(160deg,var(--bg1) 0%,var(--bg1) 35%,var(--bg2) 100%) fixed;min-height:100vh;-webkit-font-smoothing:antialiased}
+a{color:var(--primary)}
+:focus-visible{outline:3px solid var(--focus);outline-offset:3px;border-radius:8px}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.skip{position:absolute;left:1rem;top:-4rem;background:var(--primary);color:#fff;padding:.7rem 1.1rem;border-radius:12px;z-index:100;font-weight:600;text-decoration:none;transition:top .2s}
+.skip:focus{top:1rem}
+.wrap{width:min(1120px,100% - 2.5rem);margin-inline:auto}
+.mono{font-family:"JetBrains Mono",ui-monospace,monospace}
+
+/* Header */
+
+
+
+
+.crumbs{font-size:.85rem;color:var(--muted);display:none;min-width:0}
+.crumbs ol{list-style:none;display:flex;gap:.45rem;margin:0;padding:0;white-space:nowrap;overflow:hidden}
+.crumbs li+li::before{content:"›";margin-right:.45rem;opacity:.6}
+.crumbs [aria-current]{color:var(--primary);font-weight:700}
+
+.verified{display:none;align-items:center;gap:.4rem;font-size:.8rem;font-weight:700;color:#155E75;background:#ECFDFF;border:1.5px solid #67D4E8;padding:.25rem .75rem;border-radius:999px}
+.verified i{width:7px;height:7px;border-radius:50%;background:currentColor}
+
+@media(min-width:900px){.crumbs{display:block}.verified{display:inline-flex}}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.55rem;font:inherit;font-weight:700;font-size:.95rem;padding:.75rem 1.3rem;border-radius:14px;border:1px solid transparent;cursor:pointer;text-decoration:none;transition:transform .2s,background .2s,box-shadow .2s;min-height:46px}
+.btn-primary{background:var(--primary);color:#fff;box-shadow:0 10px 22px -10px var(--primary)}
+.btn-primary:hover{background:var(--primary-hover);transform:translateY(-2px)}
+.btn-ghost{background:var(--solid);color:var(--text);border-color:var(--line)}
+.btn-ghost:hover{background:var(--peach);transform:translateY(-2px)}
+.chipbtn{font:inherit;font-weight:700;font-size:.85rem;padding:.55rem 1rem;border-radius:999px;border:1px solid var(--line);background:var(--solid);color:var(--text);cursor:pointer;min-height:42px;transition:all .2s}
+.chipbtn:hover{background:var(--peach);border-color:var(--peach2);transform:translateY(-1px)}
+
+/* Hero */
+main{padding-bottom:7rem}
+.hero{position:relative;margin-top:3rem;border-radius:36px;padding:clamp(2rem,5vw,4.5rem);background:var(--surface);border:1px solid var(--line);box-shadow:var(--shadow);display:grid;gap:3rem;grid-template-columns:1fr;align-items:center;overflow:hidden}
+@media(min-width:980px){.hero{grid-template-columns:1.02fr .98fr}}
+.back{display:inline-flex;align-items:center;gap:.5rem;font-weight:600;font-size:.9rem;color:var(--muted);text-decoration:none;margin-bottom:1.75rem}
+.back:hover{color:var(--primary)}
+.chip{display:inline-flex;align-items:center;gap:.5rem;padding:.3rem .85rem;border-radius:999px;font-size:.78rem;font-weight:700;font-family:"JetBrains Mono",monospace;background:var(--solid);border:1px solid var(--line);color:var(--muted);margin-bottom:1.5rem}
+.chip i{width:8px;height:8px;border-radius:50%;background:var(--teal);animation:blink 2.2s infinite}
+@keyframes blink{50%{opacity:.25}}
+h1{font-size:clamp(2.1rem,4.6vw,3.4rem);line-height:1.1;letter-spacing:-.035em;margin:0 0 1.5rem;font-weight:800}
+h1 .w{display:inline-block;overflow:hidden;vertical-align:top;padding-bottom:.12em}
+h1 .w>span{display:inline-block}
+h1 .grad{background:linear-gradient(100deg,var(--primary),var(--peach2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead{color:var(--muted);font-size:1.1rem;max-width:52ch;margin:0 0 2.25rem}
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;margin:0 0 2rem;padding:0;list-style:none}
+.stat{background:var(--solid);border:1px solid var(--line);border-radius:18px;padding:1rem 1.25rem;display:flex;flex-direction:column;gap:.1rem}
+.stat b{font-family:"JetBrains Mono",monospace;font-size:2rem;line-height:1.2;letter-spacing:-.04em}
+.stat span{font-size:.82rem;font-weight:600;color:var(--muted)}
+.stat-fix{background:#FFF6ED;border-color:#FEC84B}.stat-fix b{color:#B54708}
+.stat-check{background:#EDE8F5;border-color:rgba(112,145,230,.45)}.stat-check b{color:var(--primary)}
+.presets-l{font-weight:700;font-size:.82rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin:0 0 .8rem}
+.presets{display:flex;flex-wrap:wrap;gap:.6rem}
+
+.orbit-wrap{position:relative;width:min(100%,540px);aspect-ratio:1;margin-inline:auto}
+#orbit{position:absolute;inset:0;width:100%;height:100%;touch-action:manipulation}
+.legend{display:flex;flex-wrap:wrap;gap:.5rem 1.4rem;justify-content:center;margin:1.5rem 0 0;padding:0;list-style:none;font-size:.82rem;font-weight:600;color:var(--muted)}
+.legend li{display:flex;align-items:center;gap:.5rem}
+.legend i{width:11px;height:11px;border-radius:50%}
+.hint{text-align:center;font-size:.8rem;color:var(--muted);margin:.5rem 0 0}
+
+/* Domaines */
+.block-h{margin:5rem 0 2.5rem;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:1rem 2rem}
+.eyebrow{font-family:"JetBrains Mono",monospace;font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--primary);margin:0 0 .8rem}
+h2{font-size:clamp(1.5rem,3vw,2.1rem);line-height:1.2;letter-spacing:-.02em;margin:0;font-weight:800}
+.sub{color:var(--muted);margin:.9rem 0 0;max-width:60ch}
+.dom{background:var(--surface);border:1px solid var(--line);border-radius:28px;box-shadow:var(--shadow);overflow:hidden;transition:border-color .3s}
+.dom+.dom{margin-top:1.25rem}
+.dom.open{border-color:rgba(61,82,160,.38)}
+.dom.pulse{animation:domPulse 1.2s}
+@keyframes domPulse{0%{box-shadow:0 0 0 0 rgba(112,145,230,.8),var(--shadow)}100%{box-shadow:0 0 0 22px rgba(112,145,230,0),var(--shadow)}}
+.dom-h{margin:0}
+.dom-btn{width:100%;display:flex;align-items:center;gap:.9rem 1.1rem;padding:1.5rem 1.75rem;background:none;border:0;font:inherit;color:inherit;cursor:pointer;text-align:left;flex-wrap:wrap}
+.dom-btn:hover .tile{transform:scale(1.06) rotate(-4deg)}
+.tile{width:48px;height:48px;border-radius:15px;background:var(--bg2);color:var(--primary);display:grid;place-items:center;flex:none;transition:transform .3s,background .3s,color .3s}
+.dom.open .tile{background:var(--primary);color:#fff}
+.dom-name{font-weight:800;font-size:1.1rem;letter-spacing:-.01em}
+.grade{font-size:.76rem;font-weight:700;padding:.2rem .7rem;border-radius:999px;font-family:"JetBrains Mono",monospace}
+.g-A{background:#D6F2E3;color:#065F3A;box-shadow:inset 0 0 0 1px #2FA36B55}.g-B{background:#DDE4F8;color:#2B3B85;box-shadow:inset 0 0 0 1px #7091E655}.g-C{background:#FBE8C8;color:#8A4B08;box-shadow:inset 0 0 0 1px #E0A63A55}.g-D{background:#FADBC9;color:#A23B0A;box-shadow:inset 0 0 0 1px #E1763F55}.g-F{background:#F8D4D4;color:#9B1C1C;box-shadow:inset 0 0 0 1px #D6454555}
+.dom-count{font-size:.85rem;color:var(--muted)}
+.grow{flex:1}
+.dom-sum{display:flex;gap:.4rem;flex-wrap:wrap}
+.dot{font-family:"JetBrains Mono",monospace;font-size:.75rem;font-weight:700;padding:.2rem .6rem;border-radius:999px}
+.dot-fix{background:#FFF6ED;color:#B54708}.dot-check{background:#FEFBE8;color:#854A0E}.dot-skip{background:#F2F4F7;color:#475467}
+.chev{flex:none;color:var(--muted);transition:transform .4s}
+.dom.open .chev{transform:rotate(180deg)}
+.panel{display:grid;grid-template-rows:0fr;transition:grid-template-rows .5s cubic-bezier(.2,.8,.2,1)}
+.dom.open .panel{grid-template-rows:1fr}
+.panel-in{overflow:hidden;min-height:0;visibility:hidden;transition:visibility 0s .5s}
+.dom.open .panel-in{visibility:visible;transition-delay:0s}
+.issues{display:grid;gap:1.1rem;padding:.25rem 1.75rem 1.9rem}
+.issue{display:flex;flex-wrap:wrap;gap:1.25rem 2rem;justify-content:space-between;align-items:center;background:var(--solid);border:1px solid var(--line);border-radius:20px;padding:1.4rem 1.5rem}
+.issue-txt{flex:1 1 320px;max-width:560px}
+.issue-head{display:flex;flex-wrap:wrap;align-items:center;gap:.6rem .8rem}
+.issue h4{margin:0;font-size:1rem;line-height:1.4}
+.issue p{margin:.45rem 0 0;color:var(--muted);font-size:.92rem;line-height:1.7}
+.sev{font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;padding:.15rem .6rem;border-radius:999px}
+.sev-crit{background:#FEF3F2;color:#B42318}.sev-imp{background:#FFF6ED;color:#B54708}.sev-mod{background:#FFFFFF;color:#475467}
+.seg3{display:inline-flex;border:0;margin:0;padding:4px;gap:2px;background:var(--bg2);border-radius:15px;min-width:0}
+.seg3 label{position:relative;display:block}
+.seg3 input{position:absolute;inset:0;opacity:0;margin:0;cursor:pointer}
+.seg3 span{display:grid;place-items:center;min-height:40px;padding:.4rem 1rem;border-radius:11px;font-weight:700;font-size:.85rem;color:var(--muted);transition:all .25s;white-space:nowrap}
+.seg3 input:focus-visible+span{outline:3px solid var(--focus);outline-offset:2px}
+.seg3 input:not(:checked)+span:hover{color:var(--text);background:rgba(255,255,255,.6)}
+.seg3 input[value="skip"]:checked+span{background:#fff;color:var(--text);box-shadow:0 2px 8px rgba(30,42,85,.12)}
+.seg3 input[value="check"]:checked+span{background:#fff;color:var(--primary);box-shadow:0 0 0 2px var(--teal),0 4px 10px rgba(112,145,230,.25)}
+.seg3 input[value="fix"]:checked+span{background:var(--primary);color:#fff;box-shadow:0 6px 14px -6px var(--primary)}
+.dom-off{display:flex;flex-wrap:wrap;align-items:center;gap:1rem;padding:1.5rem 1.75rem;background:rgba(255,255,255,.5)}
+.dom-off .dom-name{flex:1}
+
+/* Aperçu */
+.mdwin{background:var(--solid);border:1px solid var(--line);border-radius:28px;overflow:hidden;box-shadow:var(--shadow)}
+.md-bar{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:1rem;padding:1.1rem 1.75rem;background:#FFFFFF;border-bottom:1px solid var(--line)}
+.md-file{display:flex;align-items:center;gap:1rem;font-family:"JetBrains Mono",monospace;font-size:.82rem;font-weight:600;color:var(--muted)}
+.lights{display:flex;gap:.4rem}.lights i{width:11px;height:11px;border-radius:50%}
+.lights i:nth-child(1){background:var(--peach2)}.lights i:nth-child(2){background:var(--peach)}.lights i:nth-child(3){background:var(--teal)}
+.md-meta{display:flex;align-items:center;gap:.6rem;font-family:"JetBrains Mono",monospace;font-size:.78rem;font-weight:600;color:var(--primary)}
+.md-meta span{background:rgba(112,145,230,.14);padding:.25rem .7rem;border-radius:999px}
+.mdbody{padding:2rem 1.75rem;font-family:"JetBrains Mono",monospace;font-size:.84rem;line-height:1.85;max-height:660px;overflow:auto;color:var(--text)}
+.l{padding:.1rem 0}
+.l-h1{font-size:1.02rem;font-weight:700;padding-bottom:.9rem;border-bottom:1px solid var(--line);margin-bottom:1rem}
+.l-i{font-style:italic;color:var(--muted);font-size:.8rem}
+.l-p{font-family:"Hanken Grotesk",sans-serif;font-size:.92rem;margin:.9rem 0 0}
+.l-p b{font-family:"JetBrains Mono",monospace;color:var(--primary)}
+.l-h2{margin-top:2rem;padding-left:.9rem;border-left:3px solid var(--teal);font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--primary);font-size:.82rem}
+.l-h3{margin-top:1rem;font-weight:700;color:var(--muted);font-size:.8rem}
+.l-li{margin:.5rem 0;padding:.75rem 1rem;border-radius:14px;background:#FFFFFF;border:1px solid var(--line);font-family:"Hanken Grotesk",sans-serif;font-size:.9rem;line-height:1.7}
+.l-li b{font-family:"JetBrains Mono",monospace;font-size:.8rem}
+.l-li.fix b{color:var(--warn)}.l-li.check b{color:var(--primary)}
+.l code{font-family:"JetBrains Mono",monospace;font-size:.82em;background:rgba(61,82,160,.1);padding:.1rem .4rem;border-radius:6px}
+.l-n{font-family:"Hanken Grotesk",sans-serif;font-size:.85rem;font-style:italic;color:var(--muted);margin-top:.6rem}
+.l-empty{padding:2rem;text-align:center;color:var(--muted);font-family:"Hanken Grotesk",sans-serif}
+.flash{animation:flash 1.8s ease-out}
+@keyframes flash{0%{box-shadow:inset 0 0 0 999px rgba(112,145,230,.5)}100%{box-shadow:inset 0 0 0 999px rgba(112,145,230,0)}}
+.md-actions{display:flex;flex-wrap:wrap;gap:.9rem;padding:1.5rem 1.75rem 1.75rem;border-top:1px solid var(--line)}
+.md-actions .btn-primary{flex:1 1 280px}
+.md-foot{padding:0 1.75rem 1.5rem;font-size:.82rem;color:var(--muted)}
+
+/* Dock */
+.dock{position:fixed;left:50%;bottom:1.25rem;z-index:60;transform:translate(-50%,180%);opacity:0;transition:transform .55s cubic-bezier(.2,.8,.2,1),opacity .4s;display:flex;align-items:center;gap:1.25rem;padding:.6rem .6rem .6rem 1.4rem;border-radius:999px;background:var(--surface);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid var(--line);box-shadow:0 20px 50px -18px rgba(61,82,160,.5);max-width:calc(100% - 1.5rem)}
+.dock.show{transform:translate(-50%,0);opacity:1}
+.dock-t{font-size:.88rem;font-weight:700;white-space:nowrap}
+.dock-t em{font-style:normal;color:var(--warn)}.dock-t u{text-decoration:none;color:var(--primary)}
+@media(max-width:520px){.dock-t{display:none}.dock{padding:.5rem}}
+
+.toast{position:fixed;left:50%;bottom:5.5rem;transform:translate(-50%,200%);background:var(--primary);color:#fff;padding:.8rem 1.3rem;border-radius:14px;font-weight:700;box-shadow:var(--shadow);transition:transform .35s cubic-bezier(.2,.8,.2,1);z-index:90}
+.toast.show{transform:translate(-50%,0)}
+
+
+
+
+
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+}
+@media print{
+  .hero,#domains-sec,.dock,.toast,.md-actions,.skip,.no-print{display:none!important}
+  body{background:#fff}
+  main{padding:0}
+  .mdwin{box-shadow:none;border:0}
+  .mdbody{max-height:none;overflow:visible}
+}
+</style>
+<style id="ax-surface">
+:root{--ax-edge:clamp(12px,3vw,32px);--ax-r:28px;--ax-max:1240px;--ax-bd:#ADBBDA;--ax-sf:#EDE8F5}
+/* AX-SURFACE */
+.crumbs-bar{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.25rem 1rem;margin-top:8px}
+.crumbs{display:block}
+.crumbs ol{flex-wrap:wrap;white-space:normal;align-items:center;row-gap:0}
+.crumbs a{display:inline-flex;align-items:center;min-height:44px;color:var(--primary);font-weight:600;text-decoration:none}
+.crumbs a:hover{text-decoration:underline;text-underline-offset:4px}
+.crumbs li{display:flex;align-items:center;min-height:28px}
+.verified{display:inline-flex}
+.hero{margin-top:.5rem}
+.back{min-height:44px}
+.chipbtn{min-height:44px}
+
+.toast{opacity:0;visibility:hidden;transition:transform .35s cubic-bezier(.2,.8,.2,1),opacity .25s,visibility 0s .35s}.toast.show{opacity:1;visibility:visible;transition:transform .35s cubic-bezier(.2,.8,.2,1),opacity .25s,visibility 0s}
+.dock .btn{white-space:nowrap}
+.seg3 span{min-height:44px}
+.seg3 input:not(:checked)+span{color:var(--text)}
+@media (max-width:560px){.issues{padding:.25rem .9rem 1.2rem}.issue{padding:1.1rem 1rem;gap:1rem}.issue-txt{flex-basis:100%}.seg3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));width:100%}.seg3 span{padding:.4rem .35rem;font-size:.8rem;white-space:normal;text-align:center;line-height:1.2}}
+.dock{background:rgba(255,255,255,.94);backdrop-filter:blur(20px) saturate(1.4);-webkit-backdrop-filter:blur(20px) saturate(1.4);border-color:rgba(173,187,218,.8)}
+@media print{.axf,.crumbs-bar{display:none!important}}
+</style>
+<style id="clip-fix">.grad-txt,h1 .grad,h1 .u,.pin h2 em,.lvn{padding-bottom:.12em;margin-bottom:-.12em;-webkit-box-decoration-break:clone;box-decoration-break:clone}.hero h1{line-height:1.1}.hero h1 .w{padding-bottom:.16em;margin-bottom:-.16em}.four{padding-bottom:.1em}</style>
+</head>
+<body>
+<a class="skip" href="#contenu">Aller au contenu principal</a>
+
+<!-- AUDIXIO NAV START — chrome partagé (canon NAV-CANON-desktop-et-mobile.md). Coller tel quel dans chaque page de design/maquettes/finales/<page>/ -->
+<style>
+.axn,.axn *,.axn-top{box-sizing:border-box}
+.axn{--axn-p:#3D52A0;--axn-ph:#1E2A55;--axn-ac:#7091E6;--axn-sec:#8697C4;--axn-bd:#ADBBDA;--axn-sf:#EDE8F5;--axn-tx:#1E2A55;--axn-tx2:#4A5585;--axn-font:Inter,"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;
+  position:sticky;top:0;z-index:1000;padding:14px clamp(12px,3vw,32px);font-family:var(--axn-font);transition:padding .3s cubic-bezier(.16,1,.3,1)}
+.axn-bar{max-width:1240px;margin:0 auto;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:16px;height:64px;padding:0 10px 0 20px;background:rgba(255,255,255,.92);-webkit-backdrop-filter:blur(14px) saturate(1.4);backdrop-filter:blur(14px) saturate(1.4);border:1px solid var(--axn-bd);border-radius:999px;box-shadow:0 1px 2px rgba(30,42,85,.04);transition:height .3s cubic-bezier(.16,1,.3,1),box-shadow .3s,border-color .3s}
+.axn.is-scrolled{padding-top:8px;padding-bottom:8px}
+.axn.is-scrolled .axn-bar{height:56px;box-shadow:0 10px 30px -12px rgba(30,42,85,.28),0 1px 2px rgba(30,42,85,.06);border-color:rgba(173,187,218,.7)}
+.axn-logo{display:inline-flex;align-items:center;justify-self:start;border-radius:10px;text-decoration:none}
+.axn-logo img{display:block;height:34px;width:auto;max-width:none}
+.axn-logo .axn-logo-m{display:none}
+.axn-links{display:flex;gap:4px;margin:0;padding:0;list-style:none}
+.axn-links a{position:relative;display:block;padding:9px 16px;border-radius:999px;font-size:15px;font-weight:550;line-height:1.2;color:var(--axn-tx2);text-decoration:none;transition:color .2s,background-color .2s}
+.axn-links a::after{content:"";position:absolute;left:16px;right:16px;bottom:5px;height:2px;border-radius:2px;background:var(--axn-ac);transform:scaleX(0);transform-origin:left;transition:transform .25s cubic-bezier(.16,1,.3,1)}
+.axn-links a:hover{color:var(--axn-tx)}
+.axn-links a:hover::after{transform:scaleX(1)}
+.axn-links a[aria-current="page"]{color:var(--axn-p);font-weight:650;background:var(--axn-sf)}
+.axn-links a[aria-current="page"]::after{display:none}
+.axn-tools{display:flex;align-items:center;justify-content:flex-end;gap:10px}
+.axn-lang{display:inline-flex;padding:3px;border:1px solid var(--axn-bd);border-radius:999px;background:#fff}
+.axn-lang a,.axn-lang span{display:grid;place-items:center;min-width:36px;height:30px;padding:0 8px;border-radius:999px;font-size:13px;font-weight:650;color:var(--axn-tx2);text-decoration:none;transition:background-color .2s,color .2s}
+.axn-lang [aria-current]{background:var(--axn-sf);color:var(--axn-p)}
+.axn-lang a:hover{color:var(--axn-tx);background:#F6F4FB}
+.axn-theme{display:grid;place-items:center;width:40px;height:40px;border:1px solid var(--axn-bd);border-radius:999px;background:#fff;color:var(--axn-tx);cursor:pointer;transition:background-color .2s,transform .3s cubic-bezier(.34,1.56,.64,1)}
+.axn-theme:hover{background:var(--axn-sf);transform:rotate(-18deg)}
+.axn-cta{display:inline-flex;align-items:center;gap:8px;height:42px;padding:0 18px;border-radius:999px;background:var(--axn-p);color:#fff;font-size:15px;font-weight:600;text-decoration:none;box-shadow:0 6px 16px -8px rgba(61,82,160,.7);transition:background-color .2s,transform .2s,box-shadow .2s}
+.axn-cta:hover{background:var(--axn-ph);transform:translateY(-1px);box-shadow:0 10px 20px -10px rgba(30,42,85,.8)}
+.axn svg,.axn-top svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.axn a:focus-visible,.axn button:focus-visible,.axn-top:focus-visible{outline:3px solid var(--axn-ac,#7091E6);outline-offset:3px}
+/* Mobile (<=900px) : burger + panneau déroulant ; back-to-top */
+.axn-burger,.axn-sheet,.axn-scrim,.axn-top{display:none}
+@media (max-width:900px){
+  .axn{padding:10px 12px}
+  .axn.is-scrolled{padding-top:6px;padding-bottom:6px}
+  .axn-bar{position:relative;z-index:2;grid-template-columns:auto 1fr;height:58px;padding:0 8px 0 12px;border-radius:20px}
+  .axn.is-scrolled .axn-bar{height:54px}
+  .axn-bar>nav,.axn-bar>.axn-tools{display:none}
+  .axn-logo img.axn-logo-d{height:32px}
+}
+@media (max-width:329px){
+  .axn-logo .axn-logo-d{display:none}
+  .axn-logo .axn-logo-m{display:block;height:36px}
+}
+@media (max-width:900px){
+  .axn-burger{display:grid;place-items:center;justify-self:end;width:44px;height:44px;border:1px solid var(--axn-bd);border-radius:14px;background:#fff;color:var(--axn-tx);cursor:pointer;transition:background-color .2s}
+  .axn-burger:hover{background:var(--axn-sf)}
+  .axn-burger i{position:relative;display:block;width:20px;height:14px}
+  .axn-burger i b{position:absolute;left:0;width:100%;height:2px;border-radius:2px;background:currentColor;transition:transform .35s cubic-bezier(.65,0,.35,1),opacity .2s,top .35s cubic-bezier(.65,0,.35,1)}
+  .axn-burger i b:nth-child(1){top:0}.axn-burger i b:nth-child(2){top:6px}.axn-burger i b:nth-child(3){top:12px}
+  .axn.is-open .axn-burger i b:nth-child(1){top:6px;transform:rotate(45deg)}
+  .axn.is-open .axn-burger i b:nth-child(2){opacity:0;transform:scaleX(.2)}
+  .axn.is-open .axn-burger i b:nth-child(3){top:6px;transform:rotate(-45deg)}
+  .axn-scrim{display:block;position:fixed;inset:0;z-index:0;background:rgba(30,42,85,.28);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s}
+  .axn.is-open .axn-scrim{opacity:1;visibility:visible}
+  .axn-sheet{display:block;position:absolute;z-index:1;left:12px;right:12px;top:calc(100% - 4px);max-height:calc(100dvh - 90px);overflow:auto;padding:14px;background:#fff;border:1px solid var(--axn-bd);border-radius:22px;box-shadow:0 30px 60px -24px rgba(30,42,85,.45);opacity:0;visibility:hidden;transform:translateY(-10px) scale(.98);transform-origin:top center;transition:opacity .25s,transform .35s cubic-bezier(.16,1,.3,1),visibility .35s}
+  .axn.is-open .axn-sheet{opacity:1;visibility:visible;transform:none}
+  .axn-sheet ul{margin:0;padding:0;list-style:none}
+  .axn-sheet li,.axn-sheet .axn-row,.axn-sheet .axn-cta{opacity:0;transform:translateY(8px);transition:opacity .3s,transform .4s cubic-bezier(.16,1,.3,1)}
+  .axn.is-open .axn-sheet li,.axn.is-open .axn-sheet .axn-row,.axn.is-open .axn-sheet .axn-cta{opacity:1;transform:none;transition-delay:calc(60ms + var(--i,0)*45ms)}
+  .axn-sheet ul a{display:flex;align-items:center;justify-content:space-between;padding:14px 14px;border-radius:14px;font-size:17px;font-weight:600;color:var(--axn-tx);text-decoration:none;transition:background-color .2s,color .2s}
+  .axn-sheet ul a::after{content:"";width:8px;height:8px;border-top:2px solid var(--axn-sec);border-right:2px solid var(--axn-sec);transform:rotate(45deg);transition:transform .2s}
+  .axn-sheet ul a:hover{background:#F6F4FB}
+  .axn-sheet ul a:hover::after{transform:translateX(3px) rotate(45deg)}
+  .axn-sheet ul a[aria-current="page"]{background:var(--axn-sf);color:var(--axn-p)}
+  .axn-row{display:flex;align-items:center;justify-content:space-between;margin:10px 4px 12px;padding-top:14px;border-top:1px solid var(--axn-sf)}
+  .axn-sheet .axn-cta{display:flex;justify-content:center;width:100%;height:48px;font-size:16px}
+  .axn-top{display:grid;place-items:center;position:fixed;right:16px;bottom:calc(20px + env(safe-area-inset-bottom));z-index:999;width:48px;height:48px;border-radius:16px;border:1px solid #ADBBDA;background:#fff;color:#1E2A55;box-shadow:0 8px 22px -10px rgba(30,42,85,.4);cursor:pointer;opacity:0;visibility:hidden;transform:translateY(12px) scale(.9);transition:opacity .25s,transform .3s cubic-bezier(.34,1.56,.64,1),visibility .25s}
+  .axn-top.is-on{opacity:1;visibility:visible;transform:none}
+  .axn-top svg{width:22px;height:22px;stroke-width:2.2}
+}
+@media (prefers-reduced-motion:reduce){.axn,.axn *,.axn-top{transition:none!important;transition-delay:0s!important}}
+@media print{.axn,.axn-top{display:none!important}}
+</style>
+<header class="axn" id="top">
+  <div class="axn-bar">
+    <a class="axn-logo" href="../page_accueil/page_accueil.html" aria-label="Audixio — accueil"><img class="axn-logo-d" src="../../../logos/audixio-logo-pc-clair.svg" alt="" width="107" height="34" decoding="async"><img class="axn-logo-m" src="../../../logos/audixio-logo-mobile-clair.svg" alt="" width="36" height="36" decoding="async"></a>
+    <nav aria-label="Navigation principale">
+      <ul class="axn-links">
+        <li><a href="../page_accueil/page_accueil.html">Accueil</a></li>
+        <li><a href="../page_methode_bareme/page_methode_bareme.html">Méthode</a></li>
+        <li><a href="../page_site_suivi/page_site_suivi.html" aria-current="page">Sites suivis</a></li>
+        <li><a href="../page_pro/page_pro.html">Tarifs</a></li>
+      </ul>
+    </nav>
+    <div class="axn-tools">
+      <div class="axn-lang" role="group" aria-label="Langue">
+        <span lang="fr" aria-current="true">FR</span>
+        <a href="#" lang="en" hreflang="en" aria-label="EN — English">EN</a>
+      </div>
+      <button class="axn-theme" type="button" aria-label="Passer en thème sombre" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
+      <a class="axn-cta" href="../interface_connexion/interface_connexion.html"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg><span class="axn-cta-txt">Connexion</span></a>
+    </div>
+    <button class="axn-burger" type="button" aria-expanded="false" aria-controls="axn-menu" aria-label="Ouvrir le menu"><i aria-hidden="true"><b></b><b></b><b></b></i></button>
+  </div>
+  <div class="axn-scrim" aria-hidden="true"></div>
+  <div class="axn-sheet" id="axn-menu" role="dialog" aria-modal="true" aria-label="Menu" inert>
+    <nav aria-label="Navigation principale (mobile)">
+      <ul>
+        <li style="--i:0"><a href="../page_accueil/page_accueil.html">Accueil</a></li>
+        <li style="--i:1"><a href="../page_methode_bareme/page_methode_bareme.html">Méthode</a></li>
+        <li style="--i:2"><a href="../page_site_suivi/page_site_suivi.html" aria-current="page">Sites suivis</a></li>
+        <li style="--i:3"><a href="../page_pro/page_pro.html">Tarifs</a></li>
+      </ul>
+    </nav>
+    <div class="axn-row" style="--i:4">
+      <div class="axn-lang" role="group" aria-label="Langue">
+        <span lang="fr" aria-current="true">FR</span>
+        <a href="#" lang="en" hreflang="en" aria-label="EN — English">EN</a>
+      </div>
+      <button class="axn-theme" type="button" aria-label="Passer en thème sombre" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
+    </div>
+    <div class="axn-cta-wrap"><a class="axn-cta" style="--i:5" href="../interface_connexion/interface_connexion.html"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg><span>Connexion</span></a></div>
+  </div>
+</header>
+<button class="axn-top" type="button" aria-label="Remonter en haut"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
+<script>
+(function(){
+  var hdr=document.querySelector('.axn');if(!hdr)return;
+  var here=location.pathname.split('/').pop();
+  document.querySelectorAll('.axn-links a,.axn-sheet ul a').forEach(function(a){
+    var f=(a.getAttribute('href')||'').split('/').pop();
+    if(f&&f!=='#'&&f===here)a.setAttribute('aria-current','page');
+  });
+  var cta=hdr.querySelector('.axn-cta');/* état session : passer data-session="1" sur <html> => "Compte" */
+  if(document.documentElement.dataset.session==='1'){hdr.querySelectorAll('.axn-cta span').forEach(function(s){s.textContent='Compte';});}
+  hdr.querySelectorAll('.axn-theme').forEach(function(th){th.addEventListener('click',function(){/* thème sombre : non implémenté (maquette light) */var p=th.getAttribute('aria-pressed')==='true';th.setAttribute('aria-pressed',String(!p));});});
+  var bg=hdr.querySelector('.axn-burger'),sh=document.getElementById('axn-menu'),sc=hdr.querySelector('.axn-scrim');
+  function setMenu(o,back){if(!bg||!sh)return;hdr.classList.toggle('is-open',o);bg.setAttribute('aria-expanded',String(o));bg.setAttribute('aria-label',o?'Fermer le menu':'Ouvrir le menu');
+    if(o){sh.removeAttribute('inert');document.documentElement.style.overflow='hidden';document.body.style.overflow='hidden';setTimeout(function(){var f=sh.querySelector('a,button');f&&f.focus();},50);}
+    else{sh.setAttribute('inert','');document.documentElement.style.overflow='';document.body.style.overflow='';if(back)bg.focus();}}
+  bg&&bg.addEventListener('click',function(){setMenu(!hdr.classList.contains('is-open'),true);});
+  sc&&sc.addEventListener('click',function(){setMenu(false,true);});
+  sh&&sh.addEventListener('click',function(e){if(e.target.closest('a'))setMenu(false,false);});
+  document.addEventListener('keydown',function(e){if(!hdr.classList.contains('is-open'))return;
+    if(e.key==='Escape'){e.preventDefault();setMenu(false,true);return;}
+    if(e.key==='Tab'){var f=[bg].concat([].slice.call(sh.querySelectorAll('a[href],button'))),i=f.indexOf(document.activeElement);
+      if(e.shiftKey&&(i<=0)){e.preventDefault();f[f.length-1].focus();}else if(!e.shiftKey&&(i===f.length-1||i<0)){e.preventDefault();f[0].focus();}}});
+  matchMedia('(min-width: 901px)').addEventListener('change',function(m){if(m.matches)setMenu(false,false);});
+  var top=document.querySelector('.axn-top'),rm=matchMedia('(prefers-reduced-motion: reduce)');
+  function onS(){var y=scrollY;hdr.classList.toggle('is-scrolled',y>8);top&&top.classList.toggle('is-on',y>innerHeight*.9);}
+  addEventListener('scroll',onS,{passive:true});onS();
+  top&&top.addEventListener('click',function(){scrollTo({top:0,behavior:rm.matches?'auto':'smooth'});var t=hdr.querySelector('.axn-logo');t&&t.focus({preventScroll:true});});
+})();
+</script>
+<!-- AUDIXIO NAV END -->
+
+<main id="contenu" class="wrap">
+  <div class="crumbs-bar">
+    <nav class="crumbs" aria-label="Fil d'Ariane">
+      <ol><li><a href="../page_rapport_hub/page_rapport_hub.html">Rapport atelier-martin.fr</a></li><li>Assistant IA</li><li aria-current="page">Configuration du brief</li></ol>
+    </nav>
+    <span class="verified"><i aria-hidden="true"></i>Propriété vérifiée</span>
+  </div>
+
+  <header class="hero" id="hero">
+    <div>
+      <a class="back intro" href="../page_rapport_hub/page_rapport_hub.html"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>Retour au rapport d'audit · atelier-martin.fr</a><br>
+      <span class="chip intro"><i aria-hidden="true"></i>Synchronisation automatique active</span>
+      <h1 id="t-h1"><span class="w"><span>Configuration</span></span> <span class="w"><span>de</span></span> <span class="w"><span>votre</span></span> <span class="w"><span class="grad">prompt</span></span> <span class="w"><span class="grad">IA</span></span></h1>
+      <p class="lead intro">Personnalisez la consigne transmise à vos assistants (Cursor, ChatGPT, Claude). Pour chaque point détecté, décidez si l'IA doit l'ignorer, l'analyser ou le corriger directement.</p>
+
+      <ul class="stats intro" aria-label="Répartition des constats">
+        <li class="stat"><b data-n="total">14</b><span>constats détectés</span></li>
+        <li class="stat stat-fix"><b data-n="fix">7</b><span>à corriger</span></li>
+        <li class="stat stat-check"><b data-n="check">5</b><span>à vérifier</span></li>
+        <li class="stat"><b data-n="skip">2</b><span>ignorés</span></li>
+      </ul>
+
+      <div class="intro">
+        <p class="presets-l">Réglages rapides</p>
+        <div class="presets" role="group" aria-label="Réglages rapides">
+          <button type="button" class="chipbtn" data-preset="rec">Recommandé</button>
+          <button type="button" class="chipbtn" data-preset="crit">Critique uniquement</button>
+          <button type="button" class="chipbtn" data-preset="all">Tout corriger</button>
+          <button type="button" class="chipbtn" data-preset="none">Tout ignorer</button>
+        </div>
+      </div>
+    </div>
+
+    <figure class="intro" style="margin:0">
+      <div class="orbit-wrap"><canvas id="orbit" aria-hidden="true"></canvas></div>
+      <figcaption>
+        <ul class="legend">
+          <li><i style="background:var(--peach2)"></i>À corriger</li>
+          <li><i style="background:var(--teal)"></i>À vérifier</li>
+          <li><i style="background:#ADBBDA"></i>Ignoré</li>
+        </ul>
+        <p class="hint">Chaque flux alimente votre brief. Cliquez sur une planète pour ouvrir son domaine.</p>
+      </figcaption>
+    </figure>
+  </header>
+
+  <section id="domains-sec" aria-labelledby="t-dom">
+    <div class="block-h">
+      <div>
+        <p class="eyebrow">Étape 1</p>
+        <h2 id="t-dom">Domaines d'audit (8)</h2>
+        <p class="sub">Ouvrez un domaine et choisissez, pour chaque constat, l'action que l'IA doit entreprendre.</p>
+      </div>
+    </div>
+    <div id="domains"></div>
+    <noscript><p class="sub">JavaScript est nécessaire pour configurer le brief. Les 8 domaines audités : performance web, référencement, sécurité, écologie, accessibilité, qualité du code, vie privée et DNS.</p></noscript>
+  </section>
+
+  <section id="preview" aria-labelledby="t-prev" style="margin-top:6rem">
+    <div class="block-h" style="margin-top:0">
+      <div>
+        <p class="eyebrow">Étape 2</p>
+        <h2 id="t-prev">Rendu du prompt prêt pour votre assistant</h2>
+        <p class="sub">Ce brief Markdown se met à jour en direct selon vos choix. Copiez-le ou téléchargez <code class="mono" style="background:rgba(61,82,160,.1);padding:.1rem .45rem;border-radius:6px;font-size:.85em">audixio-prompt-remediation.md</code> pour l'injecter dans Cursor, Claude ou ChatGPT.</p>
+      </div>
+    </div>
+    <div class="mdwin">
+      <div class="md-bar">
+        <div class="md-file"><span class="lights" aria-hidden="true"><i></i><i></i><i></i></span>audixio-prompt-remediation.md</div>
+        <div class="md-meta"><span>Markdown LLM v1.2</span><span id="tok">≈ 0 tokens</span></div>
+      </div>
+      <div class="mdbody" id="md" tabindex="0" role="region" aria-label="Aperçu du brief Markdown"></div>
+      <div class="md-actions">
+        <button class="btn btn-primary" type="button" id="copyBtn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>Copier le prompt pour votre assistant IA</button>
+        <button class="btn btn-ghost" type="button" id="dlBtn">Télécharger (.md)</button>
+        <button class="btn btn-ghost" type="button" id="pdfBtn">Exporter en PDF</button>
+        <a class="btn btn-ghost" href="../page_plan_action/page_plan_action.html">Voir le plan d’action</a>
+      </div>
+      <p class="md-foot">Collez directement ce prompt dans Cursor, Claude, ChatGPT ou Copilot.</p>
+    </div>
+  </section>
+</main>
+
+<div class="dock" id="dock" role="region" aria-label="Résumé de la configuration">
+  <span class="dock-t" id="dockT"></span>
+  <button class="btn btn-primary" type="button" id="dockCopy">Copier le prompt</button>
+</div>
+<p class="sr-only" id="live" role="status" aria-live="polite"></p>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<!-- AUDIXIO FOOTER START — footer compact (canon FOOTER-CANON-compact.md). Coller tel quel. -->
+<style>
+.axf{box-sizing:border-box;margin-top:auto;padding:0 clamp(12px,3vw,32px) 24px;font-family:Inter,"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;color:#4A5585}
+.axf *{box-sizing:border-box}
+.axf-in{max-width:1240px;margin:0 auto;padding:36px clamp(20px,4vw,48px) 22px;background:#fff;border:1px solid #ADBBDA;border-radius:28px}
+.axf-top{display:flex;justify-content:space-between;align-items:flex-start;gap:24px 48px;flex-wrap:wrap;padding-bottom:24px;border-bottom:1px solid #EDE8F5}
+.axf-brand{display:flex;align-items:center;gap:10px}
+.axf-logo{min-height:44px;--h:26px;display:inline-flex;border-radius:8px}
+.axf-logo img{display:block;height:26px;width:auto;max-width:none}
+.axf-v{padding:2px 8px;border:1px solid #ADBBDA;border-radius:6px;background:#EDE8F5;color:#1E2A55;font-size:11.5px;font-weight:700;letter-spacing:.04em}
+.axf-about{margin:10px 0 0;font-size:14px;line-height:1.5;color:#4A5585;max-width:44ch}
+.axf-links{display:flex;flex-wrap:wrap;gap:6px 22px;margin:4px 0 0;padding:0;list-style:none}
+.axf-links a{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:4px;padding:6px 0;min-height:44px;min-width:44px;font-size:14px;font-weight:500;color:#1E2A55;text-decoration:none}
+.axf-links a::after{content:"";position:absolute;left:0;right:0;bottom:2px;height:1.5px;background:#7091E6;transform:scaleX(0);transform-origin:left;transition:transform .25s cubic-bezier(.16,1,.3,1)}
+.axf-links a:hover::after{transform:scaleX(1)}
+.axf-links a.axf-pro{font-weight:700;color:#3D52A0}
+.axf-links svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.axf-bot{display:flex;justify-content:space-between;gap:8px 24px;flex-wrap:wrap;padding-top:18px;font-size:12.5px;color:#4A5585}
+.axf a:focus-visible{outline:3px solid #7091E6;outline-offset:3px;border-radius:6px}
+@media (max-width:900px){
+  .axf{padding-bottom:calc(84px + env(safe-area-inset-bottom))}
+  .axf-in{padding:26px 20px 18px;border-radius:22px}
+  .axf-links{gap:2px 18px}
+}
+@media (prefers-reduced-motion:reduce){.axf *{transition:none!important}}
+/* compact toast */.toast{font-size:13px;line-height:1.35;padding:8px 14px;gap:8px;width:max-content;max-width:min(320px,calc(100vw - 32px));text-align:center;border-radius:99px}.toast svg{flex:none;width:16px;height:16px}.toast{bottom:106px}
+@media(max-width:520px){.dock{padding:0;background:transparent;border-color:transparent;box-shadow:none;-webkit-backdrop-filter:none;backdrop-filter:none}}
+</style>
+<footer class="axf">
+  <div class="axf-in">
+    <div class="axf-top">
+      <div>
+        <div class="axf-brand">
+          <a class="axf-logo" href="../page_accueil/page_accueil.html" aria-label="Audixio — accueil"><img src="../../../logos/audixio-logo-pc-clair.svg" alt="" width="82" height="26" loading="lazy" decoding="async"></a>
+          <span class="axf-v">V3.4</span>
+        </div>
+        <p class="axf-about">Observatoire indépendant de l’hygiène web. Aucune donnée commerciale stockée.</p>
+      </div>
+      <nav aria-label="Liens légaux">
+        <ul class="axf-links">
+          <li><a href="../page_mentions_legales/page_mentions_legales.html">Mentions légales</a></li>
+          <li><a href="../page_politique_confidentialite/page_politique_confidentialite.html">Confidentialité</a></li>
+          <li><a href="../page_accessibilite/page_accessibilite.html">Accessibilité</a></li>
+          <li><a href="../page_conditions_utilisation/page_conditions_utilisation.html">CGU</a></li>
+          <li><a href="../page_ecologie/page_ecologie.html">Écoconception</a></li>
+          <li><a href="../page_robot_audixio/page_robot_audixio.html">Robot Audixio</a></li>
+          <li><a href="../interface_bandeau_cookies/interface_bandeau_cookies.html">Cookies</a></li>
+          <li><a class="axf-pro" href="../page_pro/page_pro.html">Audixio Pro<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 17 17 7M8 7h9v9"/></svg></a></li>
+        </ul>
+      </nav>
+    </div>
+    <div class="axf-bot">
+      <p style="margin:0">© 2026 Audixio · Passif par défaut · Outil gratuit · Aucun traceur tiers · Polices auto-hébergées</p>
+    </div>
+  </div>
+</footer>
+<!-- AUDIXIO FOOTER END -->
+
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+'use strict';
+var TAU=Math.PI*2;
+var $=function(s,c){return (c||document).querySelector(s);};
+var $$=function(s,c){return [].slice.call((c||document).querySelectorAll(s));};
+var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+var hasG=!!window.gsap;
+var esc=function(t){return String(t).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});};
+var code=function(t){return esc(t).replace(/`([^`]+)`/g,'<code>$1</code>');};
+
+/* ============ DONNÉES ============ */
+var ICONS={
+  perf:'<path d="M12 14l4-4"/><path d="M3.3 17a9 9 0 1 1 17.4 0"/>',
+  seo:'<circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/>',
+  sec:'<path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6l8-3z"/>',
+  eco:'<path d="M11 20A7 7 0 0 1 4 13c0-6 6-9 16-9 0 10-3 16-9 16z"/><path d="M4 21c3-6 6-9 11-11"/>',
+  a11y:'<circle cx="12" cy="4.5" r="2"/><path d="M5 8l7 1.5L19 8M12 9.5V14l-3 6M12 14l3 6"/>',
+  code:'<path d="M8 8l-5 4 5 4M16 8l5 4-5 4M14 5l-4 14"/>',
+  rgpd:'<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 14l2 2 4-4"/>',
+  dns:'<rect x="3" y="4" width="18" height="6" rx="2"/><rect x="3" y="14" width="18" height="6" rx="2"/><path d="M7 7h.01M7 17h.01"/>'
+};
+var D=[
+ {key:'perf',short:'PERF',name:'Performance web',grade:'C',score:52,issues:[
+  {id:'p1',sev:'crit',title:"Images trop volumineuses à l'ouverture",desc:"4,8 Mo sur le hero header. Convertir en WebP/AVIF et ajouter le lazy-loading.",tag:'CRITIQUE',label:'Images du hero',prompt:'Convertir les visuels 4,8 Mo en formats modernes (WebP / AVIF) avec attributs dimensions explicites et `loading="lazy"`.',def:'fix'},
+  {id:'p2',sev:'imp',title:'Polices de caractères trop nombreuses',desc:"5 variantes bloquent l'affichage initial. Rationaliser à 2 familles et intégrer font-display: swap.",tag:'IMPORTANT',label:'Polices de caractères',prompt:"Analyser les 5 variantes chargées au démarrage. Rationaliser à 2 familles typographiques max et forcer `font-display: swap` dans les feuilles de style.",def:'check'},
+  {id:'p3',sev:'mod',title:'Scripts JavaScript bloquants',desc:"3 bibliothèques tierces sans async/defer, dégradant le Total Blocking Time de 320 ms.",tag:'MODÉRÉ',label:'Scripts JavaScript',prompt:"Ajouter `defer` ou `async` aux 3 bibliothèques tierces pour réduire le Total Blocking Time (320 ms).",def:'skip'}]},
+ {key:'seo',short:'SEO',name:'Référencement (SEO)',grade:'B',score:78,issues:[
+  {id:'s1',sev:'imp',title:'Métadonnées et OpenGraph incomplètes',desc:"Balises description manquantes et tags OpenGraph non alignés pour le partage social.",tag:'BALISAGE',label:'Métadonnées et OpenGraph',prompt:'Compléter les balises `<meta name="description">` manquantes et aligner `og:title`, `og:image` pour le partage social.',def:'fix'},
+  {id:'s2',sev:'mod',title:'Titres de pages à optimiser',desc:"Certains titres sont trop longs ou dupliqués entre plusieurs pages.",tag:'CONTENU',label:'Balises title',prompt:"Vérifier l'unicité et la longueur (60 caractères max) des balises `<title>` sur l'ensemble des pages.",def:'check'}]},
+ {key:'sec',short:'SÉCU',name:'Sécurité',grade:'D',score:45,issues:[
+  {id:'c1',sev:'crit',title:'En-têtes HTTP de sécurité absents',desc:"Content-Security-Policy, HSTS et X-Content-Type-Options ne sont pas configurés.",tag:'HEADERS',label:'En-têtes HTTP de sécurité',prompt:"Configurer les directives strictes `Content-Security-Policy`, `Strict-Transport-Security (HSTS)` et `X-Content-Type-Options: nosniff`.",def:'fix'},
+  {id:'c2',sev:'imp',title:'Cookies sans attributs de sécurité',desc:"Les cookies de session n'ont pas les attributs Secure et SameSite.",tag:'COOKIES',label:'Attributs de sécurité',prompt:"Ajouter `Secure`, `HttpOnly` et `SameSite=Lax` aux cookies de session.",def:'fix'},
+  {id:'c3',sev:'mod',title:'Version du CMS exposée',desc:"La version du CMS est visible dans le code source des pages.",tag:'FUITE',label:'Version du CMS',prompt:"Masquer la balise `generator` et les en-têtes révélant la version du CMS.",def:'skip'}]},
+ {key:'eco',short:'ÉCO',name:'Écologie & éco-conception',grade:'C',score:58,issues:[
+  {id:'e1',sev:'imp',title:'Vidéo en lecture automatique',desc:"Une vidéo se charge dès l'ouverture, même hors écran.",tag:'POIDS',label:"Vidéo d'arrière-plan",prompt:"Désactiver l'autoplay, charger la vidéo à la demande et fournir une image d'aperçu légère.",def:'fix'},
+  {id:'e2',sev:'mod',title:'Hébergement à vérifier',desc:"Impossible de confirmer l'usage d'une énergie bas carbone chez l'hébergeur.",tag:'HÉBERGEMENT',label:'Énergie',prompt:"Vérifier si l'hébergeur publie des données sur son énergie et proposer des alternatives à faible empreinte.",def:'check'}]},
+ {key:'a11y',short:'A11Y',name:'Accessibilité numérique (RGAA)',grade:'B',score:81,issues:[
+  {id:'a1',sev:'crit',title:'Images sans texte alternatif',desc:"Plusieurs images informatives n'ont pas d'attribut alt.",tag:'RGAA 1.1',label:'Textes alternatifs',prompt:'Ajouter un attribut `alt` pertinent aux images informatives et `alt=""` aux images décoratives.',def:'fix'},
+  {id:'a2',sev:'imp',title:'Contrastes de couleurs insuffisants',desc:"Certains textes n'atteignent pas le ratio de 4,5:1 requis.",tag:'RGAA 3.2',label:'Contrastes',prompt:"Contrôler les couples texte/fond et corriger ceux sous le ratio de 4,5:1.",def:'check'}]},
+ {key:'code',short:'CODE',name:'Qualité technique du code',grade:'A',score:92,issues:[
+  {id:'q1',sev:'mod',title:'Erreurs dans la console JavaScript',desc:"Des erreurs 404 et des avertissements sont émis au chargement.",tag:'QUALITÉ',label:'Erreurs console',prompt:"Corriger les ressources en 404 et les avertissements affichés dans la console au chargement.",def:'fix'}]},
+ {key:'rgpd',short:'RGPD',name:'Vie privée & RGPD',grade:null,score:null,issues:[]},
+ {key:'dns',short:'DNS',name:'Configuration DNS & Messagerie',grade:'A',score:95,issues:[
+  {id:'d1',sev:'mod',title:'Enregistrement DMARC à durcir',desc:"La politique DMARC est en mode surveillance uniquement.",tag:'MESSAGERIE',label:'DMARC',prompt:"Faire évoluer la politique DMARC vers `p=quarantine` après validation des rapports.",def:'check'}]}
+];
+var state={};
+D.forEach(function(d){d.issues.forEach(function(i){state[i.id]=i.def;});});
+var total=D.reduce(function(n,d){return n+d.issues.length;},0);
+function domStats(d){var o={fix:0,check:0,skip:0};d.issues.forEach(function(i){o[state[i.id]]++;});return o;}
+function allStats(){var o={fix:0,check:0,skip:0,total:total};D.forEach(function(d){var s=domStats(d);o.fix+=s.fix;o.check+=s.check;o.skip+=s.skip;});return o;}
+
+/* ============ RENDU DES DOMAINES ============ */
+var host=$('#domains');
+var CHEV='<svg class="chev" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>';
+function svg(k,s){return '<svg width="'+(s||22)+'" height="'+(s||22)+'" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+ICONS[k]+'</svg>';}
+var SEV={crit:'Critique',imp:'Important',mod:'Modéré'};
+D.forEach(function(d,idx){
+  var a=document.createElement('article');a.id='dom-'+d.key;a.dataset.i=idx;
+  var title=(idx+1)+'. '+d.name;
+  if(!d.issues.length){
+    a.className='dom dom-off';
+    a.innerHTML='<span class="tile">'+svg(d.key)+'</span><h3 class="dom-name" style="margin:0">'+esc(title)+'</h3><button type="button" class="btn btn-ghost" data-test="'+d.key+'">Lancer le test</button>';
+    host.appendChild(a);return;
+  }
+  a.className='dom'+(idx===0?' open':'');
+  var h='';
+  d.issues.forEach(function(i){
+    var r='';
+    [['skip','Rien'],['check','À vérifier'],['fix','Corriger']].forEach(function(o){
+      r+='<label><input type="radio" name="'+i.id+'" value="'+o[0]+'"'+(state[i.id]===o[0]?' checked':'')+'><span>'+o[1]+'</span></label>';
+    });
+    h+='<div class="issue"><div class="issue-txt"><div class="issue-head"><span class="sev sev-'+i.sev+'">'+SEV[i.sev]+'</span><h4>'+esc(i.title)+'</h4></div><p>'+esc(i.desc)+'</p></div><fieldset class="seg3"><legend class="sr-only">Action pour « '+esc(i.title)+' »</legend>'+r+'</fieldset></div>';
+  });
+  a.innerHTML='<h3 class="dom-h"><button type="button" class="dom-btn" id="btn-'+d.key+'" aria-expanded="'+(idx===0)+'" aria-controls="panel-'+d.key+'"><span class="tile">'+svg(d.key)+'</span><span class="dom-name">'+esc(title)+'</span><span class="grade g-'+d.grade+'">Note '+d.grade+' · '+d.score+'/100</span><span class="dom-count">'+d.issues.length+' constat'+(d.issues.length>1?'s':'')+'</span><span class="grow"></span><span class="dom-sum" data-sum="'+d.key+'"></span>'+CHEV+'</button></h3><div class="panel" id="panel-'+d.key+'" role="region" aria-labelledby="btn-'+d.key+'"><div class="panel-in"><div class="issues">'+h+'</div></div></div>';
+  host.appendChild(a);
+});
+function setOpen(el,open){
+  el.classList.toggle('open',open);
+  var b=$('.dom-btn',el);if(b)b.setAttribute('aria-expanded',open);
+}
+host.addEventListener('click',function(e){
+  var b=e.target.closest('.dom-btn');
+  if(b){var el=b.closest('.dom');setOpen(el,!el.classList.contains('open'));return;}
+  var t=e.target.closest('[data-test]');
+  if(t)say('Test « Vie privée & RGPD » à planifier depuis votre rapport');
+});
+host.addEventListener('change',function(e){
+  var r=e.target;if(r.type!=='radio')return;
+  state[r.name]=r.value;refresh(r.name);
+});
+function openDomain(i,scroll){
+  var el=$('#dom-'+D[i].key);if(!el||!D[i].issues.length)return;
+  setOpen(el,true);
+  if(scroll){
+    el.scrollIntoView({behavior:reduce?'auto':'smooth',block:'start'});
+    el.classList.remove('pulse');void el.offsetWidth;el.classList.add('pulse');
+    var b=$('.dom-btn',el);if(b)setTimeout(function(){b.focus({preventScroll:true});},reduce?0:650);
+  }
+}
+
+/* ============ APERÇU MARKDOWN ============ */
+function build(){
+  var md=[],h=[];
+  function L(cls,html,m,key){h.push('<div class="l '+cls+'"'+(key?' data-k="'+key+'"':'')+'>'+html+'</div>');md.push(m);}
+  L('l-h1',esc('# Brief de remédiation technique • atelier-martin.fr'),'# Brief de remédiation technique • atelier-martin.fr');
+  L('l-i',esc('Généré automatiquement par Audixio • Optimisé pour Cursor, Claude Code, ChatGPT & GitHub Copilot'),'_Généré automatiquement par Audixio • Optimisé pour Cursor, Claude Code, ChatGPT & GitHub Copilot_');
+  md.push('');
+  L('l-p','<b>Rôle :</b> Tu es un ingénieur web senior spécialisé en performance, SEO, sécurité et accessibilité.','**Rôle :** Tu es un ingénieur web senior spécialisé en performance, SEO, sécurité et accessibilité.');
+  L('l-p','<b>Mission :</b> Applique strictement les corrections prioritaires et examine les points d\'investigation validés ci-dessous pour le site atelier-martin.fr. Ignore tout point non listé.','**Mission :** Applique strictement les corrections prioritaires et examine les points d\'investigation validés ci-dessous pour le site atelier-martin.fr. Ignore tout point non listé.');
+  var out=[],any=false;
+  D.forEach(function(d,idx){
+    if(!d.issues.length)return;
+    var fix=d.issues.filter(function(i){return state[i.id]==='fix';});
+    var chk=d.issues.filter(function(i){return state[i.id]==='check';});
+    var skp=d.issues.filter(function(i){return state[i.id]==='skip';});
+    if(!fix.length&&!chk.length){skp.forEach(function(i){out.push(i.title+' ('+d.name+')');});return;}
+    any=true;
+    md.push('');
+    var t='## '+(idx+1)+'. '+d.name.toUpperCase();
+    L('l-h2',esc(t),t,'d-'+d.key);
+    function grp(list,titre,cls){
+      if(!list.length)return;
+      md.push('');L('l-h3',esc('### '+titre),'### '+titre);
+      list.forEach(function(i){
+        L('l-li '+cls,'<b>['+esc(i.tag)+'] '+esc(i.label)+' :</b> '+code(i.prompt),'- **['+i.tag+'] '+i.label+' :** '+i.prompt,i.id);
+      });
+    }
+    grp(fix,'Actions prioritaires (À corriger)','fix');
+    grp(chk,"Points d'investigation (À vérifier)",'check');
+    if(skp.length){
+      var names=skp.map(function(i){return '« '+i.title+' »';}).join(' et ');
+      var n='Note : '+(skp.length>1?'les anomalies ':"l'anomalie ")+names+(skp.length>1?' sont ignorées':' est ignorée')+' (Rien) conformément à vos choix.';
+      L('l-n',esc(n),'> '+n,skp[0].id);
+    }
+  });
+  if(!any){md.push('');L('l-empty','Aucun point sélectionné pour le moment. Passez au moins un constat sur « À vérifier » ou « Corriger » pour générer le brief.','_Aucun point sélectionné._');}
+  if(out.length){
+    md.push('');L('l-h2','## HORS PÉRIMÈTRE','## HORS PÉRIMÈTRE');
+    md.push('');
+    out.forEach(function(o){L('l-n',esc('• '+o),'- '+o);});
+  }
+  return {md:md.join('\n'),html:h.join('')};
+}
+var mdEl=$('#md'),lastMd='';
+function renderPreview(changed){
+  var b=build();lastMd=b.md;
+  var sc=mdEl.scrollTop;
+  mdEl.innerHTML=b.html;mdEl.scrollTop=sc;
+  $('#tok').textContent='≈ '+Math.max(1,Math.round(b.md.length/3.8)).toLocaleString('fr-FR')+' tokens';
+  if(changed&&!reduce){$$('[data-k="'+changed+'"]',mdEl).forEach(function(n){n.classList.add('flash');});}
+}
+
+/* ============ STATS / DOCK ============ */
+function setNum(el,val){
+  var cur=+el.dataset.v;if(isNaN(cur))cur=0;
+  el.dataset.v=val;
+  if(!hasG||reduce){el.textContent=val;return;}
+  if(el._t)el._t.kill();
+  var o={v:cur};
+  el._t=gsap.to(o,{v:val,duration:.7,ease:'power2.out',onUpdate:function(){el.textContent=Math.round(o.v);}});
+  if(cur!==val)gsap.fromTo(el.parentNode,{scale:1.07},{scale:1,duration:.6,ease:'back.out(3)',overwrite:'auto'});
+}
+function updateStats(){
+  var s=allStats();
+  $$('[data-n]').forEach(function(el){setNum(el,s[el.dataset.n]);});
+  $('#dockT').innerHTML='<em>'+s.fix+' à corriger</em> · <u>'+s.check+' à vérifier</u>';
+  $('#live').textContent=s.fix+' à corriger, '+s.check+' à vérifier, '+s.skip+' ignorés.';
+  D.forEach(function(d){
+    var box=$('[data-sum="'+d.key+'"]');if(!box)return;
+    var o=domStats(d),h='';
+    if(o.fix)h+='<span class="dot dot-fix">'+o.fix+' corriger</span>';
+    if(o.check)h+='<span class="dot dot-check">'+o.check+' vérifier</span>';
+    if(o.skip)h+='<span class="dot dot-skip">'+o.skip+' ignoré'+(o.skip>1?'s':'')+'</span>';
+    box.innerHTML=h;
+  });
+}
+function refresh(changed){updateStats();renderPreview(changed);redraw();}
+
+/* ============ PRESETS / ACTIONS ============ */
+$$('[data-preset]').forEach(function(b){b.addEventListener('click',function(){
+  var p=b.dataset.preset;
+  D.forEach(function(d){d.issues.forEach(function(i){
+    state[i.id]=p==='rec'?i.def:p==='all'?'fix':p==='none'?'skip':(i.sev==='crit'?'fix':'skip');
+  });});
+  $$('input[type=radio]',host).forEach(function(r){r.checked=state[r.name]===r.value;});
+  refresh();say('Réglage « '+b.textContent+' » appliqué');
+});});
+var toast=$('#toast'),tt;
+function say(m){toast.textContent=m;toast.classList.add('show');clearTimeout(tt);tt=setTimeout(function(){toast.classList.remove('show');},2600);}
+function copy(){
+  var done=function(){say('Prompt copié dans le presse-papiers');};
+  var fb=function(){var t=document.createElement('textarea');t.value=lastMd;t.style.cssText='position:fixed;opacity:0';document.body.appendChild(t);t.select();try{document.execCommand('copy');done();}catch(e){say('Copie impossible : sélectionnez le texte manuellement');}document.body.removeChild(t);};
+  if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(lastMd).then(done,fb);else fb();
+}
+$('#copyBtn').addEventListener('click',copy);$('#dockCopy').addEventListener('click',copy);
+$('#dlBtn').addEventListener('click',function(){
+  var u=URL.createObjectURL(new Blob([lastMd],{type:'text/markdown;charset=utf-8'}));
+  var a=document.createElement('a');a.href=u;a.download='audixio-prompt-remediation.md';document.body.appendChild(a);a.click();document.body.removeChild(a);
+  setTimeout(function(){URL.revokeObjectURL(u);},1000);say('Fichier .md téléchargé');
+});
+$('#pdfBtn').addEventListener('click',function(){window.print();});
+
+/* ============ CANVAS : SYSTÈME ORBITAL ============ */
+var cv=$('#orbit'),c=cv.getContext('2d'),W=0,visible=true,last=0;
+var sats=D.map(function(d,i){
+  var outer=i%2===1;
+  return {i:i,d:d,fr:outer?0.87:0.55,a0:(i/D.length)*TAU+(outer?0.35:0),sp:(outer?-1:1)*(0.000045+(i%3)*0.000014),x:0,y:0,r:23,k:0};
+});
+var parts=[],acc=D.map(function(){return 0;}),dust=[];
+for(var q=0;q<48;q++)dust.push({a:Math.random()*TAU,r:.15+Math.random()*.85,s:(Math.random()-.5)*0.00005,z:Math.random()*1.5+.5});
+var pulse=0,ox=0,oy=0,tx=0,ty=0,hov=-1;
+function resize(){
+  var r=cv.getBoundingClientRect(),dpr=Math.min(window.devicePixelRatio||1,2);
+  W=r.width;cv.width=Math.round(r.width*dpr);cv.height=Math.round(r.height*dpr);c.setTransform(dpr,0,0,dpr,0,0);redraw();
+}
+function colors(s){
+  if(!s.d.issues.length)return {main:'#ADBBDA',glow:null,dash:true};
+  var o=domStats(s.d);
+  if(o.fix)return {main:'#B54708',glow:'254,200,75',o:o};
+  if(o.check)return {main:'#3D52A0',glow:'42,155,150',o:o};
+  return {main:'#8697C4',glow:null,o:o};
+}
+function bez(p,sx,sy,k){
+  var mx=sx/2,my=sy/2,len=Math.sqrt(sx*sx+sy*sy)||1,px=-sy/len,py=sx/len,cx=mx+px*k*len*.28,cy=my+py*k*len*.28,u=1-p;
+  return [u*u*sx+2*u*p*cx,u*u*sy+2*u*p*cy];
+}
+function draw(t){
+  var dt=Math.min(50,t-last||16);last=t;
+  var C=W/2,R=W/2-20,s=allStats();
+  ox+=(tx-ox)*.07;oy+=(ty-oy)*.07;
+  c.clearRect(0,0,W,W);
+  c.save();c.translate(C+ox,C+oy);
+  /* halo */
+  var bg=c.createRadialGradient(0,0,0,0,0,R);
+  bg.addColorStop(0,'rgba(61,82,160,.10)');bg.addColorStop(1,'rgba(61,82,160,0)');
+  c.fillStyle=bg;c.beginPath();c.arc(0,0,R,0,TAU);c.fill();
+  /* orbites */
+  c.lineWidth=1;c.setLineDash([3,9]);c.strokeStyle='rgba(61,82,160,.28)';
+  c.lineDashOffset=reduce?0:-t/70;
+  [.55,.87].forEach(function(f){c.beginPath();c.arc(0,0,R*f,0,TAU);c.stroke();});
+  c.setLineDash([]);c.strokeStyle='rgba(61,82,160,.12)';c.beginPath();c.arc(0,0,R,0,TAU);c.stroke();
+  /* poussière */
+  dust.forEach(function(p){
+    var a=p.a+(reduce?0:t*p.s);
+    c.fillStyle='rgba(61,82,160,'+(.1+p.z*.07)+')';
+    c.beginPath();c.arc(Math.cos(a)*R*p.r,Math.sin(a)*R*p.r,p.z,0,TAU);c.fill();
+  });
+  /* positions satellites */
+  sats.forEach(function(st){
+    var a=st.a0+(reduce?0:t*st.sp);
+    st.x=Math.cos(a)*R*st.fr;st.y=Math.sin(a)*R*st.fr;
+    st.k+=((hov===st.i?1:0)-st.k)*.2;
+  });
+  /* liens + spawn */
+  sats.forEach(function(st){
+    var col=colors(st);
+    if(!st.d.issues.length)return;
+    var o=col.o;
+    c.strokeStyle=o.fix?'rgba(254,200,75,.55)':o.check?'rgba(112,145,230,.4)':'rgba(134,151,196,.3)';
+    c.lineWidth=1.2;c.beginPath();c.moveTo(st.x,st.y);
+    var m=bez(.5,st.x,st.y,.6);c.quadraticCurveTo(m[0]*1.0,m[1]*1.0,0,0);c.stroke();
+    if(!reduce){
+      var rate=(o.fix*1.6+o.check*.8)*(hov===st.i?1.8:1);
+      acc[st.i]+=rate*dt/1000;
+      while(acc[st.i]>=1){
+        acc[st.i]-=1;
+        var pf=o.fix*1.6/(o.fix*1.6+o.check*.8||1);
+        parts.push({s:st,p:0,sp:.32+Math.random()*.3,k:.6,fix:Math.random()<pf});
+      }
+    }
+  });
+  /* particules */
+  for(var i=parts.length-1;i>=0;i--){
+    var p=parts[i];p.p+=p.sp*dt/1000;
+    if(p.p>=1){parts.splice(i,1);pulse=Math.min(1,pulse+.18);continue;}
+    var a=bez(p.p,p.s.x,p.s.y,p.k),b=bez(Math.max(0,p.p-.09),p.s.x,p.s.y,p.k);
+    var fc=p.fix?'194,65,12':'15,92,90';
+    c.strokeStyle='rgba('+fc+',.55)';c.lineWidth=2.4;c.lineCap='round';
+    c.beginPath();c.moveTo(b[0],b[1]);c.lineTo(a[0],a[1]);c.stroke();
+    c.fillStyle=p.fix?'#FEC84B':'#7091E6';c.beginPath();c.arc(a[0],a[1],2.8,0,TAU);c.fill();
+  }
+  pulse*=.94;
+  /* noyau */
+  var r0=R*.2,prog=s.total?(s.fix+s.check)/s.total:0;
+  var gl=c.createRadialGradient(0,0,r0*.6,0,0,r0*2.6);
+  gl.addColorStop(0,'rgba(254,200,75,'+(.35+pulse*.4)+')');gl.addColorStop(1,'rgba(254,200,75,0)');
+  c.fillStyle=gl;c.beginPath();c.arc(0,0,r0*2.6,0,TAU);c.fill();
+  var cg=c.createRadialGradient(-r0*.3,-r0*.4,2,0,0,r0);
+  cg.addColorStop(0,'#7091E6');cg.addColorStop(1,'#3D52A0');
+  c.fillStyle=cg;c.beginPath();c.arc(0,0,r0*(1+pulse*.08),0,TAU);c.fill();
+  c.lineWidth=5;c.lineCap='round';
+  c.strokeStyle='rgba(61,82,160,.14)';c.beginPath();c.arc(0,0,r0+11,0,TAU);c.stroke();
+  c.strokeStyle='#7091E6';c.beginPath();c.arc(0,0,r0+11,-Math.PI/2,-Math.PI/2+TAU*prog);c.stroke();
+  c.fillStyle='#fff';c.textAlign='center';c.textBaseline='middle';
+  c.font='700 '+Math.round(r0*.62)+'px "JetBrains Mono",monospace';c.fillText((s.fix+s.check)+'/'+s.total,0,-r0*.08);
+  c.font='700 '+Math.max(9,Math.round(r0*.22))+'px "JetBrains Mono",monospace';c.fillStyle='rgba(255,255,255,.8)';c.fillText('BRIEF',0,r0*.5);
+  /* satellites */
+  sats.forEach(function(st){
+    var col=colors(st),r=st.r+st.k*5;
+    if(col.glow){
+      var g=c.createRadialGradient(st.x,st.y,r*.5,st.x,st.y,r*2.4);
+      g.addColorStop(0,'rgba('+col.glow+','+(.45+st.k*.3)+')');g.addColorStop(1,'rgba('+col.glow+',0)');
+      c.fillStyle=g;c.beginPath();c.arc(st.x,st.y,r*2.4,0,TAU);c.fill();
+    }
+    c.fillStyle='#fff';c.strokeStyle=col.main;c.lineWidth=2.5;
+    c.setLineDash(col.dash?[4,4]:[]);
+    c.beginPath();c.arc(st.x,st.y,r,0,TAU);c.fill();c.stroke();c.setLineDash([]);
+    c.fillStyle=col.main;c.textAlign='center';c.textBaseline='middle';
+    c.font='700 '+(W<420?8:10)+'px "JetBrains Mono",monospace';c.fillText(st.d.short,st.x,st.y+.5);
+    if(col.o&&(col.o.fix||col.o.check)){
+      var n=col.o.fix||col.o.check;
+      c.fillStyle=col.o.fix?'#B54708':'#3D52A0';c.beginPath();c.arc(st.x+r*.75,st.y-r*.75,9,0,TAU);c.fill();
+      c.fillStyle='#fff';c.font='700 10px "JetBrains Mono",monospace';c.fillText(n,st.x+r*.75,st.y-r*.75+.5);
+    }
+  });
+  /* infobulle */
+  if(hov>-1){
+    var st=sats[hov],o=domStats(st.d),txt=st.d.name,sub=st.d.issues.length?(o.fix+' à corriger · '+o.check+' à vérifier'):'Non testé';
+    c.font='700 12px "Hanken Grotesk",sans-serif';var w1=c.measureText(txt).width;
+    c.font='600 11px "JetBrains Mono",monospace';var w2=c.measureText(sub).width;
+    var bw=Math.max(w1,w2)+26,bh=46,bx=st.x-bw/2,by=st.y-st.r-bh-14;
+    bx=Math.max(-C-ox+8,Math.min(C-ox-bw-8,bx));if(by<-C-oy+8)by=st.y+st.r+14;
+    c.fillStyle='rgba(255,255,255,.97)';c.strokeStyle='rgba(61,82,160,.3)';c.lineWidth=1;
+    c.beginPath();if(c.roundRect)c.roundRect(bx,by,bw,bh,14);else c.rect(bx,by,bw,bh);c.fill();c.stroke();
+    c.textAlign='left';c.fillStyle='#1E2A55';c.font='700 12px "Hanken Grotesk",sans-serif';c.fillText(txt,bx+13,by+17);
+    c.fillStyle='#4A5585';c.font='600 11px "JetBrains Mono",monospace';c.fillText(sub,bx+13,by+34);
+  }
+  c.restore();
+}
+function redraw(){if(reduce&&W)draw(0);}
+function loop(t){if(visible)draw(t);requestAnimationFrame(loop);}
+function pos(e){var r=cv.getBoundingClientRect();return {x:e.clientX-r.left,y:e.clientY-r.top};}
+function hit(p){
+  var C=W/2,h=-1;
+  sats.forEach(function(st){var dx=p.x-(C+ox+st.x),dy=p.y-(C+oy+st.y);if(Math.sqrt(dx*dx+dy*dy)<st.r+8)h=st.i;});
+  return h;
+}
+cv.addEventListener('pointermove',function(e){
+  var p=pos(e);tx=(p.x/W-.5)*16;ty=(p.y/W-.5)*16;hov=hit(p);
+  cv.style.cursor=hov>-1&&D[hov].issues.length?'pointer':'default';redraw();
+});
+cv.addEventListener('pointerleave',function(){hov=-1;tx=ty=0;cv.style.cursor='default';redraw();});
+cv.addEventListener('click',function(e){var h=hit(pos(e));if(h>-1)openDomain(h,true);});
+if('ResizeObserver' in window)new ResizeObserver(resize).observe(cv);else window.addEventListener('resize',resize);
+if('IntersectionObserver' in window)new IntersectionObserver(function(e){visible=e[0].isIntersecting;}).observe(cv);
+resize();if(!reduce)requestAnimationFrame(loop);
+
+/* ============ DOCK ============ */
+var dock=$('#dock'),heroOut=false,prevIn=false,footIn=false;
+function dockState(){dock.classList.toggle('show',heroOut&&!prevIn&&!footIn);}
+if('IntersectionObserver' in window){
+  new IntersectionObserver(function(e){heroOut=!e[0].isIntersecting&&e[0].boundingClientRect.top<0;dockState();}).observe($('#hero'));
+  new IntersectionObserver(function(e){prevIn=e[0].isIntersecting;dockState();},{threshold:.25}).observe($('.mdwin'));
+  var axf=$('.axf');axf&&new IntersectionObserver(function(e){footIn=e[0].isIntersecting;dockState();}).observe(axf);
+}
+
+/* ============ INIT + ANIMATIONS GSAP ============ */
+updateStats();renderPreview();
+if(hasG&&!reduce){
+  var tl=gsap.timeline({defaults:{ease:'power3.out'}});
+  tl.from('#t-h1 .w>span',{yPercent:115,duration:1,stagger:.08,ease:'expo.out'})
+    .from('.intro',{y:26,opacity:0,duration:.9,stagger:.09},'-=.7')
+    .from('.orbit-wrap',{scale:.82,opacity:0,rotate:-8,duration:1.5,ease:'expo.out'},'-=1.3');
+  if('IntersectionObserver' in window){
+    var cards=$$('.dom,.mdwin,.block-h');
+    gsap.set(cards,{opacity:0,y:36});
+    var io=new IntersectionObserver(function(es){
+      var vis=es.filter(function(e){return e.isIntersecting;}).map(function(e){io.unobserve(e.target);return e.target;});
+      if(vis.length)gsap.to(vis,{opacity:1,y:0,duration:.9,stagger:.09,ease:'power3.out',clearProps:'transform'});
+    },{threshold:.08});
+    cards.forEach(function(el){io.observe(el);});
+  }
+  /* bouton magnétique */
+  $$('#copyBtn,#dockCopy').forEach(function(b){
+    var qx=gsap.quickTo(b,'x',{duration:.4,ease:'power3'}),qy=gsap.quickTo(b,'y',{duration:.4,ease:'power3'});
+    b.addEventListener('pointermove',function(e){var r=b.getBoundingClientRect();qx((e.clientX-r.left-r.width/2)*.12);qy((e.clientY-r.top-r.height/2)*.25);});
+    b.addEventListener('pointerleave',function(){qx(0);qy(0);});
+  });
+}
+});
+</script>
+</body>
+</html>
