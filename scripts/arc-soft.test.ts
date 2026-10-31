@@ -125,7 +125,7 @@ describe('plafond et charte', () => {
     expect(design).toContain('Outfit');
     expect(design).toContain('700');
     expect(design).toContain('0 18px 48px rgb(27 31 36 / 0.10)');
-    expect(design).toContain('#9FCFCB');
+    expect(design).toContain('#3D52A0');
     expect(design).toContain('#E3D4F0');
     expect(design).not.toContain('Source Serif');
     const rule = text('.cursor/rules/design.mdc');
